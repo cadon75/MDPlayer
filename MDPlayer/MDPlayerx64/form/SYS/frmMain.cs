@@ -3328,7 +3328,7 @@ namespace MDPlayer.form
                 else return;
             }
 
-            frmAY8910[chipID] = new frmAY8910(this, chipID, setting.other.Zoom, newParam.ay8910[chipID], oldParam.ay8910[chipID]);
+            frmAY8910[chipID] = new frmAY8910(this, chipID, setting.other.Zoom, newParam.ay8910[chipID]);//, oldParam.ay8910[chipID]);
 
             if (setting.location.PosAY8910[chipID] == System.Drawing.Point.Empty)
             {
