@@ -4902,12 +4902,14 @@ namespace MDPlayer
         public void setK051649Mask(int chipID, int ch)
         {
             maskChK051649[chipID][ch] = true;
+            writeK051649((byte)chipID, 0, (byte)ch, EnmModel.VirtualModel);
             writeK051649((byte)chipID, (2 << 1) | 1, K051649_vol[chipID][ch], EnmModel.VirtualModel);
         }
 
         public void resetK051649Mask(int chipID, int ch)
         {
             maskChK051649[chipID][ch] = false;
+            writeK051649((byte)chipID, 0, (byte)ch, EnmModel.VirtualModel);
             writeK051649((byte)chipID, (2 << 1) | 1, K051649_vol[chipID][ch], EnmModel.VirtualModel);
             //writeK051649((byte)chipID, (3 << 1) | 1, K051649tKeyOnOff[chipID], EnmModel.VirtualModel);
         }
