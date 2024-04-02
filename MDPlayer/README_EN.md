@@ -53,7 +53,7 @@ Player for VGM files, etc. (Performance tool with emulation of Mega Drive sound 
 [Features.]  
   Currently, playback by emulation of the following Mega Drive sound chips is possible.  
      
-      AY8910 , YM2612 , SN76489 , RF5C164 , PWM , C140(C219) , OKIM6295 , OKIM6258(including PCM8,MPCM)  
+      AY8910 , YM2612(YM3438) , SN76489 , RF5C164 , PWM , C140(C219) , OKIM6295 , OKIM6258(including PCM8,MPCM)  
       SEGAPCM , YM2151 , YM2203 , YM2413 , YM2608 , YM2609 , YM2610/B 
       HuC6280 , C352     
       K054539 , NES_APU , NES_DMC , NES_FDS , MMC5 , FME7 , N160 , VRC6 , VRC7 , MultiPCM  
@@ -63,9 +63,9 @@ Player for VGM files, etc. (Performance tool with emulation of Mega Drive sound 
   
   Currently, the following keyboard displays are available  
      
-      YM2612 , SN76489 , RF5C164  
+      YM2612(YM3438) , SN76489 , RF5C164  
       AY8910 , C140(C219) , C352 , SEGAPCM  
-      YM2612 , Y8950 , YM2151 , YM2203 , YM2413 , YM2608 , YM2609 , YM2610/B 
+      Y8950 , YM2151 , YM2203 , YM2413 , YM2608 , YM2609 , YM2610/B 
       YM2610/B , YM3526 , YM3812     
       YMF262 , YMF278B , YMZ280B , MultiPCM   
       , HuC6280 , MIDI       
@@ -117,7 +117,7 @@ Player for VGM files, etc. (Performance tool with emulation of Mega Drive sound 
   
   The output of CVS.EXE is used as a reference to adjust the output so that the same data is output.  
   
-  SCCI is used to playback from real YM2612, SN76489, YM2608, YM2151, and YMF262.  
+  SCCI is used to playback from real YM2612(YM3438), SN76489, YM2608, YM2151, and YMF262.  
   SPPCM is also supported.  
   
   It is possible to playback from real YM2608,YM2151,YMF262 by using GIMIC(C86ctl).  
@@ -137,7 +137,7 @@ Player for VGM files, etc. (Performance tool with emulation of Mega Drive sound 
   
   If you select .TFI / .DMP / .OPNI, it outputs to a file instead of the clipboard.  
   
-  Although it is not as good as it could be, it is possible to output the performance data of YM2612 and YM2151 as a MIDI file.  
+  Although it is not as good as it could be, it is possible to output the performance data of YM2612(YM3438) and YM2151 as a MIDI file.  
   If VOPMex is used, it is possible to reflect the voice information of the FM sound source.  
   (VOPMex, not VOPM. ;-P )  
   
@@ -271,7 +271,7 @@ Player for VGM files, etc. (Performance tool with emulation of Mega Drive sound 
   An audio device capable of playing audio is required.  
   The UCA222 that came as an extra with the UMX250 is sufficient. I used this one.  
   
-  SPFM Light + YM2612 + YM2608 + YM2151 + SPPCM if available  
+  SPFM Light + YM2612(YM3438) + YM2608 + YM2151 + SPPCM if available  
   
   GIMIC + YM2608 + YM2151 if available  
   
@@ -325,7 +325,7 @@ Player for VGM files, etc. (Performance tool with emulation of Mega Drive sound 
     Confirm that the sound is not rough or noisy.  
     (If it does not play back nicely, set the delay time one level higher). 3.  
       
-    3. Select SCCI for YM2612 from the "Sound" tab and choose the module you wish to use.  
+    3. Select SCCI for YM2612(YM3438) from the "Sound" tab and choose the module you wish to use.  
     SCCI only  
     Check the "Send Wait Signal" and "Emulate PCM only" check boxes.  
     If "Emulate PCM only" is checked, only PCM emulation will be performed.  
@@ -348,7 +348,7 @@ Player for VGM files, etc. (Performance tool with emulation of Mega Drive sound 
   
   
 [Practice of MIDI keyboard]  
-  If you have a MIDI keyboard, you can use it to make sounds from YM2612(EMU).  
+  If you have a MIDI keyboard, you can use it to make sounds from YM2612(YM3438)(EMU).  
   This function is mainly intended to support MML typing.  
   (Some functions are currently in the process of being implemented and are not available.)  
   
@@ -356,8 +356,8 @@ Player for VGM files, etc. (Performance tool with emulation of Mega Drive sound 
       
     1. select the MIDI keyboard to be used on the setup screen. 2.  
        
-    Send (CC:97) during playback of YM2612 data.  
-        YM2612's 1Ch voice will be set to all channels. 3.  
+    Send (CC:97) during playback of YM2612(YM3438) data.  
+        YM2612(YM3438)'s 1Ch voice will be set to all channels. 3.  
        
     3. all you have to do is play.  
     
@@ -441,7 +441,7 @@ Player for VGM files, etc. (Performance tool with emulation of Mega Drive sound 
     The following is the default setting. (Can be customized in the settings. It is also possible to set the setting value to blank so that it is not used.)  
       
     CC:97(DATA DEC)  
-      Copies the 1Ch tone of YM2612 to all channels. (Selection status ignored)  
+      Copies the 1Ch tone of YM2612(YM3438) to all channels. (Selection status ignored)  
       
     CC:96(DATA INC)  
       Deletes one most recent log. (function to cancel playing mistakes, etc.)  
@@ -587,7 +587,7 @@ Player for VGM files, etc. (Performance tool with emulation of Mega Drive sound 
   
   When playing on a real chip, some PCM sounds are not quite right.  
 
-    PCM sound becomes strange when played on real chips, such as PCM playback by YM2612 or SSG, because accurate interrupt processing is not possible.  
+    PCM sound becomes strange when played on real chips, such as PCM playback by YM2612(YM3438) or SSG, because accurate interrupt processing is not possible.  
   
   
   
