@@ -2313,6 +2313,7 @@ namespace MDPlayer
                 vgmSpeed = 1;
                 DriverVirtual = null;
                 DriverReal = null;
+                naudioSampleCounter = 0;
 
                 return true;
             }
@@ -2328,6 +2329,7 @@ namespace MDPlayer
                 vgmSpeed = 1;
                 DriverVirtual = null;
                 DriverReal = null;
+                naudioSampleCounter = 0;
 
                 return true;
             }
@@ -2343,6 +2345,7 @@ namespace MDPlayer
                 vgmSpeed = 1;
                 DriverVirtual = null;
                 DriverReal = null;
+                naudioSampleCounter = 0;
 
                 return true;
             }
@@ -7843,7 +7846,24 @@ namespace MDPlayer
 
         public static long GetCounter()
         {
-            if (DriverVirtual == null && DriverReal == null) return -1;
+            if (DriverVirtual == null && DriverReal == null)
+            {
+                WaveStream ws = null;
+                if (naudioWaveFileReader != null) ws = naudioWaveFileReader;
+                if (naudioMp3FileReader != null) ws = naudioMp3FileReader;
+                if (naudioAiffFileReader != null) ws = naudioAiffFileReader;
+                if (ws != null)
+                {
+                    //long ns = (long)((double)ws.TotalTime.TotalNanoseconds / (double)ws.Length * ws.Position);
+                    //return ns * Common.VGMProcSampleRate / 1000 / 1000 / 1000;
+                    //long ns = (long)(naudioSampleCounter / (double)Setting.outputDevice.SampleRate * Common.VGMProcSampleRate);
+                    long ns = (long)(naudioSampleCounter * Common.VGMProcSampleRate / (double)Setting.outputDevice.SampleRate / 2.0);
+                    return ns;
+                }
+
+                return -1;
+            }
+
 
             if (DriverVirtual == null) return DriverReal.Counter;
             if (DriverReal == null) return DriverVirtual.Counter;
@@ -7853,7 +7873,20 @@ namespace MDPlayer
 
         public static long GetTotalCounter()
         {
-            if (DriverVirtual == null) return -1;
+            if (DriverVirtual == null)
+            {
+                WaveStream ws = null;
+                if (naudioWaveFileReader != null) ws = naudioWaveFileReader;
+                if (naudioMp3FileReader != null) ws = naudioMp3FileReader;
+                if (naudioAiffFileReader != null) ws = naudioAiffFileReader;
+                if (ws != null)
+                {
+                    long ns= (long)ws.TotalTime.TotalNanoseconds;
+                    return ns * Common.VGMProcSampleRate / 1000 / 1000/1000;
+                }
+
+                return -1;
+            }
 
             return DriverVirtual.TotalCounter;
         }
@@ -8492,15 +8525,28 @@ namespace MDPlayer
         private static AiffFileReader naudioAiffFileReader = null;
         private static WaveFormatConversionProvider wfcp = null;
         private static byte[] naudioSrcbuffer = null;
+        private static long naudioSampleCounter = 0;
 
         public static int NaudioRead(short[] buffer, int offset, int count)
         {
             try
             {
+                if (Paused)
+                {
+                    for (int d = offset; d < offset + count; d++) buffer[d] = 0;
+                    return count;
+                }
+
                 naudioSrcbuffer = Ensure(naudioSrcbuffer, count * 2);
                 wfcp.Read(naudioSrcbuffer, 0, count * 2);
-                //naudioWs.Read(naudioSrcbuffer, 0, count * 2);
-                
+
+                WaveStream ws = null;
+                if (naudioWaveFileReader != null) ws = naudioWaveFileReader;
+                if (naudioMp3FileReader != null) ws = naudioMp3FileReader;
+                if (naudioAiffFileReader != null) ws = naudioAiffFileReader;
+                if (ws != null && ws.Position == ws.Length) Stopped = true;
+                else naudioSampleCounter += count;
+
                 Convert2byteToShort(buffer, offset, naudioSrcbuffer, count);
             }
             catch
