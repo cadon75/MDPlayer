@@ -1803,7 +1803,7 @@ namespace MDPlayer
             ExtendFile = extFile;//追加ファイル
             Common.playingFilePath = Path.GetDirectoryName(playingFileName);
 
-            if (naudioFileReader != null)
+            if (naudioWaveFileReader != null|| naudioMp3FileReader != null|| naudioAiffFileReader != null)
             {
                 NAudioStop();
             }
@@ -2302,12 +2302,48 @@ namespace MDPlayer
                 return VgmPlay(setting);
             }
 
-            if (PlayingFileFormat == EnmFileFormat.WAV
-                || PlayingFileFormat == EnmFileFormat.MP3
-                || PlayingFileFormat == EnmFileFormat.AIFF)
+            if (PlayingFileFormat == EnmFileFormat.WAV)
             {
-                naudioFileReader = new AudioFileReader(naudioFileName);
-                naudioWs = new NAudio.Wave.SampleProviders.SampleToWaveProvider16(naudioFileReader);
+                naudioWaveFileReader = new WaveFileReader(naudioFileName);
+                WaveFormat format = new WaveFormat(setting.outputDevice.SampleRate, 16, 2);
+                wfcp = new WaveFormatConversionProvider(format, naudioWaveFileReader);
+
+                ChipLED = new ChipLEDs();
+                vgmFadeout = false;
+                vgmSpeed = 1;
+                DriverVirtual = null;
+                DriverReal = null;
+
+                return true;
+            }
+
+            if (PlayingFileFormat == EnmFileFormat.MP3)
+            {
+                naudioMp3FileReader = new Mp3FileReader(naudioFileName);
+                WaveFormat format = new WaveFormat(setting.outputDevice.SampleRate, 16, 2);
+                wfcp = new WaveFormatConversionProvider(format, naudioMp3FileReader);
+
+                ChipLED = new ChipLEDs();
+                vgmFadeout = false;
+                vgmSpeed = 1;
+                DriverVirtual = null;
+                DriverReal = null;
+
+                return true;
+            }
+
+            if (PlayingFileFormat == EnmFileFormat.AIFF)
+            {
+                naudioAiffFileReader = new AiffFileReader(naudioFileName);
+                WaveFormat format = new WaveFormat(setting.outputDevice.SampleRate, 16, 2);
+                wfcp = new WaveFormatConversionProvider(format, naudioAiffFileReader);
+
+                ChipLED = new ChipLEDs();
+                vgmFadeout = false;
+                vgmSpeed = 1;
+                DriverVirtual = null;
+                DriverReal = null;
+
                 return true;
             }
 
@@ -7545,7 +7581,7 @@ namespace MDPlayer
         public static void Slow()
         {
             vgmSpeed = (vgmSpeed == 1) ? 0.25 : 1;
-            DriverVirtual.vgmSpeed = vgmSpeed;
+            if (DriverVirtual != null) DriverVirtual.vgmSpeed = vgmSpeed;
             if (DriverReal != null) DriverReal.vgmSpeed = vgmSpeed;
         }
 
@@ -7632,6 +7668,12 @@ namespace MDPlayer
             {
                 if (Paused) Pause();
 
+                //暫定
+                if ((naudioWaveFileReader != null || naudioMp3FileReader != null || naudioAiffFileReader != null))
+                {
+                    Stopped = true;
+                }
+
                 if (Stopped)
                 {
                     TrdClosed = true;
@@ -7640,7 +7682,7 @@ namespace MDPlayer
                     if ((PlayingFileFormat != EnmFileFormat.WAV
                         || PlayingFileFormat != EnmFileFormat.MP3
                         || PlayingFileFormat != EnmFileFormat.AIFF)
-                        && naudioFileReader != null)
+                        && (naudioWaveFileReader != null|| naudioMp3FileReader != null|| naudioAiffFileReader != null))
                     {
                         NAudioStop();
                     }
@@ -7666,7 +7708,7 @@ namespace MDPlayer
                 }
                 TrdClosed = true;
 
-                if (naudioFileReader != null)
+                if (naudioWaveFileReader != null || naudioMp3FileReader != null || naudioAiffFileReader != null)
                 {
                     NAudioStop();
                     return;
@@ -7716,11 +7758,31 @@ namespace MDPlayer
         {
             try
             {
-                AudioFileReader dmy = naudioFileReader;
-                NAudio.Wave.SampleProviders.SampleToWaveProvider16 dmy2 = naudioWs;
-                naudioFileReader = null;
-                naudioWs = null;
-                dmy.Dispose();
+                Stopped = true;
+
+                if (naudioWaveFileReader != null)
+                {
+                    WaveFileReader dmy = naudioWaveFileReader;
+                    //NAudio.Wave.SampleProviders.SampleToWaveProvider16 dmy2 = naudioWs;
+                    naudioWaveFileReader = null;
+                    //naudioWs = null;
+                    wfcp = null;
+                    dmy.Dispose();
+                }
+                if (naudioMp3FileReader != null)
+                {
+                    Mp3FileReader dmy = naudioMp3FileReader;
+                    naudioMp3FileReader = null;
+                    wfcp = null;
+                    dmy.Dispose();
+                }
+                if (naudioAiffFileReader != null)
+                {
+                    AiffFileReader dmy = naudioAiffFileReader;
+                    naudioAiffFileReader = null;
+                    wfcp = null;
+                    dmy.Dispose();
+                }
             }
             catch { }
         }
@@ -7948,7 +8010,10 @@ namespace MDPlayer
         {
             bool v;
             bool r;
-
+            if (naudioWaveFileReader != null || naudioMp3FileReader != null || naudioAiffFileReader != null)
+            {
+                return false;
+            }
             v = DriverVirtual == null || DriverVirtual.Stopped;
             r = DriverReal == null || DriverReal.Stopped;
             return v && r;
@@ -8239,7 +8304,7 @@ namespace MDPlayer
         {
             //return NaudioRead(buffer, offset, sampleCount);
 
-            if (naudioFileReader != null)
+            if (naudioWaveFileReader != null || naudioMp3FileReader != null || naudioAiffFileReader != null)
             {
                 if (TrdClosed)
                 {
@@ -8271,7 +8336,11 @@ namespace MDPlayer
         private static int TrdVgmVirtualMainFunction(short[] buffer, int offset, int sampleCount)
         {
             if (buffer == null || buffer.Length < 1 || sampleCount == 0) return 0;
-            if (DriverVirtual == null) return sampleCount;
+            if (DriverVirtual == null)
+            {
+                for (int d = offset; d < offset + sampleCount; d++) buffer[d] = 0;
+                return sampleCount;
+            }
 
             try
             {
@@ -8416,8 +8485,12 @@ namespace MDPlayer
         }
 
         private static string naudioFileName = null;
-        private static AudioFileReader naudioFileReader = null;
-        private static NAudio.Wave.SampleProviders.SampleToWaveProvider16 naudioWs = null;
+        //private static AudioFileReader naudioFileReader = null;
+        //private static NAudio.Wave.SampleProviders.SampleToWaveProvider16 naudioWs = null;
+        private static WaveFileReader naudioWaveFileReader = null;
+        private static Mp3FileReader naudioMp3FileReader = null;
+        private static AiffFileReader naudioAiffFileReader = null;
+        private static WaveFormatConversionProvider wfcp = null;
         private static byte[] naudioSrcbuffer = null;
 
         public static int NaudioRead(short[] buffer, int offset, int count)
@@ -8425,7 +8498,9 @@ namespace MDPlayer
             try
             {
                 naudioSrcbuffer = Ensure(naudioSrcbuffer, count * 2);
-                naudioWs.Read(naudioSrcbuffer, 0, count * 2);
+                wfcp.Read(naudioSrcbuffer, 0, count * 2);
+                //naudioWs.Read(naudioSrcbuffer, 0, count * 2);
+                
                 Convert2byteToShort(buffer, offset, naudioSrcbuffer, count);
             }
             catch
