@@ -6,6 +6,8 @@ Player for VGM files, etc. (Performance tool with emulation of Mega Drive sound 
   (NRD,XGM,S98,MID,RCP,NSF,HES,SID,MGS,MDR,MDX,MND,MUC,MUB,M,M2,MZ,MPI,MVI,MZI,OPI,OVI,OZI,WAV,MP3,AIFF files are also supported.)  
   
 [Caution]  
+  Please refer to README_AST.md/README_AST_EN.md for FileAssociationTool (file association setting tool).  
+
   Please pay attention to the volume during playback. Noise caused by bugs may be played back at high volume.  
   (Especially when trying files that have never been played before or when updating the program.)  
   

@@ -6,6 +6,8 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   (NRD,XGM,S98,MID,RCP,NSF,HES,SID,MGS,MDR,MDX,MND,MUC,MUB,M,M2,MZ,MPI,MVI,MZI,OPI,OVI,OZI,WAV,MP3,AIFFファイルにも対応。)  
   
 [注意]  
+  ・FileAssociationTool(ファイル関連付け設定ツール)についてはREADME_AST.md/README_AST_EN.mdを参照お願いします。  
+  
   ・再生時の音量に注意してください。バグによる雑音が大音量で再生される場合もあります。  
   (特に再生したことのないファイルを試す場合や、プログラムを更新した場合。)  
   

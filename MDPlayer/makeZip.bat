@@ -9,25 +9,34 @@ mkdir  .\output\plugin
 del /Q .\output\plugin\*.*
 mkdir  .\output\plugin\driver
 del /Q .\output\plugin\driver\*.*
+mkdir  .\output\FileAssociationTool
+del /Q .\output\FileAssociationTool\*.*
+mkdir  .\output\FileAssociationTool\ico
+del /Q .\output\FileAssociationTool\ico\*.*
 
 xcopy   .\mdc\bin\Release\*.*          .\output\ /E /R /Y /I /K
 xcopy   .\mdpc\bin\Release\*.*         .\output\ /E /R /Y /I /K
-xcopy   .\MDPlayerx64\bin\x64\Release\net8.0-windows7.0\*.* .\output\ /E /R /Y /I /K
-xcopy   ..\licenses                    .\output\licenses\ /E /R /Y /I /K
+xcopy   .\MDPlayerx64\bin\x64\Release\net8.0-windows7.0\*.*  .\output\ /E /R /Y /I /K
+xcopy   .\FileAssociationTool\bin\Release\net8.0-windows\*.* .\output\FileAssociationTool\ /E /R /Y /I /K
+xcopy   ..\licenses                       .\output\licenses\ /E /R /Y /I /K
 copy /Y .\MDPlayerx64\lib\scci*.*         .\output
 copy /Y .\MDPlayerx64\lib\c86ctl.*        .\output
 copy /Y .\MDPlayerx64\lib\MGSDRV.COM      .\output
 copy /Y .\MDPlayerx64\lib\KINROU*.*       .\output
 copy /Y .\MDPlayerx64\plugin\*.*          .\output\plugin
 copy /Y .\MDPlayerx64\plugin\driver\*.*   .\output\plugin\driver
-copy /Y .\..\CHANGE.txt                .\output
-copy /Y .\..\LICENSE.txt               .\output
-copy /Y .\..\README.md                 .\output
+copy /Y .\..\CHANGE.txt                   .\output
+copy /Y .\..\LICENSE.txt                  .\output
+copy /Y .\..\README.md                    .\output
+copy /Y .\README_EN.md                    .\output
+copy /Y .\..\README_AST.md                .\output
+copy /Y .\..\README_AST_EN.md             .\output
 cd
 
 del /Q .\output\*.pdb
 rem del /Q .\output\*.config
 del /Q .\output\*.bat
+del /Q .\output\FileAssociationTool\*.pdb
 del /Q .\output\scci.ini
 rem del /Q .\output\MGSDRV.COM
 copy /Y .\removeZoneIdent.bat   .\output
@@ -36,7 +45,7 @@ rmdir /S /Q .\output\deploy
 rmdir /S /Q .\output\net8.0-windows7.0
 rmdir /S /Q .\output\ref
 rmdir /S /Q .\output\runtimes
-rem -- withoutVSTŒü‚¯
+rem -- withoutVST    
 Xcopy   .\MDPlayer\*.*                                                         ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayer\ /E /R /Y /I /K
 copy /Y ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayerBackUp\VST\*.*               ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayer\VST
 copy /Y ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayerBackUp\App.config            ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayer
@@ -44,10 +53,10 @@ copy /Y ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayerBackUp\MDPlayer.csproj       .
 copy /Y ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayerBackUp\MDPlayer.csproj.user  ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayer
 
 echo ----------------------------------------
-echo ’ˆÓ
-echo withoutVST‚ÌƒŠƒrƒ‹ƒh‚ğs‚Á‚Ä‚­‚¾‚³‚¢
-echo ƒ\ƒŠƒ…[ƒVƒ‡ƒ“‚Ì\¬‚ª•Ï‚í‚Á‚½ê‡‚Ícsproj‚È‚Ç‚Ì\¬ƒtƒ@ƒCƒ‹‚ğC³‚·‚é•K—v‚ª‚ ‚è‚Ü‚·
-echo X‚ÉC³‚µ‚½\¬ƒtƒ@ƒCƒ‹‚ğMDPlayerBackUp‚ÉƒRƒs[‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚è‚Ü‚·
+echo     
+echo withoutVST Ìƒ  r   h  s   Ä‚       
+echo  \     [ V     Ì\     Ï‚     ê‡  csproj È‚Ç‚Ì\   t @ C    C      K v      Ü‚ 
+echo  X ÉC       \   t @ C    MDPlayerBackUp ÉƒR s [   Ä‚    K v      Ü‚ 
 echo ----------------------------------------
 
 pause
