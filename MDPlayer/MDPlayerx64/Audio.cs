@@ -8448,7 +8448,7 @@ namespace MDPlayer
                 for (i = 0; i < sampleCount; i++)
                 {
                     int mul = (int)(16384.0 * Math.Pow(10.0, MasterVolume / 40.0));
-                    buffer[offset + i] = (short)Limit((buffer[offset + i] * mul) >> 13, 0x7fff, -0x8000);
+                    buffer[offset + i] = (short)Limit((buffer[offset + i] * mul) >> 14, 0x7fff, -0x8000);
 
                     if (!vgmFadeout) continue;
 
@@ -8577,11 +8577,15 @@ namespace MDPlayer
                 short* pfSourceBuffer = (short*)pSourceBuffer;
 
                 int samplesRead = shortCount;
+                int mul = (int)(16384.0 * Math.Pow(10.0, MasterVolume / 40.0));//db0: 0x4000　(>>14)
+
                 for (double n = 0; n < samplesRead / 2; n += 2)
                 {
-                    psDestBuffer[(int)n * 2] = pfSourceBuffer[(int)(n * speed) * 2];// volume;
-                    psDestBuffer[(int)n * 2 + 1] = pfSourceBuffer[(int)(n * speed) * 2 + 1];// volume;
+                    psDestBuffer[(int)n * 2] = (short)Limit((pfSourceBuffer[(int)(n * speed) * 2] * mul) >> 14, 0x7fff, -0x8000);
+                    psDestBuffer[(int)n * 2 + 1] = (short)Limit((pfSourceBuffer[(int)(n * speed) * 2 + 1] * mul) >> 14, 0x7fff, -0x8000);
                 }
+
+                VisVolume.master = (short)(Math.Abs(psDestBuffer[0] + psDestBuffer[1]) * 0.15);
             }
         }
 
