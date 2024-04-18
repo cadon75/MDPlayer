@@ -7,6 +7,7 @@ using MDSound.np.chip;
 using Microsoft.VisualBasic.Devices;
 using musicDriverInterface;
 using NAudio.Wave;
+using System;
 using System.Diagnostics;
 using System.IO.Compression;
 using static MDPlayer.MDChipParams;
@@ -2309,8 +2310,10 @@ namespace MDPlayer
                 wfcp = new WaveFormatConversionProvider(format, naudioWaveFileReader);
 
                 ChipLED = new ChipLEDs();
-                vgmFadeout = false;
                 vgmSpeed = 1;
+                vgmFadeout = false;
+                vgmFadeoutCounter = 1.0;
+                vgmFadeoutCounterV = 0.00001;
                 DriverVirtual = null;
                 DriverReal = null;
                 naudioSampleCounter = 0;
@@ -2325,8 +2328,10 @@ namespace MDPlayer
                 wfcp = new WaveFormatConversionProvider(format, naudioMp3FileReader);
 
                 ChipLED = new ChipLEDs();
-                vgmFadeout = false;
                 vgmSpeed = 1;
+                vgmFadeout = false;
+                vgmFadeoutCounter = 1.0;
+                vgmFadeoutCounterV = 0.00001;
                 DriverVirtual = null;
                 DriverReal = null;
                 naudioSampleCounter = 0;
@@ -2341,8 +2346,10 @@ namespace MDPlayer
                 wfcp = new WaveFormatConversionProvider(format, naudioAiffFileReader);
 
                 ChipLED = new ChipLEDs();
-                vgmFadeout = false;
                 vgmSpeed = 1;
+                vgmFadeout = false;
+                vgmFadeoutCounter = 1.0;
+                vgmFadeoutCounterV = 0.00001;
                 DriverVirtual = null;
                 DriverReal = null;
                 naudioSampleCounter = 0;
@@ -8341,7 +8348,7 @@ namespace MDPlayer
             {
                 if (TrdClosed)
                 {
-                    TrdStopped = true;
+                    //TrdStopped = true;
                     //vgmFadeout = false;
                     //Stopped = true;
                 }
@@ -8531,7 +8538,7 @@ namespace MDPlayer
         {
             try
             {
-                if (Paused)
+                if (Stopped || Paused)
                 {
                     for (int d = offset; d < offset + count; d++) buffer[d] = 0;
                     return count;
@@ -8579,10 +8586,23 @@ namespace MDPlayer
                 int samplesRead = shortCount;
                 int mul = (int)(16384.0 * Math.Pow(10.0, MasterVolume / 40.0));//db0: 0x4000　(>>14)
 
-                for (double n = 0; n < samplesRead / 2; n += 2)
+                for (int n = 0; n < samplesRead / 2; n += 2)
                 {
                     psDestBuffer[(int)n * 2] = (short)Limit((pfSourceBuffer[(int)(n * speed) * 2] * mul) >> 14, 0x7fff, -0x8000);
                     psDestBuffer[(int)n * 2 + 1] = (short)Limit((pfSourceBuffer[(int)(n * speed) * 2 + 1] * mul) >> 14, 0x7fff, -0x8000);
+
+                    //フェードアウト処理
+                    if (!vgmFadeout) continue;
+                    psDestBuffer[(int)n * 2] = (short)(psDestBuffer[(int)n * 2] * vgmFadeoutCounter);
+                    psDestBuffer[(int)n * 2 + 1] = (short)(psDestBuffer[(int)n * 2 + 1] * vgmFadeoutCounter);
+                    vgmFadeoutCounter -= vgmFadeoutCounterV;
+                    if (vgmFadeoutCounterV >= 0.004 && vgmFadeoutCounterV != 0.1)
+                        vgmFadeoutCounterV = 0.004;
+                    if (vgmFadeoutCounter <= 0.0)
+                        vgmFadeoutCounter = 0.0;
+                    //フェードアウト完了後、演奏を完全停止する
+                    if (vgmFadeoutCounter == 0.0)
+                        Stopped = true;
                 }
 
                 VisVolume.master = (short)(Math.Abs(psDestBuffer[0] + psDestBuffer[1]) * 0.15);

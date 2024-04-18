@@ -1,4 +1,7 @@
 更新履歴 
+STBL373 2024/04/19
+  WAV/MP3/AIFF:プチノイズがでていたので修正。FadeOut実装。
+
 STBL372 2024/04/18 3rd
   WAV/MP3/AIFF:MasterVolume値反映。
   上記以外の形式:MasterVolume値計算式修正。
