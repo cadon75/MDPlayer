@@ -1,4 +1,7 @@
 更新履歴 
+STBL371 2024/04/18 2nd
+  WAV/MP3/AIFF:FF、SLOW実装。
+
 STBL370 2024/04/18
   FileAssociationTool追加。
 

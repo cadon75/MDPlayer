@@ -7575,8 +7575,8 @@ namespace MDPlayer
 
         public static void FF()
         {
-            if (DriverVirtual == null) return;
             vgmSpeed = (vgmSpeed == 1) ? 4 : 1;
+            if (DriverVirtual == null) return;
             DriverVirtual.vgmSpeed = vgmSpeed;
             if (DriverReal != null) DriverReal.vgmSpeed = vgmSpeed;
         }
@@ -8537,17 +8537,19 @@ namespace MDPlayer
                     return count;
                 }
 
-                naudioSrcbuffer = Ensure(naudioSrcbuffer, count * 2);
-                wfcp.Read(naudioSrcbuffer, 0, count * 2);
+                double speed = vgmSpeed;
+
+                naudioSrcbuffer = Ensure(naudioSrcbuffer, (int)(count * 2 * speed));
+                wfcp.Read(naudioSrcbuffer, 0, (int)(count * 2 * speed));
 
                 WaveStream ws = null;
                 if (naudioWaveFileReader != null) ws = naudioWaveFileReader;
                 if (naudioMp3FileReader != null) ws = naudioMp3FileReader;
                 if (naudioAiffFileReader != null) ws = naudioAiffFileReader;
                 if (ws != null && ws.Position == ws.Length) Stopped = true;
-                else naudioSampleCounter += count;
+                else naudioSampleCounter += (int)(count * speed);
 
-                Convert2byteToShort(buffer, offset, naudioSrcbuffer, count);
+                Convert2byteToShort(buffer, offset, naudioSrcbuffer, count, speed);
             }
             catch
             {
@@ -8566,7 +8568,7 @@ namespace MDPlayer
             return buffer;
         }
 
-        private static unsafe void Convert2byteToShort(short[] destBuffer, int offset, byte[] source, int shortCount)
+        private static unsafe void Convert2byteToShort(short[] destBuffer, int offset, byte[] source, int shortCount, double speed)
         {
             fixed (short* pDestBuffer = &destBuffer[offset])
             fixed (byte* pSourceBuffer = &source[0])
@@ -8575,9 +8577,10 @@ namespace MDPlayer
                 short* pfSourceBuffer = (short*)pSourceBuffer;
 
                 int samplesRead = shortCount;
-                for (int n = 0; n < samplesRead; n++)
+                for (double n = 0; n < samplesRead / 2; n += 2)
                 {
-                    psDestBuffer[n] = pfSourceBuffer[n];// volume;
+                    psDestBuffer[(int)n * 2] = pfSourceBuffer[(int)(n * speed) * 2];// volume;
+                    psDestBuffer[(int)n * 2 + 1] = pfSourceBuffer[(int)(n * speed) * 2 + 1];// volume;
                 }
             }
         }
