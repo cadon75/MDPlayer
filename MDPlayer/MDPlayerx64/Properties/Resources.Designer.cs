@@ -1400,6 +1400,16 @@ namespace MDPlayerx64.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap planeMain {
+            get {
+                object obj = ResourceManager.GetObject("planeMain", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap planeMIDI_GM {
             get {
                 object obj = ResourceManager.GetObject("planeMIDI_GM", resourceCulture);
@@ -1753,6 +1763,16 @@ namespace MDPlayerx64.Properties {
         internal static System.Drawing.Bitmap rFader {
             get {
                 object obj = ResourceManager.GetObject("rFader", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap rFaderH {
+            get {
+                object obj = ResourceManager.GetObject("rFaderH", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

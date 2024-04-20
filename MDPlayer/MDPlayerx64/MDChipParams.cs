@@ -15,7 +15,14 @@
         public int LCmillisecond = -1;
 
         public ChipLEDs chipLED = new();
-
+        public int Master = -255;
+        public int MasterVis = -255;
+        public int MasterHover = -255;
+        public int MasterDrag = -255;
+        public int TimeLine = -255;
+        public int TimeLineVis = -255;
+        public int TimeLineHover = -255;
+        public int TimeLineDrag = -255;
 
 
         public class Channel

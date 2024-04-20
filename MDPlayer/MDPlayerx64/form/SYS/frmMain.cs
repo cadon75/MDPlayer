@@ -126,6 +126,13 @@ namespace MDPlayer.form
         private bool remoteBusy = false;
         private List<string[]> remoteReq = new();
 
+        private bool faderMasterHover = false;
+        private bool faderMasterDrag = false;
+        private int  faderMasterVal = 0;
+        private bool faderTimeLineHover = false;
+        private bool faderTimeLineDrag = false;
+        private int  faderTimeLineVal = 0;
+
         public frmMain()
         {
             log.debug = this.setting.debug.logDebug;
@@ -271,7 +278,7 @@ namespace MDPlayer.form
 
             log.ForcedWrite("frmMain_Load:STEP 06");
 
-            screen = new DoubleBuffer(pbScreen, ResMng.ImgDic["planeControl"], 1)
+            screen = new DoubleBuffer(pbScreen, ResMng.ImgDic["planeMain"], 1)
             {
                 setting = setting
             };
@@ -603,9 +610,9 @@ namespace MDPlayer.form
         {
             toolTip1.SetToolTip(opeButtonZoom, zoomTip[setting.other.Zoom - 1]);
 
-            this.MaximumSize = new System.Drawing.Size(frameSizeW + ResMng.ImgDic["planeControl"].Width * setting.other.Zoom, frameSizeH + ResMng.ImgDic["planeControl"].Height * setting.other.Zoom);
-            this.MinimumSize = new System.Drawing.Size(frameSizeW + ResMng.ImgDic["planeControl"].Width * setting.other.Zoom, frameSizeH + ResMng.ImgDic["planeControl"].Height * setting.other.Zoom);
-            this.Size = new System.Drawing.Size(frameSizeW + ResMng.ImgDic["planeControl"].Width * setting.other.Zoom, frameSizeH + ResMng.ImgDic["planeControl"].Height * setting.other.Zoom);
+            this.MaximumSize = new System.Drawing.Size(frameSizeW + ResMng.ImgDic["planeMain"].Width * setting.other.Zoom, frameSizeH + ResMng.ImgDic["planeMain"].Height * setting.other.Zoom);
+            this.MinimumSize = new System.Drawing.Size(frameSizeW + ResMng.ImgDic["planeMain"].Width * setting.other.Zoom, frameSizeH + ResMng.ImgDic["planeMain"].Height * setting.other.Zoom);
+            this.Size = new System.Drawing.Size(frameSizeW + ResMng.ImgDic["planeMain"].Width * setting.other.Zoom, frameSizeH + ResMng.ImgDic["planeMain"].Height * setting.other.Zoom);
             frmMain_Resize(null, null);
             RelocateOpeButton(setting.other.Zoom);
 
@@ -1102,7 +1109,7 @@ namespace MDPlayer.form
 
             screen?.Dispose();
 
-            screen = new DoubleBuffer(pbScreen, ResMng.ImgDic["planeControl"], setting.other.Zoom)
+            screen = new DoubleBuffer(pbScreen, ResMng.ImgDic["planeMain"], setting.other.Zoom)
             {
                 setting = setting
             };
@@ -1459,10 +1466,79 @@ namespace MDPlayer.form
 
         }
 
-        private void PbScreen_MouseMove(object sender, MouseEventArgs e)
+        private int[] masterVolTbl = new int[57] {
+            -192,-188, -184, -180, -176, -172, -169, -165, -161, -158,
+            -154, -150, -146, -142, -139, -135, -131, -128, -123, -120,
+            -116, -112, -108, -104, -101, -97, -93, -89, -86, -82,
+            -78, -74, -70, -66, -62, -58, -54, -50, -46, -42,
+            -38, -34, -30, -26, -22, -18,-15,-11,-7,-3,
+            0,2,5,9,13,17,20
+        };
+
+        private void pbScreen_MouseDown(object sender, MouseEventArgs e)
         {
+            checkMouseHover(e);
             int px = e.Location.X / setting.other.Zoom;
             int py = e.Location.Y / setting.other.Zoom;
+
+            if (faderMasterHover)
+            {
+                faderMasterDrag = true;
+                faderMasterVal = px - 184;
+                faderMasterVal = Common.Range(px - 184, 0, 56);
+                Audio.SetMasterVolume(true, masterVolTbl[faderMasterVal]);
+            }
+            if (faderTimeLineHover)
+            {
+                faderTimeLineDrag = true;
+                faderTimeLineVal = px - 184;
+            }
+
+        }
+
+        private void pbScreen_MouseUp(object sender, MouseEventArgs e)
+        {
+            checkMouseHover(e);
+
+            int px = e.Location.X / setting.other.Zoom;
+            int py = e.Location.Y / setting.other.Zoom;
+
+            if (faderMasterDrag)
+            {
+                //mastervolume 変更不要(MouseMoveイベントで随時変更するため)
+            }
+
+            if (faderTimeLineDrag)
+            {
+                //timeline 変更
+                faderTimeLineVal = Common.Range(px - 184, 0, 56);
+                Audio.Seek(faderTimeLineVal / 56.0);
+            }
+
+            faderMasterDrag = false;
+            faderTimeLineDrag = false;
+
+        }
+
+        private void PbScreen_MouseMove(object sender, MouseEventArgs e)
+        {
+            checkMouseHover(e);
+
+            int px = e.Location.X / setting.other.Zoom;
+            int py = e.Location.Y / setting.other.Zoom;
+
+            if (faderMasterDrag)
+            {
+                //mastervolume 変更
+                faderMasterVal = Common.Range(px - 184, 0, 56);
+                Audio.SetMasterVolume(true, masterVolTbl[faderMasterVal]);
+            }
+
+            if (faderTimeLineDrag)
+            {
+                //timeline 変更(実際に適用されるのはMouseUpイベント)
+                faderTimeLineVal = Common.Range(px - 184, 0, 56);
+            }
 
             if (py < 9)
             {
@@ -1482,10 +1558,22 @@ namespace MDPlayer.form
 
         }
 
+        private void checkMouseHover(MouseEventArgs e)
+        {
+            int px = e.Location.X / setting.other.Zoom;
+            int py = e.Location.Y / setting.other.Zoom;
+
+            //フェーダーの位置 mv:184,13,243,20  tl:184,29,243,36
+            faderMasterHover = (px >= 184 && px < 243 && py >= 13 && py < 20);
+            faderTimeLineHover = (px >= 184 && px < 243 && py >= 29 && py < 36);
+        }
+
         private void PbScreen_MouseLeave(object sender, EventArgs e)
         {
             for (int i = 0; i < newButton.Length; i++)
                 newButton[i] = 0;
+            faderMasterHover = false;
+            faderTimeLineHover = false;
         }
 
         private void PbScreen_MouseClick(object sender, MouseEventArgs e)
@@ -4729,7 +4817,7 @@ namespace MDPlayer.form
                     if (frmPlayList.isPlaying())
                     {
                         if ((setting.other.UseLoopTimes && Audio.GetVgmCurLoopCounter() > setting.other.LoopTimes - 1)
-                            || Audio.GetVGMStopped() )
+                            || Audio.GetVGMStopped())
                         {
                             Fadeout();
                         }
@@ -4819,6 +4907,53 @@ namespace MDPlayer.form
             newParam.LCsecond = (int)sec;
             sec -= newParam.LCsecond;
             newParam.LCmillisecond = (int)(sec * 100.0);
+
+            //フェーダー(マスターボリューム)
+            //フェーダー解像度57段階(0～56) 7*8=56dot
+            int val;
+
+            if (faderMasterDrag)
+            {
+                newParam.Master = Common.Range(faderMasterVal, 0, 56);
+            }
+            else
+            {
+                val = Common.Range(setting.balance.MasterVolume, -192, 20) + 192;
+                val = (int)(val * ((7.0 * 8) / (20.0 - (-192))));
+                newParam.Master = val;
+            }
+
+            val = Common.Range(Audio.VisVolume.master / 220, 0, 56);
+            if (newParam.MasterVis > 0) newParam.MasterVis--;
+            newParam.MasterVis = Math.Max(newParam.MasterVis, val);
+
+            newParam.MasterHover = faderMasterHover ? 0 : 1;
+            newParam.MasterDrag = faderMasterDrag ? 0 : 1;
+
+            //フェーダー(タイムライン)
+
+            double gc = (double)Audio.GetCounter();
+            double tc = (double)Audio.GetTotalCounter();
+            if (tc > 0.0)
+            {
+                newParam.TimeLineVis = (int)(57.0 * gc / tc) % 57;
+            }
+            else
+            {
+                newParam.TimeLineVis = 0;
+            }
+
+            if (faderTimeLineDrag)
+            {
+                newParam.TimeLine = faderTimeLineVal;
+            }
+            else
+            {
+                newParam.TimeLine = newParam.TimeLineVis;
+            }
+
+            newParam.TimeLineHover = faderTimeLineHover ? 0 : 1;
+            newParam.TimeLineDrag = faderTimeLineDrag ? 0 : 1;
 
             UpdateOpeButtonActiveState();
 
@@ -5027,6 +5162,13 @@ namespace MDPlayer.form
                 if (r != -1 && v != -1) DrawBuff.drawFont8(screen.mainScreen, 0, 16, 0, string.Format("R.CHIP-EMU : {0:D12} ", d));
                 DrawBuff.drawFont8(screen.mainScreen, 0, 24, 0, string.Format("PROC TIME  : {0:D12} ", Audio.ProcTimePer1Frame));
             }
+
+            DrawBuff.drawFaderH(screen.mainScreen, 23 * 8, 14
+                ,newParam.MasterDrag, newParam.MasterHover, newParam.Master, newParam.MasterVis
+                , ref oldParam.MasterDrag, ref oldParam.MasterHover, ref oldParam.Master, ref oldParam.MasterVis);
+            DrawBuff.drawFaderH(screen.mainScreen, 23 * 8, 30
+                , newParam.TimeLineDrag, newParam.TimeLineHover, newParam.TimeLine, newParam.TimeLineVis
+                , ref oldParam.TimeLineDrag, ref oldParam.TimeLineHover, ref oldParam.TimeLine, ref oldParam.TimeLineVis);
 
             screen.Refresh();
 
@@ -5925,7 +6067,7 @@ namespace MDPlayer.form
             return Common.unzipFile(filename);
         }
 
-        public void GetInstCh(EnmChip chip, int ch, int chipID,int note=-1)
+        public void GetInstCh(EnmChip chip, int ch, int chipID, int note = -1)
         {
             try
             {
@@ -8221,7 +8363,7 @@ namespace MDPlayer.form
                 string playingArcFileName = "";
                 EnmFileFormat format = EnmFileFormat.unknown;
                 List<Tuple<string, byte[]>> extFile = null;
-                format = Common.CheckExt(fullPath,buf);
+                format = Common.CheckExt(fullPath, buf);
                 srcBuf = buf;
 
                 //再生前に音量のバランスを設定する
@@ -10351,24 +10493,25 @@ namespace MDPlayer.form
 
         private void RelocateOpeButton(int zoom)
         {
-            opeButtonSetting.Location = new Point((17 + 0) * zoom, 9 * zoom);
-            opeButtonStop.Location = new Point((17 + 16 * 1) * zoom, 9 * zoom);
-            opeButtonPause.Location = new Point((17 + 16 * 2) * zoom, 9 * zoom);
-            opeButtonFadeout.Location = new Point((17 + 16 * 3) * zoom, 9 * zoom);
-            opeButtonPrevious.Location = new Point((17 + 16 * 4) * zoom, 9 * zoom);
-            opeButtonSlow.Location = new Point((17 + 16 * 5) * zoom, 9 * zoom);
-            opeButtonPlay.Location = new Point((17 + 16 * 6) * zoom, 9 * zoom);
-            opeButtonFast.Location = new Point((17 + 16 * 7) * zoom, 9 * zoom);
-            opeButtonNext.Location = new Point((17 + 16 * 8) * zoom, 9 * zoom);
-            opeButtonMode.Location = new Point((17 + 16 * 9) * zoom, 9 * zoom);
-            opeButtonOpen.Location = new Point((17 + 16 * 10) * zoom, 9 * zoom);
-            opeButtonPlayList.Location = new Point((17 + 16 * 11) * zoom, 9 * zoom);
-            opeButtonInformation.Location = new Point((17 + 16 * 12) * zoom, 9 * zoom);
-            opeButtonMixer.Location = new Point((17 + 16 * 13) * zoom, 9 * zoom);
-            opeButtonKBD.Location = new Point((17 + 16 * 14) * zoom, 9 * zoom);
-            opeButtonVST.Location = new Point((17 + 16 * 15) * zoom, 9 * zoom);
-            opeButtonMIDIKBD.Location = new Point((17 + 16 * 16) * zoom, 9 * zoom);
-            opeButtonZoom.Location = new Point((17 + 16 * 17) * zoom, 9 * zoom);
+            opeButtonStop.Location = new Point((17 + 16 * 0) * zoom, 9 * zoom);
+            opeButtonPause.Location = new Point((17 + 16 * 1) * zoom, 9 * zoom);
+            opeButtonFadeout.Location = new Point((17 + 16 * 2) * zoom, 9 * zoom);
+            opeButtonPrevious.Location = new Point((17 + 16 * 3) * zoom, 9 * zoom);
+            opeButtonSlow.Location = new Point((17 + 16 * 4) * zoom, 9 * zoom);
+            opeButtonPlay.Location = new Point((17 + 16 * 5) * zoom, 9 * zoom);
+            opeButtonFast.Location = new Point((17 + 16 * 6) * zoom, 9 * zoom);
+            opeButtonNext.Location = new Point((17 + 16 * 7) * zoom, 9 * zoom);
+            opeButtonMode.Location = new Point((17 + 16 * 8) * zoom, 9 * zoom);
+
+            opeButtonSetting.Location = new Point((17 + 16 * 0) * zoom, 25 * zoom);
+            opeButtonOpen.Location = new Point((17 + 16 * 1) * zoom, 25 * zoom);
+            opeButtonPlayList.Location = new Point((17 + 16 * 2) * zoom, 25 * zoom);
+            opeButtonInformation.Location = new Point((17 + 16 * 3) * zoom, 25 * zoom);
+            opeButtonMixer.Location = new Point((17 + 16 * 4) * zoom, 25 * zoom);
+            opeButtonKBD.Location = new Point((17 + 16 * 5) * zoom, 25 * zoom);
+            opeButtonVST.Location = new Point((17 + 16 * 6) * zoom, 25 * zoom);
+            opeButtonMIDIKBD.Location = new Point((17 + 16 * 7) * zoom, 25 * zoom);
+            opeButtonZoom.Location = new Point((17 + 16 * 8) * zoom, 25 * zoom);
 
             RedrawButton(opeButtonSetting, setting.other.Zoom, lstOpeButtonLeaveImage[0]);
             RedrawButton(opeButtonStop, setting.other.Zoom, lstOpeButtonLeaveImage[1]);

@@ -2317,6 +2317,7 @@ namespace MDPlayer
                 DriverVirtual = null;
                 DriverReal = null;
                 naudioSampleCounter = 0;
+                naudioDummyCount = 0;
 
                 return true;
             }
@@ -2335,6 +2336,7 @@ namespace MDPlayer
                 DriverVirtual = null;
                 DriverReal = null;
                 naudioSampleCounter = 0;
+                naudioDummyCount = 0;
 
                 return true;
             }
@@ -2353,6 +2355,7 @@ namespace MDPlayer
                 DriverVirtual = null;
                 DriverReal = null;
                 naudioSampleCounter = 0;
+                naudioDummyCount = 0;
 
                 return true;
             }
@@ -8533,6 +8536,25 @@ namespace MDPlayer
         private static WaveFormatConversionProvider wfcp = null;
         private static byte[] naudioSrcbuffer = null;
         private static long naudioSampleCounter = 0;
+        private static int naudioDummyCount = 0;
+
+        public static void Seek(double n)
+        {
+            //SEEK
+            WaveStream ws = null;
+            if (naudioWaveFileReader != null) ws = naudioWaveFileReader;
+            if (naudioMp3FileReader != null) ws = naudioMp3FileReader;
+            if (naudioAiffFileReader != null) ws = naudioAiffFileReader;
+            if (ws != null)
+            {
+                if (ws.CanSeek)
+                {
+                    ws.CurrentTime = new TimeSpan((long)(ws.TotalTime.Ticks * n));
+                    naudioSampleCounter = (long)(ws.CurrentTime.TotalSeconds * Setting.outputDevice.SampleRate * 2.0);
+                }
+            }
+
+        }
 
         public static int NaudioRead(short[] buffer, int offset, int count)
         {
@@ -8546,15 +8568,20 @@ namespace MDPlayer
 
                 double speed = vgmSpeed;
 
-                naudioSrcbuffer = Ensure(naudioSrcbuffer, (int)(count * 2 * speed));
-                wfcp.Read(naudioSrcbuffer, 0, (int)(count * 2 * speed));
+                int cnt = (int)(count * 2 * speed);
+                naudioSrcbuffer = Ensure(naudioSrcbuffer, cnt);
+                int read = wfcp.Read(naudioSrcbuffer, 0, cnt);
+                
 
-                WaveStream ws = null;
-                if (naudioWaveFileReader != null) ws = naudioWaveFileReader;
-                if (naudioMp3FileReader != null) ws = naudioMp3FileReader;
-                if (naudioAiffFileReader != null) ws = naudioAiffFileReader;
-                if (ws != null && ws.Position == ws.Length) Stopped = true;
-                else naudioSampleCounter += (int)(count * speed);
+                //データを最後まで演奏したら3回空ループ後、演奏停止する
+                if (read == 0)
+                {
+                    naudioDummyCount++;
+                    if (naudioDummyCount >= 3) Stopped = true;
+                }
+
+                naudioSampleCounter += (int)(count * speed);
+
 
                 Convert2byteToShort(buffer, offset, naudioSrcbuffer, count, speed);
             }

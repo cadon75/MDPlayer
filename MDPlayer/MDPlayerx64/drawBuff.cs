@@ -26,6 +26,7 @@ namespace MDPlayer
         private static byte[] rWavGraph;
         private static byte[] rWavGraph2;
         private static byte[] rFader;
+        private static byte[] rFaderH;
         private static byte[][] rMIDILCD_Fader;
         private static byte[] rMIDILCD_KBD;
         private static byte[][] rMIDILCD_Vol;
@@ -106,6 +107,7 @@ namespace MDPlayer
             rWavGraph = getByteArray(ResMng.ImgDic["rWavGraph"]);
             rWavGraph2 = getByteArray(ResMng.ImgDic["rWavGraph2"]);
             rFader = getByteArray(ResMng.ImgDic["rFader"]);
+            rFaderH = getByteArray(ResMng.ImgDic["rFaderH"]);
             rNESDMC = getByteArray(ResMng.ImgDic["rNESDMC"]);
 
             rKakko = getByteArray(ResMng.ImgDic["rKakko_00"]);
@@ -3169,18 +3171,18 @@ namespace MDPlayer
             if (ot1 != nt1)
             {
                 //drawFont4Int2(mainScreen, 4 * 30 + c * 4 * 11, 0, 0, 3, nt1);
-                DrawBuff.drawFont8Int2(screen, 8 * 3 - 16 + c * 8 * 11 + 1, 1, 0, 3, nt1);
+                DrawBuff.drawFont8Int2(screen, 8 * 5 - 16 + c * 8 * 11 + 1, 1, 0, 3, nt1);
                 ot1 = nt1;
             }
             if (ot2 != nt2)
             {
-                DrawBuff.drawFont8Int2(screen, 8 * 7 - 16 + c * 8 * 11 + 1, 1, 0, 2, nt2);
+                DrawBuff.drawFont8Int2(screen, 8 * 9 - 16 + c * 8 * 11 + 1, 1, 0, 2, nt2);
                 //drawFont4Int2(mainScreen, 4 * 34 + c * 4 * 11, 0, 0, 2, nt2);
                 ot2 = nt2;
             }
             if (ot3 != nt3)
             {
-                DrawBuff.drawFont8Int2(screen, 8 * 10 - 16 + c * 8 * 11 + 1, 1, 0, 2, nt3);
+                DrawBuff.drawFont8Int2(screen, 8 * 12 - 16 + c * 8 * 11 + 1, 1, 0, 2, nt3);
                 //drawFont4Int2(mainScreen, 4 * 37 + c * 4 * 11, 0, 0, 2, nt3);
                 ot3 = nt3;
             }
@@ -4808,6 +4810,72 @@ namespace MDPlayer
             screen.drawByteArray(x, y + 32, rFader, 32, 16, 8, 8, 8);
             screen.drawByteArray(x, y + 40, rFader, 32, 16, 8, 8, 8);
             screen.drawByteArray(x, y + 48, rFader, 32, 24, 0, 8, 8);
+        }
+
+        public static void drawFaderH(FrameBuffer screen, int x, int y,int d, int v, int val1, int val2,ref int od,ref int ov, ref int oval1, ref int oval2)
+        {
+            if (d == od && v == ov && val1 == oval1 && val2 == oval2)
+            {
+                return;
+            }
+
+            od = d;
+            ov = v;
+            oval1 = val1;
+            oval2 = val2;
+
+            drawFaderHP(screen, x, y, 2, v);
+            for (int i = 0; i < 7 * 8+1; i++)
+            {
+                drawFaderHP(screen, x + 1 + i, y, (i < val2 ? (v == 0 ? 4 : 5) : 3), v);
+            }
+            drawFaderHP(screen, x + 2 + 7 * 8, y, 2, v);
+
+            drawFaderHP(screen, x + val1 + 1, y, d, v);
+        }
+
+        private static void drawFaderHP(FrameBuffer screen, int x, int y, int c, int v)
+        {
+            c += v * 6;
+            switch (c)
+            {
+                case 0:
+                    screen.drawByteArray(x - 1, y, rFaderH, 32, 0, 0, 3, 6);
+                    break;
+                case 1:
+                    screen.drawByteArray(x - 1, y, rFaderH, 32, 3, 0, 3, 6);
+                    break;
+                case 2:
+                    screen.drawByteArray(x, y, rFaderH, 32, 6, 0, 1, 6);
+                    break;
+                case 3:
+                    screen.drawByteArray(x, y, rFaderH, 32, 7, 0, 1, 6);
+                    break;
+                case 4:
+                    screen.drawByteArray(x, y, rFaderH, 32, 8, 0, 1, 6);
+                    break;
+                case 5:
+                    screen.drawByteArray(x, y, rFaderH, 32, 9, 0, 1, 6);
+                    break;
+                case 6:
+                    screen.drawByteArray(x - 1, y, rFaderH, 32, 0, 8, 3, 6);
+                    break;
+                case 7:
+                    screen.drawByteArray(x - 1, y, rFaderH, 32, 3, 8, 3, 6);
+                    break;
+                case 8:
+                    screen.drawByteArray(x, y, rFaderH, 32, 6, 8, 1, 6);
+                    break;
+                case 9:
+                    screen.drawByteArray(x, y, rFaderH, 32, 7, 8, 1, 6);
+                    break;
+                case 10:
+                    screen.drawByteArray(x, y, rFaderH, 32, 8, 8, 1, 6);
+                    break;
+                case 11:
+                    screen.drawByteArray(x, y, rFaderH, 32, 9, 8, 1, 6);
+                    break;
+            }
         }
 
         private static void drawFaderP(FrameBuffer screen, int x, int y, int t)

@@ -300,14 +300,17 @@ namespace MDPlayer.form
             // pbScreen
             // 
             pbScreen.BackColor = Color.Black;
+            pbScreen.BackgroundImage = Resources.planeMain;
             resources.ApplyResources(pbScreen, "pbScreen");
             pbScreen.Name = "pbScreen";
             pbScreen.TabStop = false;
             pbScreen.DragDrop += pbScreen_DragDrop;
             pbScreen.DragEnter += pbScreen_DragEnter;
             pbScreen.MouseClick += PbScreen_MouseClick;
+            pbScreen.MouseDown += pbScreen_MouseDown;
             pbScreen.MouseLeave += PbScreen_MouseLeave;
             pbScreen.MouseMove += PbScreen_MouseMove;
+            pbScreen.MouseUp += pbScreen_MouseUp;
             // 
             // cmsOpenOtherPanel
             // 

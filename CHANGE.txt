@@ -1,4 +1,8 @@
 更新履歴 
+STBL374 2024/04/20
+  MainForm:シークバー2つ追加
+  WAV/MP3/AIFF:SEEK出来るようにした。
+
 STBL373 2024/04/19
   WAV/MP3/AIFF:プチノイズがでていたので修正。FadeOut実装。
 

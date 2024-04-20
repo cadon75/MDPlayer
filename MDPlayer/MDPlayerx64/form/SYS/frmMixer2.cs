@@ -18,7 +18,7 @@ namespace MDPlayer.form
         private int zoom = 1;
         private int chipn = -1;
 
-        private MDChipParams.Mixer newParam = null;
+        public MDChipParams.Mixer newParam = null;
         private MDChipParams.Mixer oldParam = new MDChipParams.Mixer();
         private FrameBuffer frameBuffer = new FrameBuffer();
         private MDChipParams.Mixer.VolumeInfo[] oVITbl;
