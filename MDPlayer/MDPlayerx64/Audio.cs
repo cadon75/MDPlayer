@@ -4009,7 +4009,8 @@ namespace MDPlayer
                         Start = ym2151mame.Start,
                         Stop = ym2151mame.Stop,
                         Reset = ym2151mame.Reset,
-                        Volume = setting.balance.YM2151Volume
+                        Volume = setting.balance.YM2151Volume,
+                        Clock = 4000000
                     };
                     chip.SamplingRate = (UInt32)chip.Clock / 64;
                     chip.Clock = 4000000;
