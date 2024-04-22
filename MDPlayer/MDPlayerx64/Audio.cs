@@ -815,28 +815,29 @@ namespace MDPlayer
                     }
 
                     byte[] v2 = r.Id3v2Tag.RawData;
-                    // タグはID3v2.3であると仮定し、ヘッダを無視
+
+                    if (v2[0] != 0x49 || v2[1] != 0x44 || v2[2] != 0x33)
+                    {
+                        throw new Exception("Error ID3v2TAG Header.");
+                    }
+
+                    int v = v2[3];
+                    int flag = v2[5];
+                    uint size = (uint)((v2[6] << 21) + (v2[7] << 14) + (v2[8] << 7) + (v2[9] << 0));
 
                     Dictionary<string, string> tags = new Dictionary<string, string>();
-                    for (int index = 10; index < v2.Length;)
+
+
+                    if (v == 2)
                     {
-                        if (v2[index] == '\0') break;
-
-                        string frameID = Encoding.ASCII.GetString(v2, index, 4);
-                        index += 4;
-
-                        if (BitConverter.IsLittleEndian)
+                        for (int index = 10; index < v2.Length;)
                         {
-                            Array.Reverse(v2, index, 4);
-                        }
-                        int frameSize = BitConverter.ToInt32(v2, index);
-                        index += 4;
+                            if (v2[index] == '\0') break;
+                            string frameID = Encoding.ASCII.GetString(v2, index, 3);
+                            index += 3;
+                            int frameSize = (int)((v2[index] << 16) + (v2[index + 1] << 8) + v2[index + 2]);
+                            index += 3;
 
-                        byte flag1 = v2[index++];
-                        byte flag2 = v2[index++];
-
-                        if (frameID[0] == 'T')
-                        {
                             enc = Encoding.Default;// Unicode; // UTF-16LE
                             byte c = v2[index++];
                             switch (c)
@@ -846,50 +847,139 @@ namespace MDPlayer
                                     break;
 
                                 case 0x01:
-                                    if (index + 1 < v2.Length && (v2[index] == 0xfe && v2[index + 1] == 0xff))
-                                    {
-                                        enc = Encoding.BigEndianUnicode; // UTF-16BE
-                                    }
+                                    enc = Encoding.GetEncoding("UTF-16");//.BigEndianUnicode; // UTF-16BE
                                     break;
                             }
 
-                            string content = enc.GetString(v2, index, frameSize - 1);
+                            string content = enc.GetString(v2, index, frameSize -1);
                             index += frameSize - 1;
 
-                            tags.Add(frameID, content);
+                            if (!tags.ContainsKey(frameID)) tags.Add(frameID, content);
                         }
-                        else
+
+                        music.title = string.Format("({0})", System.IO.Path.GetFileName(file));
+                        if (tags.ContainsKey("TT2"))
                         {
-                            index += frameSize;
+                            string title = tags["TT2"];
+                            music.title = string.IsNullOrEmpty(title)
+                                ? (
+                                    string.IsNullOrEmpty(v1Title)
+                                    ? string.Format("({0})", System.IO.Path.GetFileName(file)) : v1Title
+                                    )
+                                : title;
+                            music.titleJ = music.title;
+                        }
+
+                        if (tags.ContainsKey("TP1"))
+                        {
+                            string artist = tags["TP1"];
+                            music.composer = string.IsNullOrEmpty(artist)
+                                ? (
+                                    string.IsNullOrEmpty(v1Artist)
+                                    ? "" : v1Artist
+                                    )
+                                : artist;
+                            music.composerJ = music.composer;
+                        }
+
+                        if (tags.ContainsKey("TAL"))
+                        {
+                            string album = tags["TAL"];
+                            music.game = string.IsNullOrEmpty(album)
+                                ? (
+                                    string.IsNullOrEmpty(v1Album)
+                                    ? "" : v1Album
+                                    )
+                                : album;
+                            music.gameJ = music.game;
+                        }
+                    }
+                    else
+                    {
+                        for (int index = 10; index < v2.Length;)
+                        {
+                            if (v2[index] == '\0') break;
+
+                            string frameID = Encoding.ASCII.GetString(v2, index, 4);
+                            index += 4;
+
+                            if (BitConverter.IsLittleEndian)
+                            {
+                                Array.Reverse(v2, index, 4);
+                            }
+                            int frameSize = BitConverter.ToInt32(v2, index);
+                            index += 4;
+
+                            byte flag1 = v2[index++];
+                            byte flag2 = v2[index++];
+
+                            if (frameID[0] == 'T')
+                            {
+                                enc = Encoding.Default;// Unicode; // UTF-16LE
+                                byte c = v2[index++];
+                                switch (c)
+                                {
+                                    case 0x00:
+                                        enc = Encoding.GetEncoding(28591); // iso-8859-1
+                                        break;
+
+                                    case 0x01:
+                                        if (index + 1 < v2.Length && (v2[index] == 0xfe && v2[index + 1] == 0xff))
+                                        {
+                                            enc = Encoding.BigEndianUnicode; // UTF-16BE
+                                        }
+                                        break;
+                                }
+
+                                string content = enc.GetString(v2, index, frameSize - 1);
+                                index += frameSize - 1;
+
+                                if (!tags.ContainsKey(frameID)) tags.Add(frameID, content);
+                            }
+                            else
+                            {
+                                index += frameSize;
+                            }
+                        }
+
+                        music.title = string.Format("({0})", System.IO.Path.GetFileName(file));
+                        if (tags.ContainsKey("TIT2"))
+                        {
+                            string title = tags["TIT2"];
+                            music.title = string.IsNullOrEmpty(title)
+                                ? (
+                                    string.IsNullOrEmpty(v1Title)
+                                    ? string.Format("({0})", System.IO.Path.GetFileName(file)) : v1Title
+                                    )
+                                : title;
+                            music.titleJ = music.title;
+                        }
+
+                        if (tags.ContainsKey("TPE1"))
+                        {
+                            string artist = tags["TPE1"];
+                            music.composer = string.IsNullOrEmpty(artist)
+                                ? (
+                                    string.IsNullOrEmpty(v1Artist)
+                                    ? "" : v1Artist
+                                    )
+                                : artist;
+                            music.composerJ = music.composer;
+                        }
+
+                        if (tags.ContainsKey("TALB"))
+                        {
+                            string album = tags["TALB"];
+                            music.game = string.IsNullOrEmpty(album)
+                                ? (
+                                    string.IsNullOrEmpty(v1Album)
+                                    ? "" : v1Album
+                                    )
+                                : album;
+                            music.gameJ = music.game;
                         }
                     }
 
-
-                    string title = tags["TIT2"];
-                    string artist = tags["TPE1"];
-                    string album = tags["TALB"];
-
-                    music.title = string.IsNullOrEmpty(title)
-                        ? (
-                            string.IsNullOrEmpty(v1Title)
-                            ? string.Format("({0})", System.IO.Path.GetFileName(file)) : v1Title
-                            )
-                        : title;
-                    music.titleJ = music.title;
-                    music.composer = string.IsNullOrEmpty(artist)
-                        ? (
-                            string.IsNullOrEmpty(v1Artist)
-                            ? "" : v1Artist
-                            )
-                        : artist;
-                    music.composerJ = music.composer;
-                    music.game = string.IsNullOrEmpty(album)
-                        ? (
-                            string.IsNullOrEmpty(v1Album)
-                            ? "" : v1Album
-                            )
-                        : album;
-                    music.gameJ = music.game;
                 }
                 catch
                 {
