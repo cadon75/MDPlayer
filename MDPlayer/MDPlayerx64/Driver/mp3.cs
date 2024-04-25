@@ -1,5 +1,6 @@
 ﻿using MDPlayer;
 using MDPlayer.Driver.MuSICA;
+using MDSound;
 using NAudio.Midi;
 using NAudio.Wave;
 using NAudio.Wave.Compression;
@@ -66,16 +67,22 @@ namespace MDPlayerx64.Driver
                         int frameSize = (int)((v2[index] << 16) + (v2[index + 1] << 8) + v2[index + 2]);
                         index += 3;
 
+                        byte[] v3 = new byte[frameSize - 1];
+                        Array.Copy(v2, index + 1, v3, 0, frameSize - 1);
+                        Encoding enc2 = Common.GetCode(v3);
+
                         enc = Encoding.Default;// Unicode; // UTF-16LE
                         byte c = v2[index++];
                         switch (c)
                         {
                             case 0x00:
                                 enc = Encoding.GetEncoding(28591); // iso-8859-1
+                                if (enc2 != null) enc = enc2;
                                 break;
 
                             case 0x01:
                                 enc = Encoding.GetEncoding("UTF-16");//.BigEndianUnicode; // UTF-16BE
+                                if (enc2 != null) enc = enc2;
                                 break;
                         }
 
@@ -142,12 +149,17 @@ namespace MDPlayerx64.Driver
 
                         if (frameID[0] == 'T')
                         {
+                            byte[] v3 = new byte[frameSize-1];
+                            Array.Copy(v2,index + 1, v3, 0, frameSize - 1);
+                            Encoding enc2 = Common.GetCode(v3);
+
                             enc = Encoding.Default;// Unicode; // UTF-16LE
                             byte c = v2[index++];
                             switch (c)
                             {
                                 case 0x00:
                                     enc = Encoding.GetEncoding(28591); // iso-8859-1
+                                    if (enc2 != null) enc = enc2;
                                     break;
 
                                 case 0x01:
@@ -155,6 +167,7 @@ namespace MDPlayerx64.Driver
                                     {
                                         enc = Encoding.BigEndianUnicode; // UTF-16BE
                                     }
+                                    else if (enc2 != null) enc = enc2;
                                     break;
                             }
 
