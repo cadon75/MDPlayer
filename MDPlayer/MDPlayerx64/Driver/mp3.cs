@@ -17,10 +17,13 @@ namespace MDPlayerx64.Driver
 {
     public class mp3 : baseDriver
     {
+
+        public System.Drawing.Image img = null;
+
         public override GD3 getGD3Info(byte[] buf, uint vgmGd3)
         {
             GD3 ret = new GD3();
-
+            img = null;
             try
             {
                 //さんこう ：
@@ -66,6 +69,18 @@ namespace MDPlayerx64.Driver
                         index += 3;
                         int frameSize = (int)((v2[index] << 16) + (v2[index + 1] << 8) + v2[index + 2]);
                         index += 3;
+
+                        if (frameID == "PIC")
+                        {
+                            byte[] pic = new byte[frameSize-6];
+                            Array.Copy(v2, index + 6, pic, 0, frameSize - 6);
+                            //byte[] pic = new byte[frameSize];
+                            //Array.Copy(v2, index, pic, 0, frameSize);
+                            index += frameSize;
+                            MemoryStream mb = new MemoryStream(pic);
+                            img = System.Drawing.Image.FromStream(mb);
+                            continue;
+                        }
 
                         byte[] v3 = new byte[frameSize - 1];
                         Array.Copy(v2, index + 1, v3, 0, frameSize - 1);
@@ -219,6 +234,7 @@ namespace MDPlayerx64.Driver
                     }
                 }
 
+                GD3.pic = img;
             }
             catch
             {

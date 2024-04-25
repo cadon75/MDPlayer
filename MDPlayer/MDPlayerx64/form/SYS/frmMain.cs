@@ -26,6 +26,7 @@ namespace MDPlayer.form
         private int pHeight = 0;
 
         private frmInfo frmInfo = null;
+        private frmPic frmPic = null;
         private frmPlayList frmPlayList = null;
         private frmVSTeffectList frmVSTeffectList = null;
 
@@ -1235,6 +1236,11 @@ namespace MDPlayer.form
             {
                 frmInfo.Close();
                 setting.location.OInfo = true;
+            }
+            if (frmPic != null && !frmPic.isClosed)
+            {
+                frmPic.Close();
+                setting.location.OPic = true;
             }
             if (frmMixer2 != null && !frmMixer2.isClosed)
             {
@@ -4456,6 +4462,22 @@ namespace MDPlayer.form
             {
                 frmInfo.x = setting.location.PInfo.X;
                 frmInfo.y = setting.location.PInfo.Y;
+            }
+
+            frmPic = new frmPic(this);
+            if (setting.location.PPic == System.Drawing.Point.Empty)
+            {
+                frmPic.x = this.Location.X + 328;
+                frmPic.y = this.Location.Y;
+                frmPic.w = 320;
+                frmPic.h = 200;
+            }
+            else
+            {
+                frmPic.x = setting.location.PPic.X;
+                frmPic.y = setting.location.PPic.Y;
+                frmPic.w = setting.location.SPic.X;
+                frmPic.h = setting.location.SPic.Y;
             }
 
             Screen s = Screen.FromControl(frmInfo);
@@ -10693,5 +10715,31 @@ namespace MDPlayer.form
             setting.other.WavSwitch = tsmiOutputwavFile.Checked;
         }
 
+        public void OpenPicWindow(Image pic)
+        {
+            if (pic == null)
+            {
+                if(frmPic!= null  && !frmPic.isClosed)
+                {
+                    frmPic.Close();
+                }
+                return;
+            }
+
+            if (frmPic == null || frmPic.isClosed)
+            {
+                frmPic = new frmPic(this);
+                frmPic.x = setting.location.PPic.X;
+                frmPic.y = setting.location.PPic.Y;
+                frmPic.w = setting.location.SPic.X;
+                frmPic.h = setting.location.SPic.Y;
+            }
+            frmPic.BackgroundImage = pic;
+            //frmPic.Size = new Size(Math.Min(pic.Size.Width, Screen.PrimaryScreen.Bounds.Width / 2),
+            //    Math.Min(pic.Size.Height, Screen.PrimaryScreen.Bounds.Height / 2));
+            frmPic.Show();
+            frmPic.TopMost = true;
+            frmPic.TopMost = false;
+        }
     }
 }

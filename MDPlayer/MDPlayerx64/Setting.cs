@@ -2757,6 +2757,56 @@ namespace MDPlayer
                 }
             }
 
+            private Point _PPic = Point.Empty;
+            public Point PPic
+            {
+                get
+                {
+                    if (_PPic.X < 0 || _PPic.Y < 0)
+                    {
+                        return new Point(0, 0);
+                    }
+                    return _PPic;
+                }
+
+                set
+                {
+                    _PPic = value;
+                }
+            }
+
+            private Point _SPic = Point.Empty;
+            public Point SPic
+            {
+                get
+                {
+                    if (_SPic.X < 0 || _SPic.Y < 0)
+                    {
+                        return new Point(0, 0);
+                    }
+                    return _SPic;
+                }
+
+                set
+                {
+                    _SPic = value;
+                }
+            }
+
+            private bool _OPic = false;
+            public bool OPic
+            {
+                get
+                {
+                    return _OPic;
+                }
+
+                set
+                {
+                    _OPic = value;
+                }
+            }
+
             private Point _PPlayList = Point.Empty;
             public Point PPlayList
             {
@@ -4087,6 +4137,9 @@ namespace MDPlayer
                     Main = this.Main.Copy(),
                     PInfo = this.PInfo,
                     OInfo = this.OInfo,
+                    PPic = this.PPic,
+                    SPic = this.SPic,
+                    OPic = this.OPic,
                     PPlayList = this.PPlayList,
                     OPlayList = this.OPlayList,
                     PPlayListWH = this.PPlayListWH,

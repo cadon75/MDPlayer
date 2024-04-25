@@ -2756,6 +2756,7 @@
         public string VGMBy = "";
         public string Version = "";
         public string UsedChips = "";
+        public System.Drawing.Image pic = null;
 
         public List<Tuple<int, int, string>> Lyrics = null;
     }
