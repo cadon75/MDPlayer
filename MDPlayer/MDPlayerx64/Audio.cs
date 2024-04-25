@@ -821,7 +821,29 @@ namespace MDPlayer
             else if (ext == ".aiff")
             {
                 music.format = EnmFileFormat.AIFF;
-                music.title = string.Format("({0})", System.IO.Path.GetFileName(file));
+                GD3 gd3 = new aiff().getGD3Info(buf, 0);
+                if (gd3 != null)
+                {
+                    music.title = gd3.TrackName;
+                    music.titleJ = gd3.TrackNameJ;
+                    music.game = gd3.GameName;
+                    music.gameJ = gd3.GameNameJ;
+                    music.composer = gd3.Composer;
+                    music.composerJ = gd3.ComposerJ;
+                    music.vgmby = gd3.VGMBy;
+
+                    music.converted = gd3.Converted;
+                    music.notes = gd3.Notes;
+                }
+                else
+                {
+                    music.title = string.Format("({0})", System.IO.Path.GetFileName(file));
+                }
+
+                if (music.title == "" && music.titleJ == "")
+                {
+                    music.title = string.Format("({0})", System.IO.Path.GetFileName(file));
+                }
             }
             else
             {
@@ -2375,10 +2397,19 @@ namespace MDPlayer
 
             if (PlayingFileFormat == EnmFileFormat.AIFF)
             {
+                try
+                {
+                    wavestreamGD3 = (new aiff()).getGD3Info(File.ReadAllBytes(naudioFileName), 0);
+                }
+                catch
+                {
+                    wavestreamGD3 = null;
+                }
+
                 naudioAiffFileReader = new AiffFileReader(naudioFileName);
                 WaveFormat format = new WaveFormat(setting.outputDevice.SampleRate, 16, 2);
                 wfcp = new WaveFormatConversionProvider(format, naudioAiffFileReader);
-
+                
                 ChipLED = new ChipLEDs();
                 vgmSpeed = 1;
                 vgmFadeout = false;
@@ -8855,9 +8886,11 @@ namespace MDPlayer
         {
             if (DriverVirtual == null)
             {
-                WaveStream ws = null;
                 if (naudioMp3FileReader != null){
-                    ws = naudioMp3FileReader;
+                    return wavestreamGD3;
+                }
+                if (naudioAiffFileReader != null)
+                {
                     return wavestreamGD3;
                 }
 
