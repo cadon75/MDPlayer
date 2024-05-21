@@ -3482,6 +3482,7 @@ namespace MDPlayer
                 //ChipLED.PriMPCM = 1;
                 lstChips.Add(mpcmc);
                 UseChip.Add(EnmChip.OKIM6258);
+                ((Driver.ZMS.ZMS) DriverVirtual).mpcm = mpcm;
 
 
                 if (hiyorimiNecessary) hiyorimiNecessary = true;

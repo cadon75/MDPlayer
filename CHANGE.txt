@@ -1,4 +1,7 @@
 更新履歴 
+STBL385 2024/05/21 2nd
+  ZMUSIC3暫定対応（MPCM追加）。
+
 STBL384 2024/05/21
   ZMUSIC3暫定対応（OPMのみ）。
    ZMC.X

@@ -18,6 +18,7 @@ namespace MDPlayer.Driver.ZMS
         private EnmFileFormat format;
         private nise68.nise68 nise68;
         int rc;
+        public MDSound.mpcmX68k mpcm;
 
         public ZMS(EnmFileFormat format)
         {
@@ -225,70 +226,70 @@ namespace MDPlayer.Driver.ZMS
 
         int MPCMCallBack(int n)
         {
-            //switch (n & 0xfff0)
-            //{
-            //    case 0x0000:
-            //        //Log.WriteLine(LogLevel.Trace2, "MPCM #M_KEY_ON(${0:X04})", n);
-            //        mpcm.KeyOn(0, n & 0xf);
-            //        break;
-            //    case 0x0100:
-            //        //Log.WriteLine(LogLevel.Trace2, "MPCM #M_KEY_OFF(${0:X04})", n);
-            //        mpcm.KeyOff(0, n & 0xf);
-            //        break;
-            //    case 0x0200:
-            //        //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PCM(${0:X04})", n);
-            //        MDSound.mpcmX68k.SETPCM ptr = new mpcmX68k.SETPCM();
-            //        ptr.adrs_buf = nise68.mem.mem;
-            //        ptr.type = nise68.mem.PeekB(0x00 + nise68.reg.GetAl(1));
-            //        ptr.orig = nise68.mem.PeekB(0x01 + nise68.reg.GetAl(1));
-            //        ptr.adrs_ptr = (int)nise68.mem.PeekL(0x04 + nise68.reg.GetAl(1));
-            //        ptr.size = nise68.mem.PeekL(0x08 + nise68.reg.GetAl(1));
-            //        ptr.start = nise68.mem.PeekL(0x0c + nise68.reg.GetAl(1));
-            //        ptr.end = nise68.mem.PeekL(0x10 + nise68.reg.GetAl(1));
-            //        ptr.count = nise68.mem.PeekL(0x14 + nise68.reg.GetAl(1));
-            //        //nise68.DumpMemory((uint)ptr.adrs_ptr, (uint)(ptr.adrs_ptr + ptr.size));
-            //        mpcm.SetPcm(0, n & 0xf, ptr);
-            //        break;
-            //    case 0x0300:
-            //        //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_FRQ(${0:X04}) D1${1:X08}", n, nise68.reg.GetDl(1));
-            //        mpcm.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
-            //        break;
-            //    case 0x0400:
-            //        //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PITCH(${0:X04}) D1${1:X04}", n, nise68.reg.GetDl(1));
-            //        mpcm.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
-            //        break;
-            //    case 0x0500:
-            //        //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_VOL(${0:X04}) = ${1:X02}", n, nise68.reg.GetDb(1));
-            //        mpcm.SetVol(0, n & 0xf, (int)nise68.reg.GetDb(1));
-            //        break;
-            //    case 0x0600:
-            //        //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PAN(${0:X04}) = ${1:X02}", n, nise68.reg.GetDb(1));
-            //        mpcm.SetPan(0, n & 0xf, (int)nise68.reg.GetDb(1));
-            //        break;
-            //    case 0x8000://
-            //        switch (n & 0x000f)
-            //        {
-            //            case 0x0:
-            //                //Log.WriteLine(LogLevel.Trace2, "MPCM #M_LOCK(${0:X04})", n);
-            //                break;
-            //            case 0x2://
-            //                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_INIT(${0:X04})", n);
-            //                mpcm.Reset(0);
-            //                break;
-            //            case 0x5://
-            //                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_VOLTBL(${0:X04})", n);
-            //                int[] vtbl = new int[128];
-            //                for (int i = 0; i < 128; i++)
-            //                {
-            //                    vtbl[i] = (int)(nise68.mem.PeekW((uint)(nise68.reg.GetAl(1) + (i * 2))));
-            //                }
-            //                mpcm.SetVolTableZms(0, (int)nise68.reg.GetDl(1), vtbl);
-            //                break;
-            //        }
-            //        break;
-            //    default:
-            //        throw new NotImplementedException();
-            //}
+            switch (n & 0xfff0)
+            {
+                case 0x0000:
+                    //Log.WriteLine(LogLevel.Trace2, "MPCM #M_KEY_ON(${0:X04})", n);
+                    mpcm.KeyOn(0, n & 0xf);
+                    break;
+                case 0x0100:
+                    //Log.WriteLine(LogLevel.Trace2, "MPCM #M_KEY_OFF(${0:X04})", n);
+                    mpcm.KeyOff(0, n & 0xf);
+                    break;
+                case 0x0200:
+                    //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PCM(${0:X04})", n);
+                    MDSound.mpcmX68k.SETPCM ptr = new mpcmX68k.SETPCM();
+                    ptr.adrs_buf = nise68.mem.mem;
+                    ptr.type = nise68.mem.PeekB(0x00 + nise68.reg.GetAl(1));
+                    ptr.orig = nise68.mem.PeekB(0x01 + nise68.reg.GetAl(1));
+                    ptr.adrs_ptr = (int)nise68.mem.PeekL(0x04 + nise68.reg.GetAl(1));
+                    ptr.size = nise68.mem.PeekL(0x08 + nise68.reg.GetAl(1));
+                    ptr.start = nise68.mem.PeekL(0x0c + nise68.reg.GetAl(1));
+                    ptr.end = nise68.mem.PeekL(0x10 + nise68.reg.GetAl(1));
+                    ptr.count = nise68.mem.PeekL(0x14 + nise68.reg.GetAl(1));
+                    //nise68.DumpMemory((uint)ptr.adrs_ptr, (uint)(ptr.adrs_ptr + ptr.size));
+                    mpcm.SetPcm(0, n & 0xf, ptr);
+                    break;
+                case 0x0300:
+                    //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_FRQ(${0:X04}) D1${1:X08}", n, nise68.reg.GetDl(1));
+                    mpcm.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
+                    break;
+                case 0x0400:
+                    //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PITCH(${0:X04}) D1${1:X04}", n, nise68.reg.GetDl(1));
+                    mpcm.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
+                    break;
+                case 0x0500:
+                    //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_VOL(${0:X04}) = ${1:X02}", n, nise68.reg.GetDb(1));
+                    mpcm.SetVol(0, n & 0xf, (int)nise68.reg.GetDb(1));
+                    break;
+                case 0x0600:
+                    //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PAN(${0:X04}) = ${1:X02}", n, nise68.reg.GetDb(1));
+                    mpcm.SetPan(0, n & 0xf, (int)nise68.reg.GetDb(1));
+                    break;
+                case 0x8000://
+                    switch (n & 0x000f)
+                    {
+                        case 0x0:
+                            //Log.WriteLine(LogLevel.Trace2, "MPCM #M_LOCK(${0:X04})", n);
+                            break;
+                        case 0x2://
+                                 //Log.WriteLine(LogLevel.Trace2, "MPCM #M_INIT(${0:X04})", n);
+                            mpcm.Reset(0);
+                            break;
+                        case 0x5://
+                                 //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_VOLTBL(${0:X04})", n);
+                            int[] vtbl = new int[128];
+                            for (int i = 0; i < 128; i++)
+                            {
+                                vtbl[i] = (int)(nise68.mem.PeekW((uint)(nise68.reg.GetAl(1) + (i * 2))));
+                            }
+                            mpcm.SetVolTableZms(0, (int)nise68.reg.GetDl(1), vtbl);
+                            break;
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
 
             return 0;
         }
