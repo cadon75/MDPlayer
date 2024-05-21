@@ -6015,6 +6015,18 @@ namespace MDPlayer.form
                 return buf;
             }
 
+            if (ext == ".zms")
+            {
+                format = EnmFileFormat.ZMS;
+                return buf;
+            }
+
+            if (ext == ".zmd")
+            {
+                format = EnmFileFormat.ZMD;
+                return buf;
+            }
+
             if (ext == ".mml")
             {
                 format = EnmFileFormat.MML;

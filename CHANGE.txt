@@ -1,4 +1,10 @@
 更新履歴 
+STBL384 2024/05/21
+  ZMUSIC3暫定対応（OPMのみ）。
+   ZMC.X
+   ZMSC3.X
+  をMDPlayerのフォルダに配置する必要があります。
+
 STBL383 2024/05/08
   MDSound差し替え
 

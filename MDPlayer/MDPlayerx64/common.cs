@@ -319,6 +319,8 @@ namespace MDPlayer
             if (filename.ToLower().LastIndexOf(".opi") != -1) return EnmFileFormat.FMP;
             if (filename.ToLower().LastIndexOf(".ovi") != -1) return EnmFileFormat.FMP;
             if (filename.ToLower().LastIndexOf(".ozi") != -1) return EnmFileFormat.FMP;
+            if (filename.ToLower().LastIndexOf(".zms") != -1) return EnmFileFormat.ZMS;
+            if (filename.ToLower().LastIndexOf(".zmd") != -1) return EnmFileFormat.ZMD;
             if (filename.ToLower().LastIndexOf(".rcp") != -1) return EnmFileFormat.RCP;
             if (filename.ToLower().LastIndexOf(".s98") != -1) return EnmFileFormat.S98;
             if (filename.ToLower().LastIndexOf(".vgm") != -1) return EnmFileFormat.VGM;
@@ -1073,7 +1075,9 @@ namespace MDPlayer
         MuSICA = 27,
         MuSICA_src = 28,
         FMP = 29,
-        XGM2 = 30
+        XGM2 = 30,
+        ZMS = 31,
+        ZMD = 32
     }
 
     public enum EnmArcType : int
