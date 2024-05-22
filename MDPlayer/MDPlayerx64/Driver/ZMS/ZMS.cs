@@ -222,8 +222,8 @@ namespace MDPlayer.Driver.ZMS
             nise68 = new nise68.nise68();
             nise68.SetMPCM(MPCMCallBack);
             nise68.SetOPM(OPMCallBack);
-            nise68.SetMIDI(MIDICallBack, (int)setting.outputDevice.SampleRate);
-            nise68.SetSCC_A(SCCCallBack, (int)setting.outputDevice.SampleRate);
+            nise68.SetMIDI(MIDICallBack, (int)Common.VGMProcSampleRate);
+            nise68.SetSCC_A(SCCCallBack, (int)Common.VGMProcSampleRate);
             nise68.Init();
 
             //コンパイル

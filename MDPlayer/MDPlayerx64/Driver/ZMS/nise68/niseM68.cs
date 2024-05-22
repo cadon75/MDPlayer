@@ -1873,9 +1873,11 @@ namespace MDPlayer.Driver.ZMS.nise68
 
         private int Cor(ushort n)
         {
+            //0x8ffc
             //if ((n & 0x0100) == 0) return Ccmp(n);
             //if ((n & 0xf138) == 0xb108)
             //return Ccmp(n);
+            if ((n & 0xf1c0) == 0x81c0) return Cdivs(n);
             if ((n & 0xf1c0) == 0x80c0) return Cdivu(n);
 
             int size = (n & 0x00c0) >> 6;
@@ -9910,6 +9912,69 @@ namespace MDPlayer.Driver.ZMS.nise68
             return cycle;
         }
 
+        private int Cdivs(UInt16 n)
+        {
+
+            string nimo = "";
+#if DEBUG
+            nimo = "DIVS.w ";
+#endif
+
+
+            int cycle = 0;
+
+            int dr = (n & 0x0e00) >> 9;
+            //int dm = (n & 0x01c0) >> 6;
+            int sm = (n & 0x0038) >> 3;
+            int sr = (n & 0x0007);
+
+            //src
+            Int32 sval = (Int32)(Int16)srcAddressingWord(ref nimo, ref cycle, sm, sr);
+
+#if DEBUG
+            nimo += ",";
+#endif
+
+
+            //dst
+            Int32 dval = (Int32)reg.D[dr];
+
+            //check TBD
+            if (sval == 0)
+            {
+                //TRAP
+            }
+            //compute
+            Int32 ans = dval / sval;
+            Int32 mod = dval % sval;
+            if (ans > 32767 || ans < -32768)
+            {
+                reg.V = true;
+                return cy.Divs_w[cycle];
+            }
+
+            reg.D[dr] = (UInt32)((ans & 0xffff) | ((mod & 0xffff) * 0x10000));
+
+#if DEBUG
+            nimo += string.Format("D{0}", dr);
+#endif
+
+            cycle = cy.Divs_w[cycle];
+
+            //flag
+            //reg.X -
+            reg.N = (ans & 0x8000) != 0;
+            reg.Z = ans == 0;
+            reg.V = false;
+            reg.C = false;
+
+#if DEBUG
+            Log.WriteLine(LogLevel.Trace, nimo);
+#endif
+
+            return cycle;
+        }
+
         private int Cdivu(UInt16 n)
         {
 
@@ -9945,13 +10010,10 @@ namespace MDPlayer.Driver.ZMS.nise68
             //compute
             UInt32 ans = dval / sval;
             UInt32 mod = dval % sval;
-            if (ans != (ans & 0xffff))
+            if (ans > 0xffff)
             {
-                ;
-            }
-            if (mod != (mod & 0xffff))
-            {
-                ;
+                reg.V = true;
+                return cy.Divs_w[cycle];
             }
 
             reg.D[dr] = (UInt32)((ans & 0xffff) | ((mod & 0xffff) * 0x10000));
@@ -11285,7 +11347,35 @@ namespace MDPlayer.Driver.ZMS.nise68
 
         private int Casl_l_DnDn(ushort n)
         {
-            throw new NotImplementedException();
+#if DEBUG
+            string nimo;
+#endif
+
+            int cycle = 8;
+            int sr = (n & 0x0e00) >> 9;
+            int dr = (n & 0x0007);
+            int cnt = (int)(reg.GetDl(sr) % 64);
+
+#if DEBUG
+            nimo = string.Format("ASL.l D{0},D{1}", sr, dr);
+#endif
+
+            cycle += 2 * cnt;
+
+            int bv = (int)reg.GetDl(dr);
+            int av = bv << cnt;
+            reg.SetDl(dr, (uint)av);
+
+            reg.C = reg.X = ((bv & (0x8000_0000 >> (cnt - 1))) != 0);
+            reg.SetN((uint)av);
+            reg.SetZ((uint)av);
+            reg.V = false;
+
+#if DEBUG
+            Log.WriteLine(LogLevel.Trace, nimo);
+#endif
+
+            return cycle;
         }
 
         private int Casl_l_imm(ushort n)
