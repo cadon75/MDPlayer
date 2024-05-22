@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static MDSound.fm._ssg_callbacks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MDPlayer.Driver.ZMS
 {
@@ -29,7 +30,80 @@ namespace MDPlayer.Driver.ZMS
 
         public override GD3 getGD3Info(byte[] buf, uint vgmGd3)
         {
+            if(format== EnmFileFormat.ZMS)
+            {
+                return getGD3InfoZMS(buf);
+            }
+            if (format == EnmFileFormat.ZMD)
+            {
+                return getGD3InfoZMD(buf);
+            }
             return new GD3();
+        }
+
+        private GD3 getGD3InfoZMS(byte[] buf)
+        {
+            string text = System.Text.Encoding.GetEncoding("shift_jis").GetString(buf);
+            string[] texts = text.Split("\r\n");
+            string cmt = "";
+            string comment = ".COMMENT";
+            foreach(string s in texts)
+            {
+                if (s.ToUpper().Trim().IndexOf(comment) < 0) continue;
+                cmt = s.Trim().Substring(s.ToUpper().Trim().IndexOf(comment) + comment.Length).Trim();
+                break;
+            }
+            GD3 gd3=new GD3();
+            if(!string.IsNullOrEmpty(cmt))
+            {
+                gd3.TrackName = cmt;
+                gd3.TrackNameJ = cmt;
+            }
+            return gd3;
+        }
+
+        private GD3 getGD3InfoZMD(byte[] buf)
+        {
+            GD3 gd3 = new GD3();
+            if (buf.Length < 8)
+            {
+                throw new Exception("Unknown zmd file");
+            }
+            else
+            {
+                int chkID1 = buf[0] * 0x100_0000 + buf[1] * 0x1_0000 + buf[2] * 0x100 + buf[3] * 0x1;
+                int chkID2 = buf[4] * 0x100_0000 + buf[5] * 0x1_0000 + buf[6] * 0x100 + buf[7] * 0x1;
+                if (chkID1 != 0x1a5a_6d75 || chkID2 != 0x53694330)
+                {
+                    throw new Exception("Version check error");
+                }
+            }
+
+            string cmt = "";
+            try
+            {
+                int ptr = buf[9 * 4 + 0] * 0x100_0000 + buf[9 * 4 + 1] * 0x1_0000
+                    + buf[9 * 4 + 2] * 0x100 + buf[9 * 4 + 3] * 0x1 + 40;
+                int ePtr = ptr;
+                while (buf[ePtr] != 0x00)
+                {
+                    if (buf[ePtr] == 0x0d && buf[ePtr + 1] == 0x0a) break;
+                    ePtr++;
+                }
+
+                cmt = System.Text.Encoding.GetEncoding("shift_jis").GetString(buf, ptr, ePtr - ptr);
+            }
+            catch
+            {
+                ;//何もしない
+            }
+
+            if (!string.IsNullOrEmpty(cmt))
+            {
+                gd3.TrackName = cmt;
+                gd3.TrackNameJ = cmt;
+            }
+            return gd3;
         }
 
         public override bool init(byte[] vgmBuf, ChipRegister chipRegister, EnmModel model, EnmChip[] useChip, uint latency, uint waitTime)

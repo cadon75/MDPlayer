@@ -411,6 +411,12 @@ namespace MDPlayer
                 case EnmFileFormat.FMP:
                     AddFileFMP(ref index, mc, entry);
                     break;
+                case EnmFileFormat.ZMS:
+                    AddFileZMS(ref index, mc, entry);
+                    break;
+                case EnmFileFormat.ZMD:
+                    AddFileZMD(ref index, mc, entry);
+                    break;
                 case EnmFileFormat.RCP:
                     AddFileRCP(ref index, mc, entry);
                     break;
@@ -774,9 +780,19 @@ namespace MDPlayer
             AddFilexxx(mc, entry);
         }
 
+        private void AddFileZMS(ref int index, Music mc, object entry = null)
+        {
+            AddFilexxx(ref index, mc, entry);
+        }
+
         private void AddFileZMD(Music mc, object entry = null)
         {
             AddFilexxx(mc, entry);
+        }
+
+        private void AddFileZMD(ref int index, Music mc, object entry = null)
+        {
+            AddFilexxx(ref index, mc, entry);
         }
 
         //private void AddFileMGS(Music mc, object entry = null)

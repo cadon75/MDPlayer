@@ -1,4 +1,7 @@
 更新履歴 
+STBL386 2024/05/22
+  ZMUSIC3:PlayListへのD&D対応。ZMS/ZMDからタイトル情報取得。
+
 STBL385 2024/05/21 2nd
   ZMUSIC3暫定対応（MPCM追加）。
 
