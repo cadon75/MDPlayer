@@ -3494,6 +3494,9 @@ namespace MDPlayer
                     mds.Init((UInt32)setting.outputDevice.SampleRate, samplingBuffer, lstChips.ToArray());
 
                 chipRegister.initChipRegister(lstChips.ToArray());
+                ReleaseAllMIDIout();
+                MakeMIDIout(setting, MidiMode);
+                chipRegister.setMIDIout(setting.midiOut.lstMidiOutInfo[MidiMode], midiOuts, midiOutsType);
 
                 if (UseChip.Contains(EnmChip.YM2151))
                     chipRegister.writeYM2151Clock(0, 4000000, EnmModel.RealModel);
@@ -3506,6 +3509,8 @@ namespace MDPlayer
                     , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
                 if (DriverReal != null)
                 {
+                    //virtualのコンパイル結果をセット
+                    ((Driver.ZMS.ZMS)DriverReal).compiledData = ((Driver.ZMS.ZMS)DriverVirtual).compiledData;
                     if (!DriverReal.init(vgmBuf, chipRegister, EnmModel.RealModel, new EnmChip[] { EnmChip.YM2151, EnmChip.OKIM6258 }
                         , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
                         , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;

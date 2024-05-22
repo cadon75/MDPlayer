@@ -20,6 +20,7 @@ namespace MDPlayer.Driver.ZMS
         private nise68.nise68 nise68;
         int rc;
         public MDSound.mpcmX68k mpcm;
+        private int checkCounter = 0;
 
         public ZMS(EnmFileFormat format)
         {
@@ -27,6 +28,7 @@ namespace MDPlayer.Driver.ZMS
         }
 
         public string PlayingFileName { get; internal set; }
+        public byte[] compiledData { get; set; }
 
         public override GD3 getGD3Info(byte[] buf, uint vgmGd3)
         {
@@ -134,7 +136,6 @@ namespace MDPlayer.Driver.ZMS
 
         public override void oneFrameProc()
         {
-            if (model == EnmModel.RealModel) { return; }
             try
             {
                 vgmSpeedCounter += (double)Common.VGMProcSampleRate / setting.outputDevice.SampleRate * vgmSpeed;
@@ -160,6 +161,27 @@ namespace MDPlayer.Driver.ZMS
                     vgmFrameCounter++;
 
                 }
+
+                checkCounter--;
+                if (checkCounter < 0)
+                {
+                    checkCounter = 100;
+                    //演奏中か確認
+                    nise68.reg.SetDl(0, 0x0b);//ZM_PLAY_STATUS
+                    nise68.reg.SetDl(1, 0);//チェックモード(0:全チャンネル検査)
+                    nise68.reg.SetAl(1, 0);//検査結果格納バッファアドレス(0にすると検査結果を簡略して返す)
+                    nise68.Trap(3 + 32);
+                    uint d0 = nise68.reg.GetDl(0);
+                    if (d0 == 0)
+                        Stopped = true;
+
+                    //ループ回数チェック
+                    nise68.reg.SetDl(0, 0x59);//ZM_LOOP_CONTROL
+                    nise68.reg.SetDl(1, 0xffff_ffff);//コントロールモード(-1 = ループ回数取得)
+                    nise68.Trap(3 + 32);
+                    d0 = nise68.reg.GetDl(0);
+                    vgmCurLoop = d0 - 1;
+                }
                 //vgmCurLoop = mm.ReadUInt16(reg.a6 + dw.LOOP_COUNTER);
             }
             catch (Exception ex)
@@ -171,7 +193,7 @@ namespace MDPlayer.Driver.ZMS
 
         private void Run(byte[] vgmBuf)
         {
-            if (model == EnmModel.RealModel) { return; }
+            //if (model == EnmModel.RealModel) { return; }
             string fn = PlayingFileName;
             string withoutExtFn;
             string? dn = Path.GetDirectoryName(fn);
@@ -207,10 +229,20 @@ namespace MDPlayer.Driver.ZMS
             //コンパイル
             if (format== EnmFileFormat.ZMS)
             {
-                nise68.hmn.fb.Add(fnZMS, vgmBuf);
-                if ((rc = nise68.LoadRun(zmc, Path.GetFileName(fnZMS), Path.GetDirectoryName(fnZMS), 0x00012000
-                , true, true, true
-                )) != 0) throw new Exception("Compile Error");
+                if (model == EnmModel.RealModel && compiledData != null)
+                {
+                    //realはvirtualのコンパイル結果をもらう
+                    nise68.hmn.fb.Add(fnZMS, vgmBuf);
+                    nise68.hmn.fb.Add(fnZMD, compiledData);
+                }
+                else
+                {
+                    nise68.hmn.fb.Add(fnZMS, vgmBuf);
+                    if ((rc = nise68.LoadRun(zmc, Path.GetFileName(fnZMS), Path.GetDirectoryName(fnZMS), 0x00012000
+                    , true, true, true
+                    )) != 0) throw new Exception("Compile Error");
+                    compiledData = nise68.hmn.fb[fnZMD];
+                }
             }
 
             //zmsc3常駐
@@ -304,11 +336,11 @@ namespace MDPlayer.Driver.ZMS
             {
                 case 0x0000:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_KEY_ON(${0:X04})", n);
-                    mpcm.KeyOn(0, n & 0xf);
+                    mpcm?.KeyOn(0, n & 0xf);
                     break;
                 case 0x0100:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_KEY_OFF(${0:X04})", n);
-                    mpcm.KeyOff(0, n & 0xf);
+                    mpcm?.KeyOff(0, n & 0xf);
                     break;
                 case 0x0200:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PCM(${0:X04})", n);
@@ -322,23 +354,23 @@ namespace MDPlayer.Driver.ZMS
                     ptr.end = nise68.mem.PeekL(0x10 + nise68.reg.GetAl(1));
                     ptr.count = nise68.mem.PeekL(0x14 + nise68.reg.GetAl(1));
                     //nise68.DumpMemory((uint)ptr.adrs_ptr, (uint)(ptr.adrs_ptr + ptr.size));
-                    mpcm.SetPcm(0, n & 0xf, ptr);
+                    mpcm?.SetPcm(0, n & 0xf, ptr);
                     break;
                 case 0x0300:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_FRQ(${0:X04}) D1${1:X08}", n, nise68.reg.GetDl(1));
-                    mpcm.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
+                    mpcm?.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
                     break;
                 case 0x0400:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PITCH(${0:X04}) D1${1:X04}", n, nise68.reg.GetDl(1));
-                    mpcm.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
+                    mpcm?.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
                     break;
                 case 0x0500:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_VOL(${0:X04}) = ${1:X02}", n, nise68.reg.GetDb(1));
-                    mpcm.SetVol(0, n & 0xf, (int)nise68.reg.GetDb(1));
+                    mpcm?.SetVol(0, n & 0xf, (int)nise68.reg.GetDb(1));
                     break;
                 case 0x0600:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PAN(${0:X04}) = ${1:X02}", n, nise68.reg.GetDb(1));
-                    mpcm.SetPan(0, n & 0xf, (int)nise68.reg.GetDb(1));
+                    mpcm?.SetPan(0, n & 0xf, (int)nise68.reg.GetDb(1));
                     break;
                 case 0x8000://
                     switch (n & 0x000f)
@@ -348,7 +380,7 @@ namespace MDPlayer.Driver.ZMS
                             break;
                         case 0x2://
                                  //Log.WriteLine(LogLevel.Trace2, "MPCM #M_INIT(${0:X04})", n);
-                            mpcm.Reset(0);
+                            mpcm?.Reset(0);
                             break;
                         case 0x5://
                                  //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_VOLTBL(${0:X04})", n);
@@ -357,7 +389,7 @@ namespace MDPlayer.Driver.ZMS
                             {
                                 vtbl[i] = (int)(nise68.mem.PeekW((uint)(nise68.reg.GetAl(1) + (i * 2))));
                             }
-                            mpcm.SetVolTableZms(0, (int)nise68.reg.GetDl(1), vtbl);
+                            mpcm?.SetVolTableZms(0, (int)nise68.reg.GetDl(1), vtbl);
                             break;
                     }
                     break;
@@ -381,6 +413,7 @@ namespace MDPlayer.Driver.ZMS
 
             //midiOutsBuff[n].Add(dat);
             //midiOutsFrame[n].Add(virtualFrameCounter);
+            chipRegister.sendMIDIout(model,n,new byte[] { dat });
             return 0;
         }
 
@@ -391,6 +424,7 @@ namespace MDPlayer.Driver.ZMS
 
             //midiOutsBuff[2 + n].Add(dat);
             //midiOutsFrame[2 + n].Add(virtualFrameCounter);
+            chipRegister.sendMIDIout(model, 2+n, new byte[] { dat });
             return 0;
         }
 
