@@ -33,6 +33,20 @@ copy /Y .\..\README_AST.md                .\output
 copy /Y .\..\README_AST_EN.md             .\output
 cd
 
+del /Q .\output\2608_bd.wav
+del /Q .\output\2608_hh.wav
+del /Q .\output\2608_rim.wav
+del /Q .\output\2608_sd.wav
+del /Q .\output\2608_tom.wav
+del /Q .\output\2608_top.wav
+del /Q .\output\FMC.EXE
+del /Q .\output\FMP.COM
+del /Q .\output\PPZ8.COM
+del /Q .\output\KINROU4.COM
+del /Q .\output\KINROU5.DRV
+del /Q .\output\ZMC.X
+del /Q .\output\ZMSC3.X
+
 del /Q .\output\*.pdb
 rem del /Q .\output\*.config
 del /Q .\output\*.bat
