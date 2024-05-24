@@ -218,7 +218,7 @@ namespace MDPlayer.Driver.ZMS
             if (!string.IsNullOrEmpty(dn)) withoutExtFn = Path.Combine(dn, Path.GetFileNameWithoutExtension(fn));
             else withoutExtFn = Path.GetFileNameWithoutExtension(fn);
             string fnZMD = withoutExtFn + ".ZMD";
-            string crntDir = Environment.CurrentDirectory;
+            string crntDir = Path.GetDirectoryName(Application.ExecutablePath);
             string zmsc3 = Path.Combine(crntDir, "ZMSC3.X");
             if (!File.Exists(zmsc3))
             {

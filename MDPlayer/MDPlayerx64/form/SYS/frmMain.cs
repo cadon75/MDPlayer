@@ -5589,7 +5589,6 @@ namespace MDPlayer.form
                         return;
                     }
                 }
-                log.ForcedWrite("4");
 
                 for (int chipID = 0; chipID < 2; chipID++)
                 {
