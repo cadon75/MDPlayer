@@ -474,7 +474,7 @@
         }
         public YMF278B[] ymf278b = new YMF278B[] { new YMF278B(), new YMF278B() };
 
-        public MIDIParam[] midi = new MIDIParam[] { new MIDIParam(), new MIDIParam() };
+        public MIDIParam[] midi = new MIDIParam[] { new MIDIParam(), new MIDIParam(), new MIDIParam(), new MIDIParam() };
 
         public class NESDMC
         {

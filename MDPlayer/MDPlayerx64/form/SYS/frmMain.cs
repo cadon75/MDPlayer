@@ -62,7 +62,7 @@ namespace MDPlayer.form
         private frmYMF262[] frmYMF262 = new frmYMF262[2] { null, null };
         private frmYMF271[] frmYMF271 = new frmYMF271[2] { null, null };
         private frmYMF278B[] frmYMF278B = new frmYMF278B[2] { null, null };
-        private frmMIDI[] frmMIDI = new frmMIDI[2] { null, null };
+        private frmMIDI[] frmMIDI = new frmMIDI[4] { null, null, null, null };
         private frmYM2612MIDI frmYM2612MIDI = null;
         private frmMixer2 frmMixer2 = null;
         private frmNESDMC[] frmNESDMC = new frmNESDMC[2] { null, null };
@@ -3941,7 +3941,7 @@ namespace MDPlayer.form
 
             frmMIDI[chipID].Show();
             frmMIDI[chipID].update();
-            frmMIDI[chipID].Text = string.Format("MIDI ({0})", chipID == 0 ? "Primary" : "Secondary");
+            frmMIDI[chipID].Text = string.Format("MIDI ({0})", chipID == 0 ? "Primary" : (chipID==1?"Secondary" : (chipID == 2 ? "3rd":"4th")));
             oldParam.midi[chipID] = new MIDIParam();
 
             CheckAndSetForm(frmMIDI[chipID]);
@@ -5319,6 +5319,9 @@ namespace MDPlayer.form
                 if (frmMIDI[chipID] != null && !frmMIDI[chipID].isClosed) { frmMIDI[chipID].screenDrawParams(); frmMIDI[chipID].update(); }
                 else frmMIDI[chipID] = null;
 
+                if (frmMIDI[chipID+2] != null && !frmMIDI[chipID + 2].isClosed) { frmMIDI[chipID + 2].screenDrawParams(); frmMIDI[chipID + 2].update(); }
+                else frmMIDI[chipID + 2] = null;
+
                 if (frmNESDMC[chipID] != null && !frmNESDMC[chipID].isClosed) { frmNESDMC[chipID].screenDrawParams(); frmNESDMC[chipID].update(); }
                 else frmNESDMC[chipID] = null;
 
@@ -5708,7 +5711,15 @@ namespace MDPlayer.form
                     if (Audio.ChipLED.SecK051649 != 0) OpenFormK051649(1, true); else CloseFormK051649(1);
 
                     if (Audio.ChipLED.PriMID != 0) OpenFormMIDI(0, true); else CloseFormMIDI(0);
-                    //if (Audio.chipLED.SecMID != 0) OpenFormMIDI(1, true); else CloseFormMIDI(1);
+                    if (Audio.ChipLED.SecMID != 0 &&
+                        (Audio.PlayingFileFormat == EnmFileFormat.ZMS || Audio.PlayingFileFormat == EnmFileFormat.ZMD)) OpenFormMIDI(1, true);
+                    else CloseFormMIDI(1);
+                    if (Audio.ChipLED.TrdMID != 0 &&
+                        (Audio.PlayingFileFormat == EnmFileFormat.ZMS || Audio.PlayingFileFormat == EnmFileFormat.ZMD)) OpenFormMIDI(2, true);
+                    else CloseFormMIDI(2);
+                    if (Audio.ChipLED.ForMID != 0 &&
+                        (Audio.PlayingFileFormat == EnmFileFormat.ZMS || Audio.PlayingFileFormat == EnmFileFormat.ZMD)) OpenFormMIDI(3, true);
+                    else CloseFormMIDI(3);
 
                     if (Audio.ChipLED.PriNES != 0 || Audio.ChipLED.PriDMC != 0) OpenFormNESDMC(0, true); else CloseFormNESDMC(0);
                     if (Audio.ChipLED.SecNES != 0 || Audio.ChipLED.SecDMC != 0) OpenFormNESDMC(1, true); else CloseFormNESDMC(1);

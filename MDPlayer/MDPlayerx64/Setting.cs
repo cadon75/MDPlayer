@@ -2,6 +2,7 @@
 using System.Xml.Serialization;
 #if X64
 using MDPlayerx64.Properties;
+using Microsoft.VisualBasic;
 #else
 using MDPlayer.Properties;
 #endif
@@ -3511,7 +3512,7 @@ namespace MDPlayer
                 }
             }
 
-            private Point[] _PosMIDI = new Point[2] { Point.Empty, Point.Empty };
+            private Point[] _PosMIDI = new Point[4] { Point.Empty, Point.Empty, Point.Empty, Point.Empty };
             public Point[] PosMIDI
             {
                 get
@@ -3525,7 +3526,7 @@ namespace MDPlayer
                 }
             }
 
-            private bool[] _OpenMIDI = new bool[2] { false, false };
+            private bool[] _OpenMIDI = new bool[4] { false, false, false, false };
             public bool[] OpenMIDI
             {
                 get
@@ -4223,6 +4224,14 @@ namespace MDPlayer
                     ChipSelect = this.ChipSelect
                 };
 
+                if (PosMIDI.Length < 3)
+                {
+                    PosMIDI = new Point[4] { PosMIDI[0], PosMIDI[1], Point.Empty, Point.Empty };
+                }
+                if (OpenMIDI.Length < 3)
+                {
+                    OpenMIDI = new bool[4] { OpenMIDI[0], OpenMIDI[1], false,false };
+                }
                 return Location;
             }
         }
@@ -5819,7 +5828,22 @@ namespace MDPlayer
                 if (!File.Exists(fullPath)) { return new Setting(); }
                 XmlSerializer serializer = new(typeof(Setting), typeof(Setting).GetNestedTypes());
                 using StreamReader sr = new(fullPath, new UTF8Encoding(false));
-                return (Setting)serializer.Deserialize(sr);
+
+                Setting sett= (Setting)serializer.Deserialize(sr); 
+
+                ////調整処理
+
+                //MIDI鍵盤用配列拡張
+                if (sett.location.PosMIDI.Length < 3)
+                {
+                    sett.location.PosMIDI = new Point[4] { sett.location.PosMIDI[0], sett.location.PosMIDI[1], Point.Empty, Point.Empty };
+                }
+                if (sett.location.OpenMIDI.Length < 3)
+                {
+                    sett.location.OpenMIDI = new bool[4] { sett.location.OpenMIDI[0], sett.location.OpenMIDI[1], false, false };
+                }
+
+                return sett;
             }
             catch (Exception ex)
             {

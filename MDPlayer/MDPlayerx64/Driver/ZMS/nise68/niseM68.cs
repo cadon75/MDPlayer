@@ -11273,7 +11273,36 @@ namespace MDPlayer.Driver.ZMS.nise68
 
         private int Casl_b_DnDn(ushort n)
         {
-            throw new NotImplementedException();
+#if DEBUG
+            string nimo;
+#endif
+
+            int cycle = 6;
+            int sr = (n & 0x0e00) >> 9;
+            int dr = (n & 0x0007);
+            int cnt = (int)(reg.GetDl(sr) % 64);
+
+#if DEBUG
+            nimo = string.Format("ASL.b D{0},D{1}", sr, dr);
+#endif
+
+            cycle += 2 * cnt;
+
+            sbyte bv = (sbyte)reg.GetDb(dr);
+            sbyte av = (sbyte)(bv << cnt);
+            reg.SetDb(dr, (byte)av);
+
+            reg.C = ((bv & (0x80 >> (cnt - 1))) != 0);
+            if (cnt != 0) reg.X = reg.C;
+            reg.SetN((byte)av);
+            reg.SetZ((byte)av);
+            reg.V = (bv & (0xff << cnt)) != 0;
+
+#if DEBUG
+            Log.WriteLine(LogLevel.Trace, nimo);
+#endif
+
+            return cycle;
         }
 
         private int Casl_b_imm(ushort n)
@@ -11299,7 +11328,7 @@ namespace MDPlayer.Driver.ZMS.nise68
             reg.C = reg.X = ((bv & (0x80 >> (cnt - 1))) != 0);
             reg.SetN((byte)av);
             reg.SetZ((byte)av);
-            reg.V = false;
+            reg.V = (bv & (0xff << cnt)) != 0;
 
 #if DEBUG
             Log.WriteLine(LogLevel.Trace, nimo);
@@ -11310,7 +11339,36 @@ namespace MDPlayer.Driver.ZMS.nise68
 
         private int Casl_w_DnDn(ushort n)
         {
-            throw new NotImplementedException();
+#if DEBUG
+            string nimo;
+#endif
+
+            int cycle = 6;
+            int sr = (n & 0x0e00) >> 9;
+            int dr = (n & 0x0007);
+            int cnt = (int)(reg.GetDl(sr) % 64);
+
+#if DEBUG
+            nimo = string.Format("ASL.w D{0},D{1}", sr, dr);
+#endif
+
+            cycle += 2 * cnt;
+
+            short bv = (short)reg.GetDw(dr);
+            short av = (short)(bv << cnt);
+            reg.SetDw(dr, (ushort)av);
+
+            reg.C = ((bv & (0x8000 >> (cnt - 1))) != 0);
+            if (cnt != 0) reg.X = reg.C;
+            reg.SetN((ushort)av);
+            reg.SetZ((ushort)av);
+            reg.V = (bv & (0xffff << cnt)) != 0;
+
+#if DEBUG
+            Log.WriteLine(LogLevel.Trace, nimo);
+#endif
+
+            return cycle;
         }
 
         private int Casl_w_imm(ushort n)
@@ -11336,7 +11394,7 @@ namespace MDPlayer.Driver.ZMS.nise68
             reg.C = reg.X = ((bv & (0x8000 >> (cnt - 1))) != 0);
             reg.SetN((ushort)av);
             reg.SetZ((ushort)av);
-            reg.V = false;
+            reg.V = (bv & (0xffff << cnt)) != 0;
 
 #if DEBUG
             Log.WriteLine(LogLevel.Trace, nimo);
@@ -11366,10 +11424,11 @@ namespace MDPlayer.Driver.ZMS.nise68
             int av = bv << cnt;
             reg.SetDl(dr, (uint)av);
 
-            reg.C = reg.X = ((bv & (0x8000_0000 >> (cnt - 1))) != 0);
+            reg.C = ((bv & (0x8000_0000 >> (cnt - 1))) != 0);
+            if (cnt != 0) reg.X = reg.C;
             reg.SetN((uint)av);
             reg.SetZ((uint)av);
-            reg.V = false;
+            reg.V = (bv & (0xffff_ffff << cnt)) != 0;
 
 #if DEBUG
             Log.WriteLine(LogLevel.Trace, nimo);
@@ -11401,7 +11460,7 @@ namespace MDPlayer.Driver.ZMS.nise68
             reg.C = reg.X = ((bv & (0x8000_0000 >> (cnt - 1))) != 0);
             reg.SetN((uint)av);
             reg.SetZ((uint)av);
-            reg.V = false;
+            reg.V = (bv & (0xffff_ffff << cnt)) != 0;
 
 #if DEBUG
             Log.WriteLine(LogLevel.Trace, nimo);
@@ -11417,7 +11476,34 @@ namespace MDPlayer.Driver.ZMS.nise68
 
         private int Casr_b_DnDn(ushort n)
         {
-            throw new NotImplementedException();
+#if DEBUG
+            string nimo;
+#endif
+
+            int cycle = 6;
+            int sr = (n & 0x0e00) >> 9;
+            int dr = (n & 0x0007);
+            int cnt = (int)(reg.GetDl(sr) % 64);
+#if DEBUG
+            nimo = string.Format("ASR.b D{0},D{1}", sr, dr);
+#endif
+
+            cycle += 2 * cnt;
+            sbyte bv = (sbyte)reg.GetDb(dr);//算術シフトは符号有りの型でシフトを行う
+            sbyte av = (sbyte)(bv >> cnt);
+            reg.SetDb(dr, (byte)av);
+
+            reg.C = ((bv & (0x01 << (cnt - 1))) != 0);
+            if (cnt != 0) reg.X = reg.C;
+            reg.SetN((byte)av);
+            reg.SetZ((byte)av);
+            reg.V = false;
+
+#if DEBUG
+            Log.WriteLine(LogLevel.Trace, nimo);
+#endif
+
+            return cycle;
         }
 
         private int Casr_b_imm(ushort n)
@@ -11454,7 +11540,34 @@ namespace MDPlayer.Driver.ZMS.nise68
 
         private int Casr_w_DnDn(ushort n)
         {
-            throw new NotImplementedException();
+#if DEBUG
+            string nimo;
+#endif
+
+            int cycle = 6;
+            int sr = (n & 0x0e00) >> 9;
+            int dr = (n & 0x0007);
+            int cnt = (int)(reg.GetDl(sr) % 64);
+#if DEBUG
+            nimo = string.Format("ASR.w D{0},D{1}", sr, dr);
+#endif
+
+            cycle += 2 * cnt;
+            short bv = (short)reg.GetDw(dr);//算術シフトは符号有りの型でシフトを行う
+            short av = (short)(bv >> cnt);
+            reg.SetDw(dr, (ushort)av);
+
+            reg.C = ((bv & (0x0001 << (cnt - 1))) != 0);
+            if (cnt != 0) reg.X = reg.C;
+            reg.SetN((ushort)av);
+            reg.SetZ((ushort)av);
+            reg.V = false;
+
+#if DEBUG
+            Log.WriteLine(LogLevel.Trace, nimo);
+#endif
+
+            return cycle;
         }
 
         private int Casr_w_imm(ushort n)
@@ -11491,7 +11604,34 @@ namespace MDPlayer.Driver.ZMS.nise68
 
         private int Casr_l_DnDn(ushort n)
         {
-            throw new NotImplementedException();
+#if DEBUG
+            string nimo;
+#endif
+
+            int cycle = 8;
+            int sr = (n & 0x0e00) >> 9;
+            int dr = (n & 0x0007);
+            int cnt = (int)(reg.GetDl(sr) % 64);
+#if DEBUG
+            nimo = string.Format("ASR.l D{0},D{1}", sr, dr);
+#endif
+
+            cycle += 2 * cnt;
+            Int32 bv = (Int32)reg.GetDl(dr);//算術シフトは符号有りの型でシフトを行う
+            Int32 av = (Int32)(bv >> cnt);
+            reg.SetDl(dr, (UInt32)av);
+
+            reg.C = ((bv & (0x0000_0001 << (cnt - 1))) != 0);
+            if (cnt != 0) reg.X = reg.C;
+            reg.SetN((UInt32)av);
+            reg.SetZ((UInt32)av);
+            reg.V = false;
+
+#if DEBUG
+            Log.WriteLine(LogLevel.Trace, nimo);
+#endif
+
+            return cycle;
         }
 
         private int Casr_l_imm(ushort n)

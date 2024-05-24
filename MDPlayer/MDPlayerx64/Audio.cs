@@ -183,7 +183,7 @@ namespace MDPlayer
         private static int MidiMode = 0;
         private static int SongNo = 0;
         private static List<Tuple<string, byte[]>> ExtendFile = null;
-        private static EnmFileFormat PlayingFileFormat;
+        public static EnmFileFormat PlayingFileFormat;
 
         private static readonly Stopwatch stwh = Stopwatch.StartNew();
         public static int ProcTimePer1Frame { get; set; } = 0;
@@ -3504,13 +3504,33 @@ namespace MDPlayer
                 DriverVirtual.SetYM2151Hosei(4000000);
                 DriverReal?.SetYM2151Hosei(4000000);
 
+
+                //ZMSの場合は事前にコンパイルを実施
+                if (fm == EnmFileFormat.ZMS)
+                {
+                    ((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf);
+                    vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                }
+
+                //使用音源構成をZMDからチェック
+                bool useFM = vgmBuf[0x48] != 0;
+                bool useMPCM = vgmBuf[0x49] != 0;
+                bool useMIDI1 = vgmBuf[0x4a] != 0;
+                bool useMIDI2 = vgmBuf[0x4b] != 0;
+                bool useMIDI3 = vgmBuf[0x4c] != 0;
+                bool useMIDI4 = vgmBuf[0x4d] != 0;
+                ChipLED.PriOPM = (byte)(useFM ? 1 : 0);
+                ChipLED.PriMID = (byte)(useMIDI1 ? 1 : 0);
+                ChipLED.SecMID = (byte)(useMIDI2 ? 1 : 0);
+                ChipLED.TrdMID = (byte)(useMIDI3 ? 1 : 0);
+                ChipLED.ForMID = (byte)(useMIDI4 ? 1 : 0);
+
+
                 if (!DriverVirtual.init(vgmBuf, chipRegister, EnmModel.VirtualModel, new EnmChip[] { EnmChip.YM2151,EnmChip.OKIM6258 }
                     , (uint)(setting.outputDevice.SampleRate * setting.LatencyEmulation / 1000)
                     , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
                 if (DriverReal != null)
                 {
-                    //virtualのコンパイル結果をセット
-                    ((Driver.ZMS.ZMS)DriverReal).compiledData = ((Driver.ZMS.ZMS)DriverVirtual).compiledData;
                     if (!DriverReal.init(vgmBuf, chipRegister, EnmModel.RealModel, new EnmChip[] { EnmChip.YM2151, EnmChip.OKIM6258 }
                         , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
                         , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;

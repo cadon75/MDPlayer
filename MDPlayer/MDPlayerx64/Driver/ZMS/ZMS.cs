@@ -1,49 +1,32 @@
-﻿using MDPlayer;
-using MDPlayer.Driver.FMP.Nise98;
-using MDPlayer.Driver.MNDRV;
-using MDPlayer.Driver.ZMS.nise68;
+﻿using MDPlayer.Driver.ZMS.nise68;
 using MDSound;
-using NiseC86ctl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static MDSound.fm._ssg_callbacks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MDPlayer.Driver.ZMS
 {
-    public class ZMS : baseDriver
+    public class ZMS(EnmFileFormat format) : baseDriver
     {
-        private EnmFileFormat format;
+        private readonly EnmFileFormat format = format;
         private nise68.nise68 nise68;
-        int rc;
-        public MDSound.mpcmX68k mpcm;
+        public mpcmX68k mpcm;
         private int checkCounter = 0;
 
-        public ZMS(EnmFileFormat format)
-        {
-            this.format = format;
-        }
-
         public string PlayingFileName { get; internal set; }
-        public byte[] compiledData { get; set; }
+        public byte[] CompiledData { get; set; }
 
         public override GD3 getGD3Info(byte[] buf, uint vgmGd3)
         {
             if(format== EnmFileFormat.ZMS)
             {
-                return getGD3InfoZMS(buf);
+                return GetGD3InfoZMS(buf);
             }
             if (format == EnmFileFormat.ZMD)
             {
-                return getGD3InfoZMD(buf);
+                return GetGD3InfoZMD(buf);
             }
             return new GD3();
         }
 
-        private GD3 getGD3InfoZMS(byte[] buf)
+        private GD3 GetGD3InfoZMS(byte[] buf)
         {
             string text = System.Text.Encoding.GetEncoding("shift_jis").GetString(buf);
             string[] texts = text.Split("\r\n");
@@ -64,7 +47,7 @@ namespace MDPlayer.Driver.ZMS
             return gd3;
         }
 
-        private GD3 getGD3InfoZMD(byte[] buf)
+        private GD3 GetGD3InfoZMD(byte[] buf)
         {
             GD3 gd3 = new GD3();
             if (buf.Length < 8)
@@ -201,22 +184,6 @@ namespace MDPlayer.Driver.ZMS
             else withoutExtFn = Path.GetFileNameWithoutExtension(fn);
             string fnZMD = withoutExtFn + ".ZMD";
             string fnZMS = withoutExtFn + ".ZMS";
-            string ext = Path.GetExtension(fn).ToUpper();
-
-            string crntDir = Environment.CurrentDirectory;
-            string zmsc3 = Path.Combine(crntDir, "ZMSC3.X");
-            string zmc = Path.Combine(crntDir, "ZMC.X");
-
-            if (!File.Exists(zmsc3))
-            {
-                log.Write(LogLevel.Information, "File not found : {0}", zmsc3);
-                throw new FileNotFoundException(zmsc3);
-            }
-            if (!File.Exists(zmc))
-            {
-                log.Write(LogLevel.Information, "File not found : {0}", zmc);
-                throw new FileNotFoundException(zmc);
-            }
 
             MDPlayer.Driver.ZMS.nise68.Log.SetMsgWrite(MsgWrite);
             nise68 = new nise68.nise68();
@@ -226,32 +193,45 @@ namespace MDPlayer.Driver.ZMS
             nise68.SetSCC_A(SCCCallBack, (int)Common.VGMProcSampleRate);
             nise68.Init();
 
-            //コンパイル
-            if (format== EnmFileFormat.ZMS)
+            nise68.hmn.fb.Add(fnZMD, vgmBuf);
+            //if (format == EnmFileFormat.ZMD) nise68.hmn.fb.Add(fnZMD, vgmBuf);
+            //else
+            //{
+            //    //コンパイル
+            //    if (model != EnmModel.RealModel || CompiledData == null) Compile(vgmBuf);
+            //    else
+            //    {
+            //        //realはvirtualのコンパイル結果をもらう
+            //        nise68.hmn.fb.Add(fnZMS, vgmBuf);
+            //        nise68.hmn.fb.Add(fnZMD, CompiledData);
+            //    }
+            //}
+
+            Play();
+        }
+
+        private void Play()
+        {
+            string fn = PlayingFileName;
+            string withoutExtFn;
+            string? dn = Path.GetDirectoryName(fn);
+            if (!string.IsNullOrEmpty(dn)) withoutExtFn = Path.Combine(dn, Path.GetFileNameWithoutExtension(fn));
+            else withoutExtFn = Path.GetFileNameWithoutExtension(fn);
+            string fnZMD = withoutExtFn + ".ZMD";
+            string crntDir = Environment.CurrentDirectory;
+            string zmsc3 = Path.Combine(crntDir, "ZMSC3.X");
+            if (!File.Exists(zmsc3))
             {
-                if (model == EnmModel.RealModel && compiledData != null)
-                {
-                    //realはvirtualのコンパイル結果をもらう
-                    nise68.hmn.fb.Add(fnZMS, vgmBuf);
-                    nise68.hmn.fb.Add(fnZMD, compiledData);
-                }
-                else
-                {
-                    nise68.hmn.fb.Add(fnZMS, vgmBuf);
-                    if ((rc = nise68.LoadRun(zmc, Path.GetFileName(fnZMS), Path.GetDirectoryName(fnZMS), 0x00012000
-                    , true, true, true
-                    )) != 0) throw new Exception("Compile Error");
-                    compiledData = nise68.hmn.fb[fnZMD];
-                }
+                log.Write(LogLevel.Information, "File not found : {0}", zmsc3);
+                throw new FileNotFoundException(zmsc3);
             }
 
             //zmsc3常駐
-
             nise68.hmn.memMng = new memMng(0x0004_0000);
 
-            if ((rc = nise68.LoadRun(zmsc3, "-w", Path.GetDirectoryName(fnZMD), 0x00012000
+            if (nise68.LoadRun(zmsc3, "-w", Path.GetDirectoryName(fnZMD), 0x00012000
             , true, true, true
-            )) != 0) throw new Exception("zmsc3 regident Error");
+            ) != 0) throw new Exception("zmsc3 regident Error");
 
             //演奏
             //Log.WriteLine(LogLevel.Information, "");
@@ -288,16 +268,7 @@ namespace MDPlayer.Driver.ZMS
             }
             {
                 //演奏
-                byte[] zmd;
-                if (nise68.hmn.fb.ContainsKey(fnZMD))
-                {
-                    zmd = nise68.hmn.fb[fnZMD];
-                }
-                else
-                {
-                    zmd = File.ReadAllBytes(fnZMD);
-                    nise68.hmn.fb.Add(fnZMD, zmd);
-                }
+                byte[] zmd = nise68.hmn.fb[fnZMD];
                 uint fileSize = (uint)zmd.Length;
                 uint filePtr = (uint)nise68.hmn.memMng.Malloc(fileSize);
                 for (int i = 0; i < zmd.Length; i++)
@@ -318,11 +289,39 @@ namespace MDPlayer.Driver.ZMS
                 //D0.lにエラーの個数が返る
             }
 
-            //FlashMIDIoutBuf();
+        }
 
-            //MakeRealTimer();
+        public void Compile(byte[] vgmBuf)
+        {
+            string fn = PlayingFileName;
+            string withoutExtFn;
+            string? dn = Path.GetDirectoryName(fn);
+            if (!string.IsNullOrEmpty(dn)) withoutExtFn = Path.Combine(dn, Path.GetFileNameWithoutExtension(fn));
+            else withoutExtFn = Path.GetFileNameWithoutExtension(fn);
+            string fnZMD = withoutExtFn + ".ZMD";
+            string fnZMS = withoutExtFn + ".ZMS";
+            string crntDir = Environment.CurrentDirectory;
+            string zmc = Path.Combine(crntDir, "ZMC.X");
+            if (!File.Exists(zmc))
+            {
+                log.Write(LogLevel.Information, "File not found : {0}", zmc);
+                throw new FileNotFoundException(zmc);
+            }
 
+            MDPlayer.Driver.ZMS.nise68.Log.SetMsgWrite(MsgWrite);
+            nise68 = new nise68.nise68();
+            nise68.SetMPCM(MPCMCallBack);
+            nise68.SetOPM(OPMCallBack);
+            nise68.SetMIDI(MIDICallBack, (int)Common.VGMProcSampleRate);
+            nise68.SetSCC_A(SCCCallBack, (int)Common.VGMProcSampleRate);
+            nise68.Init();
 
+            //コンパイル
+            nise68.hmn.fb.Add(fnZMS, vgmBuf);
+            if (nise68.LoadRun(zmc, Path.GetFileName(fnZMS), Path.GetDirectoryName(fnZMS), 0x00012000
+            , true, true, true
+            ) != 0) throw new Exception("Compile Error");
+            CompiledData = nise68.hmn.fb[fnZMD];
         }
 
         private void MsgWrite(string arg1, object[] arg2)
@@ -330,7 +329,7 @@ namespace MDPlayer.Driver.ZMS
             log.Write(LogLevel.Information, arg1, arg2);
         }
 
-        int MPCMCallBack(int n)
+        private int MPCMCallBack(int n)
         {
             switch (n & 0xfff0)
             {
@@ -400,13 +399,13 @@ namespace MDPlayer.Driver.ZMS
             return 0;
         }
 
-        int OPMCallBack(int adr, int dat)
+        private int OPMCallBack(int adr, int dat)
         {
             chipRegister.setYM2151Register(0, 0, adr, dat, model, YM2151Hosei[0], 0);
             return 0;
         }
 
-        int MIDICallBack(int n, byte dat)
+        private int MIDICallBack(int n, byte dat)
         {
             //if (midiOutsBuff == null || midiOutsFrame == null) return 0;
             //if (n >= midiOutsBuff.Count) return 0;
@@ -417,7 +416,7 @@ namespace MDPlayer.Driver.ZMS
             return 0;
         }
 
-        int SCCCallBack(int n, byte dat)
+        private int SCCCallBack(int n, byte dat)
         {
             //if (midiOutsBuff == null || midiOutsFrame == null) return 0;
             //if (2 + n >= midiOutsBuff.Count) return 0;

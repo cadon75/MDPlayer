@@ -139,15 +139,15 @@ namespace MDPlayer
             rPlane_MIDI[1] = getByteArray(ResMng.ImgDic["planeMIDI_XG"]);
             rPlane_MIDI[2] = getByteArray(ResMng.ImgDic["planeMIDI_GS"]);
 
-            bitmapMIDILyric = new Bitmap[2];
-            bitmapMIDILyric[0] = new Bitmap(200, 24);
-            bitmapMIDILyric[1] = new Bitmap(200, 24);
-            gMIDILyric = new Graphics[2];
-            gMIDILyric[0] = Graphics.FromImage(bitmapMIDILyric[0]);
-            gMIDILyric[1] = Graphics.FromImage(bitmapMIDILyric[1]);
-            fntMIDILyric = new Font[2];
-            fntMIDILyric[0] = new Font("MS UI Gothic", 8);//, FontStyle.Bold);
-            fntMIDILyric[1] = new Font("MS UI Gothic", 8);//, FontStyle.Bold);
+            bitmapMIDILyric = new Bitmap[4];
+            gMIDILyric = new Graphics[4];
+            fntMIDILyric = new Font[4];
+            for (int i = 0; i < 4; i++)
+            {
+                bitmapMIDILyric[i] = new Bitmap(200, 24);
+                gMIDILyric[i] = Graphics.FromImage(bitmapMIDILyric[i]);
+                fntMIDILyric[i] = new Font("MS UI Gothic", 8);
+            }
 
             rType_YMF271 = getByteArray(ResMng.ImgDic["rType_YMF271"]);
         }
