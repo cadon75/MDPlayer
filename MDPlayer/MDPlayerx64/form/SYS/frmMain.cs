@@ -14,6 +14,7 @@ using MDPlayerx64.form.SYS;
 using MDPlayerx64;
 using System;
 using MDPlayerx64.Driver;
+using Driver.libsidplayfp.sidtune;
 
 namespace MDPlayer.form
 {
@@ -1091,6 +1092,7 @@ namespace MDPlayer.form
             if (args.Length < 2) return;
 
             log.ForcedWrite("frmMain_Shown:起動時オプション解析");
+            log.ForcedWrite(arg);
 
             try
             {
@@ -5587,6 +5589,7 @@ namespace MDPlayer.form
                         return;
                     }
                 }
+                log.ForcedWrite("4");
 
                 for (int chipID = 0; chipID < 2; chipID++)
                 {

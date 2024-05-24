@@ -170,8 +170,11 @@ namespace MDPlayer.Driver.FMP
 
         private void Run(byte[] vgmBuf)
         {
-            var fileNameFMP = "FMP.COM";
-            var fileNamePPZ8 = "PPZ8.COM";
+            //var fileNameFMP = "FMP.COM";
+            //var fileNamePPZ8 = "PPZ8.COM";
+            string crntDir = Path.GetDirectoryName(Application.ExecutablePath);
+            string fileNameFMP = Path.Combine(crntDir, "FMP.COM");
+            log.ForcedWrite(fileNameFMP);
             nise98.Init(null, OPNAWrite, ft, Nise98.Nise98.enmOngenBoardType.SpeakBoard);//.PC9801_86B);//.SpeakBoard);//.PC9801_26K);
             nise98.GetDos().SetArcFile(PlayingArcFileName);
             //nise98.GetDos().SetSearchPath(searchPaths);
