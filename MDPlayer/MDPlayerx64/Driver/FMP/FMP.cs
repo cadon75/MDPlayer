@@ -177,7 +177,7 @@ namespace MDPlayer.Driver.FMP
             log.ForcedWrite(fileNameFMP);
             nise98.Init(null, OPNAWrite, ft, Nise98.Nise98.enmOngenBoardType.SpeakBoard);//.PC9801_86B);//.SpeakBoard);//.PC9801_26K);
             nise98.GetDos().SetArcFile(PlayingArcFileName);
-            //nise98.GetDos().SetSearchPath(searchPaths);
+            nise98.GetDos().SetSearchPath(searchPaths);
 
             //FMPの常駐
             Log.level = musicDriverInterface.LogLevel.INFO;

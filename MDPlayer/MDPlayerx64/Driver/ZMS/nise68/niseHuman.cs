@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace MDPlayer.Driver.ZMS.nise68
@@ -36,17 +37,20 @@ namespace MDPlayer.Driver.ZMS.nise68
         private FileIni[] fi = new FileIni[256];
         private string currentWorkPath = "C:\\";//niseHumanにC:\\と思わせる実際のパス
         public Dictionary<string, byte[]> fb = new Dictionary<string, byte[]>();
+        private List<string> envZPDs;
 
         public class procInfo
         {
             public UInt32 startAddress;
         }
 
-        public niseHuman(Memory68 mem, Register68 reg)
+        public niseHuman(Memory68 mem, Register68 reg,List<string> envZPDs)
         {
             enc = new myEncoding();
             this.mem = mem;
             this.reg = reg;
+            this.envZPDs = envZPDs;
+
             programTerminate = false;
             returnCode = 0;
             beforePSP = 0;
@@ -610,6 +614,20 @@ namespace MDPlayer.Driver.ZMS.nise68
             {
                 physicalFn = Path.Combine(currentWorkPath, fn);
             }
+
+            if (!File.Exists(physicalFn))
+            {
+                if (Path.GetExtension(physicalFn).ToUpper() == ".ZPD" && envZPDs != null && envZPDs.Count > 0)
+                {
+                    string f = Path.GetFileName(physicalFn);
+                    foreach (string s in envZPDs)
+                    {
+                        if (!File.Exists(Path.Combine(s, f))) continue;
+                        physicalFn = Path.Combine(s, f);
+                    }
+                }
+            }
+
             Log.WriteLine(LogLevel.Trace2, "PhysicalFilename:[{0}] ", physicalFn);
             return physicalFn;
         }

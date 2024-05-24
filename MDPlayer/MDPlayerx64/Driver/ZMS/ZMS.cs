@@ -9,6 +9,7 @@ namespace MDPlayer.Driver.ZMS
         private nise68.nise68 nise68;
         public mpcmX68k mpcm;
         private int checkCounter = 0;
+        private List<string> envZPDs = new List<string>();
 
         public string PlayingFileName { get; internal set; }
         public byte[] CompiledData { get; set; }
@@ -99,6 +100,7 @@ namespace MDPlayer.Driver.ZMS
             vgmCurLoop = 0;
             this.model = model;
             vgmFrameCounter = -latency - waitTime;
+            SetZPDSearchPath();
 
             try
             {
@@ -191,7 +193,7 @@ namespace MDPlayer.Driver.ZMS
             nise68.SetOPM(OPMCallBack);
             nise68.SetMIDI(MIDICallBack, (int)Common.VGMProcSampleRate);
             nise68.SetSCC_A(SCCCallBack, (int)Common.VGMProcSampleRate);
-            nise68.Init();
+            nise68.Init(envZPDs);
 
             nise68.hmn.fb.Add(fnZMD, vgmBuf);
             //if (format == EnmFileFormat.ZMD) nise68.hmn.fb.Add(fnZMD, vgmBuf);
@@ -314,7 +316,7 @@ namespace MDPlayer.Driver.ZMS
             nise68.SetOPM(OPMCallBack);
             nise68.SetMIDI(MIDICallBack, (int)Common.VGMProcSampleRate);
             nise68.SetSCC_A(SCCCallBack, (int)Common.VGMProcSampleRate);
-            nise68.Init();
+            nise68.Init(null);
 
             //コンパイル
             nise68.hmn.fb.Add(fnZMS, vgmBuf);
@@ -425,6 +427,32 @@ namespace MDPlayer.Driver.ZMS
             //midiOutsFrame[2 + n].Add(virtualFrameCounter);
             chipRegister.sendMIDIout(model, 2+n, new byte[] { dat });
             return 0;
+        }
+
+
+        private void SetZPDSearchPath()
+        {
+            try
+            {
+                //環境変数"ZPD"を取得する
+                string envZPD = "";
+                try
+                {
+                    envZPD = Environment.GetEnvironmentVariable("zmusic_ZPD", System.EnvironmentVariableTarget.User);
+                }
+                catch
+                {
+                }
+                if (!string.IsNullOrEmpty(envZPD))
+                {
+                    envZPDs = envZPD.Split(";").ToList();
+                }
+            }
+            catch
+            {
+                envZPDs = new List<string>();
+            }
+
         }
 
     }

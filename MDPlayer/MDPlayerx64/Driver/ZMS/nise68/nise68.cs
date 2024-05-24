@@ -30,11 +30,11 @@ namespace MDPlayer.Driver.ZMS.nise68
         public Func<int, byte, int> MIDI = null;
 
 
-        public void Init()
+        public void Init(List<string> envZPDs)
         {
             mem = new Memory68();
             reg = new Register68();
-            hmn = new niseHuman(mem, reg);
+            hmn = new niseHuman(mem, reg, envZPDs);
             cpu = new niseM68(mem, reg);
             cpu.hmn = hmn;
             iocs = new niseIOCS(mem, reg);

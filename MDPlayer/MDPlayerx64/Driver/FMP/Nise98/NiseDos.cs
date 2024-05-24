@@ -42,6 +42,7 @@ namespace MDPlayer.Driver.FMP.Nise98
         private int allocateMemSize;
         private Dictionary<byte, Action> dicHookINT = new Dictionary<byte, Action>();
         private string playingArcFile;
+        private List<string> searchPath;
 
 
         public byte returnCode { get; private set; } = 0x00;
@@ -735,6 +736,17 @@ namespace MDPlayer.Driver.FMP.Nise98
             if (File.Exists(fn))
                 return File.ReadAllBytes(fn);
 
+            if (searchPath.Count > 0)
+            {
+                string f = Path.GetFileName(fn);
+                foreach (string fp in searchPath)
+                {
+                    string sfn = Path.Combine(fp, f);
+                    if (File.Exists(sfn))
+                        return File.ReadAllBytes(sfn);
+                }
+            }
+
             return ReadAllByteFromArcFile(fn);
         }
 
@@ -754,6 +766,11 @@ namespace MDPlayer.Driver.FMP.Nise98
         public void SetArcFile(string playingArcFileName)
         {
             this.playingArcFile = playingArcFileName;
+        }
+
+        internal void SetSearchPath(List<string> searchPaths)
+        {
+            this.searchPath= searchPaths;
         }
     }
 }
