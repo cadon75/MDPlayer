@@ -31,7 +31,7 @@ namespace MDPlayer.Driver.ZMS.nise68
 
 
 
-        int bl = 2;
+        int bl = 4;
         public bool Set(uint memPtr, uint size)
         {
             if (dicMng.ContainsKey(memPtr)) return false;
