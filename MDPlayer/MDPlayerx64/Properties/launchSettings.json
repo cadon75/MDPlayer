@@ -1,8 +1,7 @@
 {
   "profiles": {
     "MDPlayerx64": {
-      "commandName": "Project",
-      "commandLineArgs": "D:\\bootcamp\\FM音源\\data\\FMP\\909.OPI"
+      "commandName": "Project"
     }
   }
 }

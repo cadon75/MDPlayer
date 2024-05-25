@@ -359,7 +359,7 @@ namespace MDPlayer.Driver.ZMS
                     break;
                 case 0x0300:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_FRQ(${0:X04}) D1${1:X08}", n, nise68.reg.GetDl(1));
-                    mpcm?.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
+                    mpcm?.SetFreq(0, n & 0xf, (int)nise68.reg.GetDl(1));
                     break;
                 case 0x0400:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PITCH(${0:X04}) D1${1:X04}", n, nise68.reg.GetDl(1));
