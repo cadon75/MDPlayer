@@ -79,6 +79,8 @@ namespace MDPlayer.Driver.FMP
                         .Split(';')
                         .Where(path => !String.IsNullOrEmpty(path));
                 searchPaths = fileSerachPaths.ToList();
+                foreach (string path in fileSerachPaths)
+                    log.Write(LogLevel.Information, "Search Path:{0}",path);
             }
             catch
             {
@@ -181,7 +183,10 @@ namespace MDPlayer.Driver.FMP
 
             //FMPの常駐
             Log.level = musicDriverInterface.LogLevel.INFO;
-            nise98.LoadRun(fileNameFMP, "s -s", 0x2000);//, true, true, true, 3_000_000, 108213);//108213->wait loopぬけ
+            //nise98.LoadRun(fileNameFMP, "s -s", 0x2000);//, true, true, true, 3_000_000, 108213);//108213->wait loopぬけ
+            //Log.level = musicDriverInterface.LogLevel.TRACE;
+            //musicDriverInterface.Log.writeMethod = logWrite;
+            nise98.LoadRun(fileNameFMP, "s -s -#42", 0x2000);//, true, true, true, 3_000_000, 0);//108213->wait loopぬけ
             regs = nise98.GetRegisters();
 
             //nisePPZ8の常駐
@@ -193,9 +198,15 @@ namespace MDPlayer.Driver.FMP
 
             //曲データ読み込みと演奏開始通知
             //
-            Log.level = musicDriverInterface.LogLevel.INFO;
+            //Log.level = musicDriverInterface.LogLevel.TRACE;
+            //musicDriverInterface.Log.writeMethod = logWrite;
             FMPLoadAndPlayFileAL2(nise98.GetDos(), regs);
 
+        }
+
+        private void logWrite(string obj)
+        {
+            log.Write(obj);
         }
 
         private void SetPPZ8PCMData(int bank, int mode, byte[][] pcmdata)
@@ -234,7 +245,7 @@ namespace MDPlayer.Driver.FMP
             regs.DX = 0x0000;
             regs.SS = unchecked((short)0xE000);
             regs.SP = 0x0000;
-            nise98.CallRunfunctionCall(0xd2);//, true, true, true, 10_000_000_000, 0_000);
+            nise98.CallRunfunctionCall(0xd2, true, true, true, 10_000_000_000, 0_000);
             
             if (pcmDataSendCount != 0)
             {

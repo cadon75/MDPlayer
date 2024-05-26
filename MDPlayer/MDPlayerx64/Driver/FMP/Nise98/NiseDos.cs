@@ -674,6 +674,22 @@ namespace MDPlayer.Driver.FMP.Nise98
                 fndFilename = fn;
                 return true;
             }
+
+            if (searchPath.Count > 0)
+            {
+                string f = Path.GetFileName(fn);
+                foreach (string fp in searchPath)
+                {
+                    string sfn = Path.Combine(fp, f);
+                    log.Write(LogLevel.Information, "Search File: {0}", sfn);
+                    if (File.Exists(sfn))
+                    {
+                        fndFilename = sfn;
+                        return true;
+                    }
+                }
+            }
+
             if (playingArcFileExist(filename))
             {
                 fndFilename = fn;
@@ -742,8 +758,13 @@ namespace MDPlayer.Driver.FMP.Nise98
                 foreach (string fp in searchPath)
                 {
                     string sfn = Path.Combine(fp, f);
+                    log.Write(LogLevel.Information, "Search File: {0}", sfn);
                     if (File.Exists(sfn))
-                        return File.ReadAllBytes(sfn);
+                    {
+                        byte[] b = File.ReadAllBytes(sfn);
+                        log.Write(LogLevel.Information, "read data size: {0}", b.Length);
+                        return b;
+                    }
                 }
             }
 
