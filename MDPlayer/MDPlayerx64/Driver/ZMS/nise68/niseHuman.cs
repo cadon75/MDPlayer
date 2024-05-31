@@ -205,10 +205,6 @@ namespace MDPlayer.Driver.ZMS.nise68
             //mem.PokeW(zmusicPtr - 0x4, 0x6943);//'iC'
             //mem.PokeB(zmusicPtr - 0x2, 0x31);//version 0x30以上ならOK
 
-            //MPCM関連
-            mem.PokeL(0x84, mpcmPtr);//Trapの位置が書いてあるんかな？
-            mem.PokeL(mpcmPtr - 0x8, 0x4d50434d);//'MPCM'
-
             //デバイス名(?)
             mem.PokeL(0x67f2, 0xffffffff);//EOF
             mem.PokeW(0x67f6, 0x8024);//?

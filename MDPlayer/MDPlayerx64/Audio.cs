@@ -3484,6 +3484,25 @@ namespace MDPlayer
                 UseChip.Add(EnmChip.OKIM6258);
                 ((Driver.ZMS.ZMS) DriverVirtual).mpcm = mpcm;
 
+                MDSound.ym2151_x68sound opmPCM = new MDSound.ym2151_x68sound();
+                opmPCM.x68sound[0] = new MDSound.NX68Sound.X68Sound();
+                opmPCM.sound_Iocs[0] = new MDSound.NX68Sound.sound_iocs(opmPCM.x68sound[0]);
+                MDSound.MDSound.Chip opmPCMc = new MDSound.MDSound.Chip
+                {
+                    type = MDSound.MDSound.enmInstrumentType.YM2151x68soundPCM,
+                    ID=0,
+                    Instrument = opmPCM,
+                    Update = opmPCM.Update,
+                    Start = opmPCM.Start,
+                    Stop = opmPCM.Stop,
+                    Reset = opmPCM.Reset,
+                    Volume = 0,
+                    Clock = 4_000_000,
+                    SamplingRate = (UInt32)4_000_000 / 64,
+                    Option = new object[3] { 0, 1, 0 }
+                };
+                lstChips.Add(opmPCMc);
+                ((Driver.ZMS.ZMS)DriverVirtual).opmPCM = opmPCM;
 
                 if (hiyorimiNecessary) hiyorimiNecessary = true;
                 else hiyorimiNecessary = false;
@@ -3511,19 +3530,30 @@ namespace MDPlayer
                     ((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf);
                     vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
                 }
+                else
+                {
+                    ((Driver.ZMS.ZMS)DriverVirtual).getGD3Info(vgmBuf,0);
+                }
 
-                //使用音源構成をZMDからチェック
-                bool useFM = vgmBuf[0x48] != 0;
-                bool useMPCM = vgmBuf[0x49] != 0;
-                bool useMIDI1 = vgmBuf[0x4a] != 0;
-                bool useMIDI2 = vgmBuf[0x4b] != 0;
-                bool useMIDI3 = vgmBuf[0x4c] != 0;
-                bool useMIDI4 = vgmBuf[0x4d] != 0;
-                ChipLED.PriOPM = (byte)(useFM ? 1 : 0);
-                ChipLED.PriMID = (byte)(useMIDI1 ? 1 : 0);
-                ChipLED.SecMID = (byte)(useMIDI2 ? 1 : 0);
-                ChipLED.TrdMID = (byte)(useMIDI3 ? 1 : 0);
-                ChipLED.ForMID = (byte)(useMIDI4 ? 1 : 0);
+                if (((Driver.ZMS.ZMS)DriverVirtual).version != 2)
+                {
+                    //使用音源構成をZMDからチェック
+                    bool useFM = vgmBuf[0x48] != 0;
+                    bool useMPCM = vgmBuf[0x49] != 0;
+                    bool useMIDI1 = vgmBuf[0x4a] != 0;
+                    bool useMIDI2 = vgmBuf[0x4b] != 0;
+                    bool useMIDI3 = vgmBuf[0x4c] != 0;
+                    bool useMIDI4 = vgmBuf[0x4d] != 0;
+                    ChipLED.PriOPM = (byte)(useFM ? 1 : 0);
+                    ChipLED.PriMID = (byte)(useMIDI1 ? 1 : 0);
+                    ChipLED.SecMID = (byte)(useMIDI2 ? 1 : 0);
+                    ChipLED.TrdMID = (byte)(useMIDI3 ? 1 : 0);
+                    ChipLED.ForMID = (byte)(useMIDI4 ? 1 : 0);
+                }
+                else
+                {
+
+                }
 
 
                 if (!DriverVirtual.init(vgmBuf, chipRegister, EnmModel.VirtualModel, new EnmChip[] { EnmChip.YM2151,EnmChip.OKIM6258 }

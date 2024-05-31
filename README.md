@@ -3,7 +3,7 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   
 [概要]  
   このツールは、鍵盤表示を行いながらVGMファイルの再生を行います。  
-  (NRD,XGM,S98,MID,RCP,NSF,HES,SID,MGS,MDR,MDX,MND,MUC,MUB,M,M2,MZ,MPI,MVI,MZI,OPI,OVI,OZI,WAV,MP3,AIFFファイルにも対応。)  
+  (NRD,XGM,S98,MID,RCP,NSF,HES,SID,MGS,MDR,MDX,MND,ZMD,ZMS,MUC,MUB,M,M2,MZ,MPI,MVI,MZI,OPI,OVI,OZI,WAV,MP3,AIFFファイルにも対応。)  
   
 [注意]  
   ・FileAssociationTool(ファイル関連付け設定ツール)についてはREADME_AST.md/README_AST_EN.mdを参照お願いします。  
@@ -49,6 +49,7 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   .OZI (FMP 向けファイル 演奏するにはFMP.COMが必要です)    
   .ZMS (ZMUSIC3 向けファイル 演奏するにはZMC.X,ZMSC3.Xが必要です)    
   .ZMD (ZMUSIC3 向けファイル 演奏するにはZMC.X,ZMSC3.Xが必要です)    
+  .ZMD (ZMUSIC2 向けファイル 演奏するにはZMUSIC.Xが必要です)    
   .WAV (TBD 音声ファイル)  
   .MP3 (TBD 音声ファイル)  
   .AIF (TBD 音声ファイル)  
@@ -121,7 +122,7 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   
   ・run68のコードを参考にしています。  
   
-  ・ZMUSIC3のコードを参考にしています。  
+  ・ZMUSICv2/v3のコードを参考にしています。  
 
   ・CVS.EXEの出力を参考に同じデータが出力されるよう調整しています。  
   
@@ -320,11 +321,14 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
     FMC.EXE  
     PPZ8.COM  
 
-  ・ZMUSIC3のファイルを演奏するには、以下のファイルが必要です。  
+  ・ZMUSICv2のファイルを演奏するには、以下のファイルが必要です。  
+  (公式サイトなどから入手してください。)
+    ZMUSIC.X  
+
+  ・ZMUSICv3のファイルを演奏するには、以下のファイルが必要です。  
   (公式サイトなどから入手してください。)
     ZMC.X  
     ZMSC3.X  
-
   
 [同期のすゝめ]  
     
@@ -642,7 +646,8 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   ・mucom88torym2612  
   ・FMP  
   ・PPZ8  
-  ・ZMUSIC3  
+  ・ZMUSICv2  
+  ・ZMUSICv3  
   
   
   

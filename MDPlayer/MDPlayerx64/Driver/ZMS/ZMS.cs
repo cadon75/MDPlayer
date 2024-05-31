@@ -1,4 +1,5 @@
-﻿using MDPlayer.Driver.ZMS.nise68;
+﻿using MDPlayer.Driver.MNDRV;
+using MDPlayer.Driver.ZMS.nise68;
 using MDSound;
 
 namespace MDPlayer.Driver.ZMS
@@ -8,8 +9,11 @@ namespace MDPlayer.Driver.ZMS
         private readonly EnmFileFormat format = format;
         private nise68.nise68 nise68;
         public mpcmX68k mpcm;
+        public MDSound.ym2151_x68sound opmPCM;
         private int checkCounter = 0;
         private List<string> envZPDs = new List<string>();
+        public int version = 0;
+        private FMTimer timerOPM;
 
         public string PlayingFileName { get; internal set; }
         public byte[] CompiledData { get; set; }
@@ -51,6 +55,7 @@ namespace MDPlayer.Driver.ZMS
         private GD3 GetGD3InfoZMD(byte[] buf)
         {
             GD3 gd3 = new GD3();
+
             if (buf.Length < 8)
             {
                 throw new Exception("Unknown zmd file");
@@ -59,7 +64,10 @@ namespace MDPlayer.Driver.ZMS
             {
                 int chkID1 = buf[0] * 0x100_0000 + buf[1] * 0x1_0000 + buf[2] * 0x100 + buf[3] * 0x1;
                 int chkID2 = buf[4] * 0x100_0000 + buf[5] * 0x1_0000 + buf[6] * 0x100 + buf[7] * 0x1;
-                if (chkID1 != 0x1a5a_6d75 || chkID2 != 0x53694330)
+                if (chkID1 == 0x1a5a_6d75 && chkID2 == 0x5369_4330) version = 3;
+                if (chkID1 == 0x105a_6d75 && chkID2 != 0x5369_4330) version = 2;
+
+                if (version == 0)
                 {
                     throw new Exception("Version check error");
                 }
@@ -68,16 +76,19 @@ namespace MDPlayer.Driver.ZMS
             string cmt = "";
             try
             {
-                int ptr = buf[9 * 4 + 0] * 0x100_0000 + buf[9 * 4 + 1] * 0x1_0000
-                    + buf[9 * 4 + 2] * 0x100 + buf[9 * 4 + 3] * 0x1 + 40;
-                int ePtr = ptr;
-                while (buf[ePtr] != 0x00)
+                if (version == 3)
                 {
-                    if (buf[ePtr] == 0x0d && buf[ePtr + 1] == 0x0a) break;
-                    ePtr++;
-                }
+                    int ptr = buf[9 * 4 + 0] * 0x100_0000 + buf[9 * 4 + 1] * 0x1_0000
+                        + buf[9 * 4 + 2] * 0x100 + buf[9 * 4 + 3] * 0x1 + 40;
+                    int ePtr = ptr;
+                    while (buf[ePtr] != 0x00)
+                    {
+                        if (buf[ePtr] == 0x0d && buf[ePtr + 1] == 0x0a) break;
+                        ePtr++;
+                    }
 
-                cmt = System.Text.Encoding.GetEncoding("shift_jis").GetString(buf, ptr, ePtr - ptr);
+                    cmt = System.Text.Encoding.GetEncoding("shift_jis").GetString(buf, ptr, ePtr - ptr);
+                }
             }
             catch
             {
@@ -132,15 +143,26 @@ namespace MDPlayer.Driver.ZMS
                     {
                         Counter++;
 
-                        //virtualFrameCounter++;
-                        while (nise68.IntTimer())
+                        if (version == 2)
                         {
+                            timerOPM.timer();
+                            while ((timerOPM.ReadStatus() & 3) != 0)
+                            {
+                                nise68.TrapOPM();// true, true, true);
+                            }
+                        }
+                        else
+                        {
+                            //virtualFrameCounter++;
+                            while (nise68.IntTimer())
+                            {
 #if DEBUG
-                            nise68.Trap(0x8e, true, true, true);
-                            //nise68.Trap(0x8e);
+                                nise68.Trap(0x8e, true, true, true);
+                                //nise68.Trap(0x8e);
 #else
         nise68.Trap(0x8e);
 #endif
+                            }
                         }
                     }
                     vgmFrameCounter++;
@@ -150,22 +172,29 @@ namespace MDPlayer.Driver.ZMS
                 checkCounter--;
                 if (checkCounter < 0)
                 {
-                    checkCounter = 100;
-                    //演奏中か確認
-                    nise68.reg.SetDl(0, 0x0b);//ZM_PLAY_STATUS
-                    nise68.reg.SetDl(1, 0);//チェックモード(0:全チャンネル検査)
-                    nise68.reg.SetAl(1, 0);//検査結果格納バッファアドレス(0にすると検査結果を簡略して返す)
-                    nise68.Trap(3 + 32);
-                    uint d0 = nise68.reg.GetDl(0);
-                    if (d0 == 0)
-                        Stopped = true;
+                    if (version == 2)
+                    {
 
-                    //ループ回数チェック
-                    nise68.reg.SetDl(0, 0x59);//ZM_LOOP_CONTROL
-                    nise68.reg.SetDl(1, 0xffff_ffff);//コントロールモード(-1 = ループ回数取得)
-                    nise68.Trap(3 + 32);
-                    d0 = nise68.reg.GetDl(0);
-                    vgmCurLoop = d0 - 1;
+                    }
+                    else
+                    {
+                        checkCounter = 100;
+                        //演奏中か確認
+                        nise68.reg.SetDl(0, 0x0b);//ZM_PLAY_STATUS
+                        nise68.reg.SetDl(1, 0);//チェックモード(0:全チャンネル検査)
+                        nise68.reg.SetAl(1, 0);//検査結果格納バッファアドレス(0にすると検査結果を簡略して返す)
+                        nise68.Trap(3 + 32);
+                        uint d0 = nise68.reg.GetDl(0);
+                        if (d0 == 0)
+                            Stopped = true;
+
+                        //ループ回数チェック
+                        nise68.reg.SetDl(0, 0x59);//ZM_LOOP_CONTROL
+                        nise68.reg.SetDl(1, 0xffff_ffff);//コントロールモード(-1 = ループ回数取得)
+                        nise68.Trap(3 + 32);
+                        d0 = nise68.reg.GetDl(0);
+                        vgmCurLoop = d0 - 1;
+                    }
                 }
                 //vgmCurLoop = mm.ReadUInt16(reg.a6 + dw.LOOP_COUNTER);
             }
@@ -189,11 +218,11 @@ namespace MDPlayer.Driver.ZMS
 
             MDPlayer.Driver.ZMS.nise68.Log.SetMsgWrite(MsgWrite);
             nise68 = new nise68.nise68();
-            nise68.SetMPCM(MPCMCallBack);
+            nise68.SetMPCM(version==2 ? PCM8CallBack : MPCMCallBack);
             nise68.SetOPM(OPMCallBack);
             nise68.SetMIDI(MIDICallBack, (int)Common.VGMProcSampleRate);
             nise68.SetSCC_A(SCCCallBack, (int)Common.VGMProcSampleRate);
-            nise68.Init(envZPDs);
+            nise68.Init(envZPDs, version == 2);
 
             nise68.hmn.fb.Add(fnZMD, vgmBuf);
             //if (format == EnmFileFormat.ZMD) nise68.hmn.fb.Add(fnZMD, vgmBuf);
@@ -227,6 +256,45 @@ namespace MDPlayer.Driver.ZMS
                 log.Write(LogLevel.Information, "File not found : {0}", zmsc3);
                 throw new FileNotFoundException(zmsc3);
             }
+            string zmusic = Path.Combine(crntDir, "ZMUSIC.X");//ver2
+            if (!File.Exists(zmusic))
+            {
+                log.Write(LogLevel.Information, "File not found : {0}", zmusic);
+                throw new FileNotFoundException(zmusic);
+            }
+
+            int trp = 3 + 32;
+
+            if (version == 2)
+            {
+                timerOPM = new FMTimer(true, null, 4000000);//, Common.VGMProcSampleRate);
+                if (nise68.LoadRun(zmusic, "", Path.GetDirectoryName(fnZMD), 0x00012000
+                , true, true, true
+                ) != 0) throw new Exception("zmusic regident Error");
+
+                opmPCM?.x68sound[0].MountMemory(nise68.mem.mem);
+
+                //演奏
+                byte[] zmd;
+                zmd = File.ReadAllBytes(fnZMD);
+                if (!nise68.hmn.fb.ContainsKey(fnZMD))
+                {
+                    nise68.hmn.fb.Add(fnZMD, zmd);
+                }
+                uint fileSize = (uint)zmd.Length;
+                uint filePtr = (uint)nise68.hmn.memMng.Malloc(fileSize);
+                for (int i = 0; i < zmd.Length; i++)
+                {
+                    nise68.mem.PokeB((uint)(filePtr + i), zmd[i]);
+                }
+
+                nise68.reg.SetDl(1, 0x11);//play_cnv_data
+                nise68.reg.SetDl(2, (uint)(zmd.Length - 7));
+                nise68.reg.SetAl(1, filePtr + 7);
+                nise68.Trap(trp);//, true, true, true);
+
+                return;
+            }
 
             //zmsc3常駐
             nise68.hmn.memMng = new memMng(0x0004_0000);
@@ -242,7 +310,6 @@ namespace MDPlayer.Driver.ZMS
             //if ((rc = nise68.LoadRun("C:\\ZP3.R", "-PC:\\SAMPLE1\\SAMPLE.ZMS", "C:\\", 0x00042000
             //    , true, true, true
             //    )) != 0) Environment.Exit(rc);
-            int trp = 3 + 32;
             {
                 //エラーストックバッファ解放
                 nise68.reg.SetDl(0, 0x73);//ZM_FREE_MEM2
@@ -316,7 +383,7 @@ namespace MDPlayer.Driver.ZMS
             nise68.SetOPM(OPMCallBack);
             nise68.SetMIDI(MIDICallBack, (int)Common.VGMProcSampleRate);
             nise68.SetSCC_A(SCCCallBack, (int)Common.VGMProcSampleRate);
-            nise68.Init(null);
+            nise68.Init(null, false);
 
             //コンパイル
             nise68.hmn.fb.Add(fnZMS, vgmBuf);
@@ -401,9 +468,42 @@ namespace MDPlayer.Driver.ZMS
             return 0;
         }
 
+        private int PCM8CallBack(int n)
+        {
+
+            switch (n & 0xfff0)
+            {
+                case 0x0000:
+                    //x68Sound.Pcm8_Out((int)D0 & 0xff, A1, (int)D1, (int)D2);
+                    opmPCM?.x68sound[0].X68Sound_Pcm8_Out((int)n & 0xff, null, nise68.reg.GetAl(1), (int)nise68.reg.GetDl(1), (int)nise68.reg.GetDl(2));//指定チャンネル発音開始
+                    break;
+                case 0x0100:
+                    switch (n & 0xffff)
+                    {
+                        case 0x0100:
+                            opmPCM?.x68sound[0].X68Sound_Pcm8_Out((int)n & 0xff, null, 0, 0, 0);//指定チャンネル発音停止
+                            break;
+                        case 0x0101:
+                            opmPCM?.x68sound[0].X68Sound_Pcm8_Abort();//全チャンネル発音停止
+                            break;
+                    }
+                    break;
+                case 0x01F0:
+                    switch (n & 0xffff)
+                    {
+                        case 0x01FC:
+                            nise68.reg.SetDl(0, 1);
+                            break;
+                    }
+                    break;
+            }
+            return 0;
+        }
+
         private int OPMCallBack(int adr, int dat)
         {
             chipRegister.setYM2151Register(0, 0, adr, dat, model, YM2151Hosei[0], 0);
+            timerOPM?.WriteReg((byte)adr, (byte)dat);
             return 0;
         }
 

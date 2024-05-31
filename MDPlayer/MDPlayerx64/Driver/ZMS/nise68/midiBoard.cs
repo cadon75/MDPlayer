@@ -22,6 +22,7 @@ namespace MDPlayer.Driver.ZMS.nise68
         private Action<byte>[] cmdw = null;
         private Func<byte>[] cmdr = null;
         private ushort generalTimerValue = 0;
+        private ushort midiClockTimerValue = 0;
         private int renderingFreq;
         //private double clkM = 4_915_200.0 / 8.0;// 1_000_000.0;
         private double clkM = 1_000_000.0;
@@ -36,25 +37,36 @@ namespace MDPlayer.Driver.ZMS.nise68
             cmdw = new Action<byte>[0x100]
             {
             //0x00-
-            null,null,null,null, setVectH,setIntModeControl,setIntEnable,null,null,null,null,null, null,null,null,null,
+            null,null,null,null, setVectH,setIntModeControl,setIntEnable,null,
+            null,null,null,null, null,null,null,null,
             //0x10-
-            null,null,null,null, setMIDIRealtimeMessageControl,null,null,null,null,null,null,null, null,null,null,null,
+            null,null,null,null, setMIDIRealtimeMessageControl,null,null,null,
+            null,null,null,null, null,null,null,null,
             //0x20-
-            null,null,null,null, setRxCommRate,setRxCommMode,null,null,null,null,null,null, null,null,null,null,
+            null,null,null,null, setRxCommRate,setRxCommMode,null,null,
+            null,null,null,null, null,null,null,null,
             //0x30-
-            null,null,null,null, null,setFIFO_RXControl,null,null,null,null,null,null, null,null,null,null,
+            null,null,null,null, null,setFIFO_RXControl,null,null,
+            null,null,null,null, null,null,null,null,
             //0x40-
-            null,null,null,null, setTxCommRate,null,null,null,null,null,null,null, null,null,null,null,
+            null,null,null,null, setTxCommRate,null,null,null,
+            null,null,null,null, null,null,null,null,
             //0x50-
-            null,null,null,null, null,setFIFO_TXControl,setFIFO_TxData,null,null,null,null,null, null,null,null,null,
+            null,null,null,null, null,setFIFO_TXControl,setFIFO_TxData,null,
+            null,null,null,null, null,null,null,null,
             //0x60-
-            null,null,null,null, null,setFSKControl,setClickCounterControl,setClickCounter,null,null,null,null, null,null,null,null,
+            null,null,null,null, null,setFSKControl,setClickCounterControl,setClickCounter,
+            null,null,null,null, null,null,null,null,
             //0x70-
             null,null,null,null, null,null,null,null,null,null,null,null, null,null,null,null,
             //0x80-
-            null,null,null,null, setGeneralTimerValueL,setGeneralTimerValueH,null,null,null,null,null,null, null,null,null,null,
+            null,null,null,null, 
+            setGeneralTimerValueL , setGeneralTimerValueH ,
+            setMIDIClockTimerValueL , setMIDIClockTimerValueH ,
+            null,null,null,null, null,null,null,null,
             //0x90-
-            null,null,null,null, setExternalIOdirection,null,null,null,null,null,null,null, null,null,null,null,
+            null,null,null,null, setExternalIOdirection,null,null,null,
+            null,null,null,null, null,null,null,null,
             //0xa0-
             null,null,null,null, null,null,null,null,null,null,null,null, null,null,null,null,
             //0xb0-
@@ -225,6 +237,18 @@ namespace MDPlayer.Driver.ZMS.nise68
         {
             generalTimerValue &= 0b0000_0000_1111_1111;
             generalTimerValue |= (ushort)((obj << 8) & 0b1011_1111_0000_0000);
+        }
+        
+        private void setMIDIClockTimerValueL(byte obj)
+        {
+            midiClockTimerValue &= 0b1011_1111_0000_0000;
+            midiClockTimerValue |= obj;
+        }
+
+        private void setMIDIClockTimerValueH(byte obj)
+        {
+            midiClockTimerValue &= 0b0000_0000_1111_1111;
+            midiClockTimerValue |= (ushort)((obj << 8) & 0b1011_1111_0000_0000);
         }
 
         private void Reset()

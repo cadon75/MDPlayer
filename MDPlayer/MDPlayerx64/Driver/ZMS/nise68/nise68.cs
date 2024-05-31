@@ -30,7 +30,7 @@ namespace MDPlayer.Driver.ZMS.nise68
         public Func<int, byte, int> MIDI = null;
 
 
-        public void Init(List<string> envZPDs)
+        public void Init(List<string> envZPDs,bool isVer2)
         {
             mem = new Memory68();
             reg = new Register68();
@@ -47,6 +47,22 @@ namespace MDPlayer.Driver.ZMS.nise68
             mem.PokeL(0x230, IOCSCallAddress);
             mem.PokeL(0x2a8, IOCSCallAddress);
             mem.PokeL(0x2b0, IOCSCallAddress);
+
+            if (isVer2)
+            {
+                //ZMUSIC v2 向け
+                mem.PokeL(0x10c, 0xfe0004);
+                mem.PokeL(0x7c0, 0xfe0004);
+                mem.PokeL(0x1a8, 0xfe0004);
+                mem.PokeL(0x088, niseHuman.mpcmPtr);
+                mem.PokeL(niseHuman.mpcmPtr - 0x08, 0x5043_4d00);
+            }
+            else
+            {
+                //MPCM関連
+                mem.PokeL(0x84, niseHuman.mpcmPtr);//Trapの位置が書いてあるんかな？
+                mem.PokeL(niseHuman.mpcmPtr - 0x8, 0x4d50434d);//'MPCM'
+            }
 
             mem.hookList.Add(new memhook(0xe88001, 0xe88001, hkVsync, null));//vsync?
             mem.hookList.Add(new memhook(0xe90001, 0xe90003, hkOPMr, hkOPMw));//opm
@@ -134,6 +150,74 @@ namespace MDPlayer.Driver.ZMS.nise68
             reg.SSP = hmn.defSSP;
             reg.USP = hmn.defUSP;
             cpu.Ctrap2((ushort)num);
+
+            while (((useStepCounter && step < MaxStepCounter) || !useStepCounter) && !hmn.programTerminate)
+            {
+                waitClock += StepExecute();
+
+#if DEBUG
+                if (useStepCounter)
+                {
+                    step++;
+                    if (step < StartStepCounterForDispStep) continue;
+                }
+
+                if (dispReg)
+                {
+                    DispRegs(reg);
+                }
+
+                if (dispStepCounter) Log.WriteLine(LogLevel.Trace, "STEP:{0} totalCycle:{1}\r\n", step, waitClock);
+
+                //if (run > 3082 && step == 1827)
+                //{
+                //    //Log.SetLogLevel(LogLevel.Trace);
+                //}
+
+                //if (run > 0 && step == 249)
+                //{
+                //    //Log.SetLogLevel(LogLevel.Trace);
+                //}
+
+                //if (run >0 && (reg.PC == 0x0002_f350
+                //    ))
+                //{
+                //    ;
+                //}
+
+                ////コマンド毎のデバッグ向け
+                //if (run > 0 && reg.PC == 0x0003_07ba)//D7->コマンド番号
+                //{
+                //    cmd++;
+                //}
+                //if (cmd>=14 && cmd!=ocmd)//D7->コマンド番号
+                //{
+                //    ;
+                //    ocmd = cmd;
+                //}
+#endif
+            }
+
+#if DEBUG
+            Log.WriteLine(LogLevel.Debug, "Terminate program. return code=${0:X02} runs={1}", hmn.returnCode, run);
+            //Log.WriteLine(LogLevel.Debug, "  alloc count ={0:d}", hmn.memMng.allocCount);
+            //Log.WriteLine(LogLevel.Debug, "");
+#endif
+        }
+
+        public void TrapOPM(bool dispReg = false, bool useStepCounter = false, bool dispStepCounter = false,
+    long MaxStepCounter = 100_000_000, long StartStepCounterForDispStep = 0)
+        {
+            if (dispReg) DispRegs(reg);
+
+            int waitClock = 0;
+            hmn.programTerminate = false;
+            step = 0;
+            run++;
+
+            reg.SSP = hmn.defSSP;
+            reg.USP = hmn.defUSP;
+            cpu.CtrapPtr(iocs.interruptOPM);
 
             while (((useStepCounter && step < MaxStepCounter) || !useStepCounter) && !hmn.programTerminate)
             {
