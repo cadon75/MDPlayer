@@ -275,11 +275,25 @@ namespace MDPlayer.Driver.ZMS
                 opmPCM?.x68sound[0].MountMemory(nise68.mem.mem);
 
                 //演奏
-                byte[] zmd;
-                zmd = File.ReadAllBytes(fnZMD);
-                if (!nise68.hmn.fb.ContainsKey(fnZMD))
+                byte[] zmd = null;
+                if (File.Exists(fnZMD))
                 {
-                    nise68.hmn.fb.Add(fnZMD, zmd);
+                    zmd = File.ReadAllBytes(fnZMD);
+                    if (!nise68.hmn.fb.ContainsKey(fnZMD))
+                    {
+                        nise68.hmn.fb.Add(fnZMD, zmd);
+                    }
+                }
+                else
+                {
+                    if (nise68.hmn.fb.ContainsKey(fnZMD))
+                    {
+                        zmd = nise68.hmn.fb[fnZMD];
+                    }
+                }
+                if (zmd == null)
+                {
+                    throw new Exception(string.Format("Zmd[{0}] file not found. ", fnZMD));
                 }
                 uint fileSize = (uint)zmd.Length;
                 uint filePtr = (uint)nise68.hmn.memMng.Malloc(fileSize);
@@ -360,7 +374,7 @@ namespace MDPlayer.Driver.ZMS
 
         }
 
-        public void Compile(byte[] vgmBuf)
+        public bool Compile(byte[] vgmBuf)
         {
             string fn = PlayingFileName;
             string withoutExtFn;
@@ -374,7 +388,7 @@ namespace MDPlayer.Driver.ZMS
             if (!File.Exists(zmc))
             {
                 log.Write(LogLevel.Information, "File not found : {0}", zmc);
-                throw new FileNotFoundException(zmc);
+                return false;//throw new FileNotFoundException(zmc);
             }
 
             MDPlayer.Driver.ZMS.nise68.Log.SetMsgWrite(MsgWrite);
@@ -389,8 +403,53 @@ namespace MDPlayer.Driver.ZMS
             nise68.hmn.fb.Add(fnZMS, vgmBuf);
             if (nise68.LoadRun(zmc, Path.GetFileName(fnZMS), Path.GetDirectoryName(fnZMS), 0x00012000
             , true, true, true
-            ) != 0) throw new Exception("Compile Error");
+            ) != 0)
+            {
+                log.Write(LogLevel.Information, "v3 Compile Error", zmc);
+                return false;
+            }
             CompiledData = nise68.hmn.fb[fnZMD];
+
+            return true;
+        }
+
+        public bool Compilev2(byte[] vgmBuf)
+        {
+            string fn = PlayingFileName;
+            string withoutExtFn;
+            string? dn = Path.GetDirectoryName(fn);
+            if (!string.IsNullOrEmpty(dn)) withoutExtFn = Path.Combine(dn, Path.GetFileNameWithoutExtension(fn));
+            else withoutExtFn = Path.GetFileNameWithoutExtension(fn);
+            string fnZMD = withoutExtFn + ".ZMD";
+            string fnZMS = withoutExtFn + ".ZMS";
+            string crntDir = Path.GetDirectoryName(Application.ExecutablePath);
+            string zmusic = Path.Combine(crntDir, "ZMUSIC.X");
+            if (!File.Exists(zmusic))
+            {
+                log.Write(LogLevel.Information, "File not found : {0}", zmusic);
+                return false;//throw new FileNotFoundException(zmc);
+            }
+
+            MDPlayer.Driver.ZMS.nise68.Log.SetMsgWrite(MsgWrite);
+            nise68 = new nise68.nise68();
+            nise68.SetMPCM(PCM8CallBack);
+            nise68.SetOPM(OPMCallBack);
+            nise68.SetMIDI(MIDICallBack, (int)Common.VGMProcSampleRate);
+            nise68.SetSCC_A(SCCCallBack, (int)Common.VGMProcSampleRate);
+            nise68.Init(null, false);
+
+            //コンパイル
+            nise68.hmn.fb.Add(fnZMS, vgmBuf);
+            if (nise68.LoadRun(zmusic, "-C "+Path.GetFileName(fnZMS), Path.GetDirectoryName(fnZMS), 0x00012000
+            , true, true, true
+            ) != 0)
+            {
+                log.Write(LogLevel.Information, "v2 Compile Error", zmusic);
+                return false;
+            }
+            CompiledData = nise68.hmn.fb[fnZMD];
+
+            return true;
         }
 
         private void MsgWrite(string arg1, object[] arg2)

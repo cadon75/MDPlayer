@@ -1028,6 +1028,10 @@ namespace MDPlayer.Driver.ZMS.nise68
             {
                 return Cexg(n);
             }
+            if ((n & 0xf1c0) == 0xc1c0)
+            {
+                return Cmuls(n);
+            }
 
             int size = (n & 0x01c0) >> 6;
             switch (size)
@@ -9151,7 +9155,135 @@ namespace MDPlayer.Driver.ZMS.nise68
 
         private int CsubbDn(ushort n)
         {
-            throw new NotImplementedException();
+#if DEBUG
+            string nimo = "SUB.b ";
+#endif
+
+
+            int cycle = 0;
+
+            int dr = (n & 0x0e00) >> 9;
+            int sm = (n & 0x0038) >> 3;
+            int sr = (n & 0x0007);
+
+            //src
+            UInt32 src = reg.GetDb(dr);
+#if DEBUG
+            nimo += string.Format("D{0},", dr);
+#endif
+
+
+            UInt32 dst = 0;
+            UInt32 ans = 0;
+
+            UInt16 vw;
+            bool isA;
+            int ni;
+            bool isL;
+            UInt32 IX;
+            UInt32 ptr;
+
+            cycle = sm;
+            switch (sm)
+            {
+                case 2://(An)
+#if DEBUG
+                    nimo += string.Format("(A{0})", sr);
+#endif
+
+                    dst = (UInt32)(Int16)mem.PeekB(reg.A[sr]);
+                    ans = (UInt32)((Int32)(sbyte)(byte)dst - (Int32)(sbyte)(byte)src);
+                    mem.PokeB(reg.A[sr], (byte)ans);
+                    break;
+                case 3://(An)+
+#if DEBUG
+                    nimo += string.Format("(A{0})+", sr);
+#endif
+
+                    dst = (UInt32)(Int16)mem.PeekB(reg.A[sr]);
+                    ans = (UInt32)((Int32)(sbyte)(byte)dst - (Int32)(sbyte)(byte)src);
+                    mem.PokeB(reg.A[sr], (byte)ans);
+                    reg.A[sr] += 1;
+                    break;
+                case 4://-(An)
+#if DEBUG
+                    nimo += string.Format("-(A{0})", sr);
+#endif
+
+                    reg.A[sr] -= 1;
+                    dst = (UInt32)(Int16)mem.PeekB(reg.A[sr]);
+                    ans = (UInt32)((Int32)(sbyte)(byte)dst - (Int32)(sbyte)(byte)src);
+                    mem.PokeB(reg.A[sr], (byte)ans);
+                    break;
+                case 5://d16(An)
+                    Int16 d16 = (Int16)FetchW();
+#if DEBUG
+                    nimo += string.Format("${0:x04}(A{1})", d16, sr);
+#endif
+
+                    dst = (UInt32)(Int16)mem.PeekB((UInt32)(reg.A[sr] + d16));
+                    ans = (UInt32)((Int32)(sbyte)(byte)dst - (Int32)(sbyte)(byte)src);
+                    mem.PokeB((UInt32)(reg.A[sr] + d16), (byte)ans);
+                    break;
+                case 6://d8(An,IX)
+                    vw = FetchW();
+                    isA = (vw & 0x8000) != 0;
+                    ni = (vw & 0x7000) >> 12;
+                    isL = (vw & 0x0800) != 0;
+                    IX = (isA ? reg.A[ni] : reg.D[ni]);
+#if DEBUG
+                    nimo += string.Format("${0:x02}(A{1},{2}{3}.{4})", (byte)vw, sr, isA ? "A" : "D", ni, isL ? "l" : "w");
+#endif
+
+                    if (!isL) ptr = (UInt32)(reg.A[sr] + ((sbyte)(byte)vw) + (Int16)(UInt16)IX);
+                    else ptr = (UInt32)(reg.A[sr] + ((sbyte)(byte)vw) + IX);
+                    dst = (UInt32)(Int16)mem.PeekB(ptr);
+                    ans = (UInt32)((Int32)(sbyte)(byte)dst - (Int32)(sbyte)(byte)src);
+                    mem.PokeB(ptr, (byte)ans);
+                    break;
+                case 7://etc.
+                    switch (sr)
+                    {
+                        case 0://Abs.W
+                            ptr = (UInt32)(Int16)FetchW();
+#if DEBUG
+                            nimo += string.Format("${0:x04}", (UInt16)ptr);
+#endif
+
+                            dst = (UInt32)(Int16)mem.PeekB(ptr);
+                            ans = (UInt32)((Int32)(sbyte)(byte)dst - (Int32)(sbyte)(byte)src);
+                            mem.PokeB(ptr, (byte)ans);
+                            break;
+                        case 1://Abs.L
+                            ptr = FetchL();
+#if DEBUG
+                            nimo += string.Format("${0:x08}", (UInt32)ptr);
+#endif
+
+                            dst = (UInt32)(Int16)mem.PeekB(ptr);
+                            ans = (UInt32)((Int32)(sbyte)(byte)dst - (Int32)(sbyte)(byte)src);
+                            mem.PokeB(ptr, (byte)ans);
+                            cycle = 8;
+                            break;
+                    }
+                    break;
+            }
+
+            //flag
+            reg.SetN((byte)ans);
+            reg.SetZ((byte)ans);
+            reg.SetVcmp((byte)src, (byte)dst, (byte)ans);
+            reg.SetCcmp((byte)src, (byte)dst, (byte)ans);
+            reg.X = reg.C;
+
+            //cycle
+            cycle = cy.Sub_bDn[cycle];
+
+#if DEBUG
+            Log.WriteLine(LogLevel.Trace, nimo);
+#endif
+
+            return cycle;
         }
 
         private int CsubwDn(ushort n)
@@ -10036,6 +10168,57 @@ namespace MDPlayer.Driver.ZMS.nise68
         private int Ccmpm_l(ushort n)
         {
             throw new NotImplementedException();
+        }
+
+        private int Cmuls(UInt16 n)
+        {
+
+            string nimo = "";
+#if DEBUG
+            nimo = "MULS.w ";
+#endif
+
+
+            int cycle = 0;
+
+            int dr = (n & 0x0e00) >> 9;
+            //int dm = (n & 0x01c0) >> 6;
+            int sm = (n & 0x0038) >> 3;
+            int sr = (n & 0x0007);
+
+            //src
+            Int32 sval = (Int32)(Int16)srcAddressingWord(ref nimo, ref cycle, sm, sr);
+
+#if DEBUG
+            nimo += ",";
+#endif
+
+
+            //dst
+            Int32 dval = (Int16)reg.D[dr];
+
+            //compute
+            Int32 ans = dval * sval;
+            reg.D[dr] = (UInt32)(ans & 0xffff);
+
+#if DEBUG
+            nimo += string.Format("D{0}", dr);
+#endif
+
+            cycle = cy.Muls_w[cycle];
+
+            //flag
+            //reg.X -
+            reg.N = (ans & 0x8000_000) != 0;
+            reg.Z = ans == 0;
+            reg.V = false;
+            reg.C = false;
+
+#if DEBUG
+            Log.WriteLine(LogLevel.Trace, nimo);
+#endif
+
+            return cycle;
         }
 
         private int Cmulu(UInt16 n)

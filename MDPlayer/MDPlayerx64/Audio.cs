@@ -10,6 +10,7 @@ using musicDriverInterface;
 using NAudio.Wave;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO.Compression;
 using System.Text;
 using static MDPlayer.MDChipParams;
@@ -3527,8 +3528,16 @@ namespace MDPlayer
                 //ZMSの場合は事前にコンパイルを実施
                 if (fm == EnmFileFormat.ZMS)
                 {
-                    ((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf);
-                    vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                    if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf))
+                    {
+                        vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                    }
+                    else if(((Driver.ZMS.ZMS)DriverVirtual).Compilev2(vgmBuf))
+                    {
+                        vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                        ((Driver.ZMS.ZMS)DriverVirtual).version = 2;
+                        ((Driver.ZMS.ZMS)DriverReal).version = 2;
+                    }
                 }
                 else
                 {

@@ -141,6 +141,7 @@ namespace MDPlayer.Driver.ZMS.nise68
         public static int[] Cmpa_l = new int[] { 6, 6, 14, 14, 16, 18, 20, 18, 22, 18, 20, 14 };
 
         public static int[] Mulu_w = new int[] { 70, -1, 74, 74, 76, 78, 80, 78, 82, 78, 80, 74 };
+        public static int[] Muls_w = new int[] { 70, -1, 74, 74, 76, 78, 80, 78, 82, 78, 80, 74 };
         public static int[] Divu_w = new int[] { 140, -1, 144, 144, 146, 148, 150, 148, 152, 148, 150, 144 };
         public static int[] Divs_w = new int[] { 158, -1, 162, 162, 164, 166, 168, 166, 170, 166, 168, 162 };
 
