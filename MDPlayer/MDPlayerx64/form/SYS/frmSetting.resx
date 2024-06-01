@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 840</value>
+    <value>398, 558</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnOK.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
@@ -155,7 +155,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>492, 840</value>
+    <value>492, 558</value>
   </data>
   <data name="btnCancel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
@@ -1211,7 +1211,7 @@
     <value>5, 5, 5, 5</value>
   </data>
   <data name="ucSI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>560, 354</value>
+    <value>560, 360</value>
   </data>
   <data name="ucSI.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -1238,7 +1238,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>567, 405</value>
+    <value>567, 411</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -1460,7 +1460,7 @@
     <value>6</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 416</value>
+    <value>4, 423</value>
   </data>
   <data name="groupBox3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
@@ -1496,7 +1496,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpModule.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpModule.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -12049,7 +12049,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>560, 689</value>
+    <value>560, 407</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
@@ -12073,7 +12073,7 @@
     <value>True</value>
   </data>
   <data name="lblKeyBoardHookNotice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 736</value>
+    <value>8, 454</value>
   </data>
   <data name="lblKeyBoardHookNotice.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
@@ -12112,7 +12112,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="gbUseKeyBoardHook.Size" type="System.Drawing.Size, System.Drawing">
-    <value>560, 766</value>
+    <value>560, 484</value>
   </data>
   <data name="gbUseKeyBoardHook.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
@@ -12409,7 +12409,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpKeyBoard.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpKeyBoard.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -15274,7 +15274,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tcSetting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>583, 828</value>
+    <value>583, 546</value>
   </data>
   <data name="tcSetting.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -15298,7 +15298,7 @@
     <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>588, 883</value>
+    <value>588, 601</value>
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>

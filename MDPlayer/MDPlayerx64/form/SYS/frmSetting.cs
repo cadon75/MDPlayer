@@ -434,6 +434,8 @@ namespace MDPlayer.form
                     , ucSI.cmbAY8910P_Real
                     , null, null, null
                     , ucSI.rbAY8910P_Emu2);
+                ucSI.cbAY8910P_Emu2YMmode.Enabled = ucSI.rbAY8910P_Emu2.Checked;
+                ucSI.cbAY8910P_Emu2YMmode.Checked = setting.AY8910Type[0].YM2149mode;
 
                 SetRealParam(setting.AY8910Type[1]
                     , ucSI.rbAY8910S_Silent
@@ -442,6 +444,8 @@ namespace MDPlayer.form
                     , ucSI.cmbAY8910S_Real
                     , null, null, null
                     , ucSI.rbAY8910S_Emu2);
+                ucSI.cbAY8910S_Emu2YMmode.Enabled = ucSI.rbAY8910S_Emu2.Checked;
+                ucSI.cbAY8910S_Emu2YMmode.Checked = setting.AY8910Type[1].YM2149mode;
 
                 SetRealParam(setting.K051649Type[0]
                     , ucSI.rbK051649P_Silent
@@ -1388,6 +1392,7 @@ namespace MDPlayer.form
                 , ucSI.rbAY8910P_Emu2
                 , null, null, null, null
                 );
+            setting.AY8910Type[0].YM2149mode = ucSI.cbAY8910P_Emu2YMmode.Checked;
 
             setting.AY8910Type[1] = new Setting.ChipType2();
             SetChipType2FromControls(
@@ -1399,6 +1404,7 @@ namespace MDPlayer.form
                 , ucSI.rbAY8910S_Emu2
                 , null, null, null, null
                 );
+            setting.AY8910Type[1].YM2149mode = ucSI.cbAY8910S_Emu2YMmode.Checked;
 
 
             setting.K051649Type = new Setting.ChipType2[2];

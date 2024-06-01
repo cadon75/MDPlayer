@@ -5568,7 +5568,7 @@ namespace MDPlayer
 
                         UseWait = this.UseWait,
                         UseWaitBoost = this.UseWaitBoost,
-                        OnlyPCMEmulation = this.OnlyPCMEmulation
+                        OnlyPCMEmulation = this.OnlyPCMEmulation,
                     };
 
                     return ret;
@@ -5616,6 +5616,21 @@ namespace MDPlayer
             private bool[] _useRealChipAutoAdjust = null;
             public bool[] UseRealChipAutoAdjust { get => _useRealChipAutoAdjust; set => _useRealChipAutoAdjust = value; }
 
+            //YM2149モードにするか
+            private bool _YM2149mode = false;
+            public bool YM2149mode
+            {
+                get
+                {
+                    return _YM2149mode;
+                }
+
+                set
+                {
+                    _YM2149mode = value;
+                }
+            }
+
 
             public ChipType2 Copy()
             {
@@ -5648,6 +5663,7 @@ namespace MDPlayer
                 ct.UseRealChipFreqDiff = this.UseRealChipFreqDiff;
                 ct.UseRealChipAutoAdjust = this.UseRealChipAutoAdjust;
                 ct.exchgPAN = this.exchgPAN;
+                ct.YM2149mode = this.YM2149mode;
 
                 return ct;
             }

@@ -2563,6 +2563,7 @@ namespace MDPlayer
                         chip.Start = ay8910.Start;
                         chip.Stop = ay8910.Stop;
                         chip.Reset = ay8910.Reset;
+                        chip.Option = null;
                     }
                     else if ((setting.AY8910Type[0].UseEmu[1]))
                     {
@@ -2573,13 +2574,16 @@ namespace MDPlayer
                         chip.Start = ay8910mame.Start;
                         chip.Stop = ay8910mame.Stop;
                         chip.Reset = ay8910mame.Reset;
+                        chip.Option = new object[]{
+                            (byte)(setting.AY8910Type[0].YM2149mode ? 0x10:0x00), //chip_type 0x10:YM2149 0x00:AY
+                            (byte)0x00  //chip_flag
+                        };
                     }
 
                     chip.SamplingRate = (UInt32)setting.outputDevice.SampleRate;
                     chip.Volume = setting.balance.AY8910Volume;
                     chip.Clock = Driver.MGSDRV.MGSDRV.baseclockAY8910 / 2;
                     ClockAY8910 = (int)Driver.MGSDRV.MGSDRV.baseclockAY8910;
-                    chip.Option = null;
 
                     ChipLED.PriAY10 = 1;
 
@@ -2745,6 +2749,7 @@ namespace MDPlayer
                         chip.Start = ay8910.Start;
                         chip.Stop = ay8910.Stop;
                         chip.Reset = ay8910.Reset;
+                        chip.Option = null;
                     }
                     else if ((setting.AY8910Type[0].UseEmu[1]))
                     {
@@ -2755,13 +2760,16 @@ namespace MDPlayer
                         chip.Start = ay8910mame.Start;
                         chip.Stop = ay8910mame.Stop;
                         chip.Reset = ay8910mame.Reset;
+                        chip.Option = new object[]{
+                            (byte)(setting.AY8910Type[0].YM2149mode ? 0x10:0x00), //chip_type 0x10:YM2149 0x00:AY
+                            (byte)0x00  //chip_flag
+                        };
                     }
 
                     chip.SamplingRate = (UInt32)setting.outputDevice.SampleRate;
                     chip.Volume = setting.balance.AY8910Volume;
                     chip.Clock = Driver.MuSICA.MuSICA.baseclockAY8910 / 2;
                     ClockAY8910 = (int)Driver.MuSICA.MuSICA.baseclockAY8910;
-                    chip.Option = null;
 
                     ChipLED.PriAY10 = 1;
 
@@ -6958,6 +6966,7 @@ namespace MDPlayer
                             chip.Start = ay8910.Start;
                             chip.Stop = ay8910.Stop;
                             chip.Reset = ay8910.Reset;
+                            chip.Option = null;
                         }
                         else if ((i == 0 && setting.AY8910Type[0].UseEmu[1])
                             || (i == 1 && setting.AY8910Type[1].UseEmu[1]))
@@ -6969,13 +6978,16 @@ namespace MDPlayer
                             chip.Start = ay8910mame.Start;
                             chip.Stop = ay8910mame.Stop;
                             chip.Reset = ay8910mame.Reset;
+                            chip.Option = new object[]{
+                            (byte)(setting.AY8910Type[i].YM2149mode ? 0x10:0x00), //chip_type 0x10:YM2149 0x00:AY
+                            (byte)0x00  //chip_flag
+                        };
                         }
 
                         chip.SamplingRate = (UInt32)setting.outputDevice.SampleRate;
                         chip.Volume = setting.balance.AY8910Volume;
                         chip.Clock = (((Vgm)DriverVirtual).AY8910ClockValue & 0x7fffffff) / 2;
                         ClockAY8910 = (int)chip.Clock;
-                        chip.Option = null;
 
                         hiyorimiDeviceFlag |= 0x2;
 

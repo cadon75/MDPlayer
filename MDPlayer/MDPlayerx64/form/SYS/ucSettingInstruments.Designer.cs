@@ -183,12 +183,14 @@
             rbYM2413P_Silent = new RadioButton();
             rbYM2413P_Emu = new RadioButton();
             groupBox26 = new GroupBox();
+            cbAY8910P_Emu2YMmode = new CheckBox();
             cmbAY8910P_Real = new ComboBox();
             rbAY8910P_Real = new RadioButton();
             rbAY8910P_Silent = new RadioButton();
             rbAY8910P_Emu2 = new RadioButton();
             rbAY8910P_Emu = new RadioButton();
             groupBox27 = new GroupBox();
+            cbAY8910S_Emu2YMmode = new CheckBox();
             cmbAY8910S_Real = new ComboBox();
             rbAY8910S_Real = new RadioButton();
             rbAY8910S_Silent = new RadioButton();
@@ -2099,6 +2101,7 @@
             // groupBox26
             // 
             groupBox26.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox26.Controls.Add(cbAY8910P_Emu2YMmode);
             groupBox26.Controls.Add(cmbAY8910P_Real);
             groupBox26.Controls.Add(rbAY8910P_Real);
             groupBox26.Controls.Add(rbAY8910P_Silent);
@@ -2112,6 +2115,17 @@
             groupBox26.TabIndex = 6;
             groupBox26.TabStop = false;
             groupBox26.Text = "AY-3-8910(Primary)";
+            // 
+            // cbAY8910P_Emu2YMmode
+            // 
+            cbAY8910P_Emu2YMmode.AutoSize = true;
+            cbAY8910P_Emu2YMmode.Location = new Point(359, 21);
+            cbAY8910P_Emu2YMmode.Margin = new Padding(4);
+            cbAY8910P_Emu2YMmode.Name = "cbAY8910P_Emu2YMmode";
+            cbAY8910P_Emu2YMmode.Size = new Size(98, 19);
+            cbAY8910P_Emu2YMmode.TabIndex = 5;
+            cbAY8910P_Emu2YMmode.Text = "YM2149mode";
+            cbAY8910P_Emu2YMmode.UseVisualStyleBackColor = true;
             // 
             // cmbAY8910P_Real
             // 
@@ -2155,6 +2169,7 @@
             rbAY8910P_Emu2.TabIndex = 0;
             rbAY8910P_Emu2.Text = "Emulation(mame)";
             rbAY8910P_Emu2.UseVisualStyleBackColor = true;
+            rbAY8910P_Emu2.CheckedChanged += rbAY8910P_Emu2_CheckedChanged;
             // 
             // rbAY8910P_Emu
             // 
@@ -2172,6 +2187,7 @@
             // groupBox27
             // 
             groupBox27.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox27.Controls.Add(cbAY8910S_Emu2YMmode);
             groupBox27.Controls.Add(cmbAY8910S_Real);
             groupBox27.Controls.Add(rbAY8910S_Real);
             groupBox27.Controls.Add(rbAY8910S_Silent);
@@ -2185,6 +2201,17 @@
             groupBox27.TabIndex = 7;
             groupBox27.TabStop = false;
             groupBox27.Text = "AY-3-8910(Secondary)";
+            // 
+            // cbAY8910S_Emu2YMmode
+            // 
+            cbAY8910S_Emu2YMmode.AutoSize = true;
+            cbAY8910S_Emu2YMmode.Location = new Point(359, 21);
+            cbAY8910S_Emu2YMmode.Margin = new Padding(4);
+            cbAY8910S_Emu2YMmode.Name = "cbAY8910S_Emu2YMmode";
+            cbAY8910S_Emu2YMmode.Size = new Size(98, 19);
+            cbAY8910S_Emu2YMmode.TabIndex = 6;
+            cbAY8910S_Emu2YMmode.Text = "YM2149mode";
+            cbAY8910S_Emu2YMmode.UseVisualStyleBackColor = true;
             // 
             // cmbAY8910S_Real
             // 
@@ -2228,6 +2255,7 @@
             rbAY8910S_Emu2.TabIndex = 0;
             rbAY8910S_Emu2.Text = "Emulation(mame)";
             rbAY8910S_Emu2.UseVisualStyleBackColor = true;
+            rbAY8910S_Emu2.CheckedChanged += rbAY8910S_Emu2_CheckedChanged;
             // 
             // rbAY8910S_Emu
             // 
@@ -2639,5 +2667,7 @@
         public CheckBox cbYM2151S_RealDefAutoAdjust;
         public CheckBox cbYM2151P_exchgPAN;
         public CheckBox cbYM2151S_exchgPAN;
+        public CheckBox cbAY8910P_Emu2YMmode;
+        public CheckBox cbAY8910S_Emu2YMmode;
     }
 }
