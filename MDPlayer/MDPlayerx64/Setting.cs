@@ -1576,6 +1576,7 @@ namespace MDPlayer
             public bool AdjustTLParam { get; set; } = false;
             public string ResourceFile { get; set; } = null;
             public bool SaveCompiledFile { get; set; } = false;
+            public bool TappyMode { get;  set; }=true;
 
             public Other Copy()
             {
@@ -1606,7 +1607,8 @@ namespace MDPlayer
                     NonRenderingForPause = this.NonRenderingForPause,
                     AdjustTLParam = this.AdjustTLParam,
                     ResourceFile = this.ResourceFile,
-                    SaveCompiledFile = this.SaveCompiledFile
+                    SaveCompiledFile = this.SaveCompiledFile,
+                    TappyMode=this.TappyMode,
                 };
 
                 return other;
@@ -4689,6 +4691,9 @@ namespace MDPlayer
             public HookKeyInfo Upc { get => _Upc; set => _Upc = value; }
             public HookKeyInfo Dpc { get => _Dpc; set => _Dpc = value; }
             public HookKeyInfo Ppc { get => _Ppc; set => _Ppc = value; }
+            public HookKeyInfo Sd { get => _Sd; set => _Sd = value; }
+            public HookKeyInfo Su { get => _Su; set => _Su = value; }
+            public HookKeyInfo Sr { get => _Sr; set => _Sr = value; }
             private HookKeyInfo _Stop = new();
             private HookKeyInfo _Pause = new();
             private HookKeyInfo _Fadeout = new();
@@ -4703,6 +4708,9 @@ namespace MDPlayer
             private HookKeyInfo _Upc = new();
             private HookKeyInfo _Dpc = new();
             private HookKeyInfo _Ppc = new();
+            private HookKeyInfo _Sd = new();
+            private HookKeyInfo _Su = new();
+            private HookKeyInfo _Sr = new();
 
             public KeyBoardHook Copy()
             {
@@ -4722,7 +4730,10 @@ namespace MDPlayer
                     Rmv = this.Rmv.Copy(),
                     Upc = this.Upc.Copy(),
                     Dpc = this.Dpc.Copy(),
-                    Ppc = this.Ppc.Copy()
+                    Ppc = this.Ppc.Copy(),
+                    Sd = this.Sd.Copy(),
+                    Su = this.Su.Copy(),
+                    Sr = this.Sr.Copy(),
                 };
 
                 return keyBoard;

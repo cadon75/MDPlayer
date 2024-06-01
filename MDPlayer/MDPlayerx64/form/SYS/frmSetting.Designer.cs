@@ -335,8 +335,20 @@ namespace MDPlayer.form
             cbUseKeyBoardHook = new CheckBox();
             gbUseKeyBoardHook = new GroupBox();
             panel1 = new Panel();
+            lblSrKey = new Label();
+            lblSuKey = new Label();
+            btSrClr = new Button();
+            btSrSet = new Button();
+            label80 = new Label();
+            btSuClr = new Button();
+            label78 = new Label();
+            btSdClr = new Button();
+            label75 = new Label();
+            lblSdKey = new Label();
             btPpcClr = new Button();
             cbPpcShift = new CheckBox();
+            btnSuSet = new Button();
+            btnSdSet = new Button();
             btPpcSet = new Button();
             label76 = new Label();
             lblPpcKey = new Label();
@@ -520,6 +532,7 @@ namespace MDPlayer.form
             btnResetPosition = new Button();
             btnOpenSettingFolder = new Button();
             cbExALL = new CheckBox();
+            cbTappyMode = new CheckBox();
             cbSaveCompiledFile = new CheckBox();
             cbInitAlways = new CheckBox();
             cbAutoOpen = new CheckBox();
@@ -2882,8 +2895,21 @@ namespace MDPlayer.form
             // panel1
             // 
             resources.ApplyResources(panel1, "panel1");
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(lblSrKey);
+            panel1.Controls.Add(lblSuKey);
+            panel1.Controls.Add(btSrClr);
+            panel1.Controls.Add(btSrSet);
+            panel1.Controls.Add(label80);
+            panel1.Controls.Add(btSuClr);
+            panel1.Controls.Add(label78);
+            panel1.Controls.Add(btSdClr);
+            panel1.Controls.Add(label75);
+            panel1.Controls.Add(lblSdKey);
             panel1.Controls.Add(btPpcClr);
             panel1.Controls.Add(cbPpcShift);
+            panel1.Controls.Add(btnSuSet);
+            panel1.Controls.Add(btnSdSet);
             panel1.Controls.Add(btPpcSet);
             panel1.Controls.Add(label76);
             panel1.Controls.Add(lblPpcKey);
@@ -2994,6 +3020,64 @@ namespace MDPlayer.form
             panel1.Controls.Add(cbSlowAlt);
             panel1.Name = "panel1";
             // 
+            // lblSrKey
+            // 
+            resources.ApplyResources(lblSrKey, "lblSrKey");
+            lblSrKey.Name = "lblSrKey";
+            // 
+            // lblSuKey
+            // 
+            resources.ApplyResources(lblSuKey, "lblSuKey");
+            lblSuKey.Name = "lblSuKey";
+            // 
+            // btSrClr
+            // 
+            resources.ApplyResources(btSrClr, "btSrClr");
+            btSrClr.Name = "btSrClr";
+            btSrClr.UseVisualStyleBackColor = true;
+            btSrClr.Click += btSrClr_Click;
+            // 
+            // btSrSet
+            // 
+            resources.ApplyResources(btSrSet, "btSrSet");
+            btSrSet.Name = "btSrSet";
+            btSrSet.UseVisualStyleBackColor = true;
+            btSrSet.Click += btSrSet_Click;
+            // 
+            // label80
+            // 
+            resources.ApplyResources(label80, "label80");
+            label80.Name = "label80";
+            // 
+            // btSuClr
+            // 
+            resources.ApplyResources(btSuClr, "btSuClr");
+            btSuClr.Name = "btSuClr";
+            btSuClr.UseVisualStyleBackColor = true;
+            btSuClr.Click += btSuClr_Click;
+            // 
+            // label78
+            // 
+            resources.ApplyResources(label78, "label78");
+            label78.Name = "label78";
+            // 
+            // btSdClr
+            // 
+            resources.ApplyResources(btSdClr, "btSdClr");
+            btSdClr.Name = "btSdClr";
+            btSdClr.UseVisualStyleBackColor = true;
+            btSdClr.Click += btSdClr_Click;
+            // 
+            // label75
+            // 
+            resources.ApplyResources(label75, "label75");
+            label75.Name = "label75";
+            // 
+            // lblSdKey
+            // 
+            resources.ApplyResources(lblSdKey, "lblSdKey");
+            lblSdKey.Name = "lblSdKey";
+            // 
             // btPpcClr
             // 
             resources.ApplyResources(btPpcClr, "btPpcClr");
@@ -3006,6 +3090,20 @@ namespace MDPlayer.form
             resources.ApplyResources(cbPpcShift, "cbPpcShift");
             cbPpcShift.Name = "cbPpcShift";
             cbPpcShift.UseVisualStyleBackColor = true;
+            // 
+            // btnSuSet
+            // 
+            resources.ApplyResources(btnSuSet, "btnSuSet");
+            btnSuSet.Name = "btnSuSet";
+            btnSuSet.UseVisualStyleBackColor = true;
+            btnSuSet.Click += btnSuSet_Click;
+            // 
+            // btnSdSet
+            // 
+            resources.ApplyResources(btnSdSet, "btnSdSet");
+            btnSdSet.Name = "btnSdSet";
+            btnSdSet.UseVisualStyleBackColor = true;
+            btnSdSet.Click += btnSdSet_Click;
             // 
             // btPpcSet
             // 
@@ -3958,6 +4056,7 @@ namespace MDPlayer.form
             tpOther.Controls.Add(btnResetPosition);
             tpOther.Controls.Add(btnOpenSettingFolder);
             tpOther.Controls.Add(cbExALL);
+            tpOther.Controls.Add(cbTappyMode);
             tpOther.Controls.Add(cbSaveCompiledFile);
             tpOther.Controls.Add(cbInitAlways);
             tpOther.Controls.Add(cbAutoOpen);
@@ -4169,6 +4268,13 @@ namespace MDPlayer.form
             cbExALL.Name = "cbExALL";
             cbExALL.UseVisualStyleBackColor = true;
             cbExALL.CheckedChanged += CbUseLoopTimes_CheckedChanged;
+            // 
+            // cbTappyMode
+            // 
+            resources.ApplyResources(cbTappyMode, "cbTappyMode");
+            cbTappyMode.Name = "cbTappyMode";
+            cbTappyMode.UseVisualStyleBackColor = true;
+            cbTappyMode.CheckedChanged += CbUseLoopTimes_CheckedChanged;
             // 
             // cbSaveCompiledFile
             // 
@@ -5053,5 +5159,34 @@ namespace MDPlayer.form
         private TextBox tbResourceFile;
         private Label label73;
         private CheckBox cbSaveCompiledFile;
+        private CheckBox cbTappyMode;
+        private Button btSrClr;
+        private Button btSrSet;
+        private CheckBox cbSrShift;
+        private Button button6;
+        private Label label80;
+        private Label label81;
+        private CheckBox checkBox8;
+        private CheckBox checkBox9;
+        private Button btSuClr;
+        private CheckBox checkBox4;
+        private Button button4;
+        private Label label78;
+        private Label label79;
+        private CheckBox checkBox5;
+        private CheckBox checkBox6;
+        private Button btSdClr;
+        private CheckBox checkBox1;
+        private Button button2;
+        private Label label75;
+        private Label lblSdKey;
+        private CheckBox checkBox2;
+        private CheckBox checkBox3;
+        private CheckBox cbSuShift;
+        private CheckBox cbSdShift;
+        private Label lblSrKey;
+        private Label lblSuKey;
+        private Button btnSuSet;
+        private Button btnSdSet;
     }
 }

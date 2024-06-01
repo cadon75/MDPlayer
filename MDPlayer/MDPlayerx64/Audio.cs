@@ -7833,6 +7833,12 @@ namespace MDPlayer
 
         }
 
+        public static void Speed(double value)
+        {
+            vgmSpeed = value;
+            if (DriverVirtual != null) DriverVirtual.vgmSpeed = vgmSpeed;
+            if (DriverReal != null) DriverReal.vgmSpeed = vgmSpeed;
+        }
 
 
         public static void GO()

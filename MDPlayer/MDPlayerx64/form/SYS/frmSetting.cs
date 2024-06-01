@@ -888,8 +888,18 @@ namespace MDPlayer.form
             lblPpcKey.Text = setting.keyBoardHook.Ppc.Key;
             btPpcClr.Enabled = (lblPpcKey.Text != "(None)" && !string.IsNullOrEmpty(lblPpcKey.Text));
 
+            lblSdKey.Text = setting.keyBoardHook.Sd.Key;
+            btSdClr.Enabled = (lblSdKey.Text != "(None)" && !string.IsNullOrEmpty(lblSdKey.Text));
+
+            lblSuKey.Text = setting.keyBoardHook.Su.Key;
+            btSuClr.Enabled = (lblSuKey.Text != "(None)" && !string.IsNullOrEmpty(lblSuKey.Text));
+
+            lblSrKey.Text = setting.keyBoardHook.Sr.Key;
+            btSrClr.Enabled = (lblSrKey.Text != "(None)" && !string.IsNullOrEmpty(lblSrKey.Text));
+
             cbExALL.Checked = setting.other.ExAll;
             cbNonRenderingForPause.Checked = setting.other.NonRenderingForPause;
+            cbTappyMode.Checked = setting.other.TappyMode;
 
 
 
@@ -1622,6 +1632,7 @@ namespace MDPlayer.form
             setting.other.InitAlways = cbInitAlways.Checked;
             setting.other.EmptyPlayList = cbEmptyPlayList.Checked;
             setting.other.ExAll = cbExALL.Checked;
+            setting.other.TappyMode = cbTappyMode.Checked;
             setting.other.NonRenderingForPause = cbNonRenderingForPause.Checked;
             setting.other.AdjustTLParam = cbAdjustTLParam.Checked;
             setting.other.SaveCompiledFile = cbSaveCompiledFile.Checked;
@@ -1899,6 +1910,23 @@ namespace MDPlayer.form
             setting.keyBoardHook.Ppc.Alt = cbPpcAlt.Checked;
             setting.keyBoardHook.Ppc.Key = string.IsNullOrEmpty(lblPpcKey.Text) ? "(None)" : lblPpcKey.Text;
 
+            setting.keyBoardHook.Sd.Shift = false;
+            setting.keyBoardHook.Sd.Ctrl = false;
+            setting.keyBoardHook.Sd.Win = false;
+            setting.keyBoardHook.Sd.Alt = false;
+            setting.keyBoardHook.Sd.Key = string.IsNullOrEmpty(lblSdKey.Text) ? "(None)" : lblSdKey.Text;
+
+            setting.keyBoardHook.Su.Shift = false;
+            setting.keyBoardHook.Su.Ctrl = false;
+            setting.keyBoardHook.Su.Win = false;
+            setting.keyBoardHook.Su.Alt = false;
+            setting.keyBoardHook.Su.Key = string.IsNullOrEmpty(lblSuKey.Text) ? "(None)" : lblSuKey.Text;
+
+            setting.keyBoardHook.Sr.Shift = false;
+            setting.keyBoardHook.Sr.Ctrl = false;
+            setting.keyBoardHook.Sr.Win = false;
+            setting.keyBoardHook.Sr.Alt = false;
+            setting.keyBoardHook.Sr.Key = string.IsNullOrEmpty(lblSrKey.Text) ? "(None)" : lblSrKey.Text;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -2294,12 +2322,12 @@ namespace MDPlayer.form
             string fullPath = Common.settingFilePath;
             try
             {
-                Process.Start("explorer.exe", fullPath);                
+                Process.Start("explorer.exe", fullPath);
             }
             catch
             {
                 MessageBox.Show(
-                    string.Format("設定ファイルを開くのに失敗しました。手動で以下のパスを開いてください\n{0}",fullPath),
+                    string.Format("設定ファイルを開くのに失敗しました。手動で以下のパスを開いてください\n{0}", fullPath),
                     "エラー",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -2953,6 +2981,75 @@ namespace MDPlayer.form
             btPpcClr.Enabled = false;
         }
 
+        private void btnSdSet_Click(object sender, EventArgs e)
+        {
+            lblKey = lblSdKey;
+            btSet = btnSdSet;
+            btClr = btSdClr;
+            btOK = btnOK;
+            btnSdSet.Enabled = false;
+            btnOK.Enabled = false;
+            lblKey.Text = "入力待ち";
+            lblKey.ForeColor = System.Drawing.Color.Red;
+
+            lblNotice = lblKeyBoardHookNotice;
+            lblKeyBoardHookNotice.Visible = true;
+
+            frmMain.keyHookMeth = KeyHookMeth;
+        }
+
+        private void btnSuSet_Click(object sender, EventArgs e)
+        {
+            lblKey = lblSuKey;
+            btSet = btnSuSet;
+            btClr = btSuClr;
+            btOK = btnOK;
+            btnSuSet.Enabled = false;
+            btnOK.Enabled = false;
+            lblKey.Text = "入力待ち";
+            lblKey.ForeColor = System.Drawing.Color.Red;
+
+            lblNotice = lblKeyBoardHookNotice;
+            lblKeyBoardHookNotice.Visible = true;
+
+            frmMain.keyHookMeth = KeyHookMeth;
+        }
+
+        private void btSrSet_Click(object sender, EventArgs e)
+        {
+            lblKey = lblSrKey;
+            btSet = btSrSet;
+            btClr = btSrClr;
+            btOK = btnOK;
+            btSrSet.Enabled = false;
+            btnOK.Enabled = false;
+            lblKey.Text = "入力待ち";
+            lblKey.ForeColor = System.Drawing.Color.Red;
+
+            lblNotice = lblKeyBoardHookNotice;
+            lblKeyBoardHookNotice.Visible = true;
+
+            frmMain.keyHookMeth = KeyHookMeth;
+
+        }
+
+        private void btSdClr_Click(object sender, EventArgs e)
+        {
+            lblSdKey.Text = "(None)";
+            btSdClr.Enabled = false;
+        }
+
+        private void btSuClr_Click(object sender, EventArgs e)
+        {
+            lblSuKey.Text = "(None)";
+            btSuClr.Enabled = false;
+        }
+
+        private void btSrClr_Click(object sender, EventArgs e)
+        {
+            lblSrKey.Text = "(None)";
+            btSrClr.Enabled = false;
+        }
 
 
 
