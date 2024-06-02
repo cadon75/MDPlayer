@@ -153,6 +153,14 @@
         }
         public C352[] c352 = new C352[] { new C352(), new C352() };
 
+        public class GA20
+        {
+            public Channel[] channels = new Channel[4] {
+                new Channel(), new Channel(), new Channel(), new Channel()
+            };
+        }
+        public GA20[] ga20 = new GA20[] { new GA20(), new GA20() };
+
         public class MultiPCM
         {
             public Channel[] channels = new Channel[28] {

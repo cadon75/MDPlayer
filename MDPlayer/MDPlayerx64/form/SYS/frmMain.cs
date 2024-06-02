@@ -40,6 +40,7 @@ namespace MDPlayer.form
         private frmDMG[] frmDMG = new frmDMG[2] { null, null };
         private frmYMZ280B[] frmYMZ280B = new frmYMZ280B[2] { null, null };
         private frmC352[] frmC352 = new frmC352[2] { null, null };
+        private frmGA20[] frmGA20 = new frmGA20[2] { null, null };
         private frmMultiPCM[] frmMultiPCM = new frmMultiPCM[2] { null, null };
         private frmQSound[] frmQSound = new frmQSound[2] { null, null };
         private frmYM2608[] frmYM2608 = new frmYM2608[2] { null, null };
@@ -162,6 +163,7 @@ namespace MDPlayer.form
             lstForm.Add(frmC140);
             lstForm.Add(frmPPZ8);
             lstForm.Add(frmC352);
+            lstForm.Add(frmGA20);
             lstForm.Add(frmY8950);
             lstForm.Add(frmYM2608);
             lstForm.Add(frmYM2151);
@@ -326,6 +328,7 @@ namespace MDPlayer.form
                 if (setting.location.OpenYMZ280B[chipID]) OpenFormYMZ280B(chipID);
                 if (setting.location.OpenK053260[chipID]) OpenFormK053260(chipID);
                 if (setting.location.OpenC352[chipID]) OpenFormC352(chipID);
+                if (setting.location.OpenGA20[chipID]) OpenFormGA20(chipID);
                 if (setting.location.OpenMultiPCM[chipID]) OpenFormMultiPCM(chipID);
                 if (setting.location.OpenQSound[chipID]) OpenFormQSound(chipID);
                 if (setting.location.OpenHuC6280[chipID]) OpenFormHuC6280(chipID);
@@ -675,6 +678,12 @@ namespace MDPlayer.form
                 TsmiPC352_Click(null, null);
             }
 
+            if (frmGA20[0] != null && !frmGA20[0].isClosed)
+            {
+                TsmiPGA20_Click(null, null);
+                TsmiPGA20_Click(null, null);
+            }
+
             if (frmQSound[0] != null && !frmQSound[0].isClosed)
             {
                 TsmiPQSound_Click(null, null);
@@ -855,6 +864,12 @@ namespace MDPlayer.form
             {
                 TsmiSC352_Click(null, null);
                 TsmiSC352_Click(null, null);
+            }
+
+            if (frmGA20[1] != null && !frmGA20[1].isClosed)
+            {
+                TsmiSGA20_Click(null, null);
+                TsmiSGA20_Click(null, null);
             }
 
             if (frmYM2608[1] != null && !frmYM2608[1].isClosed)
@@ -1186,6 +1201,7 @@ namespace MDPlayer.form
                 setting.location.OpenK053260[chipID] = false;
                 setting.location.OpenYMZ280B[chipID] = false;
                 setting.location.OpenC352[chipID] = false;
+                setting.location.OpenGA20[chipID] = false;
                 setting.location.OpenQSound[chipID] = false;
                 setting.location.OpenHuC6280[chipID] = false;
                 setting.location.OpenK051649[chipID] = false;
@@ -1304,6 +1320,11 @@ namespace MDPlayer.form
                 {
                     frmC352[chipID].Close();
                     setting.location.OpenC352[chipID] = true;
+                }
+                if (frmGA20[chipID] != null && !frmGA20[chipID].isClosed)
+                {
+                    frmGA20[chipID].Close();
+                    setting.location.OpenGA20[chipID] = true;
                 }
                 if (frmQSound[chipID] != null && !frmQSound[chipID].isClosed)
                 {
@@ -1804,6 +1825,11 @@ namespace MDPlayer.form
             OpenFormC352(0);
         }
 
+        private void TsmiPGA20_Click(object sender, EventArgs e)
+        {
+            OpenFormGA20(0);
+        }
+
         private void TsmiPMultiPCM_Click(object sender, EventArgs e)
         {
             OpenFormMultiPCM(0);
@@ -1962,6 +1988,11 @@ namespace MDPlayer.form
         private void TsmiSC352_Click(object sender, EventArgs e)
         {
             OpenFormC352(1);
+        }
+
+        private void TsmiSGA20_Click(object sender, EventArgs e)
+        {
+            OpenFormGA20(1);
         }
 
         private void TsmiSMultiPCM_Click(object sender, EventArgs e)
@@ -2851,6 +2882,62 @@ namespace MDPlayer.form
                 log.ForcedWrite(ex);
             }
             frmC352[chipID] = null;
+        }
+
+        private void OpenFormGA20(int chipID, bool force = false)
+        {
+            if (frmGA20[chipID] != null)// && frmInfo.isClosed)
+            {
+                if (!force)
+                {
+                    CloseFormGA20(chipID);
+                    return;
+                }
+                else return;
+            }
+
+            frmGA20[chipID] = new frmGA20(this, chipID, setting.other.Zoom, newParam.ga20[chipID], oldParam.ga20[chipID]);
+
+            if (setting.location.PosGA20[chipID] == System.Drawing.Point.Empty)
+            {
+                frmGA20[chipID].x = this.Location.X;
+                frmGA20[chipID].y = this.Location.Y + 264;
+            }
+            else
+            {
+                frmGA20[chipID].x = setting.location.PosGA20[chipID].X;
+                frmGA20[chipID].y = setting.location.PosGA20[chipID].Y;
+            }
+
+            frmGA20[chipID].Show();
+            frmGA20[chipID].update();
+            frmGA20[chipID].Text = string.Format("GA20 ({0})", chipID == 0 ? "Primary" : "Secondary");
+            oldParam.ga20[chipID] = new MDChipParams.GA20();
+
+            CheckAndSetForm(frmGA20[chipID]);
+        }
+
+        private void CloseFormGA20(int chipID)
+        {
+            if (frmGA20[chipID] == null) return;
+
+            try
+            {
+                frmGA20[chipID].Close();
+            }
+            catch (Exception ex)
+            {
+                log.ForcedWrite(ex);
+            }
+            try
+            {
+                frmGA20[chipID].Dispose();
+            }
+            catch (Exception ex)
+            {
+                log.ForcedWrite(ex);
+            }
+            frmGA20[chipID] = null;
         }
 
         private void OpenFormMultiPCM(int chipID, bool force = false)
@@ -5014,6 +5101,9 @@ namespace MDPlayer.form
                 if (frmC352[chipID] != null && !frmC352[chipID].isClosed) frmC352[chipID].screenChangeParams();
                 else frmC352[chipID] = null;
 
+                if (frmGA20[chipID] != null && !frmGA20[chipID].isClosed) frmGA20[chipID].screenChangeParams();
+                else frmGA20[chipID] = null;
+
                 if (frmMultiPCM[chipID] != null && !frmMultiPCM[chipID].isClosed) frmMultiPCM[chipID].screenChangeParams();
                 else frmMultiPCM[chipID] = null;
 
@@ -5255,6 +5345,9 @@ namespace MDPlayer.form
 
                 if (frmC352[chipID] != null && !frmC352[chipID].isClosed) { frmC352[chipID].screenDrawParams(); frmC352[chipID].update(); }
                 else frmC352[chipID] = null;
+
+                if (frmGA20[chipID] != null && !frmGA20[chipID].isClosed) { frmGA20[chipID].screenDrawParams(); frmGA20[chipID].update(); }
+                else frmGA20[chipID] = null;
 
                 if (frmMultiPCM[chipID] != null && !frmMultiPCM[chipID].isClosed) { frmMultiPCM[chipID].screenDrawParams(); frmMultiPCM[chipID].update(); }
                 else frmMultiPCM[chipID] = null;
@@ -5707,6 +5800,9 @@ namespace MDPlayer.form
 
                     if (Audio.ChipLED.PriC352 != 0) OpenFormC352(0, true); else CloseFormC352(0);
                     if (Audio.ChipLED.SecC352 != 0) OpenFormC352(1, true); else CloseFormC352(1);
+
+                    if (Audio.ChipLED.PriGA20 != 0) OpenFormGA20(0, true); else CloseFormGA20(0);
+                    if (Audio.ChipLED.SecGA20 != 0) OpenFormGA20(1, true); else CloseFormGA20(1);
 
                     if (Audio.ChipLED.PriMPCM != 0) OpenFormMultiPCM(0, true); else CloseFormMultiPCM(0);
                     if (Audio.ChipLED.SecMPCM != 0) OpenFormMultiPCM(1, true); else CloseFormMultiPCM(1);
@@ -8835,6 +8931,17 @@ namespace MDPlayer.form
                     }
                     newParam.c352[chipID].channels[ch].mask = !newParam.c352[chipID].channels[ch].mask;
                     break;
+                case EnmChip.GA20:
+                    if (newParam.ga20[chipID].channels[ch].mask == false || newParam.ga20[chipID].channels[ch].mask == null)
+                    {
+                        Audio.SetGA20Mask(chipID, ch);
+                    }
+                    else
+                    {
+                        Audio.ResetGA20Mask(chipID, ch);
+                    }
+                    newParam.ga20[chipID].channels[ch].mask = !newParam.ga20[chipID].channels[ch].mask;
+                    break;
                 case EnmChip.SEGAPCM:
                     if (newParam.segaPcm[chipID].channels[ch].mask == false || newParam.segaPcm[chipID].channels[ch].mask == null)
                     {
@@ -9169,6 +9276,10 @@ namespace MDPlayer.form
                 case EnmChip.C352:
                     newParam.c352[chipID].channels[ch].mask = false;
                     if (ch < 32) Audio.ResetC352Mask(chipID, ch);
+                    break;
+                case EnmChip.GA20:
+                    newParam.ga20[chipID].channels[ch].mask = false;
+                    if (ch < 4) Audio.ResetGA20Mask(chipID, ch);
                     break;
                 case EnmChip.SEGAPCM:
                     newParam.segaPcm[chipID].channels[ch].mask = false;

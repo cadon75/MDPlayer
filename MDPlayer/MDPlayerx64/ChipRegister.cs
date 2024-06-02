@@ -4,6 +4,8 @@ using MDSound.np.chip;
 using MDSound.np.cpu;
 using MDSound.np.memory;
 using System.Diagnostics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net;
 
 namespace MDPlayer
 {
@@ -482,6 +484,20 @@ namespace MDPlayer
         private MIDIExport midiExport = null;
 
         public bool[] use4MYM2151scci { get; private set; } = new bool[2] { false, false };
+
+        public static bool[][] GA20KeyOn = new bool[][] { new bool[4] { false, false, false, false }, new bool[4] { false, false, false, false } };
+        private bool[][] maskChGA20 = new bool[][] {
+            new bool[4] {
+                false, false, false, false
+            }
+            ,new bool[4] {
+                false, false, false, false
+            }
+        };
+
+
+
+
 
         public ChipRegister(Setting setting
             , MDSound.MDSound mds
@@ -1784,6 +1800,17 @@ namespace MDPlayer
             }
         }
 
+        public MDSound.iremga20.ga20_state GetGA20State(int chipID)
+        {
+            return mds.ReadGA20Status((byte)chipID);
+        }
+
+        public bool[] GetGA20KeyOn(int chipID)
+        {
+            return GA20KeyOn[chipID];
+        }
+
+
         public MDSound.np.np_nes_fds.NES_FDS getFDSRegister(int chipID, EnmModel model)
         {
             if (chipID == 0) chipLED.PriFDS = 2;
@@ -1922,7 +1949,9 @@ namespace MDPlayer
 
             if (model == EnmModel.VirtualModel)
             {
-                mds.WriteGA20((byte)chipID, (byte)Adr, Dat);
+                if ((Adr & 0x7) == 6) { GA20KeyOn[chipID][Adr >> 3] = true; }
+                if (maskChGA20[chipID][Adr >> 3] == false || (Adr & 0x7) != 6)
+                    mds.WriteGA20((byte)chipID, (byte)Adr, Dat);
             }
             else
             {
@@ -2508,6 +2537,7 @@ namespace MDPlayer
             {
                 if (!ctYM3526[chipID].UseReal[0])
                 {
+                    //log.Write(string.Format("Adr:{0:X02} Dat:{1:X02}", (byte)dAddr, (byte)dData));
                     mds.WriteYM3526((byte)chipID, (byte)dAddr, (byte)dData);
                 }
             }
@@ -4640,6 +4670,11 @@ namespace MDPlayer
         public void setMaskC352(int chipID, int ch, bool mask)
         {
             maskChC352[chipID][ch] = mask;
+        }
+
+        public void setMaskGA20(int chipID, int ch, bool mask)
+        {
+            maskChGA20[chipID][ch] = mask;
         }
 
         public void setMaskHuC6280(int chipID, int ch, bool mask)

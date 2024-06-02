@@ -32,6 +32,7 @@ namespace MDPlayer
         public static int ClockC140 { get; set; } = 21390;
         public static int ClockPPZ8 { get; set; } = 44100;// setting.outputDevice.SampleRate;
         public static int ClockC352 { get; set; } = 24192000;
+        public static int ClockGA20 { get; set; } = 0;
         public static int ClockFDS { get; set; } = 0;
         public static int ClockHuC6280 { get; set; } = 0;
         public static int ClockRF5C164 { get; set; } = 0;
@@ -7594,6 +7595,7 @@ namespace MDPlayer
                             Clock = (((Vgm)DriverVirtual).GA20ClockValue & 0x7fffffff),
                             Option = null
                         };
+                        ClockGA20 = (int)chip.Clock;
                         hiyorimiDeviceFlag |= 0x2;
 
                         if (i == 0) ChipLED.PriGA20 = 1;
@@ -9339,6 +9341,15 @@ namespace MDPlayer
             return chipRegister.pcmRegisterC352[chipID];
         }
 
+        public static MDSound.iremga20.ga20_state GetGA20State(int chipID)
+        {
+            return chipRegister.GetGA20State(chipID);
+        }
+        public static bool[] GetGA20KeyOn(int chipID)
+        {
+            return chipRegister.GetGA20KeyOn(chipID);
+        }
+
         public static multipcm._MultiPCM GetMultiPCMRegister(int chipID)
         {
             return chipRegister.getMultiPCMRegister(chipID);
@@ -10369,6 +10380,11 @@ namespace MDPlayer
             chipRegister.setMaskC352(chipID, ch, true);
         }
 
+        public static void SetGA20Mask(int chipID, int ch)
+        {
+            chipRegister.setMaskGA20(chipID, ch, true);
+        }
+
         public static void SetSegaPCMMask(int chipID, int ch)
         {
             //mds.setSegaPcmMask(chipID, 1 << ch);
@@ -10620,6 +10636,15 @@ namespace MDPlayer
             try
             {
                 chipRegister.setMaskC352(chipID, ch, false);
+            }
+            catch { }
+        }
+
+        public static void ResetGA20Mask(int chipID, int ch)
+        {
+            try
+            {
+                chipRegister.setMaskGA20(chipID, ch, false);
             }
             catch { }
         }

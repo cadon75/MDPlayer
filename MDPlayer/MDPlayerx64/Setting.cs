@@ -3191,6 +3191,34 @@ namespace MDPlayer
                 }
             }
 
+            private Point[] _PosGA20 = new Point[2] { Point.Empty, Point.Empty };
+            public Point[] PosGA20
+            {
+                get
+                {
+                    return _PosGA20;
+                }
+
+                set
+                {
+                    _PosGA20 = value;
+                }
+            }
+
+            private bool[] _OpenGA20 = new bool[2] { false, false };
+            public bool[] OpenGA20
+            {
+                get
+                {
+                    return _OpenGA20;
+                }
+
+                set
+                {
+                    _OpenGA20 = value;
+                }
+            }
+
             private Point[] _PosMultiPCM = new Point[2] { Point.Empty, Point.Empty };
             public Point[] PosMultiPCM
             {
@@ -4167,6 +4195,8 @@ namespace MDPlayer
                     OpenYMZ280B = this.OpenYMZ280B,
                     PosC352 = this.PosC352,
                     OpenC352 = this.OpenC352,
+                    PosGA20 = this.PosGA20,
+                    OpenGA20 = this.OpenGA20,
                     PosQSound = this.PosQSound,
                     OpenQSound = this.OpenQSound,
                     PosYm2151 = this.PosYm2151,

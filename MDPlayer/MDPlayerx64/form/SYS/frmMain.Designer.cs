@@ -65,6 +65,7 @@ namespace MDPlayer.form
             tsmiCPPCM = new ToolStripMenuItem();
             tsmiPC140 = new ToolStripMenuItem();
             tsmiPC352 = new ToolStripMenuItem();
+            tsmiPGA20 = new ToolStripMenuItem();
             tsmiPOKIM6258 = new ToolStripMenuItem();
             tsmiPOKIM6295 = new ToolStripMenuItem();
             tsmiPPCM8 = new ToolStripMenuItem();
@@ -112,6 +113,7 @@ namespace MDPlayer.form
             tsmiCSPCM = new ToolStripMenuItem();
             tsmiSC140 = new ToolStripMenuItem();
             tsmiSC352 = new ToolStripMenuItem();
+            tsmiSGA20 = new ToolStripMenuItem();
             tsmiSOKIM6258 = new ToolStripMenuItem();
             tsmiSOKIM6295 = new ToolStripMenuItem();
             tsmiSPCM8 = new ToolStripMenuItem();
@@ -292,6 +294,8 @@ namespace MDPlayer.form
             opeButtonOpen = new Button();
             opeButtonMode = new Button();
             keyboardHook1 = new HongliangSoft.Utilities.Gui.KeyboardHook();
+            gA20ToolStripMenuItem = new ToolStripMenuItem();
+            gA20ToolStripMenuItem1 = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pbScreen).BeginInit();
             cmsOpenOtherPanel.SuspendLayout();
             cmsMenu.SuspendLayout();
@@ -464,7 +468,7 @@ namespace MDPlayer.form
             // 
             // tsmiCPPCM
             // 
-            tsmiCPPCM.DropDownItems.AddRange(new ToolStripItem[] { tsmiPC140, tsmiPC352, tsmiPOKIM6258, tsmiPOKIM6295, tsmiPPCM8, tsmiPPWM, tsmiPQSound, tsmiPRF5C164, tsmiPRF5C68, tsmiPMultiPCM, tsmiPPPZ8, tsmiPSegaPCM, tsmiPK053260 });
+            tsmiCPPCM.DropDownItems.AddRange(new ToolStripItem[] { tsmiPC140, tsmiPC352, tsmiPGA20, tsmiPOKIM6258, tsmiPOKIM6295, tsmiPPCM8, tsmiPPWM, tsmiPQSound, tsmiPRF5C164, tsmiPRF5C68, tsmiPMultiPCM, tsmiPPPZ8, tsmiPSegaPCM, tsmiPK053260 });
             tsmiCPPCM.Name = "tsmiCPPCM";
             resources.ApplyResources(tsmiCPPCM, "tsmiCPPCM");
             // 
@@ -479,6 +483,12 @@ namespace MDPlayer.form
             tsmiPC352.Name = "tsmiPC352";
             resources.ApplyResources(tsmiPC352, "tsmiPC352");
             tsmiPC352.Click += TsmiPC352_Click;
+            // 
+            // tsmiPGA20
+            // 
+            tsmiPGA20.Name = "tsmiPGA20";
+            resources.ApplyResources(tsmiPGA20, "tsmiPGA20");
+            tsmiPGA20.Click += TsmiPGA20_Click;
             // 
             // tsmiPOKIM6258
             // 
@@ -746,7 +756,7 @@ namespace MDPlayer.form
             // 
             // tsmiCSPCM
             // 
-            tsmiCSPCM.DropDownItems.AddRange(new ToolStripItem[] { tsmiSC140, tsmiSC352, tsmiSOKIM6258, tsmiSOKIM6295, tsmiSPCM8, tsmiSPWM, tsmiSRF5C164, tsmiSRF5C68, tsmiSSegaPCM, tsmiSMultiPCM, tsmiSPPZ8, tsmiSK053260 });
+            tsmiCSPCM.DropDownItems.AddRange(new ToolStripItem[] { tsmiSC140, tsmiSC352, tsmiSGA20, tsmiSOKIM6258, tsmiSOKIM6295, tsmiSPCM8, tsmiSPWM, tsmiSRF5C164, tsmiSRF5C68, tsmiSSegaPCM, tsmiSMultiPCM, tsmiSPPZ8, tsmiSK053260 });
             tsmiCSPCM.Name = "tsmiCSPCM";
             resources.ApplyResources(tsmiCSPCM, "tsmiCSPCM");
             // 
@@ -761,6 +771,12 @@ namespace MDPlayer.form
             tsmiSC352.Name = "tsmiSC352";
             resources.ApplyResources(tsmiSC352, "tsmiSC352");
             tsmiSC352.Click += TsmiSC352_Click;
+            // 
+            // tsmiSGA20
+            // 
+            tsmiSGA20.Name = "tsmiSGA20";
+            resources.ApplyResources(tsmiSGA20, "tsmiSGA20");
+            tsmiSGA20.Click += TsmiSGA20_Click;
             // 
             // tsmiSOKIM6258
             // 
@@ -1142,7 +1158,7 @@ namespace MDPlayer.form
             // 
             // toolStripMenuItem74
             // 
-            toolStripMenuItem74.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem75, toolStripMenuItem76, toolStripMenuItem77, toolStripMenuItem78, toolStripMenuItem79, toolStripMenuItem80, toolStripMenuItem81, toolStripMenuItem82, toolStripMenuItem83, toolStripMenuItem84, toolStripMenuItem85, toolStripMenuItem86, toolStripMenuItem87 });
+            toolStripMenuItem74.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem75, toolStripMenuItem76, gA20ToolStripMenuItem, toolStripMenuItem77, toolStripMenuItem78, toolStripMenuItem79, toolStripMenuItem80, toolStripMenuItem81, toolStripMenuItem82, toolStripMenuItem83, toolStripMenuItem84, toolStripMenuItem85, toolStripMenuItem86, toolStripMenuItem87 });
             toolStripMenuItem74.Name = "toolStripMenuItem74";
             resources.ApplyResources(toolStripMenuItem74, "toolStripMenuItem74");
             // 
@@ -1424,7 +1440,7 @@ namespace MDPlayer.form
             // 
             // toolStripMenuItem25
             // 
-            toolStripMenuItem25.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem26, toolStripMenuItem27, toolStripMenuItem28, toolStripMenuItem29, toolStripMenuItem30, toolStripMenuItem31, toolStripMenuItem32, toolStripMenuItem33, toolStripMenuItem34, toolStripMenuItem35, toolStripMenuItem36, toolStripMenuItem37 });
+            toolStripMenuItem25.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem26, toolStripMenuItem27, gA20ToolStripMenuItem1, toolStripMenuItem28, toolStripMenuItem29, toolStripMenuItem30, toolStripMenuItem31, toolStripMenuItem32, toolStripMenuItem33, toolStripMenuItem34, toolStripMenuItem35, toolStripMenuItem36, toolStripMenuItem37 });
             toolStripMenuItem25.Name = "toolStripMenuItem25";
             resources.ApplyResources(toolStripMenuItem25, "toolStripMenuItem25");
             // 
@@ -2088,6 +2104,18 @@ namespace MDPlayer.form
             // 
             keyboardHook1.KeyboardHooked += keyboardHook1_KeyboardHooked;
             // 
+            // gA20ToolStripMenuItem
+            // 
+            gA20ToolStripMenuItem.Name = "gA20ToolStripMenuItem";
+            resources.ApplyResources(gA20ToolStripMenuItem, "gA20ToolStripMenuItem");
+            gA20ToolStripMenuItem.Click += TsmiPGA20_Click;
+            // 
+            // gA20ToolStripMenuItem1
+            // 
+            gA20ToolStripMenuItem1.Name = "gA20ToolStripMenuItem1";
+            resources.ApplyResources(gA20ToolStripMenuItem1, "gA20ToolStripMenuItem1");
+            gA20ToolStripMenuItem1.Click += TsmiSGA20_Click;
+            // 
             // frmMain
             // 
             resources.ApplyResources(this, "$this");
@@ -2178,6 +2206,8 @@ namespace MDPlayer.form
         private ToolStripMenuItem tsmiSOPL3;
         private ToolStripMenuItem tsmiPC352;
         private ToolStripMenuItem tsmiSC352;
+        private ToolStripMenuItem tsmiPGA20;
+        private ToolStripMenuItem tsmiSGA20;
         private ToolStripMenuItem tsmiPOPL2;
         private ToolStripMenuItem tsmiSOPL2;
         private HongliangSoft.Utilities.Gui.KeyboardHook keyboardHook1;
@@ -2386,6 +2416,8 @@ namespace MDPlayer.form
         private ToolStripMenuItem toolStripMenuItem45;
         private ToolStripMenuItem toolStripMenuItem46;
         private ToolStripMenuItem toolStripMenuItem47;
+        private ToolStripMenuItem gA20ToolStripMenuItem;
+        private ToolStripMenuItem gA20ToolStripMenuItem1;
     }
 }
 
