@@ -180,6 +180,7 @@ namespace MDPlayer.form
             toolStripMenuItem74 = new ToolStripMenuItem();
             toolStripMenuItem75 = new ToolStripMenuItem();
             toolStripMenuItem76 = new ToolStripMenuItem();
+            gA20ToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem77 = new ToolStripMenuItem();
             toolStripMenuItem78 = new ToolStripMenuItem();
             toolStripMenuItem79 = new ToolStripMenuItem();
@@ -227,6 +228,7 @@ namespace MDPlayer.form
             toolStripMenuItem25 = new ToolStripMenuItem();
             toolStripMenuItem26 = new ToolStripMenuItem();
             toolStripMenuItem27 = new ToolStripMenuItem();
+            gA20ToolStripMenuItem1 = new ToolStripMenuItem();
             toolStripMenuItem28 = new ToolStripMenuItem();
             toolStripMenuItem29 = new ToolStripMenuItem();
             toolStripMenuItem30 = new ToolStripMenuItem();
@@ -294,8 +296,6 @@ namespace MDPlayer.form
             opeButtonOpen = new Button();
             opeButtonMode = new Button();
             keyboardHook1 = new HongliangSoft.Utilities.Gui.KeyboardHook();
-            gA20ToolStripMenuItem = new ToolStripMenuItem();
-            gA20ToolStripMenuItem1 = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pbScreen).BeginInit();
             cmsOpenOtherPanel.SuspendLayout();
             cmsMenu.SuspendLayout();
@@ -1174,6 +1174,12 @@ namespace MDPlayer.form
             resources.ApplyResources(toolStripMenuItem76, "toolStripMenuItem76");
             toolStripMenuItem76.Click += TsmiPC352_Click;
             // 
+            // gA20ToolStripMenuItem
+            // 
+            gA20ToolStripMenuItem.Name = "gA20ToolStripMenuItem";
+            resources.ApplyResources(gA20ToolStripMenuItem, "gA20ToolStripMenuItem");
+            gA20ToolStripMenuItem.Click += TsmiPGA20_Click;
+            // 
             // toolStripMenuItem77
             // 
             toolStripMenuItem77.Name = "toolStripMenuItem77";
@@ -1455,6 +1461,12 @@ namespace MDPlayer.form
             toolStripMenuItem27.Name = "toolStripMenuItem27";
             resources.ApplyResources(toolStripMenuItem27, "toolStripMenuItem27");
             toolStripMenuItem27.Click += TsmiSC352_Click;
+            // 
+            // gA20ToolStripMenuItem1
+            // 
+            gA20ToolStripMenuItem1.Name = "gA20ToolStripMenuItem1";
+            resources.ApplyResources(gA20ToolStripMenuItem1, "gA20ToolStripMenuItem1");
+            gA20ToolStripMenuItem1.Click += TsmiSGA20_Click;
             // 
             // toolStripMenuItem28
             // 
@@ -2104,23 +2116,11 @@ namespace MDPlayer.form
             // 
             keyboardHook1.KeyboardHooked += keyboardHook1_KeyboardHooked;
             // 
-            // gA20ToolStripMenuItem
-            // 
-            gA20ToolStripMenuItem.Name = "gA20ToolStripMenuItem";
-            resources.ApplyResources(gA20ToolStripMenuItem, "gA20ToolStripMenuItem");
-            gA20ToolStripMenuItem.Click += TsmiPGA20_Click;
-            // 
-            // gA20ToolStripMenuItem1
-            // 
-            gA20ToolStripMenuItem1.Name = "gA20ToolStripMenuItem1";
-            resources.ApplyResources(gA20ToolStripMenuItem1, "gA20ToolStripMenuItem1");
-            gA20ToolStripMenuItem1.Click += TsmiSGA20_Click;
-            // 
             // frmMain
             // 
-            resources.ApplyResources(this, "$this");
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = SystemColors.ControlDarkDark;
+            resources.ApplyResources(this, "$this");
             Controls.Add(opeButtonZoom);
             Controls.Add(opeButtonMIDIKBD);
             Controls.Add(opeButtonVST);

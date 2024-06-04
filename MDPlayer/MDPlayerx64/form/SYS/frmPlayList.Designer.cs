@@ -525,8 +525,8 @@ namespace MDPlayer.form
             // 
             // frmPlayList
             // 
+            AutoScaleMode = AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
-            AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(toolStripContainer1);
             KeyPreview = true;
             Name = "frmPlayList";

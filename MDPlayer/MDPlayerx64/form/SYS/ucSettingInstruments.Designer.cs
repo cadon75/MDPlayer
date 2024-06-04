@@ -2394,8 +2394,7 @@
             // 
             // ucSettingInstruments
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             AutoScroll = true;
             Controls.Add(groupBox28);
             Controls.Add(groupBox27);

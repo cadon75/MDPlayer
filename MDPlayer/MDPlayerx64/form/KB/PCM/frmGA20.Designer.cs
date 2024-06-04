@@ -42,7 +42,7 @@ namespace MDPlayer.form
             // pbScreen
             // 
             pbScreen.Location = new Point(0, 0);
-            pbScreen.Margin = new Padding(4, 4, 4, 4);
+            pbScreen.Margin = new Padding(4);
             pbScreen.Name = "pbScreen";
             pbScreen.Size = new Size(611, 330);
             pbScreen.TabIndex = 1;
@@ -51,14 +51,13 @@ namespace MDPlayer.form
             // 
             // frmGA20
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(611, 330);
             Controls.Add(pbScreen);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(5, 5, 5, 5);
+            Margin = new Padding(5);
             MaximizeBox = false;
             Name = "frmGA20";
             Text = "GA20";

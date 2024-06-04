@@ -2593,48 +2593,56 @@ namespace MDPlayer.form
             // 
             // pictureBox8
             // 
+            pictureBox8.BackgroundImage = Resources.ccNext;
             resources.ApplyResources(pictureBox8, "pictureBox8");
             pictureBox8.Name = "pictureBox8";
             pictureBox8.TabStop = false;
             // 
             // pictureBox7
             // 
+            pictureBox7.BackgroundImage = Resources.ccFast;
             resources.ApplyResources(pictureBox7, "pictureBox7");
             pictureBox7.Name = "pictureBox7";
             pictureBox7.TabStop = false;
             // 
             // pictureBox6
             // 
+            pictureBox6.BackgroundImage = Resources.ccPlay;
             resources.ApplyResources(pictureBox6, "pictureBox6");
             pictureBox6.Name = "pictureBox6";
             pictureBox6.TabStop = false;
             // 
             // pictureBox5
             // 
+            pictureBox5.BackgroundImage = Resources.ccSlow;
             resources.ApplyResources(pictureBox5, "pictureBox5");
             pictureBox5.Name = "pictureBox5";
             pictureBox5.TabStop = false;
             // 
             // pictureBox4
             // 
+            pictureBox4.BackgroundImage = Resources.ccStop;
             resources.ApplyResources(pictureBox4, "pictureBox4");
             pictureBox4.Name = "pictureBox4";
             pictureBox4.TabStop = false;
             // 
             // pictureBox3
             // 
+            pictureBox3.BackgroundImage = Resources.ccPause;
             resources.ApplyResources(pictureBox3, "pictureBox3");
             pictureBox3.Name = "pictureBox3";
             pictureBox3.TabStop = false;
             // 
             // pictureBox2
             // 
+            pictureBox2.BackgroundImage = Resources.ccPrevious;
             resources.ApplyResources(pictureBox2, "pictureBox2");
             pictureBox2.Name = "pictureBox2";
             pictureBox2.TabStop = false;
             // 
             // pictureBox1
             // 
+            pictureBox1.BackgroundImage = Resources.ccFadeout;
             resources.ApplyResources(pictureBox1, "pictureBox1");
             pictureBox1.Name = "pictureBox1";
             pictureBox1.TabStop = false;
@@ -4473,9 +4481,9 @@ namespace MDPlayer.form
             // 
             // frmSetting
             // 
-            resources.ApplyResources(this, "$this");
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             CancelButton = btnCancel;
+            resources.ApplyResources(this, "$this");
             Controls.Add(tcSetting);
             Controls.Add(btnCancel);
             Controls.Add(btnOK);

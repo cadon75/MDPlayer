@@ -488,7 +488,7 @@
     <value>True</value>
   </data>
   <data name="rbShare.Location" type="System.Drawing.Point, System.Drawing">
-    <value>463, 11</value>
+    <value>467, 12</value>
   </data>
   <data name="rbShare.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
@@ -627,9 +627,6 @@
   </data>
   <data name="tcSetting.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="rbNullDevice.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
   </data>
   <data name="rbNullDevice.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 331</value>
@@ -1142,7 +1139,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpOutput.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpOutput.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1793,7 +1790,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpNuked.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpNuked.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -2705,7 +2702,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpNSF.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpNSF.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -3629,7 +3626,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpSID.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpSID.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -4754,7 +4751,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpPMDDotNET.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpPMDDotNET.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -6140,7 +6137,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpMIDIOut.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpMIDIOut.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -6493,7 +6490,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpMIDIOut2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpMIDIOut2.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -7180,7 +7177,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tabMIDIExp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tabMIDIExp.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -7233,6 +7230,9 @@
   <data name="gbMIDIKeyboard.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <data name="pictureBox8.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
   <data name="pictureBox8.Location" type="System.Drawing.Point, System.Drawing">
     <value>433, 321</value>
   </data>
@@ -7256,6 +7256,9 @@
   </data>
   <data name="&gt;&gt;pictureBox8.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="pictureBox7.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
   </data>
   <data name="pictureBox7.Location" type="System.Drawing.Point, System.Drawing">
     <value>304, 321</value>
@@ -7281,6 +7284,9 @@
   <data name="&gt;&gt;pictureBox7.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="pictureBox6.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
   <data name="pictureBox6.Location" type="System.Drawing.Point, System.Drawing">
     <value>177, 322</value>
   </data>
@@ -7304,6 +7310,9 @@
   </data>
   <data name="&gt;&gt;pictureBox6.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="pictureBox5.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
   </data>
   <data name="pictureBox5.Location" type="System.Drawing.Point, System.Drawing">
     <value>49, 322</value>
@@ -7329,6 +7338,16 @@
   <data name="&gt;&gt;pictureBox5.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="pictureBox4.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="pictureBox4.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAFNJREFUOE/N
+        i7EJwEAMxLxQJsj+6/wKSSNQcxx8Z4E6aXbwPue7kU1S1GSTFDXZJEVNNklRk01S1GSTFDXZJEVNNklR
+        k01S1GSTFDXZJEVNthXM/K5aT+B9OtR7AAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="pictureBox4.Location" type="System.Drawing.Point, System.Drawing">
     <value>49, 292</value>
   </data>
@@ -7336,7 +7355,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="pictureBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>19, 20</value>
+    <value>20, 22</value>
   </data>
   <data name="pictureBox4.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -7352,6 +7371,9 @@
   </data>
   <data name="&gt;&gt;pictureBox4.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <data name="pictureBox3.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
   </data>
   <data name="pictureBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>177, 292</value>
@@ -7377,6 +7399,9 @@
   <data name="&gt;&gt;pictureBox3.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="pictureBox2.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
   <data name="pictureBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>433, 292</value>
   </data>
@@ -7400,6 +7425,9 @@
   </data>
   <data name="&gt;&gt;pictureBox2.ZOrder" xml:space="preserve">
     <value>6</value>
+  </data>
+  <data name="pictureBox1.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>304, 292</value>
@@ -8437,7 +8465,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpMIDIKBD.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpMIDIKBD.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -12985,7 +13013,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpBalance.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpBalance.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -13327,7 +13355,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpPlayList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpPlayList.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -14485,7 +14513,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpOther.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpOther.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -14935,7 +14963,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpOmake.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpOmake.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -14968,7 +14996,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="logoPictureBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 764</value>
+    <value>179, 482</value>
   </data>
   <data name="logoPictureBox.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>CenterImage</value>
@@ -15028,7 +15056,7 @@
     <value>Fill</value>
   </data>
   <data name="labelVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 77</value>
+    <value>194, 49</value>
   </data>
   <data name="labelVersion.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>7, 0, 4, 0</value>
@@ -15064,7 +15092,7 @@
     <value>Fill</value>
   </data>
   <data name="labelCopyright.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 154</value>
+    <value>194, 98</value>
   </data>
   <data name="labelCopyright.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>7, 0, 4, 0</value>
@@ -15100,7 +15128,7 @@
     <value>Fill</value>
   </data>
   <data name="labelCompanyName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 231</value>
+    <value>194, 147</value>
   </data>
   <data name="labelCompanyName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>7, 0, 4, 0</value>
@@ -15136,7 +15164,7 @@
     <value>Fill</value>
   </data>
   <data name="textBoxDescription.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 297</value>
+    <value>194, 190</value>
   </data>
   <data name="textBoxDescription.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>7, 4, 4, 4</value>
@@ -15148,7 +15176,7 @@
     <value>Both</value>
   </data>
   <data name="textBoxDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>369, 404</value>
+    <value>369, 253</value>
   </data>
   <data name="textBoxDescription.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
@@ -15175,13 +15203,13 @@
     <value>Fill</value>
   </data>
   <data name="llOpenGithub.Location" type="System.Drawing.Point, System.Drawing">
-    <value>191, 705</value>
+    <value>191, 447</value>
   </data>
   <data name="llOpenGithub.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
   </data>
   <data name="llOpenGithub.Size" type="System.Drawing.Size, System.Drawing">
-    <value>372, 67</value>
+    <value>372, 43</value>
   </data>
   <data name="llOpenGithub.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
@@ -15217,7 +15245,7 @@
     <value>6</value>
   </data>
   <data name="tableLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>567, 772</value>
+    <value>567, 490</value>
   </data>
   <data name="tableLayoutPanel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -15247,7 +15275,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tpAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 780</value>
+    <value>575, 498</value>
   </data>
   <data name="tpAbout.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -15294,9 +15322,6 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 15</value>
-  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>588, 601</value>
   </data>

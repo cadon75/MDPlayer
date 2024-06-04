@@ -1120,7 +1120,7 @@ namespace MDPlayer.form
             catch (Exception ex)
             {
                 log.ForcedWrite(ex);
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(string.Format("Failed to open ASIO control panel.\r\nIf reopening it again does not work, please change the settings in another application.\r\nMessage:{0}", ex.Message));
             }
         }
 

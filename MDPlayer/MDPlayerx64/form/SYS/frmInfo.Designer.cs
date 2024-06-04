@@ -111,8 +111,7 @@ namespace MDPlayer.form
             // 
             // frmInfo
             // 
-            AutoScaleDimensions = new SizeF(9F, 19F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.Black;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(520, 281);
