@@ -33,6 +33,7 @@ namespace MDPlayer
         public static int ClockPPZ8 { get; set; } = 44100;// setting.outputDevice.SampleRate;
         public static int ClockC352 { get; set; } = 24192000;
         public static int ClockGA20 { get; set; } = 0;
+        public static int ClockK054539 { get; set; } = 0;
         public static int ClockFDS { get; set; } = 0;
         public static int ClockHuC6280 { get; set; } = 0;
         public static int ClockRF5C164 { get; set; } = 0;
@@ -7273,6 +7274,7 @@ namespace MDPlayer
                             Clock = ((Vgm)DriverVirtual).K054539ClockValue,
                             Option = null
                         };
+                        ClockK054539 = (int)chip.Clock;
                         if (i == 0) ChipLED.PriK054539 = 1;
                         else ChipLED.SecK054539 = 1;
 
@@ -9350,6 +9352,11 @@ namespace MDPlayer
             return chipRegister.GetGA20KeyOn(chipID);
         }
 
+        public static MDSound.K054539.k054539_state GetK054539State(int chipID)
+        {
+            return chipRegister.GetK054539State(chipID);
+        }
+
         public static multipcm._MultiPCM GetMultiPCMRegister(int chipID)
         {
             return chipRegister.getMultiPCMRegister(chipID);
@@ -10385,6 +10392,11 @@ namespace MDPlayer
             chipRegister.setMaskGA20(chipID, ch, true);
         }
 
+        public static void SetK054539Mask(int chipID, int ch)
+        {
+            chipRegister.setMaskK054539(chipID, ch, true);
+        }
+
         public static void SetSegaPCMMask(int chipID, int ch)
         {
             //mds.setSegaPcmMask(chipID, 1 << ch);
@@ -10645,6 +10657,15 @@ namespace MDPlayer
             try
             {
                 chipRegister.setMaskGA20(chipID, ch, false);
+            }
+            catch { }
+        }
+
+        public static void ResetK054539Mask(int chipID, int ch)
+        {
+            try
+            {
+                chipRegister.setMaskK054539(chipID, ch, false);
             }
             catch { }
         }

@@ -3219,6 +3219,36 @@ namespace MDPlayer
                 }
             }
 
+
+            private Point[] _PosK054539 = new Point[2] { Point.Empty, Point.Empty };
+            public Point[] PosK054539
+            {
+                get
+                {
+                    return _PosK054539;
+                }
+
+                set
+                {
+                    _PosK054539 = value;
+                }
+            }
+
+            private bool[] _OpenK054539 = new bool[2] { false, false };
+            public bool[] OpenK054539
+            {
+                get
+                {
+                    return _OpenK054539;
+                }
+
+                set
+                {
+                    _OpenK054539 = value;
+                }
+            }
+
+
             private Point[] _PosMultiPCM = new Point[2] { Point.Empty, Point.Empty };
             public Point[] PosMultiPCM
             {
@@ -4197,6 +4227,8 @@ namespace MDPlayer
                     OpenC352 = this.OpenC352,
                     PosGA20 = this.PosGA20,
                     OpenGA20 = this.OpenGA20,
+                    PosK054539 = this.PosK054539,
+                    OpenK054539 = this.OpenK054539,
                     PosQSound = this.PosQSound,
                     OpenQSound = this.OpenQSound,
                     PosYm2151 = this.PosYm2151,

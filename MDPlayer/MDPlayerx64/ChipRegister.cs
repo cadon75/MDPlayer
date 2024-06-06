@@ -495,6 +495,17 @@ namespace MDPlayer
             }
         };
 
+        private bool[][] maskChK054539 = new bool[][] {
+            new bool[8] {
+                false, false, false, false,
+                false, false, false, false
+            }
+            ,new bool[8] {
+                false, false, false, false,
+                false, false, false, false
+            }
+        };
+
 
 
 
@@ -1808,6 +1819,12 @@ namespace MDPlayer
         public bool[] GetGA20KeyOn(int chipID)
         {
             return GA20KeyOn[chipID];
+        }
+
+
+        public MDSound.K054539.k054539_state GetK054539State(int chipID)
+        {
+            return mds.ReadK054539Status((byte)chipID);
         }
 
 
@@ -4677,6 +4694,11 @@ namespace MDPlayer
             maskChGA20[chipID][ch] = mask;
         }
 
+        public void setMaskK054539(int chipID, int ch, bool mask)
+        {
+            maskChK054539[chipID][ch] = mask;
+        }
+
         public void setMaskHuC6280(int chipID, int ch, bool mask)
         {
             maskChHuC6280[chipID][ch] = mask;
@@ -5588,6 +5610,16 @@ namespace MDPlayer
             if (chipid == 0) chipLED.PriK054539 = 2;
             else chipLED.SecK054539 = 2;
 
+            if(adr ==0x214)
+            {
+                for(int ch = 0; ch < 8; ch++)
+                {
+                    if (maskChK054539[chipid][ch])
+                    {
+                        data &=(byte) ~(1 << ch);
+                    }
+                }
+            }
             if (model == EnmModel.VirtualModel)
                 mds.WriteK054539(chipid, (int)adr, data);
         }

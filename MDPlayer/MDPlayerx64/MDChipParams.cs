@@ -161,6 +161,15 @@
         }
         public GA20[] ga20 = new GA20[] { new GA20(), new GA20() };
 
+        public class K054539
+        {
+            public Channel[] channels = new Channel[8] {
+                new Channel(), new Channel(), new Channel(), new Channel(),
+                new Channel(), new Channel(), new Channel(), new Channel()
+            };
+        }
+        public K054539[] k054539 = new K054539[] { new K054539(), new K054539() };
+
         public class MultiPCM
         {
             public Channel[] channels = new Channel[28] {
