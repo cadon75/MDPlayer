@@ -3548,6 +3548,12 @@ namespace MDPlayer
                         ((Driver.ZMS.ZMS)DriverVirtual).version = 2;
                         ((Driver.ZMS.ZMS)DriverReal).version = 2;
                     }
+                    else
+                    {
+                        //compile error
+                        ErrMsg = "Compile Error.Check console log.";
+                        return false;
+                    }
                 }
                 else
                 {
