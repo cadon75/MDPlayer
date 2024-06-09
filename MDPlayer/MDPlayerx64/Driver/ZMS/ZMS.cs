@@ -172,13 +172,25 @@ namespace MDPlayer.Driver.ZMS
                 checkCounter--;
                 if (checkCounter < 0)
                 {
+                    checkCounter = 100;
                     if (version == 2)
                     {
+                        //演奏中か確認
+                        nise68.reg.SetDl(1, 0x09);//m_stat
+                        nise68.reg.SetDl(2, 0);//チェックモード(0:全チャンネル検査)
+                        nise68.Trap(3 + 32);
+                        uint d0 = nise68.reg.GetDl(0);
+                        if (d0 == 0)
+                            Stopped = true;
 
+                        //ループ回数チェック
+                        nise68.reg.SetDl(1, 0x4d);//get_loop_time
+                        nise68.Trap(3 + 32);
+                        d0 = nise68.reg.GetDl(0);
+                        vgmCurLoop = d0 - 1;
                     }
                     else
                     {
-                        checkCounter = 100;
                         //演奏中か確認
                         nise68.reg.SetDl(0, 0x0b);//ZM_PLAY_STATUS
                         nise68.reg.SetDl(1, 0);//チェックモード(0:全チャンネル検査)
