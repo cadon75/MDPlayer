@@ -13057,7 +13057,35 @@ namespace MDPlayer.Driver.ZMS.nise68
 
         private int Croxl_b_imm(ushort n)
         {
-            throw new NotImplementedException();
+#if DEBUG
+            string nimo;
+#endif
+
+            int cycle = 6;
+
+            int cnt = (n & 0x0e00) >> 9;
+            cnt = (cnt == 0) ? 8 : cnt;
+            int d = (n & 0x0007);
+#if DEBUG
+            nimo = string.Format("ROXL.b #{0:d},D{1}", cnt, d);
+#endif
+
+            cycle += 2 * cnt;
+            uint bv = reg.GetDb(d);
+            //uint av = (bv >> cnt) | (bv << (32 - cnt));//RLR
+            uint av = (uint)((bv << cnt) | (((uint)(reg.X ? 0x100 : 0x000) | bv) >> (9 - cnt)));
+            reg.SetDb(d, (byte)av);
+
+            reg.X = reg.C = (((bv << cnt) & 0x100) != 0);
+            reg.SetN((byte)av);
+            reg.SetZ((byte)av);
+            reg.V = false;
+
+#if DEBUG
+            Log.WriteLine(LogLevel.Trace, nimo);
+#endif
+
+            return cycle;
         }
 
         private int Croxl_w_DnDn(ushort n)
