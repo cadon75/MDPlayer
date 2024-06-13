@@ -1,5 +1,6 @@
 ﻿#if X64
 using MDPlayer.Driver.MXDRV;
+using MDPlayer.Driver.ZMS;
 using MDPlayerx64;
 #else
 using MDPlayer.Properties;
@@ -86,9 +87,21 @@ namespace MDPlayer.form
 
         public void screenChangeParams()
         {
-            if (Audio.DriverVirtual is not MXDRV) return;
-            MXDRV mdx=Audio.DriverVirtual as MXDRV;
-            MXDRV.Pcm8St[] pcm8St = mdx.pcm8St;
+            MXDRV.Pcm8St[] pcm8St;
+            if (Audio.DriverVirtual is MXDRV)
+            {
+                MXDRV mdx = Audio.DriverVirtual as MXDRV;
+                pcm8St = mdx.pcm8St;
+            }
+            else if (Audio.DriverVirtual is ZMS)
+            {
+                ZMS zms = Audio.DriverVirtual as ZMS;
+                pcm8St = zms.pcm8St;
+            }
+            else
+            {
+                return;
+            }
 
             for (int ch = 0; ch < pcm8St.Length; ch++)
             {

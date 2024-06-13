@@ -1,6 +1,7 @@
 ﻿using MDPlayer.Driver.MNDRV;
 using MDPlayer.Driver.ZMS.nise68;
 using MDSound;
+using static MDPlayer.Driver.MXDRV.MXDRV;
 
 namespace MDPlayer.Driver.ZMS
 {
@@ -14,6 +15,7 @@ namespace MDPlayer.Driver.ZMS
         private List<string> envZPDs = new List<string>();
         public int version = 0;
         private FMTimer timerOPM;
+        public Pcm8St[] pcm8St = new Pcm8St[8] { new(), new(), new(), new(), new(), new(), new(), new() };
 
         public string PlayingFileName { get; internal set; }
         public byte[] CompiledData { get; set; }
@@ -541,17 +543,27 @@ namespace MDPlayer.Driver.ZMS
 
         private int PCM8CallBack(int n)
         {
-
+            int ch;
             switch (n & 0xfff0)
             {
                 case 0x0000:
                     //x68Sound.Pcm8_Out((int)D0 & 0xff, A1, (int)D1, (int)D2);
                     opmPCM?.x68sound[0].X68Sound_Pcm8_Out((int)n & 0xff, null, nise68.reg.GetAl(1), (int)nise68.reg.GetDl(1), (int)nise68.reg.GetDl(2));//指定チャンネル発音開始
+                    ch = (int)((n & 0xff) % 8);
+                    pcm8St[ch].tablePtr = nise68.reg.GetAl(1);
+                    pcm8St[ch].mode = nise68.reg.GetDl(1);
+                    pcm8St[ch].length = nise68.reg.GetDl(2);
+                    pcm8St[ch].Keyon = true;
                     break;
                 case 0x0100:
                     switch (n & 0xffff)
                     {
                         case 0x0100:
+                            ch = (int)((n & 0xff) % 8);
+                            pcm8St[ch].tablePtr = 0;
+                            pcm8St[ch].mode = 0;
+                            pcm8St[ch].length = 0;
+                            pcm8St[ch].Keyon = false;
                             opmPCM?.x68sound[0].X68Sound_Pcm8_Out((int)n & 0xff, null, 0, 0, 0);//指定チャンネル発音停止
                             break;
                         case 0x0101:

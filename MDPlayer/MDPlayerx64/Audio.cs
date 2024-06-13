@@ -3534,6 +3534,7 @@ namespace MDPlayer
                 DriverVirtual.SetYM2151Hosei(4000000);
                 DriverReal?.SetYM2151Hosei(4000000);
 
+                ChipLED.PriPCM8 = 0;
 
                 //ZMSの場合は事前にコンパイルを実施
                 if (fm == EnmFileFormat.ZMS)
@@ -3547,6 +3548,7 @@ namespace MDPlayer
                         vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
                         ((Driver.ZMS.ZMS)DriverVirtual).version = 2;
                         ((Driver.ZMS.ZMS)DriverReal).version = 2;
+                        ChipLED.PriPCM8 = 1;
                     }
                     else
                     {
@@ -3577,7 +3579,7 @@ namespace MDPlayer
                 }
                 else
                 {
-
+                    ChipLED.PriPCM8 = 1;
                 }
 
 
