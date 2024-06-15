@@ -300,7 +300,7 @@ namespace MDPlayer.Driver.ZMS
             if (version == 2)
             {
                 timerOPM = new FMTimer(true, null, 4000000);//, Common.VGMProcSampleRate);
-                if (nise68.LoadRun(zmusic, "", Path.GetDirectoryName(fnZMD), 0x00012000
+                if (nise68.LoadRun(zmusic, "-P9212 -T2048", Path.GetDirectoryName(fnZMD), 0x00012000
                 , true, true, true
                 ) != 0) throw new Exception("zmusic regident Error");
 
@@ -602,6 +602,8 @@ namespace MDPlayer.Driver.ZMS
                             nise68.reg.SetDl(0, 1);
                             break;
                     }
+                    break;
+                default:
                     break;
             }
             return 0;
