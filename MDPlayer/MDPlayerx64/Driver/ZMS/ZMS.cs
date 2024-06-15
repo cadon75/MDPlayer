@@ -16,6 +16,24 @@ namespace MDPlayer.Driver.ZMS
         public int version = 0;
         private FMTimer timerOPM;
         public Pcm8St[] pcm8St = new Pcm8St[8] { new(), new(), new(), new(), new(), new(), new(), new() };
+        public MPCMSt[] mpcmSt = new MPCMSt[16] { new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new() };
+
+        public class MPCMSt
+        {
+            public bool Keyon = false;
+            public bool Keyoff = false;
+            public byte type = 0;
+            public byte orig = 0;
+            public int adrs_ptr = 0;
+            public uint size = 0;
+            public uint start = 0;
+            public uint end = 0;
+            public uint count = 0;
+            public int frq = 0;
+            public int pitch = 0;
+            public int volume = 0;
+            public int pan = 0;
+        }
 
         public string PlayingFileName { get; internal set; }
         public byte[] CompiledData { get; set; }
@@ -478,40 +496,46 @@ namespace MDPlayer.Driver.ZMS
                 case 0x0000:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_KEY_ON(${0:X04})", n);
                     mpcm?.KeyOn(0, n & 0xf);
+                    mpcmSt[n&0xf].Keyon = true;
                     break;
                 case 0x0100:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_KEY_OFF(${0:X04})", n);
                     mpcm?.KeyOff(0, n & 0xf);
+                    mpcmSt[n & 0xf].Keyoff = true;
                     break;
                 case 0x0200:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PCM(${0:X04})", n);
                     MDSound.mpcmX68k.SETPCM ptr = new mpcmX68k.SETPCM();
                     ptr.adrs_buf = nise68.mem.mem;
-                    ptr.type = nise68.mem.PeekB(0x00 + nise68.reg.GetAl(1));
-                    ptr.orig = nise68.mem.PeekB(0x01 + nise68.reg.GetAl(1));
-                    ptr.adrs_ptr = (int)nise68.mem.PeekL(0x04 + nise68.reg.GetAl(1));
-                    ptr.size = nise68.mem.PeekL(0x08 + nise68.reg.GetAl(1));
-                    ptr.start = nise68.mem.PeekL(0x0c + nise68.reg.GetAl(1));
-                    ptr.end = nise68.mem.PeekL(0x10 + nise68.reg.GetAl(1));
-                    ptr.count = nise68.mem.PeekL(0x14 + nise68.reg.GetAl(1));
+                    mpcmSt[n & 0xf].type = ptr.type = nise68.mem.PeekB(0x00 + nise68.reg.GetAl(1));
+                    mpcmSt[n & 0xf].orig = ptr.orig = nise68.mem.PeekB(0x01 + nise68.reg.GetAl(1));
+                    mpcmSt[n & 0xf].adrs_ptr = ptr.adrs_ptr = (int)nise68.mem.PeekL(0x04 + nise68.reg.GetAl(1));
+                    mpcmSt[n & 0xf].size = ptr.size = nise68.mem.PeekL(0x08 + nise68.reg.GetAl(1));
+                    mpcmSt[n & 0xf].start = ptr.start = nise68.mem.PeekL(0x0c + nise68.reg.GetAl(1));
+                    mpcmSt[n & 0xf].end = ptr.end = nise68.mem.PeekL(0x10 + nise68.reg.GetAl(1));
+                    mpcmSt[n & 0xf].count = ptr.count = nise68.mem.PeekL(0x14 + nise68.reg.GetAl(1));
                     //nise68.DumpMemory((uint)ptr.adrs_ptr, (uint)(ptr.adrs_ptr + ptr.size));
                     mpcm?.SetPcm(0, n & 0xf, ptr);
                     break;
                 case 0x0300:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_FRQ(${0:X04}) D1${1:X08}", n, nise68.reg.GetDl(1));
                     mpcm?.SetFreq(0, n & 0xf, (int)nise68.reg.GetDl(1));
+                    mpcmSt[n & 0xf].frq = (int)nise68.reg.GetDl(1);
                     break;
                 case 0x0400:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PITCH(${0:X04}) D1${1:X04}", n, nise68.reg.GetDl(1));
                     mpcm?.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
+                    mpcmSt[n & 0xf].pitch = (int)nise68.reg.GetDl(1);
                     break;
                 case 0x0500:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_VOL(${0:X04}) = ${1:X02}", n, nise68.reg.GetDb(1));
                     mpcm?.SetVol(0, n & 0xf, (int)nise68.reg.GetDb(1));
+                    mpcmSt[n & 0xf].volume = (int)nise68.reg.GetDb(1);
                     break;
                 case 0x0600:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PAN(${0:X04}) = ${1:X02}", n, nise68.reg.GetDb(1));
                     mpcm?.SetPan(0, n & 0xf, (int)nise68.reg.GetDb(1));
+                    mpcmSt[n & 0xf].pan = (int)nise68.reg.GetDb(1);
                     break;
                 case 0x8000://
                     switch (n & 0x000f)

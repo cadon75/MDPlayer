@@ -3535,6 +3535,7 @@ namespace MDPlayer
                 DriverReal?.SetYM2151Hosei(4000000);
 
                 ChipLED.PriPCM8 = 0;
+                ChipLED.PriMPCMX68k = 0;
 
                 //ZMSの場合は事前にコンパイルを実施
                 if (fm == EnmFileFormat.ZMS)
@@ -3542,6 +3543,7 @@ namespace MDPlayer
                     if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf))
                     {
                         vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                        ChipLED.PriMPCMX68k = 1;
                     }
                     else if(((Driver.ZMS.ZMS)DriverVirtual).Compilev2(vgmBuf))
                     {
@@ -3576,6 +3578,7 @@ namespace MDPlayer
                     ChipLED.SecMID = (byte)(useMIDI2 ? 1 : 0);
                     ChipLED.TrdMID = (byte)(useMIDI3 ? 1 : 0);
                     ChipLED.ForMID = (byte)(useMIDI4 ? 1 : 0);
+                    ChipLED.PriMPCMX68k = (byte)(useMPCM ? 1 : 0);
                 }
                 else
                 {
@@ -4432,7 +4435,7 @@ namespace MDPlayer
                 ChipLED.PriOPM = 1;
                 ChipLED.PriOPNA = 1;
                 ChipLED.SecOPNA = 1;
-                ChipLED.PriOKI5 = 1;
+                ChipLED.PriMPCMX68k = 1;
 
                 if (hiyorimiDeviceFlag == 0x3 && hiyorimiNecessary) hiyorimiNecessary = true;
                 else hiyorimiNecessary = false;

@@ -1,4 +1,8 @@
 更新履歴 
+STBL411 2024/06/15
+  鍵盤:MPCMX68k鍵盤追加(MNDRV,ZMUSICv3向け)
+  (ミュートと音程解析はまだ...)
+
 STBL410 2024/06/14
   ZMUSICv2:PCM8鍵盤に対応(v3のMPCMは非対応)
 
