@@ -33,6 +33,8 @@ namespace MDPlayer.Driver.ZMS
             public int pitch = 0;
             public int volume = 0;
             public int pan = 0;
+            public float rate = 0;
+            public float base_ = 0;
         }
 
         public string PlayingFileName { get; internal set; }
@@ -514,6 +516,12 @@ namespace MDPlayer.Driver.ZMS
                     mpcmSt[n & 0xf].start = ptr.start = nise68.mem.PeekL(0x0c + nise68.reg.GetAl(1));
                     mpcmSt[n & 0xf].end = ptr.end = nise68.mem.PeekL(0x10 + nise68.reg.GetAl(1));
                     mpcmSt[n & 0xf].count = ptr.count = nise68.mem.PeekL(0x14 + nise68.reg.GetAl(1));
+                    if (mpcm != null)
+                    {
+                        mpcmSt[n & 0xf].rate = mpcm.m[0].rate;
+                        mpcmSt[n & 0xf].base_ = mpcm.m[0].base_;
+                    }
+
                     //nise68.DumpMemory((uint)ptr.adrs_ptr, (uint)(ptr.adrs_ptr + ptr.size));
                     mpcm?.SetPcm(0, n & 0xf, ptr);
                     break;

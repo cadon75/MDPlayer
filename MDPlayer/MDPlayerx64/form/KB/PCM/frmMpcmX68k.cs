@@ -2,8 +2,11 @@
 using MDPlayer.Driver.MNDRV;
 using MDPlayer.Driver.MXDRV;
 using MDPlayer.Driver.ZMS;
+using MDPlayer.Driver.ZMS.nise68;
 using MDPlayerx64;
+using MDSound;
 using static MDPlayer.Driver.ZMS.ZMS;
+using static MDSound.mpcmX68k;
 #else
 using MDPlayer.Properties;
 #endif
@@ -103,20 +106,24 @@ namespace MDPlayer.form
         public void screenChangeParams()
         {
             ZMS.MPCMSt[] MPCMSt;
+            mpcmX68k mpcm;
             if (Audio.DriverVirtual is ZMS)
             {
                 ZMS zms = Audio.DriverVirtual as ZMS;
                 MPCMSt = zms.mpcmSt;
+                mpcm = zms.mpcm;
             }
             else if (Audio.DriverVirtual is mndrv)
             {
                 mndrv mnd = Audio.DriverVirtual as mndrv;
                 MPCMSt = mnd.mpcmSt;
+                mpcm = mnd.m_MPCM;
             }
             else
             {
                 return;
             }
+            if (mpcm == null) return;
 
             for (int ch = 0; ch < MPCMSt.Length; ch++)
             {
@@ -162,7 +169,45 @@ namespace MDPlayer.form
                     nyc.volumeL = Math.Min(Math.Max((int)(MPCMSt[ch].volume / 10.0), 0), 19) * ((nyc.pan & 2) != 0 ? 1 : 0);
                     nyc.volumeR = Math.Min(Math.Max((int)(MPCMSt[ch].volume / 10.0), 0), 19) * ((nyc.pan & 1) != 0 ? 1 : 0);
 
-                    nyc.note = 12 * 3;
+                    int orig = 440 << 6;
+                    if (MPCMSt[ch].orig != 0)
+                    {
+                        orig = MPCMSt[ch].orig << 6;
+                    }
+                    int doct = 0;
+                    int dnote = MPCMSt[ch].pitch;
+                    uint pitch = 0x0;
+
+                    if (orig > 0x1fc0)//MPCMSt[ch].orig>0x7f
+                    {
+                        nyc.note = 9 + 3 * 12;
+                        pitch = (uint)(0x10000 * MPCMSt[ch].base_);
+                    }
+                    else
+                    {
+                        dnote -= orig;
+                        if (dnote == 0)
+                        {
+                            nyc.note = 9 + 3 * 12;
+                            pitch = (uint)(0x10000 * MPCMSt[ch].base_);
+                        }
+                        else if (dnote > 0)
+                        {
+                            for (dnote -= 64 * 12; dnote >= 0; dnote -= 64 * 12, doct++) ;
+                            dnote += 64 * 12;
+                            nyc.note = dnote / 64 + (doct + 2) * 12 + 6;
+                        }
+                        else
+                        {
+                            for (; dnote < 0; dnote += 64 * 12, doct++) ;
+                            nyc.note = dnote / 64 + doct * 12 + 6;
+                        }
+                    }
+                    if (pitch != 0)
+                    {
+                        nyc.note = searchMPCMX68kNote(mpcm, pitch);
+                    }
+
                     MPCMSt[ch].Keyon = false;
                     MPCMSt[ch].Keyoff = false;
                 }
@@ -176,8 +221,27 @@ namespace MDPlayer.form
                 {
                     if (nyc.volumeL > 0) nyc.volumeL--;
                     if (nyc.volumeR > 0) nyc.volumeR--;
-                    if (nyc.volumeL == 0 && nyc.volumeR == 0) nyc.note = -1;
+                    //if (nyc.volumeL == 0 && nyc.volumeR == 0) nyc.note = -1;
                 }
+            }
+        }
+
+        private int searchMPCMX68kNote(mpcmX68k mpcm,uint pitch)
+        {
+            int n = 0;
+            int oct = 0;
+            while (true)
+            {
+                for (int i = 0; i < mpcm.pitchtbl.Length; i++)
+                {
+                    if (pitch < mpcm.pitchtbl[i])
+                    {
+                        return n / 64 + (oct + 2) * 12 + 6;
+                    }
+                    n = i;
+                }
+                pitch /= 2;
+                oct++;
             }
         }
 
@@ -239,7 +303,7 @@ namespace MDPlayer.form
             int py = e.Location.Y / zoom;
 
             //上部のラベル行の場合は何もしない
-            if (py < 1 * 16)
+            if (py < 1 * 8)
             {
                 //但しchをクリックした場合はマスク反転
                 if (px < 8)

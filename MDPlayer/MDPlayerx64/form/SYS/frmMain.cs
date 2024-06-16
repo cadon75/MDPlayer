@@ -9111,6 +9111,17 @@ namespace MDPlayer.form
                     }
                     newParam.pcm8[chipID].channels[ch].mask = !newParam.pcm8[chipID].channels[ch].mask;
                     break;
+                case EnmChip.MPCMX68k:
+                    if (newParam.mpcmX68k[chipID].channels[ch].mask == false || newParam.mpcmX68k[chipID].channels[ch].mask == null)
+                    {
+                        Audio.SetMPCMX68kMask(chipID, ch);
+                    }
+                    else
+                    {
+                        Audio.ResetMPCMX68kMask(chipID, ch);
+                    }
+                    newParam.mpcmX68k[chipID].channels[ch].mask = !newParam.mpcmX68k[chipID].channels[ch].mask;
+                    break;
                 case EnmChip.C352:
                     if (newParam.c352[chipID].channels[ch].mask == false || newParam.c352[chipID].channels[ch].mask == null)
                     {
@@ -9470,6 +9481,10 @@ namespace MDPlayer.form
                 case EnmChip.PPZ8:
                     newParam.ppz8[chipID].channels[ch].mask = false;
                     if (ch < 8) Audio.ResetPPZ8Mask(chipID, ch);
+                    break;
+                case EnmChip.MPCMX68k:
+                    newParam.mpcmX68k[chipID].channels[ch].mask = false;
+                    if (ch < 16) Audio.ResetMPCMX68kMask(chipID, ch);
                     break;
                 case EnmChip.PCM8:
                     newParam.pcm8[chipID].channels[ch].mask = false;
@@ -10302,6 +10317,10 @@ namespace MDPlayer.form
                             fn = "DriverBalance_FMP.mbc";
                             defMbc = Resources.DefaultVolumeBalance_FMP;
                             break;
+                        case EnmFileFormat.ZMS:
+                        case EnmFileFormat.ZMD:
+                            fn = "DriverBalance_ZMD.mbc";
+                            break;
                     }
 
                     fullPath = Path.Combine(fullPath, fn);
@@ -10397,6 +10416,10 @@ namespace MDPlayer.form
                             break;
                         case EnmFileFormat.FMP:
                             fn = "DriverBalance_FMP.mbc";
+                            break;
+                        case EnmFileFormat.ZMS:
+                        case EnmFileFormat.ZMD:
+                            fn = "DriverBalance_ZMD.mbc";
                             break;
                     }
 

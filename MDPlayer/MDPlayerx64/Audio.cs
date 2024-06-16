@@ -10393,6 +10393,11 @@ namespace MDPlayer
             chipRegister.setMaskX68Sound(chipID, ch, true);
         }
 
+        public static void SetMPCMX68kMask(int chipID, int ch)
+        {
+            chipRegister.setMaskMPCMX68k(chipID, ch, true);
+        }
+
         public static void SetC352Mask(int chipID, int ch)
         {
             chipRegister.setMaskC352(chipID, ch, true);
@@ -10650,6 +10655,15 @@ namespace MDPlayer
             try
             {
                 chipRegister.setMaskX68Sound(chipID, ch, false);
+            }
+            catch { }
+        }
+
+        public static void ResetMPCMX68kMask(int chipID, int ch)
+        {
+            try
+            {
+                chipRegister.setMaskMPCMX68k(chipID, ch, false);
             }
             catch { }
         }

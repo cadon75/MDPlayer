@@ -4305,7 +4305,7 @@ namespace MDPlayer
             if (screen == null) return;
 
             screen.drawByteArray(x, y, rType[tp * 2 + (mask ? 1 : 0)], 128, 64, 0, 24, 8);
-            drawFont8(screen, x + 24, y, mask ? 1 : 0, (1 + ch).ToString());
+            drawFont4Int2(screen, x + 24, y, mask ? 1 : 0,2, 1 + ch);
         }
 
         private static void ChPPZ8_P(FrameBuffer screen, int x, int y, int ch, bool mask, int tp)
