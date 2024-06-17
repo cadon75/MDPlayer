@@ -5902,6 +5902,8 @@ namespace MDPlayer.form
                     for (int ch = 0; ch < 8; ch++) ForceChannelMask(EnmChip.RF5C68, chipID, ch, newParam.rf5c68[chipID].channels[ch].mask);
                     for (int ch = 0; ch < 24; ch++) ForceChannelMask(EnmChip.C140, chipID, ch, newParam.c140[chipID].channels[ch].mask);
                     for (int ch = 0; ch < 32; ch++) ForceChannelMask(EnmChip.C352, chipID, ch, newParam.c352[chipID].channels[ch].mask);
+                    for (int ch = 0; ch < 8; ch++) ForceChannelMask(EnmChip.K054539, chipID, ch, newParam.k054539[chipID].channels[ch].mask);
+                    for (int ch = 0; ch < 4; ch++) ForceChannelMask(EnmChip.GA20, chipID, ch, newParam.ga20[chipID].channels[ch].mask);
                     for (int ch = 0; ch < 16; ch++) ForceChannelMask(EnmChip.SEGAPCM, chipID, ch, newParam.segaPcm[chipID].channels[ch].mask);
                     for (int ch = 0; ch < 19; ch++) ForceChannelMask(EnmChip.QSound, chipID, ch, newParam.qSound[chipID].channels[ch].mask);
                     for (int ch = 0; ch < 6; ch++) ForceChannelMask(EnmChip.HuC6280, chipID, ch, newParam.huc6280[chipID].channels[ch].mask);
@@ -5911,6 +5913,7 @@ namespace MDPlayer.form
                     for (int ch = 0; ch < 3; ch++) ResetChannelMask(EnmChip.MMC5, chipID, ch);
                     for (int ch = 0; ch < 8; ch++) ForceChannelMask(EnmChip.PPZ8, chipID, ch, newParam.ppz8[chipID].channels[ch].mask);
                     for (int ch = 0; ch < 8; ch++) ForceChannelMask(EnmChip.PCM8, chipID, ch, newParam.pcm8[chipID].channels[ch].mask);
+                    for (int ch = 0; ch < 16; ch++) ForceChannelMask(EnmChip.MPCMX68k, chipID, ch, newParam.mpcmX68k[chipID].channels[ch].mask);
                     for (int ch = 0; ch < 4; ch++) ForceChannelMask(EnmChip.DMG, chipID, ch, newParam.dmg[chipID].channels[ch].mask);
                     for (int ch = 0; ch < 3; ch++) ForceChannelMask(EnmChip.VRC6, chipID, ch, newParam.vrc6[chipID].channels[ch].mask);
                     for (int ch = 0; ch < 8; ch++) ForceChannelMask(EnmChip.N163, chipID, ch, newParam.n106[chipID].channels[ch].mask);
@@ -9902,6 +9905,14 @@ namespace MDPlayer.form
                         Audio.ResetPCM8Mask(chipID, ch);
                     newParam.pcm8[chipID].channels[ch].mask = mask;
                     oldParam.pcm8[chipID].channels[ch].mask = !mask;
+                    break;
+                case EnmChip.MPCMX68k:
+                    if (mask == true)
+                        Audio.SetMPCMX68kMask(chipID, ch);
+                    else
+                        Audio.ResetMPCMX68kMask(chipID, ch);
+                    newParam.mpcmX68k[chipID].channels[ch].mask = mask;
+                    oldParam.mpcmX68k[chipID].channels[ch].mask = !mask;
                     break;
                 case EnmChip.PPZ8:
                     if (mask == true)

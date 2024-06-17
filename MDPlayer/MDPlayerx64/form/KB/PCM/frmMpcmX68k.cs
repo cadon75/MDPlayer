@@ -47,7 +47,7 @@ namespace MDPlayer.form
                 nyc.volume = 0xff;
                 nyc.volumeL = Math.Min(Math.Max((int)(nyc.volume / 13.0), 0), 19) * ((nyc.pan & 2) != 0 ? 1 : 0);
                 nyc.volumeR = Math.Min(Math.Max((int)(nyc.volume / 13.0), 0), 19) * ((nyc.pan & 1) != 0 ? 1 : 0);
-                nyc.note = 1;
+                nyc.note = -1;
             }
 
             update();
@@ -136,8 +136,8 @@ namespace MDPlayer.form
                     nyc.adr[3] = (uint)MPCMSt[ch].end;
                     nyc.adr[4] = (uint)MPCMSt[ch].count;
                     nyc.adr[5] = (uint)MPCMSt[ch].frq;
-                    nyc.adr[6] = (uint)MPCMSt[ch].pitch;
-                    nyc.sadr = MPCMSt[ch].type;
+                    nyc.adr[6] = (uint)mpcm.m[chipID].work[ch].pitch;
+                    nyc.sadr = mpcm.m[chipID].work[ch].type;// MPCMSt[ch].type;
                     if (MPCMSt[ch].pan < 0x80)
                     {
                         //1:left 3:center 2:right
@@ -175,38 +175,43 @@ namespace MDPlayer.form
                         orig = MPCMSt[ch].orig << 6;
                     }
                     int doct = 0;
-                    int dnote = MPCMSt[ch].pitch;
-                    uint pitch = 0x0;
+                    int dnote = (Int16)MPCMSt[ch].pitch;
+                    uint pitch = 0x1_0000;
 
                     if (orig > 0x1fc0)//MPCMSt[ch].orig>0x7f
                     {
-                        nyc.note = 9 + 3 * 12;
-                        pitch = (uint)(0x10000 * MPCMSt[ch].base_);
+                        //pitch = (uint)(0x10000 * MPCMSt[ch].base_);
+                        pitch = 0x1_0000;
                     }
                     else
                     {
                         dnote -= orig;
                         if (dnote == 0)
                         {
-                            nyc.note = 9 + 3 * 12;
-                            pitch = (uint)(0x10000 * MPCMSt[ch].base_);
+                            //nyc.note = 9 + 3 * 12;//dummy
+                                                  //pitch = (uint)(0x10000 * MPCMSt[ch].base_);
+                            pitch = 0x1_0000;
                         }
                         else if (dnote > 0)
                         {
                             for (dnote -= 64 * 12; dnote >= 0; dnote -= 64 * 12, doct++) ;
                             dnote += 64 * 12;
-                            nyc.note = dnote / 64 + (doct + 2) * 12 + 6;
+                            pitch += mpcm.pitchtbl[dnote];
+                            pitch <<= doct;
+                            //nyc.note = dnote / 64 + doct * 12;
+                            //nyc.note = dnote / 64 + (doct + 2) * 12 -3;
                         }
                         else
                         {
-                            for (; dnote < 0; dnote += 64 * 12, doct++) ;
-                            nyc.note = dnote / 64 + doct * 12 + 6;
+                            for (; dnote < 0; dnote += 64 * 12, doct--) ;
+                            pitch += mpcm.pitchtbl[dnote];
+                            pitch >>= doct;
+                            //nyc.note = dnote / 64 + doct * 12;
+                            //nyc.note = dnote / 64 + doct * 12 - 3;
                         }
                     }
-                    if (pitch != 0)
-                    {
-                        nyc.note = searchMPCMX68kNote(mpcm, pitch);
-                    }
+
+                    nyc.note = searchMPCMX68kNote(mpcm, pitch, mpcm.m[chipID].work[ch].base_);// * mpcm.m[0].rate);
 
                     MPCMSt[ch].Keyon = false;
                     MPCMSt[ch].Keyoff = false;
@@ -226,23 +231,29 @@ namespace MDPlayer.form
             }
         }
 
-        private int searchMPCMX68kNote(mpcmX68k mpcm,uint pitch)
+        private int searchMPCMX68kNote(mpcmX68k mpcm,uint pitch,float base_)
         {
+            int freq = (int)(pitch * base_);
+            int clock = (int)mpcm.m[chipID].rate;
+            int hz = (int)(clock / (0x10000 / (double)freq));
+            double m = double.MaxValue;
+
             int n = 0;
-            int oct = 0;
-            while (true)
+            for (int i = 0; i < 12 * 8; i++)
             {
-                for (int i = 0; i < mpcm.pitchtbl.Length; i++)
+                int a = (int)(
+                    4000.0
+                    * Tables.pcmMulTbl[i % 12 + 12]
+                    * Math.Pow(2, (i / 12 - 3 + 2))
+                    );
+
+                if (hz > a)
                 {
-                    if (pitch < mpcm.pitchtbl[i])
-                    {
-                        return n / 64 + (oct + 2) * 12 + 6;
-                    }
+                    m = a;
                     n = i;
                 }
-                pitch /= 2;
-                oct++;
             }
+            return n-5+12;
         }
 
         public void screenDrawParams()

@@ -253,7 +253,7 @@ namespace MDPlayer
         {
             for (int y = 0; y < 16; y++)
             {
-                drawFont8(screen, 142*4, y * 8 + 8, 1, "ABC");
+                drawFont8(screen, 142*4, y * 8 + 8, 1, "   ");
                 for (int i = 0; i < 96; i++)
                 {
                     int kx = Tables.kbl[(i % 12) * 2] + i / 12 * 28;
