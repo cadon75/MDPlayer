@@ -379,6 +379,7 @@ namespace MDPlayer
 
         public void resetMyAsioOut()
         {
+            if (myAsioOut == null) return;
             long old = vSamplePos;
             while (old == vSamplePos) { Thread.Sleep(0); }
             rSamplePos = vSamplePos;
