@@ -3540,23 +3540,80 @@ namespace MDPlayer
                 //ZMSの場合は事前にコンパイルを実施
                 if (fm == EnmFileFormat.ZMS)
                 {
-                    if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf))
+                    switch (setting.zmusic.compilePriority)
                     {
-                        vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
-                        ChipLED.PriMPCMX68k = 1;
-                    }
-                    else if(((Driver.ZMS.ZMS)DriverVirtual).Compilev2(vgmBuf))
-                    {
-                        vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
-                        ((Driver.ZMS.ZMS)DriverVirtual).version = 2;
-                        ((Driver.ZMS.ZMS)DriverReal).version = 2;
-                        ChipLED.PriPCM8 = 1;
-                    }
-                    else
-                    {
-                        //compile error
-                        ErrMsg = "Compile Error.Check console log.";
-                        return false;
+                        case 0:
+                            //Version3優先
+                            if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf))
+                            {
+                                vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                ChipLED.PriMPCMX68k = 1;
+                            }
+                            else if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(vgmBuf))
+                            {
+                                vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                ((Driver.ZMS.ZMS)DriverVirtual).version = 2;
+                                ((Driver.ZMS.ZMS)DriverReal).version = 2;
+                                ChipLED.PriPCM8 = 1;
+                            }
+                            else
+                            {
+                                //compile error
+                                ErrMsg = "Compile Error.Check console log.";
+                                return false;
+                            }
+                            break;
+                        case 1:
+                            //Version2優先
+                            if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(vgmBuf))
+                            {
+                                vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                ((Driver.ZMS.ZMS)DriverVirtual).version = 2;
+                                ((Driver.ZMS.ZMS)DriverReal).version = 2;
+                                ChipLED.PriPCM8 = 1;
+                            }
+                            else if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf))
+                            {
+                                vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                ChipLED.PriMPCMX68k = 1;
+                            }
+                            else
+                            {
+                                //compile error
+                                ErrMsg = "Compile Error.Check console log.";
+                                return false;
+                            }
+                            break;
+                        case 2:
+                            //Version3のみ
+                            if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf))
+                            {
+                                vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                ChipLED.PriMPCMX68k = 1;
+                            }
+                            else
+                            {
+                                //compile error
+                                ErrMsg = "Compile Error.Check console log.";
+                                return false;
+                            }
+                            break;
+                        case 3:
+                            //Version2のみ
+                            if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(vgmBuf))
+                            {
+                                vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                ((Driver.ZMS.ZMS)DriverVirtual).version = 2;
+                                ((Driver.ZMS.ZMS)DriverReal).version = 2;
+                                ChipLED.PriPCM8 = 1;
+                            }
+                            else
+                            {
+                                //compile error
+                                ErrMsg = "Compile Error.Check console log.";
+                                return false;
+                            }
+                            break;
                     }
                 }
                 else

@@ -787,6 +787,20 @@ namespace MDPlayer
             }
         }
 
+        private Zmusic _Zmusic = new();
+        public Zmusic zmusic
+        {
+            get
+            {
+                return _Zmusic;
+            }
+
+            set
+            {
+                _Zmusic = value;
+            }
+        }
+
         private PlayList _playList = new();
         public PlayList playList
         {
@@ -5397,6 +5411,22 @@ namespace MDPlayer
                     volumeRhythm = this.volumeRhythm,
                     volumeAdpcm = this.volumeAdpcm,
                     volumeGIMICSSG = this.volumeGIMICSSG
+                };
+
+                return p;
+            }
+        }
+
+        [Serializable]
+        public class Zmusic
+        {
+            public int compilePriority = 0;
+
+            public Zmusic Copy()
+            {
+                Zmusic p = new()
+                {
+                    compilePriority = this.compilePriority,
                 };
 
                 return p;
