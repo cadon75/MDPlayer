@@ -5938,6 +5938,7 @@ namespace MDPlayer
             setting.nukedOPN2 = this.nukedOPN2.Copy();
             setting.autoBalance = this.autoBalance.Copy();
             setting.pmdDotNET = this.pmdDotNET.Copy();
+            setting.zmusic = this.zmusic.Copy();
             setting.playList = this.playList.Copy();
 
             setting.keyBoardHook = this.keyBoardHook.Copy();

@@ -8557,6 +8557,8 @@ namespace MDPlayer
                 return;
             }
 
+            naudioWrap.resetMyAsioOut();
+
             TrdClosed = false;
             trdMain = new Thread(new ThreadStart(TrdVgmRealFunction))
             {
@@ -8587,19 +8589,23 @@ namespace MDPlayer
                     Thread.Sleep(0);
 
                     double el1 = sw.ElapsedTicks / swFreq;
-                    if (el1 - o < step)
-                        continue;
-                    if (el1 - o >= step * Setting.outputDevice.SampleRate / 1.0)//閾値1000ms  //100.0)//閾値10ms
+                    if (naudioWrap.CheckLate())
                     {
-                        do
+                        if (el1 - o < step)
+                            continue;
+                        if (el1 - o >= step * Setting.outputDevice.SampleRate / 1.0)//閾値1000ms  //100.0)//閾値10ms
+                        {
+                            do
+                            {
+                                o += step;
+                            } while (el1 - o >= step);
+                        }
+                        else
                         {
                             o += step;
-                        } while (el1 - o >= step);
+                        }
                     }
-                    else
-                    {
-                        o += step;
-                    }
+                    if (naudioWrap.CheckLate2()) continue;
 
                     if (Stopped || Paused)
                     {
@@ -8753,6 +8759,7 @@ namespace MDPlayer
         internal static int TrdVgmVirtualFunction(short[] buffer, int offset, int sampleCount)
         {
             //return NaudioRead(buffer, offset, sampleCount);
+            naudioWrap.UpdateSamplePosition(sampleCount);
 
             if (naudioWaveFileReader != null || naudioMp3FileReader != null || naudioAiffFileReader != null)
             {

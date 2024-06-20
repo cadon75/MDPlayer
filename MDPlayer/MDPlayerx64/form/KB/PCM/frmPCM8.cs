@@ -109,9 +109,9 @@ namespace MDPlayer.form
                 if (pcm8St[ch].Keyon)
                 {
                     nyc.volume = Math.Min(Math.Max((int)(((pcm8St[ch].mode >> 16) & 0x0f) * 20.0 / 16.0), 0), 19);
-                    nyc.volumeL = (int)((pcm8St[ch].mode >> 16) & 0x0f);
-                    nyc.freq = (int)((pcm8St[ch].mode >> 8) & 0x07);
-                    nyc.pcmMode = (int)((pcm8St[ch].mode >> 0) & 0x03);
+                    nyc.volumeL = (int)((pcm8St[ch].mode >> 16) & 0xff);
+                    nyc.freq = (int)((pcm8St[ch].mode >> 8) & 0xff);
+                    nyc.pcmMode = (int)((pcm8St[ch].mode >> 0) & 0xff);
                     nyc.utp = pcm8St[ch].tablePtr;
                     nyc.utl = pcm8St[ch].length;
                     pcm8St[ch].Keyon = false;
