@@ -1,4 +1,7 @@
 更新履歴 
+STBL419 2024/06/22
+  MDSound更新:PCM8PP対応。
+
 STBL418 2024/06/21
   ZMUSICv2:PCM8PPにごく一部対応。
 

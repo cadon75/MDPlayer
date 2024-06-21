@@ -5421,7 +5421,7 @@ namespace MDPlayer
         public class Zmusic
         {
             public int compilePriority = 0;
-            public int pcm8type = 0;
+            public int pcm8type = 1;
 
             public Zmusic Copy()
             {
