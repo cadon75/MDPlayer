@@ -6727,32 +6727,29 @@
   <data name="&gt;&gt;tabZmusic.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="&gt;&gt;radioButton6.Name" xml:space="preserve">
-    <value>radioButton6</value>
+  <data name="&gt;&gt;rbPCM8PP.Name" xml:space="preserve">
+    <value>rbPCM8PP</value>
   </data>
-  <data name="&gt;&gt;radioButton6.Type" xml:space="preserve">
+  <data name="&gt;&gt;rbPCM8PP.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;radioButton6.Parent" xml:space="preserve">
+  <data name="&gt;&gt;rbPCM8PP.Parent" xml:space="preserve">
     <value>groupBox34</value>
   </data>
-  <data name="&gt;&gt;radioButton6.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;rbPCM8PP.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;radioButton5.Name" xml:space="preserve">
-    <value>radioButton5</value>
+  <data name="&gt;&gt;rbPCM8.Name" xml:space="preserve">
+    <value>rbPCM8</value>
   </data>
-  <data name="&gt;&gt;radioButton5.Type" xml:space="preserve">
+  <data name="&gt;&gt;rbPCM8.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;radioButton5.Parent" xml:space="preserve">
+  <data name="&gt;&gt;rbPCM8.Parent" xml:space="preserve">
     <value>groupBox34</value>
   </data>
-  <data name="&gt;&gt;radioButton5.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;rbPCM8.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="groupBox34.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="groupBox34.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 135</value>
@@ -6778,64 +6775,64 @@
   <data name="&gt;&gt;groupBox34.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="radioButton6.AutoSize" type="System.Boolean, mscorlib">
+  <data name="rbPCM8PP.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="radioButton6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="rbPCM8PP.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="radioButton6.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="rbPCM8PP.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 47</value>
   </data>
-  <data name="radioButton6.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="rbPCM8PP.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 19</value>
   </data>
-  <data name="radioButton6.TabIndex" type="System.Int32, mscorlib">
+  <data name="rbPCM8PP.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="radioButton6.Text" xml:space="preserve">
+  <data name="rbPCM8PP.Text" xml:space="preserve">
     <value>PCM8PP (mercury unit)</value>
   </data>
-  <data name="&gt;&gt;radioButton6.Name" xml:space="preserve">
-    <value>radioButton6</value>
+  <data name="&gt;&gt;rbPCM8PP.Name" xml:space="preserve">
+    <value>rbPCM8PP</value>
   </data>
-  <data name="&gt;&gt;radioButton6.Type" xml:space="preserve">
+  <data name="&gt;&gt;rbPCM8PP.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;radioButton6.Parent" xml:space="preserve">
+  <data name="&gt;&gt;rbPCM8PP.Parent" xml:space="preserve">
     <value>groupBox34</value>
   </data>
-  <data name="&gt;&gt;radioButton6.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;rbPCM8PP.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="radioButton5.AutoSize" type="System.Boolean, mscorlib">
+  <data name="rbPCM8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="radioButton5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="rbPCM8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="radioButton5.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="rbPCM8.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 22</value>
   </data>
-  <data name="radioButton5.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="rbPCM8.Size" type="System.Drawing.Size, System.Drawing">
     <value>141, 19</value>
   </data>
-  <data name="radioButton5.TabIndex" type="System.Int32, mscorlib">
+  <data name="rbPCM8.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="radioButton5.Text" xml:space="preserve">
+  <data name="rbPCM8.Text" xml:space="preserve">
     <value>PCM8 (use X68Sound)</value>
   </data>
-  <data name="&gt;&gt;radioButton5.Name" xml:space="preserve">
-    <value>radioButton5</value>
+  <data name="&gt;&gt;rbPCM8.Name" xml:space="preserve">
+    <value>rbPCM8</value>
   </data>
-  <data name="&gt;&gt;radioButton5.Type" xml:space="preserve">
+  <data name="&gt;&gt;rbPCM8.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;radioButton5.Parent" xml:space="preserve">
+  <data name="&gt;&gt;rbPCM8.Parent" xml:space="preserve">
     <value>groupBox34</value>
   </data>
-  <data name="&gt;&gt;radioButton5.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;rbPCM8.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="&gt;&gt;rbZmV3.Name" xml:space="preserve">
@@ -7601,7 +7598,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>557, 243</value>
+    <value>557, 223</value>
   </data>
   <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -7742,7 +7739,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tabPage3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>557, 243</value>
+    <value>557, 223</value>
   </data>
   <data name="tabPage3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -7883,7 +7880,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tabPage4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>557, 243</value>
+    <value>557, 223</value>
   </data>
   <data name="tabPage4.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -8024,7 +8021,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tabPage5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>557, 243</value>
+    <value>557, 223</value>
   </data>
   <data name="tabPage5.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -8165,7 +8162,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tabPage6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>557, 243</value>
+    <value>557, 223</value>
   </data>
   <data name="tabPage6.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -8306,7 +8303,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tabPage7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>557, 243</value>
+    <value>557, 223</value>
   </data>
   <data name="tabPage7.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -8447,7 +8444,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tabPage8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>557, 243</value>
+    <value>557, 223</value>
   </data>
   <data name="tabPage8.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -8588,7 +8585,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tabPage9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>557, 243</value>
+    <value>557, 223</value>
   </data>
   <data name="tabPage9.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -8729,7 +8726,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="tabPage10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>557, 243</value>
+    <value>557, 223</value>
   </data>
   <data name="tabPage10.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>

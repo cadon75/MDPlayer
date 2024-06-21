@@ -936,6 +936,8 @@ namespace MDPlayer.form
             rbZmV2V3.Checked = setting.zmusic.compilePriority == 1;
             rbZmV3.Checked = setting.zmusic.compilePriority == 2;
             rbZmV2.Checked = setting.zmusic.compilePriority == 3;
+            rbPCM8.Checked = setting.zmusic.pcm8type == 0;
+            rbPCM8PP.Checked = setting.zmusic.pcm8type == 1;
         }
 
         private void SetRealCombo(EnmRealChipType realType, ComboBox cmbP, RadioButton rbP, ComboBox cmbS, RadioButton rbS)
@@ -1833,7 +1835,7 @@ namespace MDPlayer.form
             setting.pmdDotNET.volumeGIMICSSG = nn;
 
             setting.zmusic.compilePriority = rbZmV3V2.Checked ? 0 : (rbZmV2V3.Checked ? 1 : (rbZmV3.Checked ? 2 : 3));
-
+            setting.zmusic.pcm8type = rbPCM8.Checked ? 0 : (rbPCM8PP.Checked ? 1 : 0);
 
             setting.keyBoardHook.UseKeyBoardHook = cbUseKeyBoardHook.Checked;
 

@@ -5421,12 +5421,14 @@ namespace MDPlayer
         public class Zmusic
         {
             public int compilePriority = 0;
+            public int pcm8type = 0;
 
             public Zmusic Copy()
             {
                 Zmusic p = new()
                 {
                     compilePriority = this.compilePriority,
+                    pcm8type = this.pcm8type
                 };
 
                 return p;

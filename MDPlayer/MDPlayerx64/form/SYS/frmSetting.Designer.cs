@@ -194,8 +194,8 @@ namespace MDPlayer.form
             tbPMDVolumeFM = new TextBox();
             tabZmusic = new TabPage();
             groupBox34 = new GroupBox();
-            radioButton6 = new RadioButton();
-            radioButton5 = new RadioButton();
+            rbPCM8PP = new RadioButton();
+            rbPCM8 = new RadioButton();
             groupBox31 = new GroupBox();
             rbZmV3 = new RadioButton();
             rbZmV2 = new RadioButton();
@@ -1804,25 +1804,25 @@ namespace MDPlayer.form
             // 
             // groupBox34
             // 
-            groupBox34.Controls.Add(radioButton6);
-            groupBox34.Controls.Add(radioButton5);
+            groupBox34.Controls.Add(rbPCM8PP);
+            groupBox34.Controls.Add(rbPCM8);
             resources.ApplyResources(groupBox34, "groupBox34");
             groupBox34.Name = "groupBox34";
             groupBox34.TabStop = false;
             // 
-            // radioButton6
+            // rbPCM8PP
             // 
-            resources.ApplyResources(radioButton6, "radioButton6");
-            radioButton6.Name = "radioButton6";
-            radioButton6.UseVisualStyleBackColor = true;
+            resources.ApplyResources(rbPCM8PP, "rbPCM8PP");
+            rbPCM8PP.Name = "rbPCM8PP";
+            rbPCM8PP.UseVisualStyleBackColor = true;
             // 
-            // radioButton5
+            // rbPCM8
             // 
-            resources.ApplyResources(radioButton5, "radioButton5");
-            radioButton5.Checked = true;
-            radioButton5.Name = "radioButton5";
-            radioButton5.TabStop = true;
-            radioButton5.UseVisualStyleBackColor = true;
+            resources.ApplyResources(rbPCM8, "rbPCM8");
+            rbPCM8.Checked = true;
+            rbPCM8.Name = "rbPCM8";
+            rbPCM8.TabStop = true;
+            rbPCM8.UseVisualStyleBackColor = true;
             // 
             // groupBox31
             // 
@@ -5287,7 +5287,7 @@ namespace MDPlayer.form
         private RadioButton rbZmV2V3;
         private RadioButton rbZmV3V2;
         private GroupBox groupBox34;
-        private RadioButton radioButton6;
-        private RadioButton radioButton5;
+        private RadioButton rbPCM8PP;
+        private RadioButton rbPCM8;
     }
 }

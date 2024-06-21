@@ -11,6 +11,9 @@ namespace MDPlayer.Driver.ZMS
         private nise68.nise68 nise68;
         public mpcmX68k mpcm;
         public MDSound.ym2151_x68sound opmPCM;
+        public MDSound.PCM8PP pcm8pp;
+        public int pcm8type = 0;
+
         private int checkCounter = 0;
         private List<string> envZPDs = new List<string>();
         public int version = 0;
@@ -306,7 +309,8 @@ namespace MDPlayer.Driver.ZMS
                 , true, true, true
                 ) != 0) throw new Exception("zmusic regident Error");
 
-                opmPCM?.x68sound[0].MountMemory(nise68.mem.mem);
+                if(pcm8type==0) opmPCM?.x68sound[0].MountMemory(nise68.mem.mem);
+                else pcm8pp?.MountMemory(nise68.mem.mem);
 
                 //演奏
                 byte[] zmd = null;
@@ -580,7 +584,9 @@ namespace MDPlayer.Driver.ZMS
             {
                 case 0x0000:
                     //x68Sound.Pcm8_Out((int)D0 & 0xff, A1, (int)D1, (int)D2);
-                    opmPCM?.x68sound[0].X68Sound_Pcm8_Out((int)n & 0xff, null, nise68.reg.GetAl(1), (int)nise68.reg.GetDl(1), (int)nise68.reg.GetDl(2));//指定チャンネル発音開始
+                    //File.WriteAllBytes("c:\\temp\\test.bin", nise68.mem.mem);
+                    if (pcm8type == 0) opmPCM?.x68sound[0].X68Sound_Pcm8_Out((int)n & 0xff, null, nise68.reg.GetAl(1), (int)nise68.reg.GetDl(1), (int)nise68.reg.GetDl(2));//指定チャンネル発音開始
+                    else pcm8pp?.KeyOn((int)n & 0xff, nise68.reg.GetAl(1), (int)nise68.reg.GetDl(1), (int)nise68.reg.GetDl(2));//指定チャンネル発音開始
                     ch = (int)((n & 0xff) % 8);
                     pcm8St[ch].tablePtr = nise68.reg.GetAl(1);
                     pcm8St[ch].mode = nise68.reg.GetDl(1);
@@ -596,7 +602,8 @@ namespace MDPlayer.Driver.ZMS
                             pcm8St[ch].mode = 0;
                             pcm8St[ch].length = 0;
                             pcm8St[ch].Keyon = false;
-                            opmPCM?.x68sound[0].X68Sound_Pcm8_Out((int)n & 0xff, null, 0, 0, 0);//指定チャンネル発音停止
+                            if (pcm8type == 0) opmPCM?.x68sound[0].X68Sound_Pcm8_Out((int)n & 0xff, null, 0, 0, 0);//指定チャンネル発音停止
+                            else pcm8pp?.KeyOff((int)n & 0xff);//指定チャンネル発音停止
                             break;
                         case 0x0101:
                             opmPCM?.x68sound[0].X68Sound_Pcm8_Abort();//全チャンネル発音停止
