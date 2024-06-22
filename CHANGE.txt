@@ -1,4 +1,7 @@
 更新履歴 
+STBL420 2024/06/22 2nd
+  MDSound更新:PCM8PP対応。
+
 STBL419 2024/06/22
   MDSound更新:PCM8PP対応。
 
