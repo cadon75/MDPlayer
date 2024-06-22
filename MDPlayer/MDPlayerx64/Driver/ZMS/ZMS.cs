@@ -584,7 +584,6 @@ namespace MDPlayer.Driver.ZMS
             switch (n & 0xfff0)
             {
                 case 0x0000:
-                    //x68Sound.Pcm8_Out((int)D0 & 0xff, A1, (int)D1, (int)D2);
                     //File.WriteAllBytes("c:\\temp\\test.bin", nise68.mem.mem);
                     if (pcm8type == 0) opmPCM?.x68sound[0].X68Sound_Pcm8_Out((int)n & 0xff, null, nise68.reg.GetAl(1), (int)nise68.reg.GetDl(1), (int)nise68.reg.GetDl(2));//指定チャンネル発音開始
                     else pcm8pp?.KeyOn((int)n & 0xff, nise68.reg.GetAl(1), (int)nise68.reg.GetDl(1), (int)nise68.reg.GetDl(2));//指定チャンネル発音開始
