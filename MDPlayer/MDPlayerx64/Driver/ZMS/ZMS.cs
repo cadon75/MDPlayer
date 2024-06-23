@@ -332,6 +332,8 @@ namespace MDPlayer.Driver.ZMS
                     }
                 }
 
+                nise68.hmn.memMng = new memMng((uint)(0x0001_2000 + (9212 + 2048) * 1024 + File.ReadAllBytes(zmusic).Length));
+
                 if (nise68.LoadRun(zmusic, "-P9212 -T2048"+zpd, Path.GetDirectoryName(fnZMD), 0x00012000
                 , true, true, true
                 ) != 0) throw new Exception("zmusic regident Error");
