@@ -49,12 +49,14 @@ namespace MDPlayer.form
             clmSongNo = new DataGridViewTextBoxColumn();
             clmZipFileName = new DataGridViewTextBoxColumn();
             clmFileName = new DataGridViewTextBoxColumn();
+            clmSupportFile = new DataGridViewTextBoxColumn();
             clmPlayingNow = new DataGridViewTextBoxColumn();
             clmEXT = new DataGridViewTextBoxColumn();
             clmType = new DataGridViewTextBoxColumn();
             clmTitle = new DataGridViewTextBoxColumn();
             clmTitleJ = new DataGridViewTextBoxColumn();
             clmDispFileName = new DataGridViewTextBoxColumn();
+            clmDispSupportFileName = new DataGridViewTextBoxColumn();
             clmGame = new DataGridViewTextBoxColumn();
             clmGameJ = new DataGridViewTextBoxColumn();
             clmComposer = new DataGridViewTextBoxColumn();
@@ -82,7 +84,7 @@ namespace MDPlayer.form
             tsbMMLExt = new ToolStripButton();
             tsbImgExt = new ToolStripButton();
             cmsPlayList = new ContextMenuStrip(components);
-            type設定ToolStripMenuItem = new ToolStripMenuItem();
+            tsmiSetType = new ToolStripMenuItem();
             tsmiA = new ToolStripMenuItem();
             tsmiB = new ToolStripMenuItem();
             tsmiC = new ToolStripMenuItem();
@@ -93,6 +95,7 @@ namespace MDPlayer.form
             tsmiH = new ToolStripMenuItem();
             tsmiI = new ToolStripMenuItem();
             tsmiJ = new ToolStripMenuItem();
+            tsmiSelectSupportFile = new ToolStripMenuItem();
             toolStripSeparator5 = new ToolStripSeparator();
             tsmiPlayThis = new ToolStripMenuItem();
             tsmiDelThis = new ToolStripMenuItem();
@@ -100,6 +103,7 @@ namespace MDPlayer.form
             tsmiDelAllMusic = new ToolStripMenuItem();
             tsmiOpenFolder = new ToolStripMenuItem();
             timer1 = new System.Windows.Forms.Timer(components);
+            tsmiRemoveSupportFile = new ToolStripMenuItem();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.TopToolStripPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
@@ -141,7 +145,7 @@ namespace MDPlayer.form
             dgvList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             resources.ApplyResources(dgvList, "dgvList");
             dgvList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvList.Columns.AddRange(new DataGridViewColumn[] { clmKey, clmSongNo, clmZipFileName, clmFileName, clmPlayingNow, clmEXT, clmType, clmTitle, clmTitleJ, clmDispFileName, clmGame, clmGameJ, clmComposer, clmComposerJ, clmVGMby, clmConverted, clmNotes, clmDuration, ClmVersion, ClmUseChips, clmSpacer });
+            dgvList.Columns.AddRange(new DataGridViewColumn[] { clmKey, clmSongNo, clmZipFileName, clmFileName, clmSupportFile, clmPlayingNow, clmEXT, clmType, clmTitle, clmTitleJ, clmDispFileName, clmDispSupportFileName, clmGame, clmGameJ, clmComposer, clmComposerJ, clmVGMby, clmConverted, clmNotes, clmDuration, ClmVersion, ClmUseChips, clmSpacer });
             dgvList.EditMode = DataGridViewEditMode.EditProgrammatically;
             dgvList.Name = "dgvList";
             dgvList.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
@@ -193,6 +197,11 @@ namespace MDPlayer.form
             clmFileName.Name = "clmFileName";
             clmFileName.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
+            // clmSupportFile
+            // 
+            resources.ApplyResources(clmSupportFile, "clmSupportFile");
+            clmSupportFile.Name = "clmSupportFile";
+            // 
             // clmPlayingNow
             // 
             clmPlayingNow.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -231,6 +240,11 @@ namespace MDPlayer.form
             resources.ApplyResources(clmDispFileName, "clmDispFileName");
             clmDispFileName.Name = "clmDispFileName";
             clmDispFileName.ReadOnly = true;
+            // 
+            // clmDispSupportFileName
+            // 
+            resources.ApplyResources(clmDispSupportFileName, "clmDispSupportFileName");
+            clmDispSupportFileName.Name = "clmDispSupportFileName";
             // 
             // clmGame
             // 
@@ -414,15 +428,15 @@ namespace MDPlayer.form
             // 
             // cmsPlayList
             // 
-            cmsPlayList.Items.AddRange(new ToolStripItem[] { type設定ToolStripMenuItem, toolStripSeparator5, tsmiPlayThis, tsmiDelThis, toolStripSeparator3, tsmiDelAllMusic, tsmiOpenFolder });
+            cmsPlayList.Items.AddRange(new ToolStripItem[] { tsmiSetType, tsmiSelectSupportFile, tsmiRemoveSupportFile, toolStripSeparator5, tsmiPlayThis, tsmiDelThis, toolStripSeparator3, tsmiDelAllMusic, tsmiOpenFolder });
             cmsPlayList.Name = "cmsPlayList";
             resources.ApplyResources(cmsPlayList, "cmsPlayList");
             // 
-            // type設定ToolStripMenuItem
+            // tsmiSetType
             // 
-            type設定ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tsmiA, tsmiB, tsmiC, tsmiD, tsmiE, tsmiF, tsmiG, tsmiH, tsmiI, tsmiJ });
-            type設定ToolStripMenuItem.Name = "type設定ToolStripMenuItem";
-            resources.ApplyResources(type設定ToolStripMenuItem, "type設定ToolStripMenuItem");
+            tsmiSetType.DropDownItems.AddRange(new ToolStripItem[] { tsmiA, tsmiB, tsmiC, tsmiD, tsmiE, tsmiF, tsmiG, tsmiH, tsmiI, tsmiJ });
+            tsmiSetType.Name = "tsmiSetType";
+            resources.ApplyResources(tsmiSetType, "tsmiSetType");
             // 
             // tsmiA
             // 
@@ -484,6 +498,12 @@ namespace MDPlayer.form
             resources.ApplyResources(tsmiJ, "tsmiJ");
             tsmiJ.Click += tsmiA_Click;
             // 
+            // tsmiSelectSupportFile
+            // 
+            tsmiSelectSupportFile.Name = "tsmiSelectSupportFile";
+            resources.ApplyResources(tsmiSelectSupportFile, "tsmiSelectSupportFile");
+            tsmiSelectSupportFile.Click += tsmiSelectSupportFile_Click;
+            // 
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
@@ -522,6 +542,12 @@ namespace MDPlayer.form
             // 
             timer1.Enabled = true;
             timer1.Tick += timer1_Tick;
+            // 
+            // tsmiRemoveSupportFile
+            // 
+            tsmiRemoveSupportFile.Name = "tsmiRemoveSupportFile";
+            resources.ApplyResources(tsmiRemoveSupportFile, "tsmiRemoveSupportFile");
+            tsmiRemoveSupportFile.Click += tsmiRemoveSupportFile_Click;
             // 
             // frmPlayList
             // 
@@ -567,7 +593,7 @@ namespace MDPlayer.form
         private System.Windows.Forms.ToolStripButton tsbAddFolder;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton tsbJapanese;
-        private System.Windows.Forms.ToolStripMenuItem type設定ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSetType;
         private System.Windows.Forms.ToolStripMenuItem tsmiA;
         private System.Windows.Forms.ToolStripMenuItem tsmiB;
         private System.Windows.Forms.ToolStripMenuItem tsmiC;
@@ -589,12 +615,14 @@ namespace MDPlayer.form
         private DataGridViewTextBoxColumn clmSongNo;
         private DataGridViewTextBoxColumn clmZipFileName;
         private DataGridViewTextBoxColumn clmFileName;
+        private DataGridViewTextBoxColumn clmSupportFile;
         private DataGridViewTextBoxColumn clmPlayingNow;
         private DataGridViewTextBoxColumn clmEXT;
         private DataGridViewTextBoxColumn clmType;
         private DataGridViewTextBoxColumn clmTitle;
         private DataGridViewTextBoxColumn clmTitleJ;
         private DataGridViewTextBoxColumn clmDispFileName;
+        private DataGridViewTextBoxColumn clmDispSupportFileName;
         private DataGridViewTextBoxColumn clmGame;
         private DataGridViewTextBoxColumn clmGameJ;
         private DataGridViewTextBoxColumn clmComposer;
@@ -606,5 +634,7 @@ namespace MDPlayer.form
         private DataGridViewTextBoxColumn ClmVersion;
         private DataGridViewTextBoxColumn ClmUseChips;
         private DataGridViewTextBoxColumn clmSpacer;
+        private ToolStripMenuItem tsmiSelectSupportFile;
+        private ToolStripMenuItem tsmiRemoveSupportFile;
     }
 }

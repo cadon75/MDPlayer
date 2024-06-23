@@ -172,6 +172,15 @@
   <data name="clmFileName.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
+  <metadata name="clmSupportFile.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="clmSupportFile.HeaderText" xml:space="preserve">
+    <value>SupportFileName</value>
+  </data>
+  <data name="clmSupportFile.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <metadata name="clmPlayingNow.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -222,6 +231,12 @@
   </metadata>
   <data name="clmDispFileName.HeaderText" xml:space="preserve">
     <value>FileName</value>
+  </data>
+  <metadata name="clmDispSupportFileName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="clmDispSupportFileName.HeaderText" xml:space="preserve">
+    <value>SupportFileName</value>
   </data>
   <metadata name="clmGame.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -640,44 +655,56 @@
   <data name="tsmiJ.Text" xml:space="preserve">
     <value>J</value>
   </data>
-  <data name="type設定ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
+  <data name="tsmiSetType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
   </data>
-  <data name="type設定ToolStripMenuItem.Text" xml:space="preserve">
+  <data name="tsmiSetType.Text" xml:space="preserve">
     <value>Set type</value>
   </data>
+  <data name="tsmiSelectSupportFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="tsmiSelectSupportFile.Text" xml:space="preserve">
+    <value>Select support file</value>
+  </data>
+  <data name="tsmiRemoveSupportFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="tsmiRemoveSupportFile.Text" xml:space="preserve">
+    <value>Remove support file</value>
+  </data>
   <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 6</value>
+    <value>177, 6</value>
   </data>
   <data name="tsmiPlayThis.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="tsmiPlayThis.Text" xml:space="preserve">
     <value>Play this music</value>
   </data>
   <data name="tsmiDelThis.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="tsmiDelThis.Text" xml:space="preserve">
     <value>Remove this music</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 6</value>
+    <value>177, 6</value>
   </data>
   <data name="tsmiDelAllMusic.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="tsmiDelAllMusic.Text" xml:space="preserve">
     <value>Remove all musics</value>
   </data>
   <data name="tsmiOpenFolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="tsmiOpenFolder.Text" xml:space="preserve">
     <value>Open this floder</value>
   </data>
   <data name="cmsPlayList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 126</value>
+    <value>181, 192</value>
   </data>
   <data name="&gt;&gt;cmsPlayList.Name" xml:space="preserve">
     <value>cmsPlayList</value>
@@ -1252,6 +1279,12 @@
   <data name="&gt;&gt;clmFileName.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;clmSupportFile.Name" xml:space="preserve">
+    <value>clmSupportFile</value>
+  </data>
+  <data name="&gt;&gt;clmSupportFile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;clmPlayingNow.Name" xml:space="preserve">
     <value>clmPlayingNow</value>
   </data>
@@ -1286,6 +1319,12 @@
     <value>clmDispFileName</value>
   </data>
   <data name="&gt;&gt;clmDispFileName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;clmDispSupportFileName.Name" xml:space="preserve">
+    <value>clmDispSupportFileName</value>
+  </data>
+  <data name="&gt;&gt;clmDispSupportFileName.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clmGame.Name" xml:space="preserve">
@@ -1438,10 +1477,10 @@
   <data name="&gt;&gt;tsbImgExt.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;type設定ToolStripMenuItem.Name" xml:space="preserve">
-    <value>type設定ToolStripMenuItem</value>
+  <data name="&gt;&gt;tsmiSetType.Name" xml:space="preserve">
+    <value>tsmiSetType</value>
   </data>
-  <data name="&gt;&gt;type設定ToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;tsmiSetType.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tsmiA.Name" xml:space="preserve">
@@ -1504,6 +1543,12 @@
   <data name="&gt;&gt;tsmiJ.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;tsmiSelectSupportFile.Name" xml:space="preserve">
+    <value>tsmiSelectSupportFile</value>
+  </data>
+  <data name="&gt;&gt;tsmiSelectSupportFile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolStripSeparator5.Name" xml:space="preserve">
     <value>toolStripSeparator5</value>
   </data>
@@ -1545,6 +1590,12 @@
   </data>
   <data name="&gt;&gt;timer1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tsmiRemoveSupportFile.Name" xml:space="preserve">
+    <value>tsmiRemoveSupportFile</value>
+  </data>
+  <data name="&gt;&gt;tsmiRemoveSupportFile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>frmPlayList</value>

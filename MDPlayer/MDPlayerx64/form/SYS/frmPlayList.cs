@@ -4,6 +4,9 @@ using MDPlayerx64.Properties;
 using MDPlayer.Properties;
 #endif
 using System.Diagnostics;
+using System.Security.Cryptography;
+using static MDPlayer.PlayList;
+//using static System.Net.Mime.MediaTypeNames;
 
 namespace MDPlayer.form
 {
@@ -129,6 +132,7 @@ namespace MDPlayer.form
             if (setting.playList.cwTitle != -1) dgvList.Columns["clmTitle"].Width = setting.playList.cwTitle;
             if (setting.playList.cwTitleJ != -1) dgvList.Columns["clmTitleJ"].Width = setting.playList.cwTitleJ;
             if (setting.playList.cwFilename != -1) dgvList.Columns["clmDispFileName"].Width = setting.playList.cwFilename;
+            if (setting.playList.cwSupportFilename != -1) dgvList.Columns["clmDispSupportFileName"].Width = setting.playList.cwSupportFilename;
             if (setting.playList.cwGame != -1) dgvList.Columns["clmGame"].Width = setting.playList.cwGame;
             if (setting.playList.cwGameJ != -1) dgvList.Columns["clmGameJ"].Width = setting.playList.cwGameJ;
             if (setting.playList.cwComposer != -1) dgvList.Columns["clmComposer"].Width = setting.playList.cwComposer;
@@ -168,6 +172,7 @@ namespace MDPlayer.form
             setting.playList.cwTitle = dgvList.Columns["clmTitle"].Width;
             setting.playList.cwTitleJ = dgvList.Columns["clmTitleJ"].Width;
             setting.playList.cwFilename = dgvList.Columns["clmDispFileName"].Width;
+            setting.playList.cwSupportFilename = dgvList.Columns["clmDispSupportFileName"].Width;
             setting.playList.cwGame = dgvList.Columns["clmGame"].Width;
             setting.playList.cwGameJ = dgvList.Columns["clmGameJ"].Width;
             setting.playList.cwComposer = dgvList.Columns["clmComposer"].Width;
@@ -246,6 +251,8 @@ namespace MDPlayer.form
 
             if (e.Button == MouseButtons.Right)
             {
+                tsmiSelectSupportFile.Enabled = false;
+                tsmiRemoveSupportFile.Enabled = false;
                 if (dgvList.SelectedRows.Count > 1)
                 {
                     tsmiDelThis.Text = "選択した曲を除去";
@@ -254,6 +261,23 @@ namespace MDPlayer.form
                 {
                     tsmiDelThis.Text = "この曲を除去";
                 }
+
+                bool fnd = false;
+                foreach (DataGridViewRow row in dgvList.SelectedRows)
+                {
+                    string ext = row.Cells["clmExt"].Value.ToString().ToUpper();
+                    if (ext != ".ZMS" && ext != ".ZMD")
+                    {
+                        fnd = true;
+                        break;
+                    }
+                }
+                if (!fnd)
+                {
+                    tsmiSelectSupportFile.Enabled = true;
+                    tsmiRemoveSupportFile.Enabled = true;
+                }
+
                 cmsPlayList.Show();
                 Point p = Control.MousePosition;
                 cmsPlayList.Top = p.Y;
@@ -1201,5 +1225,52 @@ namespace MDPlayer.form
             KeyEventArgs kea = new KeyEventArgs(Keys.Enter);
             frmPlayList_KeyDown(null, kea);
         }
+
+        private void tsmiSelectSupportFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "support file(*.zmd;*.zms)|*.zmd;*.zms";
+            ofd.Title = "サポートファイルを選択";
+            if (frmMain.setting.other.DefaultDataPath != "" && Directory.Exists(frmMain.setting.other.DefaultDataPath) && IsInitialOpenFolder)
+            {
+                ofd.InitialDirectory = frmMain.setting.other.DefaultDataPath;
+            }
+            else
+            {
+                ofd.RestoreDirectory = true;
+            }
+            ofd.CheckPathExists = true;
+
+            if (ofd.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            foreach (DataGridViewRow row in dgvList.SelectedRows)
+            {
+                row.Cells["clmSupportFile"].Value = ofd.FileName;
+                row.Cells["clmDispSupportFileName"].Value = string.IsNullOrEmpty(ofd.FileName) ? "-" : Path.GetFileName(ofd.FileName);
+                row.Cells["clmDispSupportFileName"].ToolTipText = ofd.FileName;
+                playList.LstMusic[row.Index].supportFileName = ofd.FileName;
+            }
+
+            Refresh();
+
+        }
+
+        private void tsmiRemoveSupportFile_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvList.SelectedRows)
+            {
+                row.Cells["clmSupportFile"].Value = null;
+                row.Cells["clmDispSupportFileName"].Value = "-";
+                row.Cells["clmDispSupportFileName"].ToolTipText = null; 
+                playList.LstMusic[row.Index].supportFileName = null;
+            }
+
+            Refresh();
+
+        }
+
     }
 }

@@ -9197,9 +9197,6 @@ namespace MDPlayer
             vol = mds.getSAA1099VisVolume();
             if (vol != null) VisVolume.saa1099 = (short)GetMonoVolume(vol[0][0][0], vol[0][0][1], vol[1][0][0], vol[1][0][1]);
 
-            vol = mds.getPPZ8VisVolume();
-            if (vol != null) VisVolume.ppz8 = (short)GetMonoVolume(vol[0][0][0], vol[0][0][1], vol[1][0][0], vol[1][0][1]);
-
             vol = mds.getSegaPCMVisVolume();
             if (vol != null) VisVolume.segaPCM = (short)GetMonoVolume(vol[0][0][0], vol[0][0][1], vol[1][0][0], vol[1][0][1]);
 
@@ -9256,6 +9253,20 @@ namespace MDPlayer
 
             vol = mds.getDMGVisVolume();
             if (vol != null) VisVolume.DMG = (short)GetMonoVolume(vol[0][0][0], vol[0][0][1], vol[1][0][0], vol[1][0][1]);
+
+
+            vol = mds.getPPZ8VisVolume();
+            if (vol != null) VisVolume.ppz8 = (short)GetMonoVolume(vol[0][0][0], vol[0][0][1], vol[1][0][0], vol[1][0][1]);
+
+            vol = mds.getPCM8VisVolume();
+            if (vol != null) VisVolume.pcm8 = (short)GetMonoVolume(vol[0][0][0], vol[0][0][1], vol[1][0][0], vol[1][0][1]);
+
+            vol = mds.getPCM8PPVisVolume();
+            if (vol != null) VisVolume.pcm8pp = (short)GetMonoVolume(vol[0][0][0], vol[0][0][1], vol[1][0][0], vol[1][0][1]);
+
+            vol = mds.getMPCMX68kVisVolume();
+            if (vol != null) VisVolume.mpcmX68k = (short)GetMonoVolume(vol[0][0][0], vol[0][0][1], vol[1][0][0], vol[1][0][1]);
+
         }
 
         public static int GetMonoVolume(int pl, int pr, int sl, int sr)
@@ -10078,16 +10089,6 @@ namespace MDPlayer
             catch { }
         }
 
-        public static void SetPPZ8Volume(bool isAbs, int volume)
-        {
-            try
-            {
-                mds.SetVolumePPZ8(Setting.balance.PPZ8Volume
-                    = Common.Range((isAbs ? 0 : Setting.balance.PPZ8Volume) + volume, -192, 20));
-            }
-            catch { }
-        }
-
         public static void SetK051649Volume(bool isAbs, int volume)
         {
             try
@@ -10271,6 +10272,48 @@ namespace MDPlayer
             }
             catch { }
         }
+
+
+        public static void SetPPZ8Volume(bool isAbs, int volume)
+        {
+            try
+            {
+                mds.SetVolumePPZ8(Setting.balance.PPZ8Volume
+                    = Common.Range((isAbs ? 0 : Setting.balance.PPZ8Volume) + volume, -192, 20));
+            }
+            catch { }
+        }
+
+        public static void SetPCM8Volume(bool isAbs, int volume)
+        {
+            try
+            {
+                mds.SetVolumePCM8(Setting.balance.PCM8Volume
+                    = Common.Range((isAbs ? 0 : Setting.balance.PCM8Volume) + volume, -192, 20));
+            }
+            catch { }
+        }
+
+        public static void SetPCM8PPVolume(bool isAbs, int volume)
+        {
+            try
+            {
+                mds.SetVolumePCM8PP(Setting.balance.PCM8PPVolume
+                    = Common.Range((isAbs ? 0 : Setting.balance.PCM8PPVolume) + volume, -192, 20));
+            }
+            catch { }
+        }
+
+        public static void SetMPCMX68kVolume(bool isAbs, int volume)
+        {
+            try
+            {
+                mds.SetVolumeMPCMX68k(Setting.balance.MPCMX68kVolume
+                    = Common.Range((isAbs ? 0 : Setting.balance.MPCMX68kVolume) + volume, -192, 20));
+            }
+            catch { }
+        }
+
 
         public static void SetGimicOPNVolume(bool isAbs, int volume)
         {

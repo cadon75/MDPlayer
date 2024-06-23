@@ -12,6 +12,7 @@ namespace MDPlayer
             public string playingNow;
             public string fileName;
             public string arcFileName;
+            public string supportFileName;
             public EnmArcType arcType = EnmArcType.unknown;
             public string type = "-";
 
@@ -186,8 +187,11 @@ namespace MDPlayer
                 row.Cells[dgvList.Columns["clmKey"].Index].Value = 0;
                 row.Cells[dgvList.Columns["clmFileName"].Index].Value = music.fileName;
                 row.Cells[dgvList.Columns["clmZipFileName"].Index].Value = music.arcFileName;
+                row.Cells[dgvList.Columns["clmSupportFile"].Index].Value = music.supportFileName;
                 row.Cells[dgvList.Columns["clmDispFileName"].Index].Value = Path.GetFileName(music.fileName);
                 row.Cells[dgvList.Columns["clmDispFileName"].Index].ToolTipText = music.fileName;
+                row.Cells[dgvList.Columns["clmDispSupportFileName"].Index].Value = string.IsNullOrEmpty(music.supportFileName) ? "-" : Path.GetFileName(music.supportFileName);
+                row.Cells[dgvList.Columns["clmDispSupportFileName"].Index].ToolTipText = music.supportFileName;
                 row.Cells[dgvList.Columns["clmEXT"].Index].Value = Path.GetExtension(music.fileName).ToUpper();
                 row.Cells[dgvList.Columns["clmType"].Index].Value = music.type;
                 row.Cells[dgvList.Columns["clmTitle"].Index].Value = music.title;

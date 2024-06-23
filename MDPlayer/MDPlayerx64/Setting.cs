@@ -2222,22 +2222,6 @@ namespace MDPlayer
                 }
             }
 
-            private int _PPZ8Volume = 0;
-            public int PPZ8Volume
-            {
-                get
-                {
-                    if (_PPZ8Volume > 20 || _PPZ8Volume < -192) _PPZ8Volume = 0;
-                    return _PPZ8Volume;
-                }
-
-                set
-                {
-                    _PPZ8Volume = value;
-                    if (_PPZ8Volume > 20 || _PPZ8Volume < -192) _PPZ8Volume = 0;
-                }
-            }
-
             private int _X1_010Volume = 0;
             public int X1_010Volume
             {
@@ -2574,6 +2558,72 @@ namespace MDPlayer
                 }
             }
 
+
+            private int _PPZ8Volume = 0;
+            public int PPZ8Volume
+            {
+                get
+                {
+                    if (_PPZ8Volume > 20 || _PPZ8Volume < -192) _PPZ8Volume = 0;
+                    return _PPZ8Volume;
+                }
+
+                set
+                {
+                    _PPZ8Volume = value;
+                    if (_PPZ8Volume > 20 || _PPZ8Volume < -192) _PPZ8Volume = 0;
+                }
+            }
+
+            private int _PCM8Volume = 0;
+            public int PCM8Volume
+            {
+                get
+                {
+                    if (_PCM8Volume > 20 || _PCM8Volume < -192) _PCM8Volume = 0;
+                    return _PCM8Volume;
+                }
+
+                set
+                {
+                    _PCM8Volume = value;
+                    if (_PCM8Volume > 20 || _PCM8Volume < -192) _PCM8Volume = 0;
+                }
+            }
+
+            private int _PCM8PPVolume = 0;
+            public int PCM8PPVolume
+            {
+                get
+                {
+                    if (_PCM8PPVolume > 20 || _PCM8PPVolume < -192) _PCM8PPVolume = 0;
+                    return _PCM8PPVolume;
+                }
+
+                set
+                {
+                    _PCM8PPVolume = value;
+                    if (_PCM8PPVolume > 20 || _PCM8PPVolume < -192) _PCM8PPVolume = 0;
+                }
+            }
+
+            private int _MPCMX68kVolume = 0;
+            public int MPCMX68kVolume
+            {
+                get
+                {
+                    if (_MPCMX68kVolume > 20 || _MPCMX68kVolume < -192) _MPCMX68kVolume = 0;
+                    return _MPCMX68kVolume;
+                }
+
+                set
+                {
+                    _MPCMX68kVolume = value;
+                    if (_MPCMX68kVolume > 20 || _MPCMX68kVolume < -192) _MPCMX68kVolume = 0;
+                }
+            }
+
+
             private int _GimicOPNVolume = 0;
             public int GimicOPNVolume
             {
@@ -2667,6 +2717,10 @@ namespace MDPlayer
                     YM3812Volume = this.YM3812Volume,
 
                     PPZ8Volume = this.PPZ8Volume,
+                    PCM8Volume = this.PCM8Volume,
+                    PCM8PPVolume = this.PCM8PPVolume,
+                    MPCMX68kVolume = this.MPCMX68kVolume,
+
                     GimicOPNVolume = this.GimicOPNVolume,
                     GimicOPNAVolume = this.GimicOPNAVolume
                 };
@@ -5444,6 +5498,7 @@ namespace MDPlayer
             public int cwTitle { get; set; } = -1;
             public int cwTitleJ { get; set; } = -1;
             public int cwFilename { get; set; } = -1;
+            public int cwSupportFilename { get; set; } = -1;
             public int cwGame { get; set; } = -1;
             public int cwGameJ { get; set; } = -1;
             public int cwComposer { get; set; } = -1;
@@ -5465,6 +5520,7 @@ namespace MDPlayer
                     cwTitle = this.cwTitle,
                     cwTitleJ = this.cwTitleJ,
                     cwFilename = this.cwFilename,
+                    cwSupportFilename = this.cwSupportFilename,
                     cwGame = this.cwGame,
                     cwGameJ = this.cwGameJ,
                     cwComposer = this.cwComposer,

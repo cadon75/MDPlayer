@@ -669,6 +669,10 @@
             public VolumeInfo DMG = new();
 
             public VolumeInfo PPZ8 = new();
+            public VolumeInfo PCM8 = new();
+            public VolumeInfo PCM8PP = new();
+            public VolumeInfo MPCMX68k = new();
+
             public VolumeInfo GimicOPN = new();
             public VolumeInfo GimicOPNA = new();
         }
