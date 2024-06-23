@@ -63,7 +63,7 @@ namespace MDPlayer.form
             return playList;
         }
 
-        public Tuple<int, int, string, string> setStart(int n)
+        public Tuple<int, int, string, string, string[]> setStart(int n)
         {
             updatePlayingIndex(n);
 
@@ -77,8 +77,13 @@ namespace MDPlayer.form
                 m = playList.LstMusic[playIndex].type[0] - 'A';
                 if (m < 0 || m > 9) m = 0;
             }
+            string[] spFn = null;
+            if (playList.LstMusic[playIndex].supportFileName != null)
+            {
+                spFn = playList.LstMusic[playIndex].supportFileName.Split(';');
+            }
 
-            return new Tuple<int, int, string, string>(m, songNo, fn, zfn);
+            return new Tuple<int, int, string, string, string[]>(m, songNo, fn, zfn, spFn);
         }
 
         public void Play()
@@ -338,8 +343,13 @@ namespace MDPlayer.form
                 m = dgvList.Rows[pi].Cells[dgvList.Columns["clmType"].Index].Value.ToString()[0] - 'A';
                 if (m < 0 || m > 9) m = 0;
             }
+            string[] spFn = null;
+            if (dgvList.Rows[pi].Cells["clmSupportFile"].Value != null)
+            {
+                spFn= dgvList.Rows[pi].Cells["clmSupportFile"].Value.ToString().Split(';');
+            }
 
-            frmMain.loadAndPlay(m, songNo, fn, zfn);
+            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn);
             if (Audio.ErrMsg != "")
             {
                 playing = false;
@@ -421,8 +431,13 @@ namespace MDPlayer.form
             {
                 songNo = 0;
             }
+            string[] spFn = null;
+            if (dgvList.Rows[pi].Cells["clmSupportFile"].Value != null)
+            {
+                spFn = dgvList.Rows[pi].Cells["clmSupportFile"].Value.ToString().Split(';');
+            }
 
-            if (!frmMain.loadAndPlay(m, songNo, fn, zfn))
+            if (!frmMain.loadAndPlay(m, songNo, fn, zfn,spFn))
             {
                 playing = false;
                 return;
@@ -502,8 +517,13 @@ namespace MDPlayer.form
             {
                 songNo = 0;
             }
+            string[] spFn = null;
+            if (dgvList.Rows[pi].Cells["clmSupportFile"].Value != null)
+            {
+                spFn = dgvList.Rows[pi].Cells["clmSupportFile"].Value.ToString().Split(';');
+            }
 
-            frmMain.loadAndPlay(m, songNo, fn, zfn);
+            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn);
             updatePlayingIndex(pi);
             playing = true;
         }
@@ -535,8 +555,13 @@ namespace MDPlayer.form
                     m = dgvList.Rows[e.RowIndex].Cells[dgvList.Columns["clmType"].Index].Value.ToString()[0] - 'A';
                     if (m < 0 || m > 9) m = 0;
                 }
+                string[] spFn = null;
+                if (dgvList.Rows[e.RowIndex].Cells["clmSupportFile"].Value != null)
+                {
+                    spFn = dgvList.Rows[e.RowIndex].Cells["clmSupportFile"].Value.ToString().Split(';');
+                }
 
-                if (!frmMain.loadAndPlay(m, songNo, fn, zfn)) return;
+                if (!frmMain.loadAndPlay(m, songNo, fn, zfn,spFn)) return;
                 updatePlayingIndex(e.RowIndex);
 
                 playing = true;
@@ -572,8 +597,13 @@ namespace MDPlayer.form
             {
                 songNo = 0;
             }
+            string[] spFn = null;
+            if (dgvList.SelectedRows[0].Cells["clmSupportFile"].Value != null)
+            {
+                spFn = dgvList.SelectedRows[0].Cells["clmSupportFile"].Value.ToString().Split(';');
+            }
 
-            frmMain.loadAndPlay(m, songNo, fn, zfn);
+            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn);
             updatePlayingIndex(dgvList.SelectedRows[0].Index);
 
             playing = true;
@@ -897,8 +927,13 @@ namespace MDPlayer.form
                     {
                         songNo = 0;
                     }
+                    string[] spFn = null;
+                    if (dgvList.SelectedRows[0].Cells["clmSupportFile"].Value != null)
+                    {
+                        spFn = dgvList.SelectedRows[0].Cells["clmSupportFile"].Value.ToString().Split(';');
+                    }
 
-                    frmMain.loadAndPlay(m, songNo, fn, zfn);
+                    frmMain.loadAndPlay(m, songNo, fn, zfn, spFn);
                     updatePlayingIndex(index);
 
                     playing = true;
@@ -997,7 +1032,7 @@ namespace MDPlayer.form
                     //&& fn.ToLower().LastIndexOf(".sid") == -1
                     )
                 {
-                    frmMain.loadAndPlay(0, 0, fn);
+                    frmMain.loadAndPlay(0, 0, fn, null, null);
                     setStart(i);// -1);
                     frmMain.oldParam = new MDChipParams();
                     Play();
@@ -1229,7 +1264,7 @@ namespace MDPlayer.form
         private void tsmiSelectSupportFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "support file(*.zmd;*.zms)|*.zmd;*.zms";
+            ofd.Filter = "support file(*.zmd;*.zms;*.zpd)|*.zmd;*.zms;*.zpd";
             ofd.Title = "サポートファイルを選択";
             if (frmMain.setting.other.DefaultDataPath != "" && Directory.Exists(frmMain.setting.other.DefaultDataPath) && IsInitialOpenFolder)
             {
@@ -1240,6 +1275,7 @@ namespace MDPlayer.form
                 ofd.RestoreDirectory = true;
             }
             ofd.CheckPathExists = true;
+            ofd.Multiselect = true;
 
             if (ofd.ShowDialog() != DialogResult.OK)
             {
@@ -1248,10 +1284,19 @@ namespace MDPlayer.form
 
             foreach (DataGridViewRow row in dgvList.SelectedRows)
             {
-                row.Cells["clmSupportFile"].Value = ofd.FileName;
-                row.Cells["clmDispSupportFileName"].Value = string.IsNullOrEmpty(ofd.FileName) ? "-" : Path.GetFileName(ofd.FileName);
-                row.Cells["clmDispSupportFileName"].ToolTipText = ofd.FileName;
-                playList.LstMusic[row.Index].supportFileName = ofd.FileName;
+                string fs = "";
+                string ffs = "";
+                foreach(string f in ofd.FileNames)
+                {
+                    fs += f + ";";
+                    ffs += Path.GetFileName(f) + ";";
+                }
+                if (fs.Length > 0) fs = fs.Substring(0, fs.Length - 1);
+                if (ffs.Length > 0) ffs = ffs.Substring(0, ffs.Length - 1);
+                row.Cells["clmSupportFile"].Value = fs;
+                row.Cells["clmDispSupportFileName"].Value = string.IsNullOrEmpty(ffs) ? "-" : ffs;
+                row.Cells["clmDispSupportFileName"].ToolTipText = fs;
+                playList.LstMusic[row.Index].supportFileName = fs;
             }
 
             Refresh();

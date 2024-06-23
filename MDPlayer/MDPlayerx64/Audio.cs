@@ -186,6 +186,7 @@ namespace MDPlayer
         private static int MidiMode = 0;
         private static int SongNo = 0;
         private static List<Tuple<string, byte[]>> ExtendFile = null;
+        private static string[] SupportFile = null;
         public static EnmFileFormat PlayingFileFormat;
 
         private static readonly Stopwatch stwh = Stopwatch.StartNew();
@@ -1876,7 +1877,7 @@ namespace MDPlayer
             return naudioWrap.getAsioLatency();
         }
 
-        public static void SetVGMBuffer(EnmFileFormat format, byte[] srcBuf, string playingFileName, string playingArcFileName, int midiMode, int songNo, List<Tuple<string, byte[]>> extFile)
+        public static void SetVGMBuffer(EnmFileFormat format, byte[] srcBuf, string playingFileName, string playingArcFileName, int midiMode, int songNo, List<Tuple<string, byte[]>> extFile, string[] spFn)
         {
             //Stop();
             PlayingFileFormat = format;
@@ -1887,6 +1888,7 @@ namespace MDPlayer
             SongNo = songNo;
             chipRegister.SetFileName(playingFileName);//ExportMIDI向け
             ExtendFile = extFile;//追加ファイル
+            SupportFile = spFn;
             Common.playingFilePath = Path.GetDirectoryName(playingFileName);
 
             if (naudioWaveFileReader != null|| naudioMp3FileReader != null|| naudioAiffFileReader != null)
@@ -2109,6 +2111,7 @@ namespace MDPlayer
                     setting = setting
                 };
                 ((Driver.ZMS.ZMS)DriverVirtual).PlayingFileName = PlayingFileName;
+                ((Driver.ZMS.ZMS)DriverVirtual).SupportFileName = SupportFile;
 
                 DriverReal = null;
                 if (setting.outputDevice.DeviceType != Common.DEV_Null)
@@ -2118,6 +2121,7 @@ namespace MDPlayer
                         setting = setting
                     };
                     ((Driver.ZMS.ZMS)DriverReal).PlayingFileName = PlayingFileName;
+                    ((Driver.ZMS.ZMS)DriverReal).SupportFileName = SupportFile;
                 }
                 return ZmdPlay(setting, PlayingFileFormat);
             }

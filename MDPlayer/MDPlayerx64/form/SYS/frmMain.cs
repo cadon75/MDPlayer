@@ -4978,7 +4978,7 @@ namespace MDPlayer.form
 
                     if (filename.ToLower().LastIndexOf(".zip") == -1)
                     {
-                        loadAndPlay(0, 0, filename);
+                        loadAndPlay(0, 0, filename, null, null);
                         frmPlayList.setStart(-1);
                         oldParam = new MDChipParams();
 
@@ -5755,7 +5755,7 @@ namespace MDPlayer.form
             }
 
             string[] fn = null;
-            Tuple<int, int, string, string> playFn = null;
+            Tuple<int, int, string, string, string[]> playFn = null;
 
             frmPlayList.Stop();
 
@@ -5776,7 +5776,7 @@ namespace MDPlayer.form
 
             reqAllScreenInit = true;
 
-            if (loadAndPlay(playFn.Item1, playFn.Item2, playFn.Item3, playFn.Item4))
+            if (loadAndPlay(playFn.Item1, playFn.Item2, playFn.Item3, playFn.Item4,playFn.Item5))
             {
                 frmPlayList.Play();
             }
@@ -8533,7 +8533,7 @@ namespace MDPlayer.form
                 //frmPlayList.AddList(sParam);
             }
 
-            if (!loadAndPlay(0, 0, fname))
+            if (!loadAndPlay(0, 0, fname,null,null))
             {
                 frmPlayList.Stop();
                 Request req = new(EnmRequest.Stop);
@@ -8610,7 +8610,7 @@ namespace MDPlayer.form
 
 
 
-        public bool loadAndPlay(int m, int songNo, string fn, string zfn = null)
+        public bool loadAndPlay(int m, int songNo, string fn, string zfn, string[] spfn)
         {
             try
             {
@@ -8668,7 +8668,7 @@ namespace MDPlayer.form
                             UnlhaWrap.UnlhaCmd cmd = new();
                             srcBuf = cmd.GetFileByte(zfn, fn);
                             playingFileName = fn;
-                            extFile = getExtendFile(fn, srcBuf, format, new Tuple<string, string>(zfn, fn));
+                            extFile = getExtendFile(fn, srcBuf, format,  new Tuple<string, string>(zfn, fn));
                         }
                     }
                 }
@@ -8685,7 +8685,7 @@ namespace MDPlayer.form
                 //再生前に音量のバランスを設定する
                 LoadPresetMixerBalance(playingFileName, playingArcFileName, format);
 
-                Audio.SetVGMBuffer(format, srcBuf, playingFileName, playingArcFileName, m, songNo, extFile);
+                Audio.SetVGMBuffer(format, srcBuf, playingFileName, playingArcFileName, m, songNo, extFile, spfn);
                 newParam.ym2612[0].fileFormat = format;
                 newParam.ym2612[1].fileFormat = format;
 
@@ -8731,7 +8731,7 @@ namespace MDPlayer.form
                 //再生前に音量のバランスを設定する
                 LoadPresetMixerBalance(playingFileName, playingArcFileName, format);
 
-                Audio.SetVGMBuffer(format, srcBuf, playingFileName, playingArcFileName, 0, 0, extFile);
+                Audio.SetVGMBuffer(format, srcBuf, playingFileName, playingArcFileName, 0, 0, extFile, null);
                 newParam.ym2612[0].fileFormat = format;
                 newParam.ym2612[1].fileFormat = format;
 
@@ -10683,7 +10683,7 @@ namespace MDPlayer.form
 
                 if (Common.CheckExt(fn[0]) != EnmFileFormat.M3U && Common.CheckExt(fn[0]) != EnmFileFormat.ZIP)
                 {
-                    if (!loadAndPlay(0, 0, fn[0], "")) return;
+                    if (!loadAndPlay(0, 0, fn[0], "",null)) return;
                     frmPlayList.setStart(-1);
                 }
                 oldParam = new MDChipParams();
