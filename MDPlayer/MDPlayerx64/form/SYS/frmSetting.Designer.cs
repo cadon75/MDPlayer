@@ -570,6 +570,10 @@ namespace MDPlayer.form
             labelCompanyName = new Label();
             textBoxDescription = new TextBox();
             llOpenGithub = new LinkLabel();
+            label77 = new Label();
+            groupBox35 = new GroupBox();
+            label79 = new Label();
+            tbWaitNextPlay = new TextBox();
             gbWaveOut.SuspendLayout();
             gbAsioOut.SuspendLayout();
             gbWasapiOut.SuspendLayout();
@@ -678,6 +682,7 @@ namespace MDPlayer.form
             tpAbout.SuspendLayout();
             tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).BeginInit();
+            groupBox35.SuspendLayout();
             SuspendLayout();
             // 
             // btnOK
@@ -1796,6 +1801,7 @@ namespace MDPlayer.form
             // 
             // tabZmusic
             // 
+            tabZmusic.Controls.Add(groupBox35);
             tabZmusic.Controls.Add(groupBox34);
             tabZmusic.Controls.Add(groupBox31);
             resources.ApplyResources(tabZmusic, "tabZmusic");
@@ -4558,6 +4564,30 @@ namespace MDPlayer.form
             llOpenGithub.TabStop = true;
             llOpenGithub.LinkClicked += LlOpenGithub_LinkClicked;
             // 
+            // label77
+            // 
+            resources.ApplyResources(label77, "label77");
+            label77.Name = "label77";
+            // 
+            // groupBox35
+            // 
+            groupBox35.Controls.Add(tbWaitNextPlay);
+            groupBox35.Controls.Add(label79);
+            groupBox35.Controls.Add(label77);
+            resources.ApplyResources(groupBox35, "groupBox35");
+            groupBox35.Name = "groupBox35";
+            groupBox35.TabStop = false;
+            // 
+            // label79
+            // 
+            resources.ApplyResources(label79, "label79");
+            label79.Name = "label79";
+            // 
+            // tbWaitNextPlay
+            // 
+            resources.ApplyResources(tbWaitNextPlay, "tbWaitNextPlay");
+            tbWaitNextPlay.Name = "tbWaitNextPlay";
+            // 
             // frmSetting
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -4732,6 +4762,8 @@ namespace MDPlayer.form
             tableLayoutPanel.ResumeLayout(false);
             tableLayoutPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).EndInit();
+            groupBox35.ResumeLayout(false);
+            groupBox35.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -5289,5 +5321,8 @@ namespace MDPlayer.form
         private GroupBox groupBox34;
         private RadioButton rbPCM8PP;
         private RadioButton rbPCM8;
+        private GroupBox groupBox35;
+        private Label label77;
+        private TextBox tbWaitNextPlay;
     }
 }

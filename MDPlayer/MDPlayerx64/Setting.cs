@@ -5476,13 +5476,15 @@ namespace MDPlayer
         {
             public int compilePriority = 0;
             public int pcm8type = 1;
+            public int waitNextPlay = 1000;
 
             public Zmusic Copy()
             {
                 Zmusic p = new()
                 {
                     compilePriority = this.compilePriority,
-                    pcm8type = this.pcm8type
+                    pcm8type = this.pcm8type,
+                    waitNextPlay = this.waitNextPlay
                 };
 
                 return p;

@@ -235,7 +235,7 @@ namespace MDPlayer.Driver.ZMS
                                 nise68.reg.SetDl(2, (uint)(zmd.Length - 7));
                                 nise68.reg.SetAl(1, filePtr + 7);
                                 nise68.Trap(trp);//, true, true, true);
-                                waitNextPlay = setting.outputDevice.SampleRate;
+                                waitNextPlay = (int)(setting.outputDevice.SampleRate * (double)setting.zmusic.waitNextPlay / 1000.0);
                             }
                         }
 
