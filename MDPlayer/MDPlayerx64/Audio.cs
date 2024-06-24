@@ -3569,45 +3569,48 @@ namespace MDPlayer
 
                 //サポートファイルの読み込み/コンパイルを行う
                 List<Tuple<byte[], string>> supportFileBinaly = new List<Tuple<byte[], string>>();
-                foreach (string sf in SupportFile)
+                if (SupportFile != null)
                 {
-                    string ext = Path.GetExtension(sf).ToUpper();
-                    byte[] buf;
-                    if (ext == ".ZMS")
+                    foreach (string sf in SupportFile)
                     {
-                        buf = File.ReadAllBytes(sf);
-                        ErrMsg = "";
-                        switch (setting.zmusic.compilePriority)
+                        string ext = Path.GetExtension(sf).ToUpper();
+                        byte[] buf;
+                        if (ext == ".ZMS")
                         {
-                            case 0:
-                                //Version3優先
-                                if (((Driver.ZMS.ZMS)DriverVirtual).Compile(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
-                                else if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(buf,sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
-                                else ErrMsg = "Compile Error.Check console log.";
-                                break;
-                            case 1:
-                                //Version2優先
-                                if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
-                                else if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
-                                else ErrMsg = "Compile Error.Check console log.";
-                                break;
-                            case 2:
-                                //Version3のみ
-                                if (((Driver.ZMS.ZMS)DriverVirtual).Compile(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
-                                else ErrMsg = "Compile Error.Check console log.";
-                                break;
-                            case 3:
-                                //Version2のみ
-                                if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
-                                else ErrMsg = "Compile Error.Check console log.";
-                                break;
+                            buf = File.ReadAllBytes(sf);
+                            ErrMsg = "";
+                            switch (setting.zmusic.compilePriority)
+                            {
+                                case 0:
+                                    //Version3優先
+                                    if (((Driver.ZMS.ZMS)DriverVirtual).Compile(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                    else if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                    else ErrMsg = "Compile Error.Check console log.";
+                                    break;
+                                case 1:
+                                    //Version2優先
+                                    if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                    else if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                    else ErrMsg = "Compile Error.Check console log.";
+                                    break;
+                                case 2:
+                                    //Version3のみ
+                                    if (((Driver.ZMS.ZMS)DriverVirtual).Compile(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                    else ErrMsg = "Compile Error.Check console log.";
+                                    break;
+                                case 3:
+                                    //Version2のみ
+                                    if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                    else ErrMsg = "Compile Error.Check console log.";
+                                    break;
+                            }
+                            if (!string.IsNullOrEmpty(ErrMsg)) return false;
+                            supportFileBinaly.Add(new Tuple<byte[], string>(buf, sf));
+                            continue;
                         }
-                        if (!string.IsNullOrEmpty(ErrMsg)) return false;
+                        buf = File.ReadAllBytes(sf);
                         supportFileBinaly.Add(new Tuple<byte[], string>(buf, sf));
-                        continue;
                     }
-                    buf = File.ReadAllBytes(sf);
-                    supportFileBinaly.Add(new Tuple<byte[], string>(buf, sf));
                 }
                 ((Driver.ZMS.ZMS)DriverReal).SupportFileBinaryAndName =
                     ((Driver.ZMS.ZMS)DriverVirtual).SupportFileBinaryAndName =
