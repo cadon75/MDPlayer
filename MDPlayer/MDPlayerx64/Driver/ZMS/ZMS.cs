@@ -42,7 +42,7 @@ namespace MDPlayer.Driver.ZMS
         }
 
         public string PlayingFileName { get; internal set; }
-        public string[] SupportFileName;
+        public List<Tuple<byte[], string>> SupportFileBinaryAndName;
         public byte[] CompiledData { get; set; }
 
         public override GD3 getGD3Info(byte[] buf, uint vgmGd3)
@@ -161,6 +161,8 @@ namespace MDPlayer.Driver.ZMS
         {
             try
             {
+                if (waitNextPlay-- > 0) return;
+
                 vgmSpeedCounter += (double)Common.VGMProcSampleRate / setting.outputDevice.SampleRate * vgmSpeed;
                 while (vgmSpeedCounter >= 1.0)
                 {
@@ -208,7 +210,34 @@ namespace MDPlayer.Driver.ZMS
                         nise68.Trap(3 + 32);
                         uint d0 = nise68.reg.GetDl(0);
                         if (d0 == 0)
-                            Stopped = true;
+                        {
+                            if (preData.Count < 1) Stopped = true;
+                            else
+                            {
+                                preData.RemoveAt(0);
+                                byte[] zmd = null;
+                                if (preData.Count == 0)
+                                {
+                                    if (nise68.hmn.fb.ContainsKey(fnZMD)) zmd = nise68.hmn.fb[fnZMD];
+                                }
+                                else
+                                {
+                                    if (nise68.hmn.fb.ContainsKey(preData[0])) zmd = nise68.hmn.fb[preData[0]];
+                                }
+                                uint fileSize = (uint)zmd.Length;
+                                uint filePtr = (uint)nise68.hmn.memMng.Malloc(fileSize);
+                                for (int i = 0; i < zmd.Length; i++)
+                                {
+                                    nise68.mem.PokeB((uint)(filePtr + i), zmd[i]);
+                                }
+
+                                nise68.reg.SetDl(1, 0x11);//play_cnv_data
+                                nise68.reg.SetDl(2, (uint)(zmd.Length - 7));
+                                nise68.reg.SetAl(1, filePtr + 7);
+                                nise68.Trap(trp);//, true, true, true);
+                                waitNextPlay = setting.outputDevice.SampleRate;
+                            }
+                        }
 
                         //ループ回数チェック
                         nise68.reg.SetDl(1, 0x4d);//get_loop_time
@@ -280,6 +309,11 @@ namespace MDPlayer.Driver.ZMS
             Play();
         }
 
+        private List<string> preData = new List<string>();
+        private string fnZMD;
+        private int trp = 3 + 32;
+        private int waitNextPlay = 0;
+
         private void Play()
         {
             string fn = PlayingFileName;
@@ -287,7 +321,7 @@ namespace MDPlayer.Driver.ZMS
             string? dn = Path.GetDirectoryName(fn);
             if (!string.IsNullOrEmpty(dn)) withoutExtFn = Path.Combine(dn, Path.GetFileNameWithoutExtension(fn));
             else withoutExtFn = Path.GetFileNameWithoutExtension(fn);
-            string fnZMD = withoutExtFn + ".ZMD";
+            fnZMD = withoutExtFn + ".ZMD";
             string crntDir = Path.GetDirectoryName(Application.ExecutablePath);
             string zmsc3 = Path.Combine(crntDir, "ZMSC3.X");
             if (!File.Exists(zmsc3))
@@ -302,39 +336,44 @@ namespace MDPlayer.Driver.ZMS
                 throw new FileNotFoundException(zmusic);
             }
 
-            int trp = 3 + 32;
+            trp = 3 + 32;
 
             if (version == 2)
             {
                 timerOPM = new FMTimer(true, null, 4000000);//, Common.VGMProcSampleRate);
 
-                //zpdの指定がある場合は読みこむ
-                string zpd = "";
-                if (SupportFileName != null)
+                //zpdの指定がある場合は事前読み込みをzmusicに指定する
+                string optionZpd = "";
+                string optionZmd = "";
+                preData.Clear();
+                if (SupportFileBinaryAndName != null)
                 {
-                    foreach(string s in SupportFileName)
+                    foreach (Tuple<byte[], string> s in SupportFileBinaryAndName)
                     {
-                        if (Path.GetExtension(s).ToUpper() == ".ZPD")
+                        string ext = Path.GetExtension(s.Item2).ToUpper();
+                        if (ext == ".ZPD")
                         {
-                            zpd = "-B"+Path.GetFileName(s);
-                            byte[] bz = null;
-                            if (File.Exists(s))
+                            optionZpd = " -B" + Path.GetFileName(s.Item2);
+                            if (!nise68.hmn.fb.ContainsKey(s.Item2))
                             {
-                                bz = File.ReadAllBytes(s);
-                                if (!nise68.hmn.fb.ContainsKey(s))
-                                {
-                                    nise68.hmn.fb.Add(s, bz);
-                                }
+                                nise68.hmn.fb.Add(s.Item2, s.Item1);
                             }
-
-                            break;
+                        }
+                        if (ext == ".ZMD"|| ext == ".ZMS")
+                        {
+                            optionZmd = " -N";
+                            if (!nise68.hmn.fb.ContainsKey(s.Item2))
+                            {
+                                nise68.hmn.fb.Add(s.Item2, s.Item1);
+                                preData.Add(s.Item2);
+                            }
                         }
                     }
                 }
 
                 nise68.hmn.memMng = new memMng((uint)(0x0001_2000 + (9212 + 2048) * 1024 + File.ReadAllBytes(zmusic).Length));
 
-                if (nise68.LoadRun(zmusic, "-P9212 -T2048"+zpd, Path.GetDirectoryName(fnZMD), 0x00012000
+                if (nise68.LoadRun(zmusic, "-P9212 -T2048" + optionZpd + optionZmd, Path.GetDirectoryName(fnZMD), 0x00012000
                 , true, true, true
                 ) != 0) throw new Exception("zmusic regident Error");
 
@@ -343,19 +382,29 @@ namespace MDPlayer.Driver.ZMS
 
                 //演奏
                 byte[] zmd = null;
-                if (File.Exists(fnZMD))
+                if (preData.Count < 1)
                 {
-                    zmd = File.ReadAllBytes(fnZMD);
-                    if (!nise68.hmn.fb.ContainsKey(fnZMD))
+                    if (File.Exists(fnZMD))
                     {
-                        nise68.hmn.fb.Add(fnZMD, zmd);
+                        zmd = File.ReadAllBytes(fnZMD);
+                        if (!nise68.hmn.fb.ContainsKey(fnZMD))
+                        {
+                            nise68.hmn.fb.Add(fnZMD, zmd);
+                        }
+                    }
+                    else
+                    {
+                        if (nise68.hmn.fb.ContainsKey(fnZMD))
+                        {
+                            zmd = nise68.hmn.fb[fnZMD];
+                        }
                     }
                 }
                 else
                 {
-                    if (nise68.hmn.fb.ContainsKey(fnZMD))
+                    if (nise68.hmn.fb.ContainsKey(preData[0]))
                     {
-                        zmd = nise68.hmn.fb[fnZMD];
+                        zmd = nise68.hmn.fb[preData[0]];
                     }
                 }
                 if (zmd == null)
@@ -441,9 +490,8 @@ namespace MDPlayer.Driver.ZMS
 
         }
 
-        public bool Compile(byte[] vgmBuf)
+        public bool Compile(byte[] vgmBuf,string fn)
         {
-            string fn = PlayingFileName;
             string withoutExtFn;
             string? dn = Path.GetDirectoryName(fn);
             if (!string.IsNullOrEmpty(dn)) withoutExtFn = Path.Combine(dn, Path.GetFileNameWithoutExtension(fn));
@@ -480,9 +528,9 @@ namespace MDPlayer.Driver.ZMS
             return true;
         }
 
-        public bool Compilev2(byte[] vgmBuf)
+        public bool Compilev2(byte[] vgmBuf,string fn)
         {
-            string fn = PlayingFileName;
+            //string fn = PlayingFileName;
             string withoutExtFn;
             string? dn = Path.GetDirectoryName(fn);
             if (!string.IsNullOrEmpty(dn)) withoutExtFn = Path.Combine(dn, Path.GetFileNameWithoutExtension(fn));

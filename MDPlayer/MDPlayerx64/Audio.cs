@@ -10,6 +10,7 @@ using musicDriverInterface;
 using NAudio.Wave;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO.Compression;
 using System.Text;
@@ -2111,7 +2112,7 @@ namespace MDPlayer
                     setting = setting
                 };
                 ((Driver.ZMS.ZMS)DriverVirtual).PlayingFileName = PlayingFileName;
-                ((Driver.ZMS.ZMS)DriverVirtual).SupportFileName = SupportFile;
+                //((Driver.ZMS.ZMS)DriverVirtual).SupportFileName = SupportFile;
 
                 DriverReal = null;
                 if (setting.outputDevice.DeviceType != Common.DEV_Null)
@@ -2121,7 +2122,7 @@ namespace MDPlayer
                         setting = setting
                     };
                     ((Driver.ZMS.ZMS)DriverReal).PlayingFileName = PlayingFileName;
-                    ((Driver.ZMS.ZMS)DriverReal).SupportFileName = SupportFile;
+                    //((Driver.ZMS.ZMS)DriverReal).SupportFileName = SupportFile;
                 }
                 return ZmdPlay(setting, PlayingFileFormat);
             }
@@ -3566,6 +3567,52 @@ namespace MDPlayer
                 ChipLED.PriPCM8 = 0;
                 ChipLED.PriMPCMX68k = 0;
 
+                //サポートファイルの読み込み/コンパイルを行う
+                List<Tuple<byte[], string>> supportFileBinaly = new List<Tuple<byte[], string>>();
+                foreach (string sf in SupportFile)
+                {
+                    string ext = Path.GetExtension(sf).ToUpper();
+                    byte[] buf;
+                    if (ext == ".ZMS")
+                    {
+                        buf = File.ReadAllBytes(sf);
+                        ErrMsg = "";
+                        switch (setting.zmusic.compilePriority)
+                        {
+                            case 0:
+                                //Version3優先
+                                if (((Driver.ZMS.ZMS)DriverVirtual).Compile(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                else if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(buf,sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                else ErrMsg = "Compile Error.Check console log.";
+                                break;
+                            case 1:
+                                //Version2優先
+                                if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                else if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                else ErrMsg = "Compile Error.Check console log.";
+                                break;
+                            case 2:
+                                //Version3のみ
+                                if (((Driver.ZMS.ZMS)DriverVirtual).Compile(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                else ErrMsg = "Compile Error.Check console log.";
+                                break;
+                            case 3:
+                                //Version2のみ
+                                if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(buf, sf)) buf = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
+                                else ErrMsg = "Compile Error.Check console log.";
+                                break;
+                        }
+                        if (!string.IsNullOrEmpty(ErrMsg)) return false;
+                        supportFileBinaly.Add(new Tuple<byte[], string>(buf, sf));
+                        continue;
+                    }
+                    buf = File.ReadAllBytes(sf);
+                    supportFileBinaly.Add(new Tuple<byte[], string>(buf, sf));
+                }
+                ((Driver.ZMS.ZMS)DriverReal).SupportFileBinaryAndName =
+                    ((Driver.ZMS.ZMS)DriverVirtual).SupportFileBinaryAndName =
+                    supportFileBinaly;
+
                 //ZMSの場合は事前にコンパイルを実施
                 if (fm == EnmFileFormat.ZMS)
                 {
@@ -3573,12 +3620,12 @@ namespace MDPlayer
                     {
                         case 0:
                             //Version3優先
-                            if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf))
+                            if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf,PlayingFileName))
                             {
                                 vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
                                 ChipLED.PriMPCMX68k = 1;
                             }
-                            else if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(vgmBuf))
+                            else if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(vgmBuf, PlayingFileName))
                             {
                                 vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
                                 ((Driver.ZMS.ZMS)DriverVirtual).version = 2;
@@ -3594,14 +3641,14 @@ namespace MDPlayer
                             break;
                         case 1:
                             //Version2優先
-                            if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(vgmBuf))
+                            if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(vgmBuf, PlayingFileName))
                             {
                                 vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
                                 ((Driver.ZMS.ZMS)DriverVirtual).version = 2;
                                 ((Driver.ZMS.ZMS)DriverReal).version = 2;
                                 ChipLED.PriPCM8 = 1;
                             }
-                            else if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf))
+                            else if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf, PlayingFileName))
                             {
                                 vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
                                 ChipLED.PriMPCMX68k = 1;
@@ -3615,7 +3662,7 @@ namespace MDPlayer
                             break;
                         case 2:
                             //Version3のみ
-                            if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf))
+                            if (((Driver.ZMS.ZMS)DriverVirtual).Compile(vgmBuf, PlayingFileName))
                             {
                                 vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
                                 ChipLED.PriMPCMX68k = 1;
@@ -3629,7 +3676,7 @@ namespace MDPlayer
                             break;
                         case 3:
                             //Version2のみ
-                            if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(vgmBuf))
+                            if (((Driver.ZMS.ZMS)DriverVirtual).Compilev2(vgmBuf, PlayingFileName))
                             {
                                 vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
                                 ((Driver.ZMS.ZMS)DriverVirtual).version = 2;
