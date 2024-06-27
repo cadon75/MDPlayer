@@ -1,4 +1,8 @@
 更新履歴 
+STBL429 2024/06/28
+  鍵盤:MPCM:MPCMPP使用時、ノート番号が取得できずにエラーになるケースがあるのを修正
+  MDSound更新
+
 STBL428 2024/06/27
   コア:niseMPCMPP追加
   Zmusicv3/MNDRV:niseMPCMPPを設定可能にした。

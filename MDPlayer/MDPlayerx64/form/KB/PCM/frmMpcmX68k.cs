@@ -103,11 +103,12 @@ namespace MDPlayer.form
 
         }
 
-        public void screenChangeParams()
+        private void GetMPCMInstance(out ZMS.MPCMSt[] MPCMSt, out mpcmX68k mpcm, out mpcmpp mpcmpp)
         {
-            ZMS.MPCMSt[] MPCMSt;
-            mpcmX68k mpcm;
-            mpcmpp mpcmpp;
+            MPCMSt = null;
+            mpcm = null;
+            mpcmpp = null;
+
             if (Audio.DriverVirtual is ZMS)
             {
                 ZMS zms = Audio.DriverVirtual as ZMS;
@@ -122,10 +123,12 @@ namespace MDPlayer.form
                 mpcm = mnd.mpcm;
                 mpcmpp = mnd.mpcmpp;
             }
-            else
-            {
-                return;
-            }
+            return;
+        }
+
+        public void screenChangeParams()
+        {
+            GetMPCMInstance(out MPCMSt[] MPCMSt, out mpcmX68k mpcm, out mpcmpp mpcmpp);
             if (mpcm == null && mpcmpp == null) return;
 
             for (int ch = 0; ch < MPCMSt.Length; ch++)
@@ -194,7 +197,7 @@ namespace MDPlayer.form
                         //pitch = (uint)(0x10000 * MPCMSt[ch].base_);
                         pitch = 0x1_0000;
                         if (mpcm != null) nyc.note = searchMPCMX68kNote(mpcm, pitch, mpcm.m[chipID].work[ch].base_);// * mpcm.m[0].rate);
-                        if (mpcmpp != null) nyc.note = searchMPCMppNote(mpcmpp, pitch, mpcm.m[chipID].work[ch].base_);// * mpcm.m[0].rate);
+                        if (mpcmpp != null) nyc.note = searchMPCMppNote(mpcmpp, pitch, mpcmpp.m[chipID].work[ch].base_);// * mpcm.m[0].rate);
                     }
                     else
                     {
@@ -307,48 +310,48 @@ namespace MDPlayer.form
         }
 
         string[] frqStr = new string[]{
-            "AD 3900HZ",
-            "AD 5200HZ",
-            "AD 7800HZ",
-            "AD10400HZ",
-            "AD15600HZ",
-            "WM20800HZ",
-            "BM31200HZ",
-            "WMTHROUGH",
-            "WM15625HZ",
-            "WM16000HZ",
-            "WM22050HZ",
-            "WM24000HZ",
-            "WM32000HZ",
-            "WM44100HZ",
-            "WM48000HZ",
-            "WMVARIABL",
-            "BM15625HZ",
-            "BM16000HZ",
-            "BM22050HZ",
-            "BM24000HZ",
-            "BM32000HZ",
-            "BM44100HZ",
-            "BM48000HZ",
-            "BMVARIABL",
-            "WS15625HZ",
-            "WS16000HZ",
-            "WS22050HZ",
-            "WS24000HZ",
-            "WS32000HZ",
-            "WS44100HZ",
-            "WS48000HZ",
-            "WSVARIABL",
-            "BS15625HZ",
-            "BS16000HZ",
-            "BS22050HZ",
-            "BS24000HZ",
-            "BS32000HZ",
-            "BS44100HZ",
-            "BS48000HZ",
-            "BSVARIABL",
-            "ADVARIABL",
-            "WMVARIABL"
+            "AD 3900HZ",//0
+            "AD 5200HZ",//1
+            "AD 7800HZ",//2
+            "AD10400HZ",//3
+            "AD15600HZ",//4
+            "WM20800HZ",//5
+            "BM31200HZ",//6
+            "WMTHROUGH",//7
+            "WM15625HZ",//8
+            "WM16000HZ",//9
+            "WM22050HZ",//10
+            "WM24000HZ",//11
+            "WM32000HZ",//12
+            "WM44100HZ",//13
+            "WM48000HZ",//14
+            "WMVARIABL",//15
+            "BM15625HZ",//16
+            "BM16000HZ",//17
+            "BM22050HZ",//18
+            "BM24000HZ",//19
+            "BM32000HZ",//20
+            "BM44100HZ",//21
+            "BM48000HZ",//22
+            "BMVARIABL",//23
+            "WS15625HZ",//24
+            "WS16000HZ",//25
+            "WS22050HZ",//26
+            "WS24000HZ",//27
+            "WS32000HZ",//28
+            "WS44100HZ",//29
+            "WS48000HZ",//30
+            "WSVARIABL",//31
+            "BS15625HZ",//32
+            "BS16000HZ",//33
+            "BS22050HZ",//34
+            "BS24000HZ",//35
+            "BS32000HZ",//36
+            "BS44100HZ",//37
+            "BS48000HZ",//38
+            "BSVARIABL",//39
+            "ADVARIABL",//40
+            "WMVARIABL" //41
         };
 
         public void screenInit()
@@ -368,7 +371,6 @@ namespace MDPlayer.form
                 {
                     for (int ch = 0; ch < 16; ch++)
                     {
-
                         if (newParam.channels[ch].mask == true)
                             parent.ResetChannelMask(EnmChip.MPCMX68k, chipID, ch);
                         else
@@ -383,6 +385,7 @@ namespace MDPlayer.form
             {
                 int ch = (py / 8) - 1;
                 if (ch < 0) return;
+
                 if (e.Button == MouseButtons.Left)
                 {
                     //マスク
