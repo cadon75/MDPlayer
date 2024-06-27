@@ -3480,25 +3480,52 @@ namespace MDPlayer
                 if (chip.Start != null) lstChips.Add(chip);
                 UseChip.Add(EnmChip.YM2151);
 
-                MDSound.mpcmX68k mpcm = new MDSound.mpcmX68k();
-                MDSound.MDSound.Chip mpcmc = new MDSound.MDSound.Chip
+                if (setting.zmusic.mpcmtype == 0)//setting.zmusic.mpcmtype == 0)
                 {
-                    type = MDSound.MDSound.enmInstrumentType.mpcmX68k,
-                    ID = 0,
-                    Instrument = mpcm,
-                    Update = mpcm.Update,
-                    Start = mpcm.Start,
-                    Stop = mpcm.Stop,
-                    Reset = mpcm.Reset,
-                    SamplingRate = (UInt32)setting.outputDevice.SampleRate,
-                    Clock = 15600,
-                    Volume = 0,
-                    Option = null
-                };
-                //ChipLED.PriMPCM = 1;
-                lstChips.Add(mpcmc);
-                UseChip.Add(EnmChip.OKIM6258);
-                ((Driver.ZMS.ZMS) DriverVirtual).mpcm = mpcm;
+                    MDSound.mpcmX68k mpcm = new MDSound.mpcmX68k();
+                    MDSound.MDSound.Chip mpcmc = new MDSound.MDSound.Chip
+                    {
+                        type = MDSound.MDSound.enmInstrumentType.mpcmX68k,
+                        ID = 0,
+                        Instrument = mpcm,
+                        Update = mpcm.Update,
+                        Start = mpcm.Start,
+                        Stop = mpcm.Stop,
+                        Reset = mpcm.Reset,
+                        SamplingRate = (UInt32)setting.outputDevice.SampleRate,
+                        Clock = 15600,
+                        Volume = 0,
+                        Option = null
+                    };
+                    //ChipLED.PriMPCM = 1;
+                    lstChips.Add(mpcmc);
+                    UseChip.Add(EnmChip.OKIM6258);
+                    ((Driver.ZMS.ZMS)DriverVirtual).mpcm = mpcm;
+                    ((Driver.ZMS.ZMS)DriverVirtual).mpcmtype = 0;
+                }
+                else
+                {
+                    MDSound.mpcmpp mpcmpp = new MDSound.mpcmpp();
+                    MDSound.MDSound.Chip mpcmc = new MDSound.MDSound.Chip
+                    {
+                        type = MDSound.MDSound.enmInstrumentType.mpcmpp,
+                        ID = 0,
+                        Instrument = mpcmpp,
+                        Update = mpcmpp.Update,
+                        Start = mpcmpp.Start,
+                        Stop = mpcmpp.Stop,
+                        Reset = mpcmpp.Reset,
+                        SamplingRate = (UInt32)setting.outputDevice.SampleRate,
+                        Clock = 15600,
+                        Volume = 0,
+                        Option = null
+                    };
+                    //ChipLED.PriMPCM = 1;
+                    lstChips.Add(mpcmc);
+                    UseChip.Add(EnmChip.OKIM6258);
+                    ((Driver.ZMS.ZMS)DriverVirtual).mpcmpp = mpcmpp;
+                    ((Driver.ZMS.ZMS)DriverVirtual).mpcmtype = 1;
+                }
 
                 if (setting.zmusic.pcm8type == 0)
                 {
@@ -4344,8 +4371,9 @@ namespace MDPlayer
                 mdxPCM_R.sound_Iocs[0] = new MDSound.NX68Sound.sound_iocs(mdxPCM_R.x68sound[0]);
                 UseChip.Add(EnmChip.PCM8);
                 ((Driver.MXDRV.MXDRV)DriverVirtual).pcm8type = 0;
-                if (setting.zmusic.pcm8type == 0)
+                if (setting.mxdrv.pcm8type == 0)
                 {
+                    //mxdrvは特殊で必ずPCM8が必要
                 }
                 else
                 {
@@ -4577,23 +4605,70 @@ namespace MDPlayer
                 }
                 UseChip.Add(EnmChip.S_YM2608);
 
-                MDSound.mpcmX68k mpcm = new();
-                chip = new MDSound.MDSound.Chip
+                //MDSound.mpcmX68k mpcm = new();
+                //chip = new MDSound.MDSound.Chip
+                //{
+                //    type = MDSound.MDSound.enmInstrumentType.mpcmX68k,
+                //    ID = (byte)0,
+                //    Instrument = mpcm,
+                //    Update = mpcm.Update,
+                //    Start = mpcm.Start,
+                //    Stop = mpcm.Stop,
+                //    Reset = mpcm.Reset,
+                //    SamplingRate = (UInt32)setting.outputDevice.SampleRate,
+                //    Volume = setting.balance.OKIM6258Volume,
+                //    Clock = 15600,
+                //    Option = new object[] { Common.GetApplicationFolder() }
+                //};
+                //lstChips.Add(chip);
+                //UseChip.Add(EnmChip.OKIM6258);
+
+                if (setting.mndrv.mpcmtype == 0)
                 {
-                    type = MDSound.MDSound.enmInstrumentType.mpcmX68k,
-                    ID = (byte)0,
-                    Instrument = mpcm,
-                    Update = mpcm.Update,
-                    Start = mpcm.Start,
-                    Stop = mpcm.Stop,
-                    Reset = mpcm.Reset,
-                    SamplingRate = (UInt32)setting.outputDevice.SampleRate,
-                    Volume = setting.balance.OKIM6258Volume,
-                    Clock = 15600,
-                    Option = new object[] { Common.GetApplicationFolder() }
-                };
-                lstChips.Add(chip);
-                UseChip.Add(EnmChip.OKIM6258);
+                    MDSound.mpcmX68k mpcm = new MDSound.mpcmX68k();
+                    MDSound.MDSound.Chip mpcmc = new MDSound.MDSound.Chip
+                    {
+                        type = MDSound.MDSound.enmInstrumentType.mpcmX68k,
+                        ID = 0,
+                        Instrument = mpcm,
+                        Update = mpcm.Update,
+                        Start = mpcm.Start,
+                        Stop = mpcm.Stop,
+                        Reset = mpcm.Reset,
+                        SamplingRate = (UInt32)setting.outputDevice.SampleRate,
+                        Clock = 15600,
+                        Volume = 0,
+                        Option = new object[] { Common.GetApplicationFolder() }
+                    };
+                    //ChipLED.PriMPCM = 1;
+                    lstChips.Add(mpcmc);
+                    UseChip.Add(EnmChip.OKIM6258);
+                    ((Driver.MNDRV.mndrv)DriverVirtual).mpcm = mpcm;
+                    ((Driver.MNDRV.mndrv)DriverVirtual).mpcmtype = 0;
+                }
+                else
+                {
+                    MDSound.mpcmpp mpcmpp = new MDSound.mpcmpp();
+                    MDSound.MDSound.Chip mpcmc = new MDSound.MDSound.Chip
+                    {
+                        type = MDSound.MDSound.enmInstrumentType.mpcmpp,
+                        ID = 0,
+                        Instrument = mpcmpp,
+                        Update = mpcmpp.Update,
+                        Start = mpcmpp.Start,
+                        Stop = mpcmpp.Stop,
+                        Reset = mpcmpp.Reset,
+                        SamplingRate = (UInt32)setting.outputDevice.SampleRate,
+                        Clock = 15600,
+                        Volume = 0,
+                        Option = new object[] { Common.GetApplicationFolder() }
+                    };
+                    //ChipLED.PriMPCM = 1;
+                    lstChips.Add(mpcmc);
+                    UseChip.Add(EnmChip.OKIM6258);
+                    ((Driver.MNDRV.mndrv)DriverVirtual).mpcmpp = mpcmpp;
+                    ((Driver.MNDRV.mndrv)DriverVirtual).mpcmtype = 1;
+                }
 
                 ChipLED.PriOPM = 1;
                 ChipLED.PriOPNA = 1;
@@ -4679,8 +4754,6 @@ namespace MDPlayer
                     ErrMsg = DriverVirtual.errMsg != "" ? DriverVirtual.errMsg : (DriverReal != null ? DriverReal.errMsg : "");
                     return false;
                 }
-
-                ((MDPlayer.Driver.MNDRV.mndrv)DriverVirtual).m_MPCM = mpcm;
 
                 Paused = false;
                 oneTimeReset = false;

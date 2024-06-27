@@ -11,8 +11,10 @@ namespace MDPlayer.Driver.ZMS
         private readonly EnmFileFormat format = format;
         private nise68.nise68 nise68;
         public mpcmX68k mpcm;
-        public MDSound.ym2151_x68sound opmPCM;
-        public MDSound.PCM8PP pcm8pp;
+        public mpcmpp mpcmpp;
+        public int mpcmtype = 0;
+        public ym2151_x68sound opmPCM;
+        public PCM8PP pcm8pp;
         public int pcm8type = 0;
 
         private int checkCounter = 0;
@@ -578,17 +580,21 @@ namespace MDPlayer.Driver.ZMS
             {
                 case 0x0000:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_KEY_ON(${0:X04})", n);
-                    mpcm?.KeyOn(0, n & 0xf);
+                    if (mpcmtype == 0) mpcm?.KeyOn(0, n & 0xf);
+                    else mpcmpp?.KeyOn(0, n & 0xf);
                     mpcmSt[n&0xf].Keyon = true;
                     break;
                 case 0x0100:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_KEY_OFF(${0:X04})", n);
-                    mpcm?.KeyOff(0, n & 0xf);
+                    if (mpcmtype == 0) mpcm?.KeyOff(0, n & 0xf);
+                    else mpcm?.KeyOff(0, n & 0xf);
                     mpcmSt[n & 0xf].Keyoff = true;
                     break;
                 case 0x0200:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PCM(${0:X04})", n);
-                    MDSound.mpcmX68k.SETPCM ptr = new mpcmX68k.SETPCM();
+                    if (mpcmtype == 0)
+                    {
+                        MDSound.mpcmX68k.SETPCM ptr = new mpcmX68k.SETPCM();
                     ptr.adrs_buf = nise68.mem.mem;
                     mpcmSt[n & 0xf].type = ptr.type = nise68.mem.PeekB(0x00 + nise68.reg.GetAl(1));
                     mpcmSt[n & 0xf].orig = ptr.orig = nise68.mem.PeekB(0x01 + nise68.reg.GetAl(1));
@@ -605,25 +611,58 @@ namespace MDPlayer.Driver.ZMS
 
                     //nise68.DumpMemory((uint)ptr.adrs_ptr, (uint)(ptr.adrs_ptr + ptr.size));
                     mpcm?.SetPcm(0, n & 0xf, ptr);
+                    }
+                    else
+                    {
+                        MDSound.mpcmpp.SETPCM ptr = new mpcmpp.SETPCM();
+                        ptr.adrs_buf = nise68.mem.mem;
+                        mpcmSt[n & 0xf].type = ptr.type = nise68.mem.PeekB(0x00 + nise68.reg.GetAl(1));
+                        mpcmSt[n & 0xf].orig = ptr.orig = nise68.mem.PeekB(0x01 + nise68.reg.GetAl(1));
+                        mpcmSt[n & 0xf].adrs_ptr = ptr.adrs_ptr = (int)nise68.mem.PeekL(0x04 + nise68.reg.GetAl(1));
+                        mpcmSt[n & 0xf].size = ptr.size = nise68.mem.PeekL(0x08 + nise68.reg.GetAl(1));
+                        mpcmSt[n & 0xf].start = ptr.start = nise68.mem.PeekL(0x0c + nise68.reg.GetAl(1));
+                        mpcmSt[n & 0xf].end = ptr.end = nise68.mem.PeekL(0x10 + nise68.reg.GetAl(1));
+                        mpcmSt[n & 0xf].count = ptr.count = nise68.mem.PeekL(0x14 + nise68.reg.GetAl(1));
+                        if (mpcmpp != null)
+                        {
+                            mpcmSt[n & 0xf].rate = mpcmpp.m[0].rate;
+                            mpcmSt[n & 0xf].base_ = mpcmpp.m[0].base_;
+                        }
+
+                        //nise68.DumpMemory((uint)ptr.adrs_ptr, (uint)(ptr.adrs_ptr + ptr.size));
+                        mpcmpp?.SetPcm(0, n & 0xf, ptr);
+                    }
                     break;
                 case 0x0300:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_FRQ(${0:X04}) D1${1:X08}", n, nise68.reg.GetDl(1));
-                    mpcm?.SetFreq(0, n & 0xf, (int)nise68.reg.GetDl(1));
+                    if (mpcmtype == 0)
+                        mpcm?.SetFreq(0, n & 0xf, (int)nise68.reg.GetDl(1));
+                    else
+                        mpcmpp?.SetFreq(0, n & 0xf, (int)nise68.reg.GetDl(1));
                     mpcmSt[n & 0xf].frq = (int)nise68.reg.GetDl(1);
                     break;
                 case 0x0400:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PITCH(${0:X04}) D1${1:X04}", n, nise68.reg.GetDl(1));
-                    mpcm?.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
+                    if (mpcmtype == 0)
+                        mpcm?.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
+                    else
+                        mpcmpp?.SetPitch(0, n & 0xf, (int)nise68.reg.GetDl(1));
                     mpcmSt[n & 0xf].pitch = (int)nise68.reg.GetDl(1);
                     break;
                 case 0x0500:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_VOL(${0:X04}) = ${1:X02}", n, nise68.reg.GetDb(1));
-                    mpcm?.SetVol(0, n & 0xf, (int)nise68.reg.GetDb(1));
+                    if (mpcmtype == 0)
+                        mpcm?.SetVol(0, n & 0xf, (int)nise68.reg.GetDb(1));
+                    else
+                        mpcmpp?.SetVol(0, n & 0xf, (int)nise68.reg.GetDb(1));
                     mpcmSt[n & 0xf].volume = (int)nise68.reg.GetDb(1);
                     break;
                 case 0x0600:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_PAN(${0:X04}) = ${1:X02}", n, nise68.reg.GetDb(1));
-                    mpcm?.SetPan(0, n & 0xf, (int)nise68.reg.GetDb(1));
+                    if (mpcmtype == 0)
+                        mpcm?.SetPan(0, n & 0xf, (int)nise68.reg.GetDb(1));
+                    else
+                        mpcmpp?.SetPan(0, n & 0xf, (int)nise68.reg.GetDb(1));
                     mpcmSt[n & 0xf].pan = (int)nise68.reg.GetDb(1);
                     break;
                 case 0x8000://
@@ -634,7 +673,10 @@ namespace MDPlayer.Driver.ZMS
                             break;
                         case 0x2://
                                  //Log.WriteLine(LogLevel.Trace2, "MPCM #M_INIT(${0:X04})", n);
-                            mpcm?.Reset(0);
+                            if (mpcmtype == 0)
+                                mpcm?.Reset(0);
+                            else
+                                mpcmpp?.Reset(0);
                             break;
                         case 0x5://
                                  //Log.WriteLine(LogLevel.Trace2, "MPCM #M_SET_VOLTBL(${0:X04})", n);
@@ -643,7 +685,10 @@ namespace MDPlayer.Driver.ZMS
                             {
                                 vtbl[i] = (int)(nise68.mem.PeekW((uint)(nise68.reg.GetAl(1) + (i * 2))));
                             }
-                            mpcm?.SetVolTableZms(0, (int)nise68.reg.GetDl(1), vtbl);
+                            if (mpcmtype == 0)
+                                mpcm?.SetVolTableZms(0, (int)nise68.reg.GetDl(1), vtbl);
+                            else
+                                mpcmpp?.SetVolTableZms(0, (int)nise68.reg.GetDl(1), vtbl);
                             break;
                     }
                     break;

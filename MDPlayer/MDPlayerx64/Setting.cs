@@ -801,6 +801,34 @@ namespace MDPlayer
             }
         }
 
+        private Mxdrv _Mxdrv = new();
+        public Mxdrv mxdrv
+        {
+            get
+            {
+                return _Mxdrv;
+            }
+
+            set
+            {
+                _Mxdrv = value;
+            }
+        }
+
+        private Mndrv _Mndrv = new();
+        public Mndrv mndrv
+        {
+            get
+            {
+                return _Mndrv;
+            }
+
+            set
+            {
+                _Mndrv = value;
+            }
+        }
+
         private PlayList _playList = new();
         public PlayList playList
         {
@@ -5476,6 +5504,7 @@ namespace MDPlayer
         {
             public int compilePriority = 0;
             public int pcm8type = 1;
+            public int mpcmtype = 1;
             public int waitNextPlay = 1000;
 
             public Zmusic Copy()
@@ -5484,7 +5513,40 @@ namespace MDPlayer
                 {
                     compilePriority = this.compilePriority,
                     pcm8type = this.pcm8type,
+                    mpcmtype = this.mpcmtype,
                     waitNextPlay = this.waitNextPlay
+                };
+
+                return p;
+            }
+        }
+
+        [Serializable]
+        public class Mxdrv
+        {
+            public int pcm8type = 1;
+
+            public Mxdrv Copy()
+            {
+                Mxdrv p = new()
+                {
+                    pcm8type = this.pcm8type,
+                };
+
+                return p;
+            }
+        }
+
+        [Serializable]
+        public class Mndrv
+        {
+            public int mpcmtype = 1;
+
+            public Mndrv Copy()
+            {
+                Mndrv p = new()
+                {
+                    mpcmtype = this.mpcmtype,
                 };
 
                 return p;
@@ -5999,6 +6061,8 @@ namespace MDPlayer
             setting.autoBalance = this.autoBalance.Copy();
             setting.pmdDotNET = this.pmdDotNET.Copy();
             setting.zmusic = this.zmusic.Copy();
+            setting.mxdrv = this.mxdrv.Copy();
+            setting.mndrv = this.mndrv.Copy();
             setting.playList = this.playList.Copy();
 
             setting.keyBoardHook = this.keyBoardHook.Copy();

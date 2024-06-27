@@ -192,10 +192,14 @@ namespace MDPlayer.form
             tbPMDVolumeGIMICSSG = new TextBox();
             label64 = new Label();
             tbPMDVolumeFM = new TextBox();
-            tabZmusic = new TabPage();
+            tabX68k = new TabPage();
+            groupBox35 = new GroupBox();
+            tbWaitNextPlay = new TextBox();
+            label79 = new Label();
+            label77 = new Label();
             groupBox34 = new GroupBox();
-            rbPCM8PP = new RadioButton();
-            rbPCM8 = new RadioButton();
+            rbZmPCM8PP = new RadioButton();
+            rbZmPCM8 = new RadioButton();
             groupBox31 = new GroupBox();
             rbZmV3 = new RadioButton();
             rbZmV2 = new RadioButton();
@@ -570,10 +574,19 @@ namespace MDPlayer.form
             labelCompanyName = new Label();
             textBoxDescription = new TextBox();
             llOpenGithub = new LinkLabel();
-            label77 = new Label();
-            groupBox35 = new GroupBox();
-            label79 = new Label();
-            tbWaitNextPlay = new TextBox();
+            tabControl1 = new TabControl();
+            tpZMD = new TabPage();
+            tpMDX = new TabPage();
+            tabMND = new TabPage();
+            groupBox36 = new GroupBox();
+            rbMxPCM8PP = new RadioButton();
+            rbMxPCM8 = new RadioButton();
+            groupBox37 = new GroupBox();
+            rbZmMPCMPP = new RadioButton();
+            rbZmMPCM = new RadioButton();
+            groupBox38 = new GroupBox();
+            rbMnMPCMPP = new RadioButton();
+            rbMnMPCM = new RadioButton();
             gbWaveOut.SuspendLayout();
             gbAsioOut.SuspendLayout();
             gbWasapiOut.SuspendLayout();
@@ -606,7 +619,8 @@ namespace MDPlayer.form
             gbPPSDRV.SuspendLayout();
             groupBox33.SuspendLayout();
             gbPMDSetManualVolume.SuspendLayout();
-            tabZmusic.SuspendLayout();
+            tabX68k.SuspendLayout();
+            groupBox35.SuspendLayout();
             groupBox34.SuspendLayout();
             groupBox31.SuspendLayout();
             tpMIDIOut.SuspendLayout();
@@ -682,7 +696,13 @@ namespace MDPlayer.form
             tpAbout.SuspendLayout();
             tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).BeginInit();
-            groupBox35.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tpZMD.SuspendLayout();
+            tpMDX.SuspendLayout();
+            tabMND.SuspendLayout();
+            groupBox36.SuspendLayout();
+            groupBox37.SuspendLayout();
+            groupBox38.SuspendLayout();
             SuspendLayout();
             // 
             // btnOK
@@ -818,7 +838,7 @@ namespace MDPlayer.form
             tcSetting.Controls.Add(tpNSF);
             tcSetting.Controls.Add(tpSID);
             tcSetting.Controls.Add(tpPMDDotNET);
-            tcSetting.Controls.Add(tabZmusic);
+            tcSetting.Controls.Add(tabX68k);
             tcSetting.Controls.Add(tpMIDIOut);
             tcSetting.Controls.Add(tpMIDIOut2);
             tcSetting.Controls.Add(tabMIDIExp);
@@ -1799,36 +1819,58 @@ namespace MDPlayer.form
             resources.ApplyResources(tbPMDVolumeFM, "tbPMDVolumeFM");
             tbPMDVolumeFM.Name = "tbPMDVolumeFM";
             // 
-            // tabZmusic
+            // tabX68k
             // 
-            tabZmusic.Controls.Add(groupBox35);
-            tabZmusic.Controls.Add(groupBox34);
-            tabZmusic.Controls.Add(groupBox31);
-            resources.ApplyResources(tabZmusic, "tabZmusic");
-            tabZmusic.Name = "tabZmusic";
-            tabZmusic.UseVisualStyleBackColor = true;
+            tabX68k.Controls.Add(tabControl1);
+            resources.ApplyResources(tabX68k, "tabX68k");
+            tabX68k.Name = "tabX68k";
+            tabX68k.UseVisualStyleBackColor = true;
+            // 
+            // groupBox35
+            // 
+            groupBox35.Controls.Add(tbWaitNextPlay);
+            groupBox35.Controls.Add(label79);
+            groupBox35.Controls.Add(label77);
+            resources.ApplyResources(groupBox35, "groupBox35");
+            groupBox35.Name = "groupBox35";
+            groupBox35.TabStop = false;
+            // 
+            // tbWaitNextPlay
+            // 
+            resources.ApplyResources(tbWaitNextPlay, "tbWaitNextPlay");
+            tbWaitNextPlay.Name = "tbWaitNextPlay";
+            // 
+            // label79
+            // 
+            resources.ApplyResources(label79, "label79");
+            label79.Name = "label79";
+            // 
+            // label77
+            // 
+            resources.ApplyResources(label77, "label77");
+            label77.Name = "label77";
             // 
             // groupBox34
             // 
-            groupBox34.Controls.Add(rbPCM8PP);
-            groupBox34.Controls.Add(rbPCM8);
+            groupBox34.Controls.Add(rbZmPCM8PP);
+            groupBox34.Controls.Add(rbZmPCM8);
             resources.ApplyResources(groupBox34, "groupBox34");
             groupBox34.Name = "groupBox34";
             groupBox34.TabStop = false;
             // 
-            // rbPCM8PP
+            // rbZmPCM8PP
             // 
-            resources.ApplyResources(rbPCM8PP, "rbPCM8PP");
-            rbPCM8PP.Name = "rbPCM8PP";
-            rbPCM8PP.UseVisualStyleBackColor = true;
+            resources.ApplyResources(rbZmPCM8PP, "rbZmPCM8PP");
+            rbZmPCM8PP.Name = "rbZmPCM8PP";
+            rbZmPCM8PP.UseVisualStyleBackColor = true;
             // 
-            // rbPCM8
+            // rbZmPCM8
             // 
-            resources.ApplyResources(rbPCM8, "rbPCM8");
-            rbPCM8.Checked = true;
-            rbPCM8.Name = "rbPCM8";
-            rbPCM8.TabStop = true;
-            rbPCM8.UseVisualStyleBackColor = true;
+            resources.ApplyResources(rbZmPCM8, "rbZmPCM8");
+            rbZmPCM8.Checked = true;
+            rbZmPCM8.Name = "rbZmPCM8";
+            rbZmPCM8.TabStop = true;
+            rbZmPCM8.UseVisualStyleBackColor = true;
             // 
             // groupBox31
             // 
@@ -4564,29 +4606,104 @@ namespace MDPlayer.form
             llOpenGithub.TabStop = true;
             llOpenGithub.LinkClicked += LlOpenGithub_LinkClicked;
             // 
-            // label77
+            // tabControl1
             // 
-            resources.ApplyResources(label77, "label77");
-            label77.Name = "label77";
+            tabControl1.Controls.Add(tpZMD);
+            tabControl1.Controls.Add(tpMDX);
+            tabControl1.Controls.Add(tabMND);
+            resources.ApplyResources(tabControl1, "tabControl1");
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
             // 
-            // groupBox35
+            // tpZMD
             // 
-            groupBox35.Controls.Add(tbWaitNextPlay);
-            groupBox35.Controls.Add(label79);
-            groupBox35.Controls.Add(label77);
-            resources.ApplyResources(groupBox35, "groupBox35");
-            groupBox35.Name = "groupBox35";
-            groupBox35.TabStop = false;
+            tpZMD.Controls.Add(groupBox37);
+            tpZMD.Controls.Add(groupBox34);
+            tpZMD.Controls.Add(groupBox35);
+            tpZMD.Controls.Add(groupBox31);
+            resources.ApplyResources(tpZMD, "tpZMD");
+            tpZMD.Name = "tpZMD";
+            tpZMD.UseVisualStyleBackColor = true;
             // 
-            // label79
+            // tpMDX
             // 
-            resources.ApplyResources(label79, "label79");
-            label79.Name = "label79";
+            tpMDX.Controls.Add(groupBox36);
+            resources.ApplyResources(tpMDX, "tpMDX");
+            tpMDX.Name = "tpMDX";
+            tpMDX.UseVisualStyleBackColor = true;
             // 
-            // tbWaitNextPlay
+            // tabMND
             // 
-            resources.ApplyResources(tbWaitNextPlay, "tbWaitNextPlay");
-            tbWaitNextPlay.Name = "tbWaitNextPlay";
+            tabMND.Controls.Add(groupBox38);
+            resources.ApplyResources(tabMND, "tabMND");
+            tabMND.Name = "tabMND";
+            tabMND.UseVisualStyleBackColor = true;
+            // 
+            // groupBox36
+            // 
+            groupBox36.Controls.Add(rbMxPCM8PP);
+            groupBox36.Controls.Add(rbMxPCM8);
+            resources.ApplyResources(groupBox36, "groupBox36");
+            groupBox36.Name = "groupBox36";
+            groupBox36.TabStop = false;
+            // 
+            // rbMxPCM8PP
+            // 
+            resources.ApplyResources(rbMxPCM8PP, "rbMxPCM8PP");
+            rbMxPCM8PP.Name = "rbMxPCM8PP";
+            rbMxPCM8PP.UseVisualStyleBackColor = true;
+            // 
+            // rbMxPCM8
+            // 
+            resources.ApplyResources(rbMxPCM8, "rbMxPCM8");
+            rbMxPCM8.Checked = true;
+            rbMxPCM8.Name = "rbMxPCM8";
+            rbMxPCM8.TabStop = true;
+            rbMxPCM8.UseVisualStyleBackColor = true;
+            // 
+            // groupBox37
+            // 
+            groupBox37.Controls.Add(rbZmMPCMPP);
+            groupBox37.Controls.Add(rbZmMPCM);
+            resources.ApplyResources(groupBox37, "groupBox37");
+            groupBox37.Name = "groupBox37";
+            groupBox37.TabStop = false;
+            // 
+            // rbZmMPCMPP
+            // 
+            resources.ApplyResources(rbZmMPCMPP, "rbZmMPCMPP");
+            rbZmMPCMPP.Name = "rbZmMPCMPP";
+            rbZmMPCMPP.UseVisualStyleBackColor = true;
+            // 
+            // rbZmMPCM
+            // 
+            resources.ApplyResources(rbZmMPCM, "rbZmMPCM");
+            rbZmMPCM.Checked = true;
+            rbZmMPCM.Name = "rbZmMPCM";
+            rbZmMPCM.TabStop = true;
+            rbZmMPCM.UseVisualStyleBackColor = true;
+            // 
+            // groupBox38
+            // 
+            groupBox38.Controls.Add(rbMnMPCMPP);
+            groupBox38.Controls.Add(rbMnMPCM);
+            resources.ApplyResources(groupBox38, "groupBox38");
+            groupBox38.Name = "groupBox38";
+            groupBox38.TabStop = false;
+            // 
+            // rbMnMPCMPP
+            // 
+            resources.ApplyResources(rbMnMPCMPP, "rbMnMPCMPP");
+            rbMnMPCMPP.Name = "rbMnMPCMPP";
+            rbMnMPCMPP.UseVisualStyleBackColor = true;
+            // 
+            // rbMnMPCM
+            // 
+            resources.ApplyResources(rbMnMPCM, "rbMnMPCM");
+            rbMnMPCM.Checked = true;
+            rbMnMPCM.Name = "rbMnMPCM";
+            rbMnMPCM.TabStop = true;
+            rbMnMPCM.UseVisualStyleBackColor = true;
             // 
             // frmSetting
             // 
@@ -4655,7 +4772,9 @@ namespace MDPlayer.form
             groupBox33.PerformLayout();
             gbPMDSetManualVolume.ResumeLayout(false);
             gbPMDSetManualVolume.PerformLayout();
-            tabZmusic.ResumeLayout(false);
+            tabX68k.ResumeLayout(false);
+            groupBox35.ResumeLayout(false);
+            groupBox35.PerformLayout();
             groupBox34.ResumeLayout(false);
             groupBox34.PerformLayout();
             groupBox31.ResumeLayout(false);
@@ -4762,8 +4881,16 @@ namespace MDPlayer.form
             tableLayoutPanel.ResumeLayout(false);
             tableLayoutPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).EndInit();
-            groupBox35.ResumeLayout(false);
-            groupBox35.PerformLayout();
+            tabControl1.ResumeLayout(false);
+            tpZMD.ResumeLayout(false);
+            tpMDX.ResumeLayout(false);
+            tabMND.ResumeLayout(false);
+            groupBox36.ResumeLayout(false);
+            groupBox36.PerformLayout();
+            groupBox37.ResumeLayout(false);
+            groupBox37.PerformLayout();
+            groupBox38.ResumeLayout(false);
+            groupBox38.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -5312,7 +5439,7 @@ namespace MDPlayer.form
         private Label lblSuKey;
         private Button btnSuSet;
         private Button btnSdSet;
-        private TabPage tabZmusic;
+        private TabPage tabX68k;
         private GroupBox groupBox31;
         private RadioButton rbZmV3;
         private RadioButton rbZmV2;
@@ -5324,5 +5451,26 @@ namespace MDPlayer.form
         private GroupBox groupBox35;
         private Label label77;
         private TextBox tbWaitNextPlay;
+        private TabControl tabControl1;
+        private TabPage tpZMD;
+        private GroupBox groupBox37;
+        private RadioButton radioButton3;
+        private RadioButton radioButton4;
+        private TabPage tpMDX;
+        private GroupBox groupBox36;
+        private RadioButton radioButton1;
+        private RadioButton radioButton2;
+        private TabPage tabMND;
+        private GroupBox groupBox38;
+        private RadioButton radioButton5;
+        private RadioButton radioButton6;
+        private RadioButton rbZmMPCMPP;
+        private RadioButton rbZmMPCM;
+        private RadioButton rbZmPCM8PP;
+        private RadioButton rbZmPCM8;
+        private RadioButton rbMxPCM8PP;
+        private RadioButton rbMxPCM8;
+        private RadioButton rbMnMPCMPP;
+        private RadioButton rbMnMPCM;
     }
 }

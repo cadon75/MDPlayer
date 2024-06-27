@@ -4771,6 +4771,174 @@
   <data name="&gt;&gt;tpPMDDotNET.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="rbZmMPCMPP.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbZmMPCMPP.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbZmMPCMPP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 47</value>
+  </data>
+  <data name="rbZmMPCMPP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 19</value>
+  </data>
+  <data name="rbZmMPCMPP.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbZmMPCMPP.Text" xml:space="preserve">
+    <value>MPCMPP (mercury unit)</value>
+  </data>
+  <data name="&gt;&gt;rbZmMPCMPP.Name" xml:space="preserve">
+    <value>rbZmMPCMPP</value>
+  </data>
+  <data name="&gt;&gt;rbZmMPCMPP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbZmMPCMPP.Parent" xml:space="preserve">
+    <value>groupBox37</value>
+  </data>
+  <data name="&gt;&gt;rbZmMPCMPP.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbZmMPCM.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbZmMPCM.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbZmMPCM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="rbZmMPCM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 19</value>
+  </data>
+  <data name="rbZmMPCM.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbZmMPCM.Text" xml:space="preserve">
+    <value>MPCM</value>
+  </data>
+  <data name="&gt;&gt;rbZmMPCM.Name" xml:space="preserve">
+    <value>rbZmMPCM</value>
+  </data>
+  <data name="&gt;&gt;rbZmMPCM.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbZmMPCM.Parent" xml:space="preserve">
+    <value>groupBox37</value>
+  </data>
+  <data name="&gt;&gt;rbZmMPCM.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox37.Location" type="System.Drawing.Point, System.Drawing">
+    <value>212, 138</value>
+  </data>
+  <data name="groupBox37.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 100</value>
+  </data>
+  <data name="groupBox37.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupBox37.Text" xml:space="preserve">
+    <value>MPCM type</value>
+  </data>
+  <data name="&gt;&gt;groupBox37.Name" xml:space="preserve">
+    <value>groupBox37</value>
+  </data>
+  <data name="&gt;&gt;groupBox37.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox37.Parent" xml:space="preserve">
+    <value>tpZMD</value>
+  </data>
+  <data name="&gt;&gt;groupBox37.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbZmPCM8PP.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbZmPCM8PP.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbZmPCM8PP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 47</value>
+  </data>
+  <data name="rbZmPCM8PP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 19</value>
+  </data>
+  <data name="rbZmPCM8PP.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbZmPCM8PP.Text" xml:space="preserve">
+    <value>PCM8PP (mercury unit)</value>
+  </data>
+  <data name="&gt;&gt;rbZmPCM8PP.Name" xml:space="preserve">
+    <value>rbZmPCM8PP</value>
+  </data>
+  <data name="&gt;&gt;rbZmPCM8PP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbZmPCM8PP.Parent" xml:space="preserve">
+    <value>groupBox34</value>
+  </data>
+  <data name="&gt;&gt;rbZmPCM8PP.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbZmPCM8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbZmPCM8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbZmPCM8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="rbZmPCM8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 19</value>
+  </data>
+  <data name="rbZmPCM8.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbZmPCM8.Text" xml:space="preserve">
+    <value>PCM8 (use X68Sound)</value>
+  </data>
+  <data name="&gt;&gt;rbZmPCM8.Name" xml:space="preserve">
+    <value>rbZmPCM8</value>
+  </data>
+  <data name="&gt;&gt;rbZmPCM8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbZmPCM8.Parent" xml:space="preserve">
+    <value>groupBox34</value>
+  </data>
+  <data name="&gt;&gt;rbZmPCM8.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox34.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 138</value>
+  </data>
+  <data name="groupBox34.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 100</value>
+  </data>
+  <data name="groupBox34.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="groupBox34.Text" xml:space="preserve">
+    <value>PCM8 type</value>
+  </data>
+  <data name="&gt;&gt;groupBox34.Name" xml:space="preserve">
+    <value>groupBox34</value>
+  </data>
+  <data name="&gt;&gt;groupBox34.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox34.Parent" xml:space="preserve">
+    <value>tpZMD</value>
+  </data>
+  <data name="&gt;&gt;groupBox34.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="tbWaitNextPlay.Location" type="System.Drawing.Point, System.Drawing">
     <value>140, 16</value>
   </data>
@@ -4850,7 +5018,7 @@
     <value>2</value>
   </data>
   <data name="groupBox35.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 241</value>
+    <value>6, 244</value>
   </data>
   <data name="groupBox35.Size" type="System.Drawing.Size, System.Drawing">
     <value>296, 55</value>
@@ -4868,94 +5036,10 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox35.Parent" xml:space="preserve">
-    <value>tabZmusic</value>
+    <value>tpZMD</value>
   </data>
   <data name="&gt;&gt;groupBox35.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="rbPCM8PP.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="rbPCM8PP.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="rbPCM8PP.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 47</value>
-  </data>
-  <data name="rbPCM8PP.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 19</value>
-  </data>
-  <data name="rbPCM8PP.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="rbPCM8PP.Text" xml:space="preserve">
-    <value>PCM8PP (mercury unit)</value>
-  </data>
-  <data name="&gt;&gt;rbPCM8PP.Name" xml:space="preserve">
-    <value>rbPCM8PP</value>
-  </data>
-  <data name="&gt;&gt;rbPCM8PP.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbPCM8PP.Parent" xml:space="preserve">
-    <value>groupBox34</value>
-  </data>
-  <data name="&gt;&gt;rbPCM8PP.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="rbPCM8.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="rbPCM8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="rbPCM8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 22</value>
-  </data>
-  <data name="rbPCM8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>141, 19</value>
-  </data>
-  <data name="rbPCM8.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="rbPCM8.Text" xml:space="preserve">
-    <value>PCM8 (use X68Sound)</value>
-  </data>
-  <data name="&gt;&gt;rbPCM8.Name" xml:space="preserve">
-    <value>rbPCM8</value>
-  </data>
-  <data name="&gt;&gt;rbPCM8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbPCM8.Parent" xml:space="preserve">
-    <value>groupBox34</value>
-  </data>
-  <data name="&gt;&gt;rbPCM8.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="groupBox34.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 135</value>
-  </data>
-  <data name="groupBox34.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 100</value>
-  </data>
-  <data name="groupBox34.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="groupBox34.Text" xml:space="preserve">
-    <value>PCM8 type</value>
-  </data>
-  <data name="&gt;&gt;groupBox34.Name" xml:space="preserve">
-    <value>groupBox34</value>
-  </data>
-  <data name="&gt;&gt;groupBox34.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox34.Parent" xml:space="preserve">
-    <value>tabZmusic</value>
-  </data>
-  <data name="&gt;&gt;groupBox34.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="rbZmV3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5075,7 +5159,7 @@
     <value>3</value>
   </data>
   <data name="groupBox31.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 3</value>
+    <value>6, 6</value>
   </data>
   <data name="groupBox31.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 126</value>
@@ -5093,33 +5177,303 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox31.Parent" xml:space="preserve">
-    <value>tabZmusic</value>
+    <value>tpZMD</value>
   </data>
   <data name="&gt;&gt;groupBox31.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
-  <data name="tabZmusic.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 44</value>
+  <data name="tpZMD.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
   </data>
-  <data name="tabZmusic.Size" type="System.Drawing.Size, System.Drawing">
-    <value>575, 498</value>
+  <data name="tpZMD.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
   </data>
-  <data name="tabZmusic.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
+  <data name="tpZMD.Size" type="System.Drawing.Size, System.Drawing">
+    <value>561, 464</value>
   </data>
-  <data name="tabZmusic.Text" xml:space="preserve">
-    <value>zmusic</value>
+  <data name="tpZMD.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;tabZmusic.Name" xml:space="preserve">
-    <value>tabZmusic</value>
+  <data name="tpZMD.Text" xml:space="preserve">
+    <value>Zmusic</value>
   </data>
-  <data name="&gt;&gt;tabZmusic.Type" xml:space="preserve">
+  <data name="&gt;&gt;tpZMD.Name" xml:space="preserve">
+    <value>tpZMD</value>
+  </data>
+  <data name="&gt;&gt;tpZMD.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tabZmusic.Parent" xml:space="preserve">
+  <data name="&gt;&gt;tpZMD.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tpZMD.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbMxPCM8PP.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbMxPCM8PP.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbMxPCM8PP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 47</value>
+  </data>
+  <data name="rbMxPCM8PP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 19</value>
+  </data>
+  <data name="rbMxPCM8PP.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbMxPCM8PP.Text" xml:space="preserve">
+    <value>PCM8PP (mercury unit)</value>
+  </data>
+  <data name="&gt;&gt;rbMxPCM8PP.Name" xml:space="preserve">
+    <value>rbMxPCM8PP</value>
+  </data>
+  <data name="&gt;&gt;rbMxPCM8PP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbMxPCM8PP.Parent" xml:space="preserve">
+    <value>groupBox36</value>
+  </data>
+  <data name="&gt;&gt;rbMxPCM8PP.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbMxPCM8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbMxPCM8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbMxPCM8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="rbMxPCM8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 19</value>
+  </data>
+  <data name="rbMxPCM8.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbMxPCM8.Text" xml:space="preserve">
+    <value>PCM8 (use X68Sound)</value>
+  </data>
+  <data name="&gt;&gt;rbMxPCM8.Name" xml:space="preserve">
+    <value>rbMxPCM8</value>
+  </data>
+  <data name="&gt;&gt;rbMxPCM8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbMxPCM8.Parent" xml:space="preserve">
+    <value>groupBox36</value>
+  </data>
+  <data name="&gt;&gt;rbMxPCM8.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox36.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 6</value>
+  </data>
+  <data name="groupBox36.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 100</value>
+  </data>
+  <data name="groupBox36.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupBox36.Text" xml:space="preserve">
+    <value>PCM8 type</value>
+  </data>
+  <data name="&gt;&gt;groupBox36.Name" xml:space="preserve">
+    <value>groupBox36</value>
+  </data>
+  <data name="&gt;&gt;groupBox36.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox36.Parent" xml:space="preserve">
+    <value>tpMDX</value>
+  </data>
+  <data name="&gt;&gt;groupBox36.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpMDX.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <data name="tpMDX.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tpMDX.Size" type="System.Drawing.Size, System.Drawing">
+    <value>561, 464</value>
+  </data>
+  <data name="tpMDX.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tpMDX.Text" xml:space="preserve">
+    <value>MXDRV</value>
+  </data>
+  <data name="&gt;&gt;tpMDX.Name" xml:space="preserve">
+    <value>tpMDX</value>
+  </data>
+  <data name="&gt;&gt;tpMDX.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpMDX.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tpMDX.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="rbMnMPCMPP.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbMnMPCMPP.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbMnMPCMPP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 47</value>
+  </data>
+  <data name="rbMnMPCMPP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 19</value>
+  </data>
+  <data name="rbMnMPCMPP.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbMnMPCMPP.Text" xml:space="preserve">
+    <value>MPCMPP (mercury unit)</value>
+  </data>
+  <data name="&gt;&gt;rbMnMPCMPP.Name" xml:space="preserve">
+    <value>rbMnMPCMPP</value>
+  </data>
+  <data name="&gt;&gt;rbMnMPCMPP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbMnMPCMPP.Parent" xml:space="preserve">
+    <value>groupBox38</value>
+  </data>
+  <data name="&gt;&gt;rbMnMPCMPP.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbMnMPCM.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbMnMPCM.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbMnMPCM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="rbMnMPCM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 19</value>
+  </data>
+  <data name="rbMnMPCM.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbMnMPCM.Text" xml:space="preserve">
+    <value>MPCM</value>
+  </data>
+  <data name="&gt;&gt;rbMnMPCM.Name" xml:space="preserve">
+    <value>rbMnMPCM</value>
+  </data>
+  <data name="&gt;&gt;rbMnMPCM.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbMnMPCM.Parent" xml:space="preserve">
+    <value>groupBox38</value>
+  </data>
+  <data name="&gt;&gt;rbMnMPCM.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox38.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 6</value>
+  </data>
+  <data name="groupBox38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 100</value>
+  </data>
+  <data name="groupBox38.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="groupBox38.Text" xml:space="preserve">
+    <value>MPCM type</value>
+  </data>
+  <data name="&gt;&gt;groupBox38.Name" xml:space="preserve">
+    <value>groupBox38</value>
+  </data>
+  <data name="&gt;&gt;groupBox38.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox38.Parent" xml:space="preserve">
+    <value>tabMND</value>
+  </data>
+  <data name="&gt;&gt;groupBox38.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabMND.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <data name="tabMND.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabMND.Size" type="System.Drawing.Size, System.Drawing">
+    <value>561, 464</value>
+  </data>
+  <data name="tabMND.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tabMND.Text" xml:space="preserve">
+    <value>MNDRV</value>
+  </data>
+  <data name="&gt;&gt;tabMND.Name" xml:space="preserve">
+    <value>tabMND</value>
+  </data>
+  <data name="&gt;&gt;tabMND.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabMND.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabMND.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>569, 492</value>
+  </data>
+  <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Parent" xml:space="preserve">
+    <value>tabX68k</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabX68k.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 44</value>
+  </data>
+  <data name="tabX68k.Size" type="System.Drawing.Size, System.Drawing">
+    <value>575, 498</value>
+  </data>
+  <data name="tabX68k.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="tabX68k.Text" xml:space="preserve">
+    <value>X680x0</value>
+  </data>
+  <data name="&gt;&gt;tabX68k.Name" xml:space="preserve">
+    <value>tabX68k</value>
+  </data>
+  <data name="&gt;&gt;tabX68k.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabX68k.Parent" xml:space="preserve">
     <value>tcSetting</value>
   </data>
-  <data name="&gt;&gt;tabZmusic.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;tabX68k.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
   <data name="btnAddVST.Location" type="System.Drawing.Point, System.Drawing">
@@ -15647,7 +16001,7 @@
     <value>16</value>
   </data>
   <data name="tcSetting.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 4</value>
+    <value>-3, 4</value>
   </data>
   <data name="tcSetting.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>

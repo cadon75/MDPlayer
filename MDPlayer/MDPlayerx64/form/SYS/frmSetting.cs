@@ -936,9 +936,17 @@ namespace MDPlayer.form
             rbZmV2V3.Checked = setting.zmusic.compilePriority == 1;
             rbZmV3.Checked = setting.zmusic.compilePriority == 2;
             rbZmV2.Checked = setting.zmusic.compilePriority == 3;
-            rbPCM8.Checked = setting.zmusic.pcm8type == 0;
-            rbPCM8PP.Checked = setting.zmusic.pcm8type == 1;
+            rbZmPCM8.Checked = setting.zmusic.pcm8type == 0;
+            rbZmPCM8PP.Checked = setting.zmusic.pcm8type == 1;
+            rbZmMPCM.Checked = setting.zmusic.mpcmtype == 0;
+            rbZmMPCMPP.Checked = setting.zmusic.mpcmtype == 1;
             tbWaitNextPlay.Text = setting.zmusic.waitNextPlay.ToString();
+
+            rbMxPCM8.Checked = setting.mxdrv.pcm8type == 0;
+            rbMxPCM8PP.Checked = setting.mxdrv.pcm8type == 1;
+
+            rbMnMPCM.Checked = setting.mndrv.mpcmtype == 0;
+            rbMnMPCMPP.Checked = setting.mndrv.mpcmtype == 1;
         }
 
         private void SetRealCombo(EnmRealChipType realType, ComboBox cmbP, RadioButton rbP, ComboBox cmbS, RadioButton rbS)
@@ -1836,10 +1844,15 @@ namespace MDPlayer.form
             setting.pmdDotNET.volumeGIMICSSG = nn;
 
             setting.zmusic.compilePriority = rbZmV3V2.Checked ? 0 : (rbZmV2V3.Checked ? 1 : (rbZmV3.Checked ? 2 : 3));
-            setting.zmusic.pcm8type = rbPCM8.Checked ? 0 : (rbPCM8PP.Checked ? 1 : 0);
+            setting.zmusic.pcm8type = rbZmPCM8.Checked ? 0 : (rbZmPCM8PP.Checked ? 1 : 0);
+            setting.zmusic.mpcmtype = rbZmMPCM.Checked ? 0 : (rbZmMPCMPP.Checked ? 1 : 0);
             if (!int.TryParse(tbWaitNextPlay.Text, out nn)) nn = 1000;
             nn = Math.Min(Math.Max(nn, 0), 10000);
             setting.zmusic.waitNextPlay = nn;
+
+            setting.mxdrv.pcm8type = rbMxPCM8.Checked ? 0 : (rbMxPCM8PP.Checked ? 1 : 0);
+
+            setting.mndrv.mpcmtype = rbMnMPCM.Checked ? 0 : (rbMnMPCMPP.Checked ? 1 : 0);
 
             setting.keyBoardHook.UseKeyBoardHook = cbUseKeyBoardHook.Checked;
 

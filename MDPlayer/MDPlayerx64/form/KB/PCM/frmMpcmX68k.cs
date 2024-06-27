@@ -107,23 +107,26 @@ namespace MDPlayer.form
         {
             ZMS.MPCMSt[] MPCMSt;
             mpcmX68k mpcm;
+            mpcmpp mpcmpp;
             if (Audio.DriverVirtual is ZMS)
             {
                 ZMS zms = Audio.DriverVirtual as ZMS;
                 MPCMSt = zms.mpcmSt;
                 mpcm = zms.mpcm;
+                mpcmpp = zms.mpcmpp;
             }
             else if (Audio.DriverVirtual is mndrv)
             {
                 mndrv mnd = Audio.DriverVirtual as mndrv;
                 MPCMSt = mnd.mpcmSt;
-                mpcm = mnd.m_MPCM;
+                mpcm = mnd.mpcm;
+                mpcmpp = mnd.mpcmpp;
             }
             else
             {
                 return;
             }
-            if (mpcm == null) return;
+            if (mpcm == null && mpcmpp == null) return;
 
             for (int ch = 0; ch < MPCMSt.Length; ch++)
             {
@@ -136,8 +139,16 @@ namespace MDPlayer.form
                     nyc.adr[3] = (uint)MPCMSt[ch].end;
                     nyc.adr[4] = (uint)MPCMSt[ch].count;
                     nyc.adr[5] = (uint)MPCMSt[ch].frq;
-                    nyc.adr[6] = (uint)mpcm.m[chipID].work[ch].pitch;
-                    nyc.sadr = mpcm.m[chipID].work[ch].type;// MPCMSt[ch].type;
+                    if (mpcm != null)
+                    {
+                        nyc.adr[6] = (uint)mpcm.m[chipID].work[ch].pitch;
+                        nyc.sadr = mpcm.m[chipID].work[ch].type;// MPCMSt[ch].type;
+                    }
+                    if (mpcmpp != null)
+                    {
+                        nyc.adr[6] = (uint)mpcmpp.m[chipID].work[ch].pitch;
+                        nyc.sadr = mpcmpp.m[chipID].work[ch].type;// MPCMSt[ch].type;
+                    }
                     if (MPCMSt[ch].pan < 0x80)
                     {
                         //1:left 3:center 2:right
@@ -182,36 +193,13 @@ namespace MDPlayer.form
                     {
                         //pitch = (uint)(0x10000 * MPCMSt[ch].base_);
                         pitch = 0x1_0000;
+                        if (mpcm != null) nyc.note = searchMPCMX68kNote(mpcm, pitch, mpcm.m[chipID].work[ch].base_);// * mpcm.m[0].rate);
+                        if (mpcmpp != null) nyc.note = searchMPCMppNote(mpcmpp, pitch, mpcm.m[chipID].work[ch].base_);// * mpcm.m[0].rate);
                     }
                     else
                     {
-                        dnote -= orig;
-                        if (dnote == 0)
-                        {
-                            //nyc.note = 9 + 3 * 12;//dummy
-                                                  //pitch = (uint)(0x10000 * MPCMSt[ch].base_);
-                            pitch = 0x1_0000;
-                        }
-                        else if (dnote > 0)
-                        {
-                            for (dnote -= 64 * 12; dnote >= 0; dnote -= 64 * 12, doct++) ;
-                            dnote += 64 * 12;
-                            pitch += mpcm.pitchtbl[dnote];
-                            pitch <<= doct;
-                            //nyc.note = dnote / 64 + doct * 12;
-                            //nyc.note = dnote / 64 + (doct + 2) * 12 -3;
-                        }
-                        else
-                        {
-                            for (; dnote < 0; dnote += 64 * 12, doct--) ;
-                            pitch += mpcm.pitchtbl[dnote];
-                            pitch >>= doct;
-                            //nyc.note = dnote / 64 + doct * 12;
-                            //nyc.note = dnote / 64 + doct * 12 - 3;
-                        }
+                        nyc.note = dnote / 64 - 24;
                     }
-
-                    nyc.note = searchMPCMX68kNote(mpcm, pitch, mpcm.m[chipID].work[ch].base_);// * mpcm.m[0].rate);
 
                     MPCMSt[ch].Keyon = false;
                     MPCMSt[ch].Keyoff = false;
@@ -256,6 +244,31 @@ namespace MDPlayer.form
             return n-5+12;
         }
 
+        private int searchMPCMppNote(mpcmpp mpcm, uint pitch, float base_)
+        {
+            int freq = (int)(pitch * base_);
+            int clock = (int)mpcm.m[chipID].rate;
+            int hz = (int)(clock / (0x10000 / (double)freq));
+            double m = double.MaxValue;
+
+            int n = 0;
+            for (int i = 0; i < 12 * 8; i++)
+            {
+                int a = (int)(
+                    4000.0
+                    * Tables.pcmMulTbl[i % 12 + 12]
+                    * Math.Pow(2, (i / 12 - 3 + 2))
+                    );
+
+                if (hz > a)
+                {
+                    m = a;
+                    n = i;
+                }
+            }
+            return n - 5 + 12;
+        }
+
         public void screenDrawParams()
         {
             MDChipParams.MPCMX68k ost = oldParam;
@@ -281,7 +294,7 @@ namespace MDPlayer.form
                 DrawBuff.font4Hex32Bit(frameBuffer, (x + 36) * 4, (c + 1) * 8, 0, ref oyc.adr[4], nyc.adr[4]);//count
                 if (oyc.adr[5] != nyc.adr[5])
                 {
-                    DrawBuff.drawFont4(frameBuffer, (x + 44) * 4, (c + 1) * 8, 1, frqStr[Math.Min(Math.Max(nyc.adr[5], 0), 7)]);//frq
+                    DrawBuff.drawFont4(frameBuffer, (x + 44) * 4, (c + 1) * 8, 1, frqStr[Math.Min(Math.Max(nyc.adr[5], 0), frqStr.Length)]);//frq
                     oyc.adr[5] = nyc.adr[5];
                 }
                 DrawBuff.font4Hex32Bit(frameBuffer, (x + 54) * 4, (c + 1) * 8, 0, ref oyc.adr[6], nyc.adr[6]);//pitch
@@ -294,14 +307,48 @@ namespace MDPlayer.form
         }
 
         string[] frqStr = new string[]{
-            "  3900HZ ",
-            "  5200HZ ",
-            "  7800HZ ",
-            " 10400HZ ",
-            " 15600HZ ",
-            " 20800HZ ",
-            " 31200HZ ",
-            "OVER SPEC"
+            "AD 3900HZ",
+            "AD 5200HZ",
+            "AD 7800HZ",
+            "AD10400HZ",
+            "AD15600HZ",
+            "WM20800HZ",
+            "BM31200HZ",
+            "WMTHROUGH",
+            "WM15625HZ",
+            "WM16000HZ",
+            "WM22050HZ",
+            "WM24000HZ",
+            "WM32000HZ",
+            "WM44100HZ",
+            "WM48000HZ",
+            "WMVARIABL",
+            "BM15625HZ",
+            "BM16000HZ",
+            "BM22050HZ",
+            "BM24000HZ",
+            "BM32000HZ",
+            "BM44100HZ",
+            "BM48000HZ",
+            "BMVARIABL",
+            "WS15625HZ",
+            "WS16000HZ",
+            "WS22050HZ",
+            "WS24000HZ",
+            "WS32000HZ",
+            "WS44100HZ",
+            "WS48000HZ",
+            "WSVARIABL",
+            "BS15625HZ",
+            "BS16000HZ",
+            "BS22050HZ",
+            "BS24000HZ",
+            "BS32000HZ",
+            "BS44100HZ",
+            "BS48000HZ",
+            "BSVARIABL",
+            "ADVARIABL",
+            "WMVARIABL"
         };
 
         public void screenInit()
