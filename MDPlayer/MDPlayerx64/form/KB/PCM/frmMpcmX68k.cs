@@ -180,8 +180,8 @@ namespace MDPlayer.form
                     }
 
                     nyc.volume = (int)MPCMSt[ch].volume;
-                    nyc.volumeL = Math.Min(Math.Max((int)(MPCMSt[ch].volume / 10.0), 0), 19) * ((nyc.pan & 2) != 0 ? 1 : 0);
-                    nyc.volumeR = Math.Min(Math.Max((int)(MPCMSt[ch].volume / 10.0), 0), 19) * ((nyc.pan & 1) != 0 ? 1 : 0);
+                    nyc.volumeL = Math.Min(Math.Max((int)(MPCMSt[ch].volume ), 1), 19) * ((nyc.pan & 2) != 0 ? 1 : 0);
+                    nyc.volumeR = Math.Min(Math.Max((int)(MPCMSt[ch].volume ), 1), 19) * ((nyc.pan & 1) != 0 ? 1 : 0);
 
                     int orig = 440 << 6;
                     if (MPCMSt[ch].orig != 0)
@@ -310,11 +310,11 @@ namespace MDPlayer.form
         }
 
         string[] frqStr = new string[]{
-            "AD 3900HZ",//0
-            "AD 5200HZ",//1
-            "AD 7800HZ",//2
-            "AD10400HZ",//3
-            "AD15600HZ",//4
+            "AD 3906HZ",//0
+            "AD 5208HZ",//1
+            "AD 7812HZ",//2
+            "AD10416HZ",//3
+            "AD15625HZ",//4
             "WM20800HZ",//5
             "BM31200HZ",//6
             "WMTHROUGH",//7
@@ -351,11 +351,23 @@ namespace MDPlayer.form
             "BS48000HZ",//38
             "BSVARIABL",//39
             "ADVARIABL",//40
-            "WMVARIABL" //41
+            "WMVARIABL",//41
+            "         ",//42
         };
 
         public void screenInit()
         {
+            for (int ch = 0; ch < 16; ch++)
+            {
+                newParam.channels[ch].note = -1;
+                for (int i = 0; i < 7; i++)
+                {
+                    newParam.channels[ch].adr[i] = 0;
+                }
+                newParam.channels[ch].adr[5] = 42;
+                newParam.channels[ch].sadr = 0;
+                newParam.channels[ch].pan = 3;
+            }
         }
 
         private void pbScreen_MouseClick(object sender, MouseEventArgs e)

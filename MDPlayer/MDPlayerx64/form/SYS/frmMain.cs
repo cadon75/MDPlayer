@@ -5774,13 +5774,13 @@ namespace MDPlayer.form
                 playFn = frmPlayList.setStart(-2);//first 
             }
 
-            reqAllScreenInit = true;
 
             if (loadAndPlay(playFn.Item1, playFn.Item2, playFn.Item3, playFn.Item4,playFn.Item5))
             {
                 frmPlayList.Play();
             }
 
+            reqAllScreenInit = true;
         }
 
         private void Playdata()
@@ -5825,7 +5825,6 @@ namespace MDPlayer.form
 
                 //oldParam = new MDChipParams();
                 //newParam = new MDChipParams();
-                reqAllScreenInit = true;
 
                 if (setting.other.WavSwitch)
                 {
@@ -5882,6 +5881,7 @@ namespace MDPlayer.form
 
                 speedRatio = 1.0;
 
+                reqAllScreenInit = true;
                 for (int chipID = 0; chipID < 2; chipID++)
                 {
                     for (int ch = 0; ch < 3; ch++) ForceChannelMask(EnmChip.AY8910, chipID, ch, newParam.ay8910[chipID].channels[ch].mask);
