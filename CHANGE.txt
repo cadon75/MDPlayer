@@ -1,4 +1,7 @@
 更新履歴 
+STBL433 2024/06/30 3rd
+  Zmusicv3:SetPCM時にF値を初期化しないように修正
+
 STBL432 2024/06/30 2nd
   Zmusicv3/MNDRV/MPCMPP:キーオフ処理修正
 

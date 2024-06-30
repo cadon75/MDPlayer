@@ -604,7 +604,7 @@ namespace MDPlayer.Driver.ZMS
                         mpcmSt[ch].start = ptr.start = nise68.mem.PeekL(0x0c + nise68.reg.GetAl(1));
                         mpcmSt[ch].end = ptr.end = nise68.mem.PeekL(0x10 + nise68.reg.GetAl(1));
                         mpcmSt[ch].count = ptr.count = nise68.mem.PeekL(0x14 + nise68.reg.GetAl(1));
-                        mpcmSt[ch].frq = mpcmSt[ch].type == 0xff ? 4 : (mpcmSt[ch].type == 1 ? 8 : (mpcmSt[ch].type == 2 ? 0x10 : 0));
+                        //mpcmSt[ch].frq = mpcmSt[ch].type == 0xff ? 4 : (mpcmSt[ch].type == 1 ? 8 : (mpcmSt[ch].type == 2 ? 0x10 : 0));
                         if (mpcm != null)
                         {
                             mpcmSt[ch].rate = mpcm.m[0].rate;
@@ -625,7 +625,7 @@ namespace MDPlayer.Driver.ZMS
                         mpcmSt[ch].start = ptr.start = nise68.mem.PeekL(0x0c + nise68.reg.GetAl(1));
                         mpcmSt[ch].end = ptr.end = nise68.mem.PeekL(0x10 + nise68.reg.GetAl(1));
                         mpcmSt[ch].count = ptr.count = nise68.mem.PeekL(0x14 + nise68.reg.GetAl(1));
-                        mpcmSt[ch].frq = mpcmSt[ch].type == 0xff ? 4 : (mpcmSt[ch].type == 1 ? 8 : (mpcmSt[ch].type == 2 ? 0x10 : 0));
+                        //mpcmSt[ch].frq = mpcmSt[ch].type == 0xff ? 4 : (mpcmSt[ch].type == 1 ? 8 : (mpcmSt[ch].type == 2 ? 0x10 : 0));
                         if (mpcmpp != null)
                         {
                             mpcmSt[ch].rate = mpcmpp.m[0].rate;
