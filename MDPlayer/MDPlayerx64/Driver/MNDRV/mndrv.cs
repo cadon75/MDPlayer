@@ -363,6 +363,7 @@ namespace MDPlayer.Driver.MNDRV
                         }
                         mpcmSt[ch].frq = mpcmSt[ch].type == 0xff ? 4 : (mpcmSt[ch].type == 1 ? 8 : (mpcmSt[ch].type == 2 ? 0x10 : 0));
                         //nise68.DumpMemory((uint)ptr.adrs_ptr, (uint)(ptr.adrs_ptr + ptr.size));
+                        mpcmpp?.SetFreq(0, ch, mpcmSt[ch].frq);
                         mpcmpp?.SetPcm(0, ch, ptr);
                     }
                     break;

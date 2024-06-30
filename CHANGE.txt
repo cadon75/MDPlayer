@@ -1,4 +1,8 @@
 更新履歴 
+STBL434 2024/07/01
+  MNDRV:MPCMPP:SetPCM時SetFreqも行うよう修正
+  MDSound更新
+
 STBL433 2024/06/30 3rd
   Zmusicv3:SetPCM時にF値を初期化しないように修正
 
