@@ -5506,6 +5506,7 @@ namespace MDPlayer
             public int pcm8type = 1;
             public int mpcmtype = 1;
             public int waitNextPlay = 1000;
+            public int pcm8ppSoption = -1;
 
             public Zmusic Copy()
             {
@@ -5514,7 +5515,8 @@ namespace MDPlayer
                     compilePriority = this.compilePriority,
                     pcm8type = this.pcm8type,
                     mpcmtype = this.mpcmtype,
-                    waitNextPlay = this.waitNextPlay
+                    waitNextPlay = this.waitNextPlay,
+                    pcm8ppSoption=this.pcm8ppSoption,
                 };
 
                 return p;
@@ -5525,12 +5527,14 @@ namespace MDPlayer
         public class Mxdrv
         {
             public int pcm8type = 1;
+            public int pcm8ppSoption = -1;
 
             public Mxdrv Copy()
             {
                 Mxdrv p = new()
                 {
                     pcm8type = this.pcm8type,
+                    pcm8ppSoption = this.pcm8ppSoption,
                 };
 
                 return p;

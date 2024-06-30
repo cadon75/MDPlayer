@@ -3565,7 +3565,7 @@ namespace MDPlayer
                         Volume = 0,
                         Clock = 4_000_000,
                         SamplingRate = (uint)setting.outputDevice.SampleRate,
-                        Option = null
+                        Option = new object[] { setting.zmusic.pcm8ppSoption }
                     };
                     lstChips.Add(pcm8ppc);
                     ((Driver.ZMS.ZMS)DriverVirtual).pcm8pp = pcm8pp;
@@ -4390,7 +4390,7 @@ namespace MDPlayer
                         Volume = 0,
                         Clock = 4_000_000,
                         SamplingRate = (uint)setting.outputDevice.SampleRate,
-                        Option = null
+                        Option = new object[] { setting.mxdrv.pcm8ppSoption }
                     };
                     lstChips.Add(pcm8ppc);
                     ((Driver.MXDRV.MXDRV)DriverVirtual).pcm8type = 1;

@@ -982,7 +982,7 @@ namespace MDPlayer.Driver.MXDRV
                 case 0x0000:
                     //x68Sound.Pcm8_Out((int)D0 & 0xff, A1, (int)D1, (int)D2);
                     if (pcm8type == 0) mdxPCM?.x68sound[0].X68Sound_Pcm8_Out((int)D0 & 0xff, null, A1, (int)D1, (int)D2);//指定チャンネル発音開始
-                    else pcm8pp?.KeyOn((int)D0 & 0xff, A1, (int)(D1|0x0800), (int)D2);//指定チャンネル発音開始
+                    else pcm8pp?.KeyOn((int)D0 & 0xff, A1, (int)(D1+0x0800), (int)D2);//指定チャンネル発音開始
                     ch = (int)((D0 & 0xff) % 8);
                     pcm8St[ch].tablePtr = A1;
                     pcm8St[ch].mode = D1;
