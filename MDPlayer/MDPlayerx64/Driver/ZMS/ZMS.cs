@@ -588,7 +588,7 @@ namespace MDPlayer.Driver.ZMS
                 case 0x0100:
                     //Log.WriteLine(LogLevel.Trace2, "MPCM #M_KEY_OFF(${0:X04})", n);
                     if (mpcmtype == 0) mpcm?.KeyOff(0, ch);
-                    else mpcm?.KeyOff(0, ch);
+                    else mpcmpp?.KeyOff(0, ch);
                     mpcmSt[ch].Keyoff = true;
                     break;
                 case 0x0200:

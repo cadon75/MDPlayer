@@ -1,4 +1,7 @@
 更新履歴 
+STBL432 2024/06/30 2nd
+  Zmusicv3/MNDRV/MPCMPP:キーオフ処理修正
+
 STBL431 2024/06/30
   Zmusicv2/MXDRV:PCM8PPのにせSオプション設定追加
 

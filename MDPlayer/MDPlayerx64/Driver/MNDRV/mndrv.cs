@@ -324,7 +324,7 @@ namespace MDPlayer.Driver.MNDRV
                     break;
                 case 0x01:
                     if (mpcmtype == 0) mpcm?.KeyOff(0, ch);
-                    else mpcm?.KeyOff(0, ch);
+                    else mpcmpp?.KeyOff(0, ch);
                     mpcmSt[ch].Keyoff = true;
                     break;
                 case 0x02:
