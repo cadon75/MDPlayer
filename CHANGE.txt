@@ -1,4 +1,7 @@
 更新履歴 
+STBL435 2024/07/01 2nd
+  MDSound更新
+
 STBL434 2024/07/01
   MNDRV:MPCMPP:SetPCM時SetFreqも行うよう修正
   MDSound更新

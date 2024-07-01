@@ -711,7 +711,7 @@ namespace MDPlayer.Driver.ZMS
                     //File.WriteAllBytes("c:\\temp\\test.bin", nise68.mem.mem);
                     if (pcm8type == 0) opmPCM?.x68sound[0].X68Sound_Pcm8_Out((int)n & 0xff, null, nise68.reg.GetAl(1), (int)nise68.reg.GetDl(1), (int)nise68.reg.GetDl(2));//指定チャンネル発音開始
                     else pcm8pp?.KeyOn((int)n & 0xff, nise68.reg.GetAl(1), (int)nise68.reg.GetDl(1), (int)nise68.reg.GetDl(2));//指定チャンネル発音開始
-                    //Debug.WriteLine("adrsPtr = 0x{0:x08};  mode = 0x{1:x08}; len = 0x{2:x08};", nise68.reg.GetAl(1), (int)nise68.reg.GetDl(1), (int)nise68.reg.GetDl(2), (int)n & 0xff);
+                    Debug.WriteLine("{3} adrsPtr = 0x{0:x08};  mode = 0x{1:x08}; len = 0x{2:x08};", nise68.reg.GetAl(1), (int)nise68.reg.GetDl(1), (int)nise68.reg.GetDl(2), (int)n & 0xff);
                     ch = (int)((n & 0xff) % 8);
                     pcm8St[ch].tablePtr = nise68.reg.GetAl(1);
                     pcm8St[ch].mode = nise68.reg.GetDl(1);
