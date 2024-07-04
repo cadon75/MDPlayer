@@ -15,6 +15,7 @@ using System.Drawing;
 using System.IO.Compression;
 using System.Text;
 using static MDPlayer.MDChipParams;
+using static MDPlayer.Setting;
 
 namespace MDPlayer
 {
@@ -188,6 +189,7 @@ namespace MDPlayer
         private static int SongNo = 0;
         private static List<Tuple<string, byte[]>> ExtendFile = null;
         private static string[] SupportFile = null;
+        private static string UseCompiler = null;
         public static EnmFileFormat PlayingFileFormat;
 
         private static readonly Stopwatch stwh = Stopwatch.StartNew();
@@ -1878,7 +1880,7 @@ namespace MDPlayer
             return naudioWrap.getAsioLatency();
         }
 
-        public static void SetVGMBuffer(EnmFileFormat format, byte[] srcBuf, string playingFileName, string playingArcFileName, int midiMode, int songNo, List<Tuple<string, byte[]>> extFile, string[] spFn)
+        public static void SetVGMBuffer(EnmFileFormat format, byte[] srcBuf, string playingFileName, string playingArcFileName, int midiMode, int songNo, List<Tuple<string, byte[]>> extFile, string[] spFn,string useCom)
         {
             //Stop();
             PlayingFileFormat = format;
@@ -1890,6 +1892,7 @@ namespace MDPlayer
             chipRegister.SetFileName(playingFileName);//ExportMIDI向け
             ExtendFile = extFile;//追加ファイル
             SupportFile = spFn;
+            UseCompiler = useCom;
             Common.playingFilePath = Path.GetDirectoryName(playingFileName);
 
             if (naudioWaveFileReader != null|| naudioMp3FileReader != null|| naudioAiffFileReader != null)
@@ -3594,6 +3597,13 @@ namespace MDPlayer
                 ChipLED.PriPCM8 = 0;
                 ChipLED.PriMPCMX68k = 0;
 
+                //コンパイラ使用優先度
+                int compilePriority = setting.zmusic.compilePriority;
+                if (UseCompiler != null)
+                {
+                    if (UseCompiler == "zmusic v2") compilePriority = 3;//3:v2のみ
+                    else if (UseCompiler == "zmusic v3") compilePriority = 2;//2:v3のみ
+                }
                 //サポートファイルの読み込み/コンパイルを行う
                 List<Tuple<byte[], string>> supportFileBinaly = new List<Tuple<byte[], string>>();
                 if (SupportFile != null)
@@ -3606,7 +3616,7 @@ namespace MDPlayer
                         {
                             buf = File.ReadAllBytes(sf);
                             ErrMsg = "";
-                            switch (setting.zmusic.compilePriority)
+                            switch (compilePriority)
                             {
                                 case 0:
                                     //Version3優先
@@ -3646,7 +3656,7 @@ namespace MDPlayer
                 //ZMSの場合は事前にコンパイルを実施
                 if (fm == EnmFileFormat.ZMS)
                 {
-                    switch (setting.zmusic.compilePriority)
+                    switch (compilePriority)
                     {
                         case 0:
                             //Version3優先
@@ -3696,7 +3706,7 @@ namespace MDPlayer
                             {
                                 vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
                                 ChipLED.PriMPCMX68k = 1;
-                                //File.WriteAllBytes("c:\\temp\\tc.zmd", vgmBuf);
+                                //File.WriteAllBytes("c:\\temp\\ge.zmd", vgmBuf);
                             }
                             else
                             {
@@ -8685,6 +8695,12 @@ namespace MDPlayer
             if (e.Exception != null)
             {
                 if (e.Exception.Message.Contains("NoDriver calling waveOutWrite", StringComparison.CurrentCulture)
+                    || e.Exception.Message.Contains("HRESULT", StringComparison.CurrentCulture)
+                    || e.Exception.Message.Contains("DirectSound buffer", StringComparison.CurrentCulture))
+                {
+                    log.ForcedWrite(e.Exception);
+                }
+                else if (e.Exception.Message.Contains("WaveHeaderUnprepared calling waveOutWrite", StringComparison.CurrentCulture)
                     || e.Exception.Message.Contains("HRESULT", StringComparison.CurrentCulture)
                     || e.Exception.Message.Contains("DirectSound buffer", StringComparison.CurrentCulture))
                 {

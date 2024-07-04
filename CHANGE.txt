@@ -1,4 +1,7 @@
 更新履歴 
+STBL437 2024/07/05
+  PlayList:zmusic:useCompiler:曲単位で使用するコンパイラが指定できるようにした
+
 STBL436 2024/07/04
   Nise68:MULS.wの計算結果が16bitになってしまっていたのを修正
 

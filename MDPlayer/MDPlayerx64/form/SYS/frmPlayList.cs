@@ -63,7 +63,7 @@ namespace MDPlayer.form
             return playList;
         }
 
-        public Tuple<int, int, string, string, string[]> setStart(int n)
+        public Tuple<int, int, string, string, string[], string> setStart(int n)
         {
             updatePlayingIndex(n);
 
@@ -82,8 +82,13 @@ namespace MDPlayer.form
             {
                 spFn = playList.LstMusic[playIndex].supportFileName.Split(';');
             }
+            string useCom = null;
+            if (playList.LstMusic[playIndex].useCompiler != null)
+            {
+                useCom = playList.LstMusic[playIndex].useCompiler;
+            }
 
-            return new Tuple<int, int, string, string, string[]>(m, songNo, fn, zfn, spFn);
+            return new Tuple<int, int, string, string, string[], string>(m, songNo, fn, zfn, spFn, useCom);
         }
 
         public void Play()
@@ -258,6 +263,7 @@ namespace MDPlayer.form
             {
                 tsmiSelectSupportFile.Enabled = false;
                 tsmiRemoveSupportFile.Enabled = false;
+                tsmiSelectCompiler.Enabled = false;
                 if (dgvList.SelectedRows.Count > 1)
                 {
                     tsmiDelThis.Text = "選択した曲を除去";
@@ -268,19 +274,27 @@ namespace MDPlayer.form
                 }
 
                 bool fnd = false;
+                bool fndUseCom = false;
                 foreach (DataGridViewRow row in dgvList.SelectedRows)
                 {
                     string ext = row.Cells["clmExt"].Value.ToString().ToUpper();
                     if (ext != ".ZMS" && ext != ".ZMD")
                     {
                         fnd = true;
-                        break;
+                    }
+                    if (ext != ".ZMS")
+                    {
+                        fndUseCom = true;
                     }
                 }
                 if (!fnd)
                 {
                     tsmiSelectSupportFile.Enabled = true;
                     tsmiRemoveSupportFile.Enabled = true;
+                }
+                if (!fndUseCom)
+                {
+                    tsmiSelectCompiler.Enabled = true;
                 }
 
                 cmsPlayList.Show();
@@ -346,10 +360,15 @@ namespace MDPlayer.form
             string[] spFn = null;
             if (dgvList.Rows[pi].Cells["clmSupportFile"].Value != null)
             {
-                spFn= dgvList.Rows[pi].Cells["clmSupportFile"].Value.ToString().Split(';');
+                spFn = dgvList.Rows[pi].Cells["clmSupportFile"].Value.ToString().Split(';');
+            }
+            string useCom = null;
+            if (dgvList.Rows[pi].Cells["clmUseCompiler"].Value != null)
+            {
+                useCom = dgvList.Rows[pi].Cells["clmUseCompiler"].Value.ToString();
             }
 
-            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn);
+            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom);
             if (Audio.ErrMsg != "")
             {
                 playing = false;
@@ -436,8 +455,13 @@ namespace MDPlayer.form
             {
                 spFn = dgvList.Rows[pi].Cells["clmSupportFile"].Value.ToString().Split(';');
             }
+            string useCom = null;
+            if (dgvList.Rows[pi].Cells["clmUseCompiler"].Value != null)
+            {
+                useCom = dgvList.Rows[pi].Cells["clmUseCompiler"].Value.ToString();
+            }
 
-            if (!frmMain.loadAndPlay(m, songNo, fn, zfn,spFn))
+            if (!frmMain.loadAndPlay(m, songNo, fn, zfn, spFn,useCom))
             {
                 playing = false;
                 return;
@@ -522,8 +546,13 @@ namespace MDPlayer.form
             {
                 spFn = dgvList.Rows[pi].Cells["clmSupportFile"].Value.ToString().Split(';');
             }
+            string useCom = null;
+            if (dgvList.Rows[pi].Cells["clmUseCompiler"].Value != null)
+            {
+                useCom = dgvList.Rows[pi].Cells["clmUseCompiler"].Value.ToString();
+            }
 
-            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn);
+            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom);
             updatePlayingIndex(pi);
             playing = true;
         }
@@ -560,8 +589,13 @@ namespace MDPlayer.form
                 {
                     spFn = dgvList.Rows[e.RowIndex].Cells["clmSupportFile"].Value.ToString().Split(';');
                 }
+                string useCom = null;
+                if (dgvList.Rows[e.RowIndex].Cells["clmUseCompiler"].Value != null)
+                {
+                    useCom = dgvList.Rows[e.RowIndex].Cells["clmUseCompiler"].Value.ToString();
+                }
 
-                if (!frmMain.loadAndPlay(m, songNo, fn, zfn,spFn)) return;
+                if (!frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom)) return;
                 updatePlayingIndex(e.RowIndex);
 
                 playing = true;
@@ -602,8 +636,13 @@ namespace MDPlayer.form
             {
                 spFn = dgvList.SelectedRows[0].Cells["clmSupportFile"].Value.ToString().Split(';');
             }
+            string useCom = null;
+            if (dgvList.Rows[0].Cells["clmUseCompiler"].Value != null)
+            {
+                useCom = dgvList.Rows[0].Cells["clmUseCompiler"].Value.ToString();
+            }
 
-            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn);
+            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom);
             updatePlayingIndex(dgvList.SelectedRows[0].Index);
 
             playing = true;
@@ -932,8 +971,13 @@ namespace MDPlayer.form
                     {
                         spFn = dgvList.SelectedRows[0].Cells["clmSupportFile"].Value.ToString().Split(';');
                     }
+                    string useCom = null;
+                    if (dgvList.Rows[0].Cells["clmUseCompiler"].Value != null)
+                    {
+                        useCom = dgvList.Rows[0].Cells["clmUseCompiler"].Value.ToString();
+                    }
 
-                    frmMain.loadAndPlay(m, songNo, fn, zfn, spFn);
+                    frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom);
                     updatePlayingIndex(index);
 
                     playing = true;
@@ -1032,7 +1076,7 @@ namespace MDPlayer.form
                     //&& fn.ToLower().LastIndexOf(".sid") == -1
                     )
                 {
-                    frmMain.loadAndPlay(0, 0, fn, null, null);
+                    frmMain.loadAndPlay(0, 0, fn, null, null, null);
                     setStart(i);// -1);
                     frmMain.oldParam = new MDChipParams();
                     Play();
@@ -1286,7 +1330,7 @@ namespace MDPlayer.form
             {
                 string fs = "";
                 string ffs = "";
-                foreach(string f in ofd.FileNames)
+                foreach (string f in ofd.FileNames)
                 {
                     fs += f + ";";
                     ffs += Path.GetFileName(f) + ";";
@@ -1309,7 +1353,7 @@ namespace MDPlayer.form
             {
                 row.Cells["clmSupportFile"].Value = null;
                 row.Cells["clmDispSupportFileName"].Value = "-";
-                row.Cells["clmDispSupportFileName"].ToolTipText = null; 
+                row.Cells["clmDispSupportFileName"].ToolTipText = null;
                 playList.LstMusic[row.Index].supportFileName = null;
             }
 
@@ -1317,5 +1361,42 @@ namespace MDPlayer.form
 
         }
 
+        private void tsmiSelectCompiler_default_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvList.SelectedRows)
+            {
+                row.Cells["clmUseCompiler"].Value = null;
+                row.Cells["clmDispUseCompiler"].Value = "-";
+                playList.LstMusic[row.Index].useCompiler = null;
+            }
+
+            Refresh();
+
+        }
+
+        private void tsmiSelectCompiler_zmusicV2_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvList.SelectedRows)
+            {
+                row.Cells["clmUseCompiler"].Value = "zmusic v2";
+                row.Cells["clmDispUseCompiler"].Value = "zmusic v2";
+                playList.LstMusic[row.Index].useCompiler = "zmusic v2";
+            }
+
+            Refresh();
+
+        }
+
+        private void tsmiSelectCompiler_zmusicV3_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvList.SelectedRows)
+            {
+                row.Cells["clmUseCompiler"].Value = "zmusic v3";
+                row.Cells["clmDispUseCompiler"].Value = "zmusic v3";
+                playList.LstMusic[row.Index].useCompiler = "zmusic v3";
+            }
+
+            Refresh();
+        }
     }
 }

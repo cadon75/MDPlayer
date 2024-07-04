@@ -39,10 +39,10 @@ namespace MDPlayer.form
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPlayList));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
             toolStripContainer1 = new ToolStripContainer();
             dgvList = new DataGridView();
             clmKey = new DataGridViewTextBoxColumn();
@@ -50,6 +50,7 @@ namespace MDPlayer.form
             clmZipFileName = new DataGridViewTextBoxColumn();
             clmFileName = new DataGridViewTextBoxColumn();
             clmSupportFile = new DataGridViewTextBoxColumn();
+            clmUseCompiler = new DataGridViewTextBoxColumn();
             clmPlayingNow = new DataGridViewTextBoxColumn();
             clmEXT = new DataGridViewTextBoxColumn();
             clmType = new DataGridViewTextBoxColumn();
@@ -57,6 +58,7 @@ namespace MDPlayer.form
             clmTitleJ = new DataGridViewTextBoxColumn();
             clmDispFileName = new DataGridViewTextBoxColumn();
             clmDispSupportFileName = new DataGridViewTextBoxColumn();
+            clmDispUseCompiler = new DataGridViewTextBoxColumn();
             clmGame = new DataGridViewTextBoxColumn();
             clmGameJ = new DataGridViewTextBoxColumn();
             clmComposer = new DataGridViewTextBoxColumn();
@@ -96,6 +98,11 @@ namespace MDPlayer.form
             tsmiI = new ToolStripMenuItem();
             tsmiJ = new ToolStripMenuItem();
             tsmiSelectSupportFile = new ToolStripMenuItem();
+            tsmiRemoveSupportFile = new ToolStripMenuItem();
+            tsmiSelectCompiler = new ToolStripMenuItem();
+            tsmiSelectCompiler_default = new ToolStripMenuItem();
+            tsmiSelectCompiler_zmusicV2 = new ToolStripMenuItem();
+            tsmiSelectCompiler_zmusicV3 = new ToolStripMenuItem();
             toolStripSeparator5 = new ToolStripSeparator();
             tsmiPlayThis = new ToolStripMenuItem();
             tsmiDelThis = new ToolStripMenuItem();
@@ -103,7 +110,6 @@ namespace MDPlayer.form
             tsmiDelAllMusic = new ToolStripMenuItem();
             tsmiOpenFolder = new ToolStripMenuItem();
             timer1 = new System.Windows.Forms.Timer(components);
-            tsmiRemoveSupportFile = new ToolStripMenuItem();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.TopToolStripPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
@@ -135,33 +141,33 @@ namespace MDPlayer.form
             dgvList.BackgroundColor = Color.Black;
             dgvList.BorderStyle = BorderStyle.None;
             dgvList.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.Black;
-            dataGridViewCellStyle1.Font = new Font("メイリオ", 8.25F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.MenuHighlight;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
-            dgvList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = Color.Black;
+            dataGridViewCellStyle9.Font = new Font("メイリオ", 8.25F);
+            dataGridViewCellStyle9.ForeColor = SystemColors.MenuHighlight;
+            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
+            dgvList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             resources.ApplyResources(dgvList, "dgvList");
             dgvList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvList.Columns.AddRange(new DataGridViewColumn[] { clmKey, clmSongNo, clmZipFileName, clmFileName, clmSupportFile, clmPlayingNow, clmEXT, clmType, clmTitle, clmTitleJ, clmDispFileName, clmDispSupportFileName, clmGame, clmGameJ, clmComposer, clmComposerJ, clmVGMby, clmConverted, clmNotes, clmDuration, ClmVersion, ClmUseChips, clmSpacer });
+            dgvList.Columns.AddRange(new DataGridViewColumn[] { clmKey, clmSongNo, clmZipFileName, clmFileName, clmSupportFile, clmUseCompiler, clmPlayingNow, clmEXT, clmType, clmTitle, clmTitleJ, clmDispFileName, clmDispSupportFileName, clmDispUseCompiler, clmGame, clmGameJ, clmComposer, clmComposerJ, clmVGMby, clmConverted, clmNotes, clmDuration, ClmVersion, ClmUseChips, clmSpacer });
             dgvList.EditMode = DataGridViewEditMode.EditProgrammatically;
             dgvList.Name = "dgvList";
             dgvList.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.Black;
-            dataGridViewCellStyle3.Font = new Font("メイリオ", 8.25F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = SystemColors.Window;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvList.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = Color.Black;
+            dataGridViewCellStyle11.Font = new Font("メイリオ", 8.25F, FontStyle.Bold);
+            dataGridViewCellStyle11.ForeColor = SystemColors.Window;
+            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            dgvList.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
             dgvList.RowHeadersVisible = false;
-            dataGridViewCellStyle4.BackColor = Color.Black;
-            dataGridViewCellStyle4.Font = new Font("メイリオ", 8.25F, FontStyle.Bold);
-            dataGridViewCellStyle4.ForeColor = Color.FromArgb(192, 192, 255);
-            dgvList.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.BackColor = Color.Black;
+            dataGridViewCellStyle12.Font = new Font("メイリオ", 8.25F, FontStyle.Bold);
+            dataGridViewCellStyle12.ForeColor = Color.FromArgb(192, 192, 255);
+            dgvList.RowsDefaultCellStyle = dataGridViewCellStyle12;
             dgvList.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dgvList.RowTemplate.Height = 10;
             dgvList.RowTemplate.ReadOnly = true;
@@ -201,6 +207,11 @@ namespace MDPlayer.form
             // 
             resources.ApplyResources(clmSupportFile, "clmSupportFile");
             clmSupportFile.Name = "clmSupportFile";
+            // 
+            // clmUseCompiler
+            // 
+            resources.ApplyResources(clmUseCompiler, "clmUseCompiler");
+            clmUseCompiler.Name = "clmUseCompiler";
             // 
             // clmPlayingNow
             // 
@@ -246,6 +257,11 @@ namespace MDPlayer.form
             resources.ApplyResources(clmDispSupportFileName, "clmDispSupportFileName");
             clmDispSupportFileName.Name = "clmDispSupportFileName";
             // 
+            // clmDispUseCompiler
+            // 
+            resources.ApplyResources(clmDispUseCompiler, "clmDispUseCompiler");
+            clmDispUseCompiler.Name = "clmDispUseCompiler";
+            // 
             // clmGame
             // 
             resources.ApplyResources(clmGame, "clmGame");
@@ -290,8 +306,8 @@ namespace MDPlayer.form
             // 
             // clmDuration
             // 
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleRight;
-            clmDuration.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleRight;
+            clmDuration.DefaultCellStyle = dataGridViewCellStyle10;
             resources.ApplyResources(clmDuration, "clmDuration");
             clmDuration.Name = "clmDuration";
             clmDuration.ReadOnly = true;
@@ -428,7 +444,7 @@ namespace MDPlayer.form
             // 
             // cmsPlayList
             // 
-            cmsPlayList.Items.AddRange(new ToolStripItem[] { tsmiSetType, tsmiSelectSupportFile, tsmiRemoveSupportFile, toolStripSeparator5, tsmiPlayThis, tsmiDelThis, toolStripSeparator3, tsmiDelAllMusic, tsmiOpenFolder });
+            cmsPlayList.Items.AddRange(new ToolStripItem[] { tsmiSetType, tsmiSelectSupportFile, tsmiRemoveSupportFile, tsmiSelectCompiler, toolStripSeparator5, tsmiPlayThis, tsmiDelThis, toolStripSeparator3, tsmiDelAllMusic, tsmiOpenFolder });
             cmsPlayList.Name = "cmsPlayList";
             resources.ApplyResources(cmsPlayList, "cmsPlayList");
             // 
@@ -504,6 +520,36 @@ namespace MDPlayer.form
             resources.ApplyResources(tsmiSelectSupportFile, "tsmiSelectSupportFile");
             tsmiSelectSupportFile.Click += tsmiSelectSupportFile_Click;
             // 
+            // tsmiRemoveSupportFile
+            // 
+            tsmiRemoveSupportFile.Name = "tsmiRemoveSupportFile";
+            resources.ApplyResources(tsmiRemoveSupportFile, "tsmiRemoveSupportFile");
+            tsmiRemoveSupportFile.Click += tsmiRemoveSupportFile_Click;
+            // 
+            // tsmiSelectCompiler
+            // 
+            tsmiSelectCompiler.DropDownItems.AddRange(new ToolStripItem[] { tsmiSelectCompiler_default, tsmiSelectCompiler_zmusicV2, tsmiSelectCompiler_zmusicV3 });
+            tsmiSelectCompiler.Name = "tsmiSelectCompiler";
+            resources.ApplyResources(tsmiSelectCompiler, "tsmiSelectCompiler");
+            // 
+            // tsmiSelectCompiler_default
+            // 
+            tsmiSelectCompiler_default.Name = "tsmiSelectCompiler_default";
+            resources.ApplyResources(tsmiSelectCompiler_default, "tsmiSelectCompiler_default");
+            tsmiSelectCompiler_default.Click += tsmiSelectCompiler_default_Click;
+            // 
+            // tsmiSelectCompiler_zmusicV2
+            // 
+            tsmiSelectCompiler_zmusicV2.Name = "tsmiSelectCompiler_zmusicV2";
+            resources.ApplyResources(tsmiSelectCompiler_zmusicV2, "tsmiSelectCompiler_zmusicV2");
+            tsmiSelectCompiler_zmusicV2.Click += tsmiSelectCompiler_zmusicV2_Click;
+            // 
+            // tsmiSelectCompiler_zmusicV3
+            // 
+            tsmiSelectCompiler_zmusicV3.Name = "tsmiSelectCompiler_zmusicV3";
+            resources.ApplyResources(tsmiSelectCompiler_zmusicV3, "tsmiSelectCompiler_zmusicV3");
+            tsmiSelectCompiler_zmusicV3.Click += tsmiSelectCompiler_zmusicV3_Click;
+            // 
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
@@ -542,12 +588,6 @@ namespace MDPlayer.form
             // 
             timer1.Enabled = true;
             timer1.Tick += timer1_Tick;
-            // 
-            // tsmiRemoveSupportFile
-            // 
-            tsmiRemoveSupportFile.Name = "tsmiRemoveSupportFile";
-            resources.ApplyResources(tsmiRemoveSupportFile, "tsmiRemoveSupportFile");
-            tsmiRemoveSupportFile.Click += tsmiRemoveSupportFile_Click;
             // 
             // frmPlayList
             // 
@@ -611,11 +651,14 @@ namespace MDPlayer.form
         private System.Windows.Forms.ToolStripButton tsbImgExt;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripMenuItem tsmiOpenFolder;
+        private ToolStripMenuItem tsmiSelectSupportFile;
+        private ToolStripMenuItem tsmiRemoveSupportFile;
         private DataGridViewTextBoxColumn clmKey;
         private DataGridViewTextBoxColumn clmSongNo;
         private DataGridViewTextBoxColumn clmZipFileName;
         private DataGridViewTextBoxColumn clmFileName;
         private DataGridViewTextBoxColumn clmSupportFile;
+        private DataGridViewTextBoxColumn clmUseCompiler;
         private DataGridViewTextBoxColumn clmPlayingNow;
         private DataGridViewTextBoxColumn clmEXT;
         private DataGridViewTextBoxColumn clmType;
@@ -623,6 +666,7 @@ namespace MDPlayer.form
         private DataGridViewTextBoxColumn clmTitleJ;
         private DataGridViewTextBoxColumn clmDispFileName;
         private DataGridViewTextBoxColumn clmDispSupportFileName;
+        private DataGridViewTextBoxColumn clmDispUseCompiler;
         private DataGridViewTextBoxColumn clmGame;
         private DataGridViewTextBoxColumn clmGameJ;
         private DataGridViewTextBoxColumn clmComposer;
@@ -634,7 +678,9 @@ namespace MDPlayer.form
         private DataGridViewTextBoxColumn ClmVersion;
         private DataGridViewTextBoxColumn ClmUseChips;
         private DataGridViewTextBoxColumn clmSpacer;
-        private ToolStripMenuItem tsmiSelectSupportFile;
-        private ToolStripMenuItem tsmiRemoveSupportFile;
+        private ToolStripMenuItem tsmiSelectCompiler;
+        private ToolStripMenuItem tsmiSelectCompiler_default;
+        private ToolStripMenuItem tsmiSelectCompiler_zmusicV2;
+        private ToolStripMenuItem tsmiSelectCompiler_zmusicV3;
     }
 }
