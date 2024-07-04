@@ -3696,6 +3696,7 @@ namespace MDPlayer
                             {
                                 vgmBuf = ((Driver.ZMS.ZMS)DriverReal).CompiledData = ((Driver.ZMS.ZMS)DriverVirtual).CompiledData;
                                 ChipLED.PriMPCMX68k = 1;
+                                //File.WriteAllBytes("c:\\temp\\tc.zmd", vgmBuf);
                             }
                             else
                             {

@@ -188,8 +188,9 @@ namespace MDPlayer.Driver.ZMS
                             while (nise68.IntTimer())
                             {
 #if DEBUG
-                                nise68.Trap(0x8e, true, true, true);
-                                //nise68.Trap(0x8e);
+                                //if (model != EnmModel.RealModel) 
+                                //nise68.Trap(0x8e, true, true, true);
+                                nise68.Trap(0x8e);
 #else
         nise68.Trap(0x8e);
 #endif
@@ -278,6 +279,7 @@ namespace MDPlayer.Driver.ZMS
         private void Run(byte[] vgmBuf)
         {
             //if (model == EnmModel.RealModel) { return; }
+
             string fn = PlayingFileName;
             string withoutExtFn;
             string? dn = Path.GetDirectoryName(fn);
