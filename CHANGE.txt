@@ -1,4 +1,7 @@
 更新履歴 
+STBL440 2024/07/15 2nd
+  PlayList:XGM1:エンドポイント到達時も時刻をduration記録するよう調整
+
 STBL439 2024/07/15
   PlayList:playlistのリスト表示追加
   PlayList:XGM1:ループポイント到達時の時刻をdurationに記録するように機能追加

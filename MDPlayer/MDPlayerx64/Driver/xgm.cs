@@ -270,6 +270,7 @@ namespace MDPlayer
                 //end command
                 if (cmd == 0x7f)
                 {
+                    updateLoopTimeCounter();
                     Stopped = true;
                     break;
                 }
