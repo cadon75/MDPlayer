@@ -13,6 +13,7 @@
         public int LCminutes = -1;
         public int LCsecond = -1;
         public int LCmillisecond = -1;
+        public long LTCounter = -1;
 
         public ChipLEDs chipLED = new();
         public int Master = -255;

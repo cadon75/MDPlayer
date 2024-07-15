@@ -5195,6 +5195,24 @@ namespace MDPlayer.form
             sec -= newParam.LCsecond;
             newParam.LCmillisecond = (int)(sec * 100.0);
 
+            w = Audio.GetLoopTimeCounter();
+            if (w != -1)
+            {
+                if (newParam.LTCounter != w)
+                {
+                    newParam.LTCounter = w;
+                    sec = (double)w / (double)Common.VGMProcSampleRate;
+                    int minutes = (int)(sec / 60);
+                    sec -= minutes * 60;
+                    int second = (int)sec;
+                    sec -= second;
+                    int millisecond = (int)(sec * 100.0);
+                    Audio.GetPlayingFileName(out string pfn, out string paf);
+                    //Audio.ResetLoopTimeCounter();
+                    frmPlayList.UpdateDuration(pfn, paf, minutes, second, millisecond);
+                }
+            }
+
             //フェーダー(マスターボリューム)
             //フェーダー解像度57段階(0～56) 7*8=56dot
             int val;
@@ -5696,7 +5714,7 @@ namespace MDPlayer.form
             oldParam.Cminutes = -1; oldParam.Csecond = -1; oldParam.Cmillisecond = -1;
             oldParam.TCminutes = -1; oldParam.TCsecond = -1; oldParam.TCmillisecond = -1;
             oldParam.LCminutes = -1; oldParam.LCsecond = -1; oldParam.LCmillisecond = -1;
-
+            newParam.LTCounter = -1;
         }
 
 

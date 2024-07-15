@@ -1,4 +1,6 @@
-﻿namespace MDPlayer
+﻿using MDPlayer.Driver.MNDRV;
+
+namespace MDPlayer
 {
     public class xgm : baseDriver
     {
@@ -47,6 +49,7 @@
             TotalCounter = 0;
             LoopCounter = 0;
             vgmCurLoop = 0;
+            loopTimeCounter = -1;
             Stopped = false;
             vgmFrameCounter = -latency - waitTime;
             vgmSpeed = 1;
@@ -257,6 +260,9 @@
                 if (cmd == 0x7e)
                 {
                     musicPtr = musicDataBlockAddr + Common.getLE24(vgmBuf, musicPtr);
+
+                    updateLoopTimeCounter();
+
                     vgmCurLoop++;
                     continue;
                 }

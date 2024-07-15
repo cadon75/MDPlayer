@@ -226,6 +226,20 @@ namespace MDPlayer.form
             rbZmV3V2 = new RadioButton();
             tpMDX = new TabPage();
             groupBox36 = new GroupBox();
+            groupBox40 = new GroupBox();
+            rbMxSop11 = new RadioButton();
+            rbMxSop5 = new RadioButton();
+            rbMxSop10 = new RadioButton();
+            rbMxSop4 = new RadioButton();
+            rbMxSop9 = new RadioButton();
+            rbMxSop3 = new RadioButton();
+            rbMxSop7 = new RadioButton();
+            rbMxSop1 = new RadioButton();
+            rbMxSop8 = new RadioButton();
+            rbMxSop2 = new RadioButton();
+            rbMxSop6 = new RadioButton();
+            rbMxSop0 = new RadioButton();
+            rbMxSopNone = new RadioButton();
             rbMxPCM8PP = new RadioButton();
             rbMxPCM8 = new RadioButton();
             tabMND = new TabPage();
@@ -601,20 +615,6 @@ namespace MDPlayer.form
             labelCompanyName = new Label();
             textBoxDescription = new TextBox();
             llOpenGithub = new LinkLabel();
-            groupBox40 = new GroupBox();
-            rbMxSop11 = new RadioButton();
-            rbMxSop5 = new RadioButton();
-            rbMxSop10 = new RadioButton();
-            rbMxSop4 = new RadioButton();
-            rbMxSop9 = new RadioButton();
-            rbMxSop3 = new RadioButton();
-            rbMxSop7 = new RadioButton();
-            rbMxSop1 = new RadioButton();
-            rbMxSop8 = new RadioButton();
-            rbMxSop2 = new RadioButton();
-            rbMxSop6 = new RadioButton();
-            rbMxSop0 = new RadioButton();
-            rbMxSopNone = new RadioButton();
             gbWaveOut.SuspendLayout();
             gbAsioOut.SuspendLayout();
             gbWasapiOut.SuspendLayout();
@@ -657,6 +657,7 @@ namespace MDPlayer.form
             groupBox31.SuspendLayout();
             tpMDX.SuspendLayout();
             groupBox36.SuspendLayout();
+            groupBox40.SuspendLayout();
             tabMND.SuspendLayout();
             groupBox38.SuspendLayout();
             tpMIDIOut.SuspendLayout();
@@ -732,7 +733,6 @@ namespace MDPlayer.form
             tpAbout.SuspendLayout();
             tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).BeginInit();
-            groupBox40.SuspendLayout();
             SuspendLayout();
             // 
             // btnOK
@@ -2094,6 +2094,105 @@ namespace MDPlayer.form
             resources.ApplyResources(groupBox36, "groupBox36");
             groupBox36.Name = "groupBox36";
             groupBox36.TabStop = false;
+            // 
+            // groupBox40
+            // 
+            groupBox40.Controls.Add(rbMxSop11);
+            groupBox40.Controls.Add(rbMxSop5);
+            groupBox40.Controls.Add(rbMxSop10);
+            groupBox40.Controls.Add(rbMxSop4);
+            groupBox40.Controls.Add(rbMxSop9);
+            groupBox40.Controls.Add(rbMxSop3);
+            groupBox40.Controls.Add(rbMxSop7);
+            groupBox40.Controls.Add(rbMxSop1);
+            groupBox40.Controls.Add(rbMxSop8);
+            groupBox40.Controls.Add(rbMxSop2);
+            groupBox40.Controls.Add(rbMxSop6);
+            groupBox40.Controls.Add(rbMxSop0);
+            groupBox40.Controls.Add(rbMxSopNone);
+            resources.ApplyResources(groupBox40, "groupBox40");
+            groupBox40.Name = "groupBox40";
+            groupBox40.TabStop = false;
+            // 
+            // rbMxSop11
+            // 
+            resources.ApplyResources(rbMxSop11, "rbMxSop11");
+            rbMxSop11.Name = "rbMxSop11";
+            rbMxSop11.UseVisualStyleBackColor = true;
+            // 
+            // rbMxSop5
+            // 
+            resources.ApplyResources(rbMxSop5, "rbMxSop5");
+            rbMxSop5.Name = "rbMxSop5";
+            rbMxSop5.UseVisualStyleBackColor = true;
+            // 
+            // rbMxSop10
+            // 
+            resources.ApplyResources(rbMxSop10, "rbMxSop10");
+            rbMxSop10.Name = "rbMxSop10";
+            rbMxSop10.UseVisualStyleBackColor = true;
+            // 
+            // rbMxSop4
+            // 
+            resources.ApplyResources(rbMxSop4, "rbMxSop4");
+            rbMxSop4.Name = "rbMxSop4";
+            rbMxSop4.UseVisualStyleBackColor = true;
+            // 
+            // rbMxSop9
+            // 
+            resources.ApplyResources(rbMxSop9, "rbMxSop9");
+            rbMxSop9.Name = "rbMxSop9";
+            rbMxSop9.UseVisualStyleBackColor = true;
+            // 
+            // rbMxSop3
+            // 
+            resources.ApplyResources(rbMxSop3, "rbMxSop3");
+            rbMxSop3.Name = "rbMxSop3";
+            rbMxSop3.UseVisualStyleBackColor = true;
+            // 
+            // rbMxSop7
+            // 
+            resources.ApplyResources(rbMxSop7, "rbMxSop7");
+            rbMxSop7.Name = "rbMxSop7";
+            rbMxSop7.UseVisualStyleBackColor = true;
+            // 
+            // rbMxSop1
+            // 
+            resources.ApplyResources(rbMxSop1, "rbMxSop1");
+            rbMxSop1.Name = "rbMxSop1";
+            rbMxSop1.UseVisualStyleBackColor = true;
+            // 
+            // rbMxSop8
+            // 
+            resources.ApplyResources(rbMxSop8, "rbMxSop8");
+            rbMxSop8.Name = "rbMxSop8";
+            rbMxSop8.UseVisualStyleBackColor = true;
+            // 
+            // rbMxSop2
+            // 
+            resources.ApplyResources(rbMxSop2, "rbMxSop2");
+            rbMxSop2.Name = "rbMxSop2";
+            rbMxSop2.UseVisualStyleBackColor = true;
+            // 
+            // rbMxSop6
+            // 
+            resources.ApplyResources(rbMxSop6, "rbMxSop6");
+            rbMxSop6.Name = "rbMxSop6";
+            rbMxSop6.UseVisualStyleBackColor = true;
+            // 
+            // rbMxSop0
+            // 
+            resources.ApplyResources(rbMxSop0, "rbMxSop0");
+            rbMxSop0.Name = "rbMxSop0";
+            rbMxSop0.UseVisualStyleBackColor = true;
+            // 
+            // rbMxSopNone
+            // 
+            resources.ApplyResources(rbMxSopNone, "rbMxSopNone");
+            rbMxSopNone.Checked = true;
+            rbMxSopNone.Name = "rbMxSopNone";
+            rbMxSopNone.TabStop = true;
+            rbMxSopNone.UseVisualStyleBackColor = true;
             // 
             // rbMxPCM8PP
             // 
@@ -4836,110 +4935,11 @@ namespace MDPlayer.form
             llOpenGithub.TabStop = true;
             llOpenGithub.LinkClicked += LlOpenGithub_LinkClicked;
             // 
-            // groupBox40
-            // 
-            groupBox40.Controls.Add(rbMxSop11);
-            groupBox40.Controls.Add(rbMxSop5);
-            groupBox40.Controls.Add(rbMxSop10);
-            groupBox40.Controls.Add(rbMxSop4);
-            groupBox40.Controls.Add(rbMxSop9);
-            groupBox40.Controls.Add(rbMxSop3);
-            groupBox40.Controls.Add(rbMxSop7);
-            groupBox40.Controls.Add(rbMxSop1);
-            groupBox40.Controls.Add(rbMxSop8);
-            groupBox40.Controls.Add(rbMxSop2);
-            groupBox40.Controls.Add(rbMxSop6);
-            groupBox40.Controls.Add(rbMxSop0);
-            groupBox40.Controls.Add(rbMxSopNone);
-            resources.ApplyResources(groupBox40, "groupBox40");
-            groupBox40.Name = "groupBox40";
-            groupBox40.TabStop = false;
-            // 
-            // rbMxSop11
-            // 
-            resources.ApplyResources(rbMxSop11, "rbMxSop11");
-            rbMxSop11.Name = "rbMxSop11";
-            rbMxSop11.UseVisualStyleBackColor = true;
-            // 
-            // rbMxSop5
-            // 
-            resources.ApplyResources(rbMxSop5, "rbMxSop5");
-            rbMxSop5.Name = "rbMxSop5";
-            rbMxSop5.UseVisualStyleBackColor = true;
-            // 
-            // rbMxSop10
-            // 
-            resources.ApplyResources(rbMxSop10, "rbMxSop10");
-            rbMxSop10.Name = "rbMxSop10";
-            rbMxSop10.UseVisualStyleBackColor = true;
-            // 
-            // rbMxSop4
-            // 
-            resources.ApplyResources(rbMxSop4, "rbMxSop4");
-            rbMxSop4.Name = "rbMxSop4";
-            rbMxSop4.UseVisualStyleBackColor = true;
-            // 
-            // rbMxSop9
-            // 
-            resources.ApplyResources(rbMxSop9, "rbMxSop9");
-            rbMxSop9.Name = "rbMxSop9";
-            rbMxSop9.UseVisualStyleBackColor = true;
-            // 
-            // rbMxSop3
-            // 
-            resources.ApplyResources(rbMxSop3, "rbMxSop3");
-            rbMxSop3.Name = "rbMxSop3";
-            rbMxSop3.UseVisualStyleBackColor = true;
-            // 
-            // rbMxSop7
-            // 
-            resources.ApplyResources(rbMxSop7, "rbMxSop7");
-            rbMxSop7.Name = "rbMxSop7";
-            rbMxSop7.UseVisualStyleBackColor = true;
-            // 
-            // rbMxSop1
-            // 
-            resources.ApplyResources(rbMxSop1, "rbMxSop1");
-            rbMxSop1.Name = "rbMxSop1";
-            rbMxSop1.UseVisualStyleBackColor = true;
-            // 
-            // rbMxSop8
-            // 
-            resources.ApplyResources(rbMxSop8, "rbMxSop8");
-            rbMxSop8.Name = "rbMxSop8";
-            rbMxSop8.UseVisualStyleBackColor = true;
-            // 
-            // rbMxSop2
-            // 
-            resources.ApplyResources(rbMxSop2, "rbMxSop2");
-            rbMxSop2.Name = "rbMxSop2";
-            rbMxSop2.UseVisualStyleBackColor = true;
-            // 
-            // rbMxSop6
-            // 
-            resources.ApplyResources(rbMxSop6, "rbMxSop6");
-            rbMxSop6.Name = "rbMxSop6";
-            rbMxSop6.UseVisualStyleBackColor = true;
-            // 
-            // rbMxSop0
-            // 
-            resources.ApplyResources(rbMxSop0, "rbMxSop0");
-            rbMxSop0.Name = "rbMxSop0";
-            rbMxSop0.UseVisualStyleBackColor = true;
-            // 
-            // rbMxSopNone
-            // 
-            resources.ApplyResources(rbMxSopNone, "rbMxSopNone");
-            rbMxSopNone.Checked = true;
-            rbMxSopNone.Name = "rbMxSopNone";
-            rbMxSopNone.TabStop = true;
-            rbMxSopNone.UseVisualStyleBackColor = true;
-            // 
             // frmSetting
             // 
-            AutoScaleMode = AutoScaleMode.None;
-            CancelButton = btnCancel;
             resources.ApplyResources(this, "$this");
+            AutoScaleMode = AutoScaleMode.Dpi;
+            CancelButton = btnCancel;
             Controls.Add(tcSetting);
             Controls.Add(btnCancel);
             Controls.Add(btnOK);
@@ -5018,6 +5018,8 @@ namespace MDPlayer.form
             tpMDX.ResumeLayout(false);
             groupBox36.ResumeLayout(false);
             groupBox36.PerformLayout();
+            groupBox40.ResumeLayout(false);
+            groupBox40.PerformLayout();
             tabMND.ResumeLayout(false);
             groupBox38.ResumeLayout(false);
             groupBox38.PerformLayout();
@@ -5123,8 +5125,6 @@ namespace MDPlayer.form
             tableLayoutPanel.ResumeLayout(false);
             tableLayoutPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).EndInit();
-            groupBox40.ResumeLayout(false);
-            groupBox40.PerformLayout();
             ResumeLayout(false);
         }
 

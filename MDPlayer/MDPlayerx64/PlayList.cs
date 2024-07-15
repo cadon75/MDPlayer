@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace MDPlayer
@@ -43,6 +44,9 @@ namespace MDPlayer
             public int songNo = -1;
         }
 
+        public string pl_title { get; set; } = "";
+        public string pl_filename { get; set; } = "";
+
         private List<Music> _lstMusic = new();
         public List<Music> LstMusic
         {
@@ -57,9 +61,13 @@ namespace MDPlayer
             }
         }
 
-        public static PlayList Copy()
+        public PlayList Copy()
         {
             PlayList playList = new();
+
+            playList.pl_title = this.pl_title;
+            playList.pl_filename = this.pl_filename;
+            playList.LstMusic = this.LstMusic;
 
             return playList;
         }

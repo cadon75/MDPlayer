@@ -5577,6 +5577,11 @@ namespace MDPlayer
             public int cwDuration { get; set; } = -1;
             public int cwVersion { get; set; } = -1;
             public int cwUseChips { get; set; } = -1;
+            public int cwPL_FileName { get; set; } = -1;
+            public int cwPL_Title { get; set; } = -1;
+            public int splitterDistance { get; set; } = 0;
+            public string[] plList { get; set; } = null;
+            public int currentPlayList { get; set; } = 0;
 
             public PlayList Copy()
             {
@@ -5598,7 +5603,12 @@ namespace MDPlayer
                     cwNotes = this.cwNotes,
                     cwDuration = this.cwDuration,
                     cwVersion = this.cwVersion,
-                    cwUseChips = this.cwUseChips
+                    cwUseChips = this.cwUseChips,
+                    cwPL_FileName = this.cwPL_FileName,
+                    cwPL_Title = this.cwPL_Title,
+                    splitterDistance = this.splitterDistance,
+                    plList = this.plList,
+                    currentPlayList = this.currentPlayList,
                 };
 
                 return p;

@@ -970,7 +970,7 @@ namespace MDPlayer
                 int TCsecond = (int)sec;
                 sec -= TCsecond;
                 int TCmillisecond = (int)(sec * 100.0);
-                music.duration = string.Format("{0:D2}:{1:D2}:{2:D2}", TCminutes, TCsecond, TCmillisecond);
+                music.duration = string.Format("{0:D2}:{1:D2}.{2:D2}", TCminutes, TCsecond, TCmillisecond);
             }
 
             //ESCシーケンス除去
@@ -1250,7 +1250,7 @@ namespace MDPlayer
                 int TCsecond = (int)sec;
                 sec -= TCsecond;
                 int TCmillisecond = (int)(sec * 100.0);
-                music.duration = string.Format("{0:D2}:{1:D2}:{2:D2}", TCminutes, TCsecond, TCmillisecond);
+                music.duration = string.Format("{0:D2}:{1:D2}.{2:D2}", TCminutes, TCsecond, TCmillisecond);
             }
 
             musics.Add(music);
@@ -8536,6 +8536,20 @@ namespace MDPlayer
             if (DriverVirtual == null) return -1;
 
             return DriverVirtual.LoopCounter;
+        }
+
+        public static long GetLoopTimeCounter()
+        {
+            if (DriverVirtual == null) return -1;
+
+            return DriverVirtual.loopTimeCounter;
+        }
+
+        public static void ResetLoopTimeCounter()
+        {
+            if (DriverVirtual == null) return;
+
+            DriverVirtual.loopTimeCounter=-1;
         }
 
         public static byte[] GetChipStatus()
