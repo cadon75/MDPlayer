@@ -689,16 +689,42 @@ namespace MDPlayer.form
         private void SetupHeaderSwitch(int col)
         {
             cmsHeaderSwitch.Items.Clear();
-            ToolStripItem tsi;
+            ToolStripMenuItem tsi;
 
             if (dgvList.Columns[col].Name != "clmSpacer")
             {
-                tsi = new ToolStripLabel("Hide this item");
+                tsi = new ToolStripMenuItem("Hide this item");
+                tsi.Click += header_Click;
+                tsi.Tag = dgvList.Columns[col];
                 cmsHeaderSwitch.Items.Add(tsi);
             }
 
-            tsi = new ToolStripLabel("Show all");
+            tsi = new ToolStripMenuItem("Show all");
+            tsi.Click += showAll_Click;
             cmsHeaderSwitch.Items.Add(tsi);
+        }
+
+        private void header_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsi = (ToolStripMenuItem)sender;
+            DataGridViewColumn dgvc=(DataGridViewColumn)tsi.Tag;
+            dgvc.Visible = false;
+        }
+
+        private void showAll_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewColumn col in dgvList.Columns)
+            {
+                if (col.Name == "clmSpacer") { col.Visible = true; continue; }
+                if (col.Name == "clmKey"
+                    || col.Name == "clmSongNo"
+                    || col.Name == "clmZipFileName"
+                    || col.Name == "clmFileName"
+                    || col.Name == "clmSupportFile"
+                    || col.Name == "clmUseCompiler"
+                    ) continue;
+                col.Visible = true;
+            }
         }
 
         private void dgvList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
