@@ -5560,6 +5560,8 @@ namespace MDPlayer
         [Serializable]
         public class PlayList
         {
+            public dgvColumnInfo[] clmInfo { get; set; } = null;
+
             public bool isJP { get; set; } = false;
             public int cwExt { get; set; } = -1;
             public int cwType { get; set; } = -1;
@@ -5587,6 +5589,7 @@ namespace MDPlayer
             {
                 PlayList p = new PlayList()
                 {
+                    clmInfo=this.clmInfo,
                     isJP = this.isJP,
                     cwExt = this.cwExt,
                     cwType = this.cwType,

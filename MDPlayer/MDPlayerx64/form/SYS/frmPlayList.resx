@@ -716,10 +716,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;toolStripContainer1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <metadata name="cmsPlayList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>363, 26</value>
+    <value>332, 14</value>
   </metadata>
   <data name="tsmiA.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 22</value>
@@ -866,27 +866,51 @@
     <value>241, 17</value>
   </metadata>
   <metadata name="cmsPLList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>20, 18</value>
   </metadata>
   <data name="tsmiAddPlayList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>159, 22</value>
   </data>
   <data name="tsmiAddPlayList.Text" xml:space="preserve">
     <value>Add PlayList</value>
   </data>
   <data name="tsmiRemovePlayList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>159, 22</value>
   </data>
   <data name="tsmiRemovePlayList.Text" xml:space="preserve">
     <value>Remove PlayList</value>
   </data>
   <data name="cmsPLList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 70</value>
+    <value>160, 48</value>
   </data>
   <data name="&gt;&gt;cmsPLList.Name" xml:space="preserve">
     <value>cmsPLList</value>
   </data>
   <data name="&gt;&gt;cmsPLList.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <metadata name="cmsHeaderSwitch.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>438, 17</value>
+  </metadata>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 22</value>
+  </data>
+  <data name="toolStripMenuItem1.Text" xml:space="preserve">
+    <value>Add PlayList</value>
+  </data>
+  <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 22</value>
+  </data>
+  <data name="toolStripMenuItem2.Text" xml:space="preserve">
+    <value>Remove PlayList</value>
+  </data>
+  <data name="cmsHeaderSwitch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 48</value>
+  </data>
+  <data name="&gt;&gt;cmsHeaderSwitch.Name" xml:space="preserve">
+    <value>cmsHeaderSwitch</value>
+  </data>
+  <data name="&gt;&gt;cmsHeaderSwitch.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -1835,6 +1859,18 @@
     <value>tsmiRemovePlayList</value>
   </data>
   <data name="&gt;&gt;tsmiRemovePlayList.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
+    <value>toolStripMenuItem1</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem2.Name" xml:space="preserve">
+    <value>toolStripMenuItem2</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem2.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

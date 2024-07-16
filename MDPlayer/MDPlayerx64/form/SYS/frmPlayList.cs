@@ -185,6 +185,8 @@ namespace MDPlayer.form
         {
             tsbJapanese.Checked = setting.playList.isJP;
             ChangeLang(setting.playList.isJP);
+
+            SetDisplayIndex(setting.playList.clmInfo);
             if (setting.playList.cwExt != -1) dgvList.Columns["clmExt"].Width = setting.playList.cwExt;
             if (setting.playList.cwType != -1) dgvList.Columns["clmType"].Width = setting.playList.cwType;
             if (setting.playList.cwTitle != -1) dgvList.Columns["clmTitle"].Width = setting.playList.cwTitle;
@@ -232,6 +234,7 @@ namespace MDPlayer.form
                 setting.location.PPlayListWH = new Point(RestoreBounds.Size.Width, RestoreBounds.Size.Height);
             }
 
+            setting.playList.clmInfo = getDisplayIndex();
             setting.playList.isJP = tsbJapanese.Checked;
             setting.playList.cwExt = dgvList.Columns["clmExt"].Width;
             setting.playList.cwType = dgvList.Columns["clmType"].Width;
@@ -272,6 +275,46 @@ namespace MDPlayer.form
 
             this.Visible = false;
             e.Cancel = true;
+        }
+
+        private dgvColumnInfo[] getDisplayIndex()
+        {
+            List<dgvColumnInfo> ret = new List<dgvColumnInfo>();
+
+            DataGridView dgv = dgvList;
+            for (int i = 0; i < dgv.Columns.Count; i++)
+            {
+                dgvColumnInfo info = (dgvColumnInfo)dgv.Columns[i].Tag;
+                if (info == null)
+                {
+                    info = new dgvColumnInfo();
+                }
+
+                info.columnName = dgv.Columns[i].Name;
+                info.displayIndex = dgv.Columns[i].DisplayIndex;
+                info.size = dgv.Columns[i].Width;
+                info.visible = dgv.Columns[i].Visible;
+
+                ret.Add(info);
+            }
+
+            return ret.ToArray();
+        }
+
+        private void SetDisplayIndex(dgvColumnInfo[] aryIndex)
+        {
+            if (aryIndex == null) return;
+
+            DataGridView dgv = dgvList;
+
+            foreach (dgvColumnInfo info in aryIndex)
+            {
+                if (info == null) continue;
+                if (!dgv.Columns.Contains(info.columnName)) continue;
+                dgv.Columns[info.columnName].DisplayIndex = info.displayIndex;
+                dgv.Columns[info.columnName].Visible = info.visible;
+            }
+
         }
 
         public new void Refresh()
@@ -586,7 +629,16 @@ namespace MDPlayer.form
 
         private void dgvList_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0)
+            {
+                SetupHeaderSwitch(e.ColumnIndex);
+                cmsHeaderSwitch.Show();
+                Point p = Control.MousePosition;
+                cmsHeaderSwitch.Top = p.Y;
+                cmsHeaderSwitch.Left = p.X;
+                return;
+            }
+
             dgvList.Rows[e.RowIndex].Selected = true;
 
             if (e.Button == MouseButtons.Right)
@@ -632,6 +684,21 @@ namespace MDPlayer.form
                 cmsPlayList.Top = p.Y;
                 cmsPlayList.Left = p.X;
             }
+        }
+
+        private void SetupHeaderSwitch(int col)
+        {
+            cmsHeaderSwitch.Items.Clear();
+            ToolStripItem tsi;
+
+            if (dgvList.Columns[col].Name != "clmSpacer")
+            {
+                tsi = new ToolStripLabel("Hide this item");
+                cmsHeaderSwitch.Items.Add(tsi);
+            }
+
+            tsi = new ToolStripLabel("Show all");
+            cmsHeaderSwitch.Items.Add(tsi);
         }
 
         private void dgvList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

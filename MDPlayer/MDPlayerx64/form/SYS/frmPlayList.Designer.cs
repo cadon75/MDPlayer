@@ -121,6 +121,9 @@ namespace MDPlayer.form
             cmsPLList = new ContextMenuStrip(components);
             tsmiAddPlayList = new ToolStripMenuItem();
             tsmiRemovePlayList = new ToolStripMenuItem();
+            cmsHeaderSwitch = new ContextMenuStrip(components);
+            toolStripMenuItem1 = new ToolStripMenuItem();
+            toolStripMenuItem2 = new ToolStripMenuItem();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.TopToolStripPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
@@ -133,6 +136,7 @@ namespace MDPlayer.form
             toolStrip1.SuspendLayout();
             cmsPlayList.SuspendLayout();
             cmsPLList.SuspendLayout();
+            cmsHeaderSwitch.SuspendLayout();
             SuspendLayout();
             // 
             // toolStripContainer1
@@ -227,6 +231,7 @@ namespace MDPlayer.form
             dgvList.AllowDrop = true;
             dgvList.AllowUserToAddRows = false;
             dgvList.AllowUserToDeleteRows = false;
+            dgvList.AllowUserToOrderColumns = true;
             dgvList.AllowUserToResizeRows = false;
             dgvList.BackgroundColor = Color.Black;
             dgvList.BorderStyle = BorderStyle.None;
@@ -697,6 +702,22 @@ namespace MDPlayer.form
             resources.ApplyResources(tsmiRemovePlayList, "tsmiRemovePlayList");
             tsmiRemovePlayList.Click += tsmiRemovePlayList_Click;
             // 
+            // cmsHeaderSwitch
+            // 
+            cmsHeaderSwitch.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripMenuItem2 });
+            cmsHeaderSwitch.Name = "cmsPlayList";
+            resources.ApplyResources(cmsHeaderSwitch, "cmsHeaderSwitch");
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(toolStripMenuItem1, "toolStripMenuItem1");
+            // 
+            // toolStripMenuItem2
+            // 
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            resources.ApplyResources(toolStripMenuItem2, "toolStripMenuItem2");
+            // 
             // frmPlayList
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -724,6 +745,7 @@ namespace MDPlayer.form
             toolStrip1.PerformLayout();
             cmsPlayList.ResumeLayout(false);
             cmsPLList.ResumeLayout(false);
+            cmsHeaderSwitch.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -804,5 +826,8 @@ namespace MDPlayer.form
         private ContextMenuStrip cmsPLList;
         private ToolStripMenuItem tsmiAddPlayList;
         private ToolStripMenuItem tsmiRemovePlayList;
+        private ContextMenuStrip cmsHeaderSwitch;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem toolStripMenuItem2;
     }
 }
