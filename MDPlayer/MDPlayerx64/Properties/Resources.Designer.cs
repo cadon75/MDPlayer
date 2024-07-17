@@ -83,6 +83,16 @@ namespace MDPlayerx64.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap allPL {
+            get {
+                object obj = ResourceManager.GetObject("allPL", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap ccFadeout {
             get {
                 object obj = ResourceManager.GetObject("ccFadeout", resourceCulture);
@@ -1192,6 +1202,16 @@ namespace MDPlayerx64.Properties {
         internal static System.Drawing.Bitmap downPL {
             get {
                 object obj = ResourceManager.GetObject("downPL", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap engPL {
+            get {
+                object obj = ResourceManager.GetObject("engPL", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

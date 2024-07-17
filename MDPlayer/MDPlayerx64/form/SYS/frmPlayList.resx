@@ -616,6 +616,30 @@
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 25</value>
   </data>
+  <data name="tsbAll.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Black</value>
+  </data>
+  <data name="tsbAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="tsbAll.Text" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="tsbAll.ToolTipText" xml:space="preserve">
+    <value>all</value>
+  </data>
+  <data name="tsbEnglish.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Black</value>
+  </data>
+  <data name="tsbEnglish.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="tsbEnglish.Text" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="tsbEnglish.ToolTipText" xml:space="preserve">
+    <value>english set</value>
+  </data>
   <data name="tsbJapanese.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Black</value>
   </data>
@@ -624,6 +648,9 @@
   </data>
   <data name="tsbJapanese.Text" xml:space="preserve">
     <value>日本語</value>
+  </data>
+  <data name="tsbJapanese.ToolTipText" xml:space="preserve">
+    <value>japanese set</value>
   </data>
   <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 25</value>
@@ -1872,6 +1899,18 @@
   </data>
   <data name="&gt;&gt;toolStripMenuItem2.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tsbEnglish.Name" xml:space="preserve">
+    <value>tsbEnglish</value>
+  </data>
+  <data name="&gt;&gt;tsbEnglish.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tsbAll.Name" xml:space="preserve">
+    <value>tsbAll</value>
+  </data>
+  <data name="&gt;&gt;tsbAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>frmPlayList</value>

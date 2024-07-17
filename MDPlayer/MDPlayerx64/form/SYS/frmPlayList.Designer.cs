@@ -124,6 +124,8 @@ namespace MDPlayer.form
             cmsHeaderSwitch = new ContextMenuStrip(components);
             toolStripMenuItem1 = new ToolStripMenuItem();
             toolStripMenuItem2 = new ToolStripMenuItem();
+            tsbEnglish = new ToolStripButton();
+            tsbAll = new ToolStripButton();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.TopToolStripPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
@@ -432,7 +434,7 @@ namespace MDPlayer.form
             // 
             resources.ApplyResources(toolStrip1, "toolStrip1");
             toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbOpenPlayList, tsbSavePlayList, toolStripSeparator1, tsbAddMusic, tsbAddFolder, toolStripSeparator2, tsbUp, tsbDown, toolStripSeparator4, tsbJapanese, toolStripSeparator6, tsbTextExt, tsbMMLExt, tsbImgExt });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbOpenPlayList, tsbSavePlayList, toolStripSeparator1, tsbAddMusic, tsbAddFolder, toolStripSeparator2, tsbUp, tsbDown, toolStripSeparator4, tsbAll, tsbEnglish, tsbJapanese, toolStripSeparator6, tsbTextExt, tsbMMLExt, tsbImgExt });
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Stretch = true;
             // 
@@ -501,7 +503,6 @@ namespace MDPlayer.form
             // 
             // tsbJapanese
             // 
-            tsbJapanese.CheckOnClick = true;
             tsbJapanese.DisplayStyle = ToolStripItemDisplayStyle.Image;
             tsbJapanese.Image = Resources.japPL;
             resources.ApplyResources(tsbJapanese, "tsbJapanese");
@@ -718,6 +719,22 @@ namespace MDPlayer.form
             toolStripMenuItem2.Name = "toolStripMenuItem2";
             resources.ApplyResources(toolStripMenuItem2, "toolStripMenuItem2");
             // 
+            // tsbEnglish
+            // 
+            tsbEnglish.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbEnglish.Image = Resources.engPL;
+            resources.ApplyResources(tsbEnglish, "tsbEnglish");
+            tsbEnglish.Name = "tsbEnglish";
+            tsbEnglish.Click += tsbEnglish_Click;
+            // 
+            // tsbAll
+            // 
+            tsbAll.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbAll.Image = Resources.allPL;
+            resources.ApplyResources(tsbAll, "tsbAll");
+            tsbAll.Name = "tsbAll";
+            tsbAll.Click += tsbAll_Click;
+            // 
             // frmPlayList
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -829,5 +846,7 @@ namespace MDPlayer.form
         private ContextMenuStrip cmsHeaderSwitch;
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripButton tsbAll;
+        private ToolStripButton tsbEnglish;
     }
 }

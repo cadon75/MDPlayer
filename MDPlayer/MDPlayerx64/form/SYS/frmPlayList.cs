@@ -44,12 +44,12 @@ namespace MDPlayer.form
 
             plList = setting.playList.plList == null ? null : setting.playList.plList.ToList();
             setting.playList.currentPlayList = (plList == null || plList.Count < 1) ? 0 : Math.Min(Math.Max(setting.playList.currentPlayList, 0), plList.Count);
-            string currentPlayList = (plList == null || plList.Count < 1 || setting.playList.currentPlayList==0) 
-                ? null 
-                : plList[Math.Max(setting.playList.currentPlayList - 1,0)];
+            string currentPlayList = (plList == null || plList.Count < 1 || setting.playList.currentPlayList == 0)
+                ? null
+                : plList[Math.Max(setting.playList.currentPlayList - 1, 0)];
 
             playList = null;
-            if(currentPlayList == null)
+            if (currentPlayList == null)
             {
                 playList = PlayList.Load(null);
             }
@@ -707,7 +707,7 @@ namespace MDPlayer.form
         private void header_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem tsi = (ToolStripMenuItem)sender;
-            DataGridViewColumn dgvc=(DataGridViewColumn)tsi.Tag;
+            DataGridViewColumn dgvc = (DataGridViewColumn)tsi.Tag;
             dgvc.Visible = false;
         }
 
@@ -794,7 +794,7 @@ namespace MDPlayer.form
         private void dgvPlayList_MouseDown(object sender, MouseEventArgs e)
         {
             DataGridView.HitTestInfo inf = dgvPlayList.HitTest(e.Location.X, e.Location.Y);
-            if(inf.Type== DataGridViewHitTestType.Cell)
+            if (inf.Type == DataGridViewHitTestType.Cell)
             {
                 dgvPlayList.Rows[inf.RowIndex].Selected = true;
             }
@@ -1144,9 +1144,19 @@ namespace MDPlayer.form
 
         }
 
+        private void tsbAll_Click(object sender, EventArgs e)
+        {
+            showAll_Click(null, null);
+        }
+
+        private void tsbEnglish_Click(object sender, EventArgs e)
+        {
+            ChangeLang(false);
+        }
+
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            ChangeLang(tsbJapanese.Checked);
+            ChangeLang(true);
         }
 
         private void ChangeLang(bool isJP)
@@ -1693,12 +1703,12 @@ namespace MDPlayer.form
             {
                 string fn = (string)dgvList.Rows[row].Cells["clmFileName"].Value;
                 fn = string.IsNullOrEmpty(fn) ? "" : fn;
-                if (pfn!=fn)continue;
+                if (pfn != fn) continue;
                 string zfn = (string)dgvList.Rows[row].Cells["clmZipFileName"].Value;
                 zfn = string.IsNullOrEmpty(zfn) ? "" : zfn;
                 if (paf != zfn) continue;
 
-                dgvList.Rows[row].Cells["clmDuration"].Value = string.Format("{0:d02}:{1:d02}.{2:d02}",minutes,second,millisecond);
+                dgvList.Rows[row].Cells["clmDuration"].Value = string.Format("{0:d02}:{1:d02}.{2:d02}", minutes, second, millisecond);
             }
 
             for (int row = 0; row < playList.LstMusic.Count; row++)
@@ -1712,7 +1722,8 @@ namespace MDPlayer.form
 
                 playList.LstMusic[row].duration = string.Format("{0:d02}:{1:d02}.{2:d02}", minutes, second, millisecond);
             }
-           
+
         }
+
     }
 }
