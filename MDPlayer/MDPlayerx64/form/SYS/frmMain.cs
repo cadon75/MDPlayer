@@ -258,7 +258,10 @@ namespace MDPlayer.form
 
             log.ForcedWrite("frmMain(コンストラクタ):STEP 04");
 
-
+            while (setting.playMode != newButtonMode[9])
+            {
+                PlayMode();
+            }
         }
 
         private void ClearWindowPos()
@@ -1525,6 +1528,8 @@ namespace MDPlayer.form
                     setting.location.OpenVisWave = true;
                 }
             }
+
+            setting.playMode = newButtonMode[9];
 
             log.ForcedWrite("frmMain_FormClosing:STEP 05");
 
@@ -6434,6 +6439,11 @@ namespace MDPlayer.form
                 return buf;
             }
 
+            if (ext == ".rcs")
+            {
+                format = EnmFileFormat.RCS;
+                return buf;
+            }
 
             //.VGMの場合はヘッダの確認とGzipで解凍後のファイルのヘッダの確認
             uint vgm = (UInt32)buf[0] + (UInt32)buf[1] * 0x100 + (UInt32)buf[2] * 0x10000 + (UInt32)buf[3] * 0x1000000;
@@ -8775,11 +8785,34 @@ namespace MDPlayer.form
         {
             List<Tuple<string, byte[]>> ret = new();
             byte[] buf;
+            string CM6, GSD, GSD2, sRCP;
             switch (format)
             {
                 case EnmFileFormat.RCP:
-                    string CM6, GSD, GSD2;
                     RCP.getControlFileName(srcBuf, out CM6, out GSD, out GSD2);
+                    if (!string.IsNullOrEmpty(CM6))
+                    {
+                        buf = getExtendFileAllBytes(fn, CM6, archive);
+                        if (buf != null) ret.Add(new Tuple<string, byte[]>(".CM6", buf));
+                    }
+                    if (!string.IsNullOrEmpty(GSD))
+                    {
+                        buf = getExtendFileAllBytes(fn, GSD, archive);
+                        if (buf != null) ret.Add(new Tuple<string, byte[]>(".GSD", buf));
+                    }
+                    if (!string.IsNullOrEmpty(GSD2))
+                    {
+                        buf = getExtendFileAllBytes(fn, GSD2, archive);
+                        if (buf != null) ret.Add(new Tuple<string, byte[]>(".GSD", buf));
+                    }
+                    break;
+                case EnmFileFormat.RCS:
+                    RCS.getControlFileName(fn, srcBuf, out sRCP, out CM6, out GSD, out GSD2);
+                    if (!string.IsNullOrEmpty(sRCP))
+                    {
+                        buf = getExtendFileAllBytes(fn, sRCP, archive);
+                        if (buf != null) ret.Add(new Tuple<string, byte[]>(".RCP", buf));
+                    }
                     if (!string.IsNullOrEmpty(CM6))
                     {
                         buf = getExtendFileAllBytes(fn, CM6, archive);
@@ -9509,7 +9542,7 @@ namespace MDPlayer.form
                     break;
                 case EnmChip.PCM8:
                     newParam.pcm8[chipID].channels[ch].mask = false;
-                    if (ch < 8) Audio.ResetPCM8Mask(chipID, ch);
+                    if (ch < 16) Audio.ResetPCM8Mask(chipID, ch);
                     break;
                 case EnmChip.C352:
                     newParam.c352[chipID].channels[ch].mask = false;

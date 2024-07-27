@@ -3,7 +3,7 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   
 [概要]  
   このツールは、鍵盤表示を行いながらVGMファイルの再生を行います。  
-  (NRD,XGM,S98,MID,RCP,NSF,HES,SID,MGS,MDR,MDX,MND,ZMD,ZMS,MUC,MUB,M,M2,MZ,MPI,MVI,MZI,OPI,OVI,OZI,WAV,MP3,AIFFファイルにも対応。)  
+  (NRD,XGM,S98,MID,RCP,RCS,NSF,HES,SID,MGS,MDR,MDX,MND,ZMD,ZMS,MUC,MUB,M,M2,MZ,MPI,MVI,MZI,OPI,OVI,OZI,WAV,MP3,AIFFファイルにも対応。)  
   
 [注意]  
   ・FileAssociationTool(ファイル関連付け設定ツール)についてはREADME_AST.md/README_AST_EN.mdを参照お願いします。  
@@ -28,6 +28,7 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   .S98 (主に日本製レトロPC向けファイル)  
   .MID (StandardMIDIファイル。フォーマット0/1対応)  
   .RCP (レコポンファイル CM6,GSDの送信可)  
+  .RCS (上記RCPを演奏しながらPCM8も発音できるファイル)  
   .NSF (NES Sound Format)  
   .HES (HESファイル)  
   .SID (コモドール向けファイル)  
@@ -69,7 +70,7 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   ・現在、以下の鍵盤表示が可能です。  
      
       YM2612(YM3438), SN76489    , RF5C164  
-      , AY8910      , C140(C219) , C352    , SEGAPCM    , K054539 , GA20 , OKIM6295 , OKIM6258(PCM8含)  
+      , AY8910      , C140(C219) , C352    , SEGAPCM    , K054539 , GA20 , OKIM6295 , OKIM6258(PCM8,MPCM含)  
       , Y8950       , YM2151     , YM2203  , YM2413     , YM2608 , YM2609 , YM2610/B 
       , YM3526      , YM3812     
       , YMF262      , YMF278B    , YMZ280B , MultiPCM   
@@ -294,6 +295,8 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
       タムタム        2608_TOM.WAV  
       トップシンバル  2608_TOP.WAV  
       (44.1KHz 16bitPCM モノラル 無圧縮Microsoft WAVE形式ファイル)  
+    曲ファイルと同じ位置に上記ファイルが存在する場合はそちらを読み込んで発音します。  
+    リズム音を独自に変えたい場合に便利。  
   
   ・YMF278Bのエミュレーション時、MoonSoundの音色を鳴らすために以下のROMファイルが必要です。  
   作成方法は申し訳ありませんがお任せします。  
@@ -529,6 +532,8 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
     ・blueMSX  
     ・FMP  
     ・PPZ8  
+    ・ZMUSICv2/v3    
+    ・RCSMP  
      
     ・SMS Power!  
     ・DOBON.NET  

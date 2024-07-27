@@ -236,7 +236,9 @@
 
         public class PCM8
         {
-            public Channel[] channels = new Channel[8] {
+            public Channel[] channels = new Channel[16] {
+                new Channel(), new Channel(), new Channel(), new Channel(),
+                new Channel(), new Channel(), new Channel(), new Channel(),
                 new Channel(), new Channel(), new Channel(), new Channel(),
                 new Channel(), new Channel(), new Channel(), new Channel()
             };

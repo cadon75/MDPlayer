@@ -613,6 +613,20 @@ namespace MDPlayer
             }
         }
 
+        private int _playMode = 0;
+        public int playMode
+        {
+            get
+            {
+                return _playMode;
+            }
+
+            set
+            {
+                _playMode = value;
+            }
+        }
+
         private Other _other = new();
         public Other other
         {
@@ -826,6 +840,20 @@ namespace MDPlayer
             set
             {
                 _Mndrv = value;
+            }
+        }
+
+        private Rcs _Rcs = new();
+        public Rcs rcs
+        {
+            get
+            {
+                return _Rcs;
+            }
+
+            set
+            {
+                _Rcs = value;
             }
         }
 
@@ -5558,6 +5586,22 @@ namespace MDPlayer
         }
 
         [Serializable]
+        public class Rcs
+        {
+            public int pcm8type = 1;//PCM8PPがデフォルト
+
+            public Rcs Copy()
+            {
+                Rcs p = new()
+                {
+                    pcm8type = this.pcm8type,
+                };
+
+                return p;
+            }
+        }
+
+        [Serializable]
         public class PlayList
         {
             public dgvColumnInfo[] clmInfo { get; set; } = null;
@@ -6047,26 +6091,14 @@ namespace MDPlayer
             setting.unuseRealChip = this.unuseRealChip;
             setting.FileSearchPathList = this.FileSearchPathList;
 
-            //setting.YM2151SType = this.YM2151SType.Copy();
-            //setting.YM2203SType = this.YM2203SType.Copy();
-            //setting.YM2413SType = this.YM2413SType.Copy();
-            //setting.AY8910SType = this.AY8910SType.Copy();
-            //setting.YM2608SType = this.YM2608SType.Copy();
-            //setting.YM2610SType = this.YM2610SType.Copy();
-            //setting.YM2612SType = this.YM2612SType.Copy();
-            //setting.YM3526SType = this.YM3526SType.Copy();
-            //setting.YM3812SType = this.YM3812SType.Copy();
-            //setting.YMF262SType = this.YMF262SType.Copy();
-            //setting.SN76489SType = this.SN76489SType.Copy();
-            //setting.C140SType = this.C140SType.Copy();
-            //setting.SEGAPCMSType = this.SEGAPCMSType.Copy();
-
             setting.other = this.other.Copy();
             setting.debug = this.debug.Copy();
             setting.balance = this.balance.Copy();
             setting.LatencyEmulation = this.LatencyEmulation;
             setting.LatencySCCI = this.LatencySCCI;
             setting.HiyorimiMode = this.HiyorimiMode;
+            setting.playMode = this.playMode;
+
             setting.location = this.location.Copy();
             setting.midiExport = this.midiExport.Copy();
             setting.midiKbd = this.midiKbd.Copy();
@@ -6080,6 +6112,7 @@ namespace MDPlayer
             setting.zmusic = this.zmusic.Copy();
             setting.mxdrv = this.mxdrv.Copy();
             setting.mndrv = this.mndrv.Copy();
+            setting.rcs = this.rcs.Copy();
             setting.playList = this.playList.Copy();
 
             setting.keyBoardHook = this.keyBoardHook.Copy();

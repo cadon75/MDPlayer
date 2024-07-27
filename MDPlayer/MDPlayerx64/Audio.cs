@@ -827,6 +827,36 @@ namespace MDPlayer
                 }
 
             }
+            else if (ext == ".rcs")
+            {
+                music.format = EnmFileFormat.RCS;
+                RCS rcs = new RCS();
+                rcs.filename = file;
+                GD3 gd3 = rcs.getGD3Info(buf, 0);
+                if (gd3 != null)
+                {
+                    music.title = gd3.TrackName;
+                    music.titleJ = gd3.TrackNameJ;
+                    music.game = gd3.GameName;
+                    music.gameJ = gd3.GameNameJ;
+                    music.composer = gd3.Composer;
+                    music.composerJ = gd3.ComposerJ;
+                    music.vgmby = gd3.VGMBy;
+
+                    music.converted = gd3.Converted;
+                    music.notes = gd3.Notes;
+                }
+                else
+                {
+                    music.title = string.Format("({0})", System.IO.Path.GetFileName(file));
+                }
+
+                if (music.title == "" && music.titleJ == "")
+                {
+                    music.title = string.Format("({0})", System.IO.Path.GetFileName(file));
+                }
+
+            }
             else if (ext == ".wav")
             {
                 music.format = EnmFileFormat.WAV;
@@ -2344,6 +2374,25 @@ namespace MDPlayer
                     ((RCP)DriverReal).ExtendFile = ExtendFile;
                 }
                 return RcpPlay(setting);
+            }
+
+            if (PlayingFileFormat == EnmFileFormat.RCS)
+            {
+                DriverVirtual = new RCS
+                {
+                    setting = setting
+                };
+                ((RCS)DriverVirtual).ExtendFile = ExtendFile;
+                DriverReal = null;
+                if (setting.outputDevice.DeviceType != Common.DEV_Null)
+                {
+                    DriverReal = new RCS
+                    {
+                        setting = setting
+                    };
+                    ((RCS)DriverReal).ExtendFile = ExtendFile;
+                }
+                return RcsPlay(setting);
             }
 
             if (PlayingFileFormat == EnmFileFormat.NSF)
@@ -6036,6 +6085,130 @@ namespace MDPlayer
                 };
 
                 MasterVolume = setting.balance.MasterVolume;
+
+                chipRegister.initChipRegister(null);
+                ReleaseAllMIDIout();
+                MakeMIDIout(setting, MidiMode);
+                chipRegister.setMIDIout(setting.midiOut.lstMidiOutInfo[MidiMode], midiOuts, midiOutsType);
+
+                if (!DriverVirtual.init(vgmBuf, chipRegister, EnmModel.VirtualModel, new EnmChip[] { EnmChip.Unuse }
+                    , (uint)(setting.outputDevice.SampleRate * setting.LatencyEmulation / 1000)
+                    , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
+                if (DriverReal != null)
+                {
+                    if (!DriverReal.init(vgmBuf, chipRegister, EnmModel.RealModel, new EnmChip[] { EnmChip.Unuse }
+                        , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
+                        , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
+                }
+
+                if (hiyorimiNecessary) hiyorimiNecessary = true;
+                else hiyorimiNecessary = false;
+
+                //Play
+
+                Paused = false;
+                oneTimeReset = false;
+
+                Thread.Sleep(500);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.ForcedWrite(ex);
+                return false;
+            }
+
+        }
+
+        public static bool RcsPlay(Setting setting)
+        {
+
+            try
+            {
+
+                if (vgmBuf == null || setting == null) return false;
+
+                //Stop();
+
+                chipRegister.resetChips();
+
+                vgmFadeout = false;
+                vgmFadeoutCounter = 1.0;
+                vgmFadeoutCounterV = 0.00001;
+                vgmSpeed = 1;
+                vgmRealFadeoutVol = 0;
+                vgmRealFadeoutVolWait = 4;
+
+                ClearFadeoutVolume();
+
+                chipRegister.resetChips();
+
+                UseChip.Clear();
+
+                StartTrdVgmReal();
+
+                List<MDSound.MDSound.Chip> lstChips = new();
+
+                if (setting.rcs.pcm8type == 0)
+                {
+                    MDSound.ym2151_x68sound opmPCM = new MDSound.ym2151_x68sound();
+                    opmPCM.x68sound[0] = new MDSound.NX68Sound.X68Sound();
+                    opmPCM.sound_Iocs[0] = new MDSound.NX68Sound.sound_iocs(opmPCM.x68sound[0]);
+                    MDSound.MDSound.Chip opmPCMc = new MDSound.MDSound.Chip
+                    {
+                        type = MDSound.MDSound.enmInstrumentType.YM2151x68soundPCM,
+                        ID = 0,
+                        Instrument = opmPCM,
+                        Update = opmPCM.Update,
+                        Start = opmPCM.Start,
+                        Stop = opmPCM.Stop,
+                        Reset = opmPCM.Reset,
+                        Volume = 0,
+                        Clock = 4_000_000,
+                        SamplingRate = (UInt32)4_000_000 / 64,
+                        Option = new object[3] { 0, 1, 0 }
+                    };
+                    lstChips.Add(opmPCMc);
+                    ((RCS)DriverVirtual).opmPCM = opmPCM;
+                    ((RCS)DriverVirtual).pcm8type = 0;
+                }
+                else
+                {
+                    MDSound.PCM8PP pcm8pp = new MDSound.PCM8PP();
+                    MDSound.MDSound.Chip pcm8ppc = new MDSound.MDSound.Chip
+                    {
+                        type = MDSound.MDSound.enmInstrumentType.PCM8PP,
+                        ID = 0,
+                        Instrument = pcm8pp,
+                        Update = pcm8pp.Update,
+                        Start = pcm8pp.Start,
+                        Stop = pcm8pp.Stop,
+                        Reset = pcm8pp.Reset,
+                        Volume = 0,
+                        Clock = 4_000_000,
+                        SamplingRate = (uint)setting.outputDevice.SampleRate,
+                        Option = new object[] { setting.zmusic.pcm8ppSoption }
+                    };
+                    lstChips.Add(pcm8ppc);
+                    ((RCS)DriverVirtual).pcm8pp = pcm8pp;
+                    ((RCS)DriverVirtual).pcm8type = 1;
+                }
+                hiyorimiNecessary = setting.HiyorimiMode;
+
+                ChipLED = new ChipLEDs
+                {
+                    PriMID = 1,
+                    SecMID = 1,
+                    PriPCM8 = 1
+                };
+
+                MasterVolume = setting.balance.MasterVolume;
+
+                if (mds == null)
+                    mds = new MDSound.MDSound((UInt32)setting.outputDevice.SampleRate, samplingBuffer, lstChips.ToArray());
+                else
+                    mds.Init((UInt32)setting.outputDevice.SampleRate, samplingBuffer, lstChips.ToArray());
 
                 chipRegister.initChipRegister(null);
                 ReleaseAllMIDIout();

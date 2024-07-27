@@ -322,6 +322,7 @@ namespace MDPlayer
             if (filename.ToLower().LastIndexOf(".zms") != -1) return EnmFileFormat.ZMS;
             if (filename.ToLower().LastIndexOf(".zmd") != -1) return EnmFileFormat.ZMD;
             if (filename.ToLower().LastIndexOf(".rcp") != -1) return EnmFileFormat.RCP;
+            if (filename.ToLower().LastIndexOf(".rcs") != -1) return EnmFileFormat.RCS;
             if (filename.ToLower().LastIndexOf(".s98") != -1) return EnmFileFormat.S98;
             if (filename.ToLower().LastIndexOf(".vgm") != -1) return EnmFileFormat.VGM;
             if (filename.ToLower().LastIndexOf(".vgz") != -1) return EnmFileFormat.VGM;
@@ -1079,7 +1080,8 @@ namespace MDPlayer
         FMP = 29,
         XGM2 = 30,
         ZMS = 31,
-        ZMD = 32
+        ZMD = 32,
+        RCS = 33,
     }
 
     public enum EnmArcType : int

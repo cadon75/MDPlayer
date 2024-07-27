@@ -973,6 +973,9 @@ namespace MDPlayer.form
 
             rbMnMPCM.Checked = setting.mndrv.mpcmtype == 0;
             rbMnMPCMPP.Checked = setting.mndrv.mpcmtype == 1;
+
+            rbRcsPCM8.Checked = setting.rcs.pcm8type == 0;
+            rbRcsPCM8PP.Checked = setting.rcs.pcm8type == 1;
         }
 
         private void SetRealCombo(EnmRealChipType realType, ComboBox cmbP, RadioButton rbP, ComboBox cmbS, RadioButton rbS)
@@ -1906,6 +1909,7 @@ namespace MDPlayer.form
             if (rbMxSop11.Checked) setting.mxdrv.pcm8ppSoption = 11;
 
             setting.mndrv.mpcmtype = rbMnMPCM.Checked ? 0 : (rbMnMPCMPP.Checked ? 1 : 0);
+            setting.rcs.pcm8type = rbRcsPCM8.Checked ? 0 : (rbRcsPCM8PP.Checked ? 1 : 0);
 
             setting.keyBoardHook.UseKeyBoardHook = cbUseKeyBoardHook.Checked;
 

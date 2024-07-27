@@ -6259,6 +6259,114 @@
   <data name="&gt;&gt;tabMND.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="rbRcsPCM8PP.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbRcsPCM8PP.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbRcsPCM8PP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 47</value>
+  </data>
+  <data name="rbRcsPCM8PP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 19</value>
+  </data>
+  <data name="rbRcsPCM8PP.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbRcsPCM8PP.Text" xml:space="preserve">
+    <value>PCM8PP (mercury unit)</value>
+  </data>
+  <data name="&gt;&gt;rbRcsPCM8PP.Name" xml:space="preserve">
+    <value>rbRcsPCM8PP</value>
+  </data>
+  <data name="&gt;&gt;rbRcsPCM8PP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbRcsPCM8PP.Parent" xml:space="preserve">
+    <value>groupBox41</value>
+  </data>
+  <data name="&gt;&gt;rbRcsPCM8PP.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbRcsPCM8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbRcsPCM8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbRcsPCM8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="rbRcsPCM8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 19</value>
+  </data>
+  <data name="rbRcsPCM8.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbRcsPCM8.Text" xml:space="preserve">
+    <value>PCM8 (use X68Sound)</value>
+  </data>
+  <data name="&gt;&gt;rbRcsPCM8.Name" xml:space="preserve">
+    <value>rbRcsPCM8</value>
+  </data>
+  <data name="&gt;&gt;rbRcsPCM8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbRcsPCM8.Parent" xml:space="preserve">
+    <value>groupBox41</value>
+  </data>
+  <data name="&gt;&gt;rbRcsPCM8.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox41.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 3</value>
+  </data>
+  <data name="groupBox41.Size" type="System.Drawing.Size, System.Drawing">
+    <value>309, 74</value>
+  </data>
+  <data name="groupBox41.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="groupBox41.Text" xml:space="preserve">
+    <value>PCM8 type</value>
+  </data>
+  <data name="&gt;&gt;groupBox41.Name" xml:space="preserve">
+    <value>groupBox41</value>
+  </data>
+  <data name="&gt;&gt;groupBox41.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox41.Parent" xml:space="preserve">
+    <value>tabRCSMP</value>
+  </data>
+  <data name="&gt;&gt;groupBox41.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabRCSMP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <data name="tabRCSMP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>561, 464</value>
+  </data>
+  <data name="tabRCSMP.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tabRCSMP.Text" xml:space="preserve">
+    <value>RCSMP</value>
+  </data>
+  <data name="&gt;&gt;tabRCSMP.Name" xml:space="preserve">
+    <value>tabRCSMP</value>
+  </data>
+  <data name="&gt;&gt;tabRCSMP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabRCSMP.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabRCSMP.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>

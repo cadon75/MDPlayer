@@ -351,6 +351,9 @@ namespace MDPlayer
                 case EnmFileFormat.RCP:
                     AddFileRCP(mc, entry);
                     break;
+                case EnmFileFormat.RCS:
+                    AddFileRCS(mc, entry);
+                    break;
                 case EnmFileFormat.S98:
                     AddFileS98(mc, entry);
                     break;
@@ -658,6 +661,11 @@ namespace MDPlayer
         private void AddFileRCP(ref int index, Music mc, object entry = null)
         {
             AddFilexxx(ref index, mc, entry);
+        }
+
+        private void AddFileRCS(Music mc, object entry = null)
+        {
+            AddFilexxx(mc, entry);
         }
 
         private void AddFileS98(Music mc, object entry = null)

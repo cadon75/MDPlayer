@@ -615,6 +615,10 @@ namespace MDPlayer.form
             labelCompanyName = new Label();
             textBoxDescription = new TextBox();
             llOpenGithub = new LinkLabel();
+            tabRCSMP = new TabPage();
+            groupBox41 = new GroupBox();
+            rbRcsPCM8PP = new RadioButton();
+            rbRcsPCM8 = new RadioButton();
             gbWaveOut.SuspendLayout();
             gbAsioOut.SuspendLayout();
             gbWasapiOut.SuspendLayout();
@@ -733,6 +737,8 @@ namespace MDPlayer.form
             tpAbout.SuspendLayout();
             tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).BeginInit();
+            tabRCSMP.SuspendLayout();
+            groupBox41.SuspendLayout();
             SuspendLayout();
             // 
             // btnOK
@@ -1862,6 +1868,7 @@ namespace MDPlayer.form
             tabControl1.Controls.Add(tpZMD);
             tabControl1.Controls.Add(tpMDX);
             tabControl1.Controls.Add(tabMND);
+            tabControl1.Controls.Add(tabRCSMP);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             // 
@@ -4935,6 +4942,35 @@ namespace MDPlayer.form
             llOpenGithub.TabStop = true;
             llOpenGithub.LinkClicked += LlOpenGithub_LinkClicked;
             // 
+            // tabRCSMP
+            // 
+            tabRCSMP.Controls.Add(groupBox41);
+            resources.ApplyResources(tabRCSMP, "tabRCSMP");
+            tabRCSMP.Name = "tabRCSMP";
+            tabRCSMP.UseVisualStyleBackColor = true;
+            // 
+            // groupBox41
+            // 
+            groupBox41.Controls.Add(rbRcsPCM8PP);
+            groupBox41.Controls.Add(rbRcsPCM8);
+            resources.ApplyResources(groupBox41, "groupBox41");
+            groupBox41.Name = "groupBox41";
+            groupBox41.TabStop = false;
+            // 
+            // rbRcsPCM8PP
+            // 
+            resources.ApplyResources(rbRcsPCM8PP, "rbRcsPCM8PP");
+            rbRcsPCM8PP.Name = "rbRcsPCM8PP";
+            rbRcsPCM8PP.UseVisualStyleBackColor = true;
+            // 
+            // rbRcsPCM8
+            // 
+            resources.ApplyResources(rbRcsPCM8, "rbRcsPCM8");
+            rbRcsPCM8.Checked = true;
+            rbRcsPCM8.Name = "rbRcsPCM8";
+            rbRcsPCM8.TabStop = true;
+            rbRcsPCM8.UseVisualStyleBackColor = true;
+            // 
             // frmSetting
             // 
             resources.ApplyResources(this, "$this");
@@ -5125,6 +5161,9 @@ namespace MDPlayer.form
             tableLayoutPanel.ResumeLayout(false);
             tableLayoutPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).EndInit();
+            tabRCSMP.ResumeLayout(false);
+            groupBox41.ResumeLayout(false);
+            groupBox41.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -5734,5 +5773,9 @@ namespace MDPlayer.form
         private RadioButton rbMxSop6;
         private RadioButton rbMxSop0;
         private RadioButton rbMxSopNone;
+        private TabPage tabRCSMP;
+        private GroupBox groupBox41;
+        private RadioButton rbRcsPCM8PP;
+        private RadioButton rbRcsPCM8;
     }
 }
