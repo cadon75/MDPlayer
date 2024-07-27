@@ -330,7 +330,14 @@ namespace MDPlayer
                     switch (rcsControlMode)
                     {
                         case 0://周波数変更
-                            pcmInfos[rcsControlNoteNumber].freq = val;
+                            if (pcm8type == 0)
+                            {
+                                if (val < 5) pcmInfos[rcsControlNoteNumber].freq = val;
+                            }
+                            else
+                            {
+                                pcmInfos[rcsControlNoteNumber].freq = val;
+                            }
                             break;
                         case 1://パンポット変更
                             pcmInfos[rcsControlNoteNumber].pan = val;
@@ -401,7 +408,7 @@ namespace MDPlayer
                         (((eve.MIDIMessage[2] + 1) / 8) << 16) |
                         (pcmInfos[key].freq << 8) |
                         (pcmInfos[key].pan);
-                    if (pcm8type == 0) opmPCM?.x68sound[0].X68Sound_Pcm8_Out(ch, null, (uint)pcmInfos[key].ptr, pcmInfos[key].freq, pcmInfos[key].length);//指定チャンネル発音開始
+                    if (pcm8type == 0) opmPCM?.x68sound[0].X68Sound_Pcm8_Out(ch, null, (uint)pcmInfos[key].ptr, mode, pcmInfos[key].length);//指定チャンネル発音開始
                     else pcm8pp?.KeyOn(ch, (uint)pcmInfos[key].ptr, mode, pcmInfos[key].length);//指定チャンネル発音開始
                     pcm8St[ch].tablePtr = (uint)pcmInfos[key].ptr;
                     pcm8St[ch].mode = (uint)mode;

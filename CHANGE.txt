@@ -1,4 +1,9 @@
 更新履歴 
+STBL447 2024/07/28
+  RCSMP:PCM8の場合にmode指定が出来ていなかったのを修正
+  RCSMP:PCM8の場合にfreq変更指示が来ても未対応の周波数(5以上)を指定してきたら無視するように調整
+  PlayList:RCSMP:D&Dに対応
+
 STBL446 2024/07/27 2nd
   mp3:APICタグに対応
 
