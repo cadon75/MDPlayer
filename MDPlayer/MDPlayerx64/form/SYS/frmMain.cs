@@ -4748,6 +4748,7 @@ namespace MDPlayer.form
                 frmPic.w = setting.location.SPic.X;
                 frmPic.h = setting.location.SPic.Y;
             }
+            //frmPic.Show();
 
             Screen s = Screen.FromControl(frmInfo);
             Rectangle rc = new(frmInfo.Location, frmInfo.Size);
