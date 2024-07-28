@@ -6215,6 +6215,9 @@ namespace MDPlayer
                 MakeMIDIout(setting, MidiMode);
                 chipRegister.setMIDIout(setting.midiOut.lstMidiOutInfo[MidiMode], midiOuts, midiOutsType);
 
+                ((RCS)DriverVirtual).SupportFileName = (SupportFile == null || SupportFile.Length < 1) ? null : SupportFile[0];
+                ((RCS)DriverReal).SupportFileName = (SupportFile == null || SupportFile.Length < 1) ? null : SupportFile[0];
+
                 if (!DriverVirtual.init(vgmBuf, chipRegister, EnmModel.VirtualModel, new EnmChip[] { EnmChip.Unuse }
                     , (uint)(setting.outputDevice.SampleRate * setting.LatencyEmulation / 1000)
                     , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;

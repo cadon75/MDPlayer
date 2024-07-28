@@ -660,7 +660,7 @@ namespace MDPlayer.form
                 foreach (DataGridViewRow row in dgvList.SelectedRows)
                 {
                     string ext = row.Cells["clmExt"].Value.ToString().ToUpper();
-                    if (ext != ".ZMS" && ext != ".ZMD")
+                    if (ext != ".ZMS" && ext != ".ZMD" && ext != ".RCS")
                     {
                         fnd = true;
                     }
@@ -1546,8 +1546,21 @@ namespace MDPlayer.form
 
         private void tsmiSelectSupportFile_Click(object sender, EventArgs e)
         {
+            int chk = 0;
+            foreach (DataGridViewRow row in dgvList.SelectedRows)
+            {
+                if (row.Cells["clmEXT"].Value.ToString() == ".RCS") { chk |= 1; }
+                else chk |= 2;
+            }
+            if (chk == 3)
+            {
+                MessageBox.Show("Select files of the same type.", "Information", MessageBoxButtons.OK);
+                return;
+            }
+
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "support file(*.zmd;*.zms;*.zpd)|*.zmd;*.zms;*.zpd";
+            if (chk == 1) ofd.Filter = "support file(*.rcp;*.g36)|*.rcp;*.g36";
+            else if (chk == 2) ofd.Filter = "support file(*.zmd;*.zms;*.zpd)|*.zmd;*.zms;*.zpd";
             ofd.Title = "サポートファイルを選択";
             if (frmMain.setting.other.DefaultDataPath != "" && Directory.Exists(frmMain.setting.other.DefaultDataPath) && IsInitialOpenFolder)
             {

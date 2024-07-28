@@ -1,5 +1,6 @@
 ﻿using MDPlayer.Driver.ZMS.nise68;
 using MDSound;
+using System;
 using System.Diagnostics;
 using System.Text;
 using static MDPlayer.Driver.MXDRV.MXDRV;
@@ -117,7 +118,7 @@ namespace MDPlayer
 
         public List<Tuple<string, byte[]>> ExtendFile = null;
 
-        public static void getControlFileName(string fn,byte[] buf,out string sRCP, out string CM6, out string GSD, out string GSD2)
+        public static void getControlFileName(string fn,string supportfile,byte[] buf,out string sRCP, out string CM6, out string GSD, out string GSD2)
         {
             sRCP= null;
             CM6 = null;
@@ -128,7 +129,7 @@ namespace MDPlayer
             byte[] pcmData;
             byte[] rcpBuf = null;
 
-            bool? rets = GetRCSInfo(fn, buf, out pcmInfos, out pcmData, out sRCP, ref rcpBuf);
+            bool? rets = GetRCSInfo(fn, supportfile, buf, out pcmInfos, out pcmData, out sRCP, ref rcpBuf);
             if (rets == null || rets == false) return;
 
             bool? ret = CheckHeadString(rcpBuf);
@@ -174,8 +175,10 @@ namespace MDPlayer
         private int rcsTrackNumber = 17;//default Track18
         private int rcsControlNoteNumber = 0;
         private int rcsControlMode = 0;
+        private int rcsPolyphonicMode = 3;
         public Pcm8St[] pcm8St = new Pcm8St[16] { new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new() };
         public MPCMSt[] mpcmSt = new MPCMSt[16] { new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new() };
+        public string SupportFileName = null;
 
         public override GD3 getGD3Info(byte[] buf, uint vgmGd3)
         {
@@ -192,15 +195,24 @@ namespace MDPlayer
                     }
                 }
             }
-            bool? ret = GetRCSInfo(filename, buf, out pcmInfos, out pcmData, out rcpFilename, ref rcpBuf);
+            bool? ret = GetRCSInfo(filename,SupportFileName, buf, out pcmInfos, out pcmData, out rcpFilename, ref rcpBuf);
             if (ret == false) return null;
+
+            GD3 gd3 = new GD3();
+
+            if (rcpBuf == null)
+            {
+                string err = ".RCP File not found !";
+                gd3.TrackName = err;
+                gd3.TrackNameJ = err;
+                return gd3;
+            }
 
             //ここからRCPファイル内の曲情報を取得する
             ret = CheckHeadString(rcpBuf);
             if (ret == null) return null;
             bool IsG36 = (bool)ret;
 
-            GD3 gd3 = new GD3();
             int ptr = 32;
             string str;
 
@@ -233,7 +245,7 @@ namespace MDPlayer
             return gd3;
         }
 
-        private static bool GetRCSInfo(string filename, byte[] buf, out pcmInfo[] pcmInfos, out byte[] pcmData, out string rcpFilename, ref byte[] rcpBuf)
+        private static bool GetRCSInfo(string filename,string supportfile, byte[] buf, out pcmInfo[] pcmInfos, out byte[] pcmData, out string rcpFilename, ref byte[] rcpBuf)
         {
             pcmInfos = null;
             pcmData = null;
@@ -253,10 +265,20 @@ namespace MDPlayer
             byte[] dmy = new byte[55];
             Array.Copy(buf, 9, dmy, 0, 55);
             rcpFilename = (Encoding.GetEncoding("Shift_JIS").GetString(dmy)).Trim().Replace("\0", "");
-            if (rcpBuf == null)
+            if (supportfile == null)
             {
-                rcpFilename = Path.Combine(Path.GetDirectoryName(filename), rcpFilename);
-                rcpBuf = File.ReadAllBytes(rcpFilename);
+                if (rcpBuf == null)
+                {
+                    if (!string.IsNullOrEmpty(filename))
+                    {
+                        rcpFilename = Path.Combine(Path.GetDirectoryName(filename), rcpFilename);
+                    }
+                    if (File.Exists(rcpFilename)) rcpBuf = File.ReadAllBytes(rcpFilename);
+                }
+            }
+            else
+            {
+                if (File.Exists(supportfile)) rcpBuf = File.ReadAllBytes(supportfile);
             }
 
             //Get PCM Information
@@ -331,19 +353,15 @@ namespace MDPlayer
                     {
                         case 0://周波数変更
                             if (pcm8type == 0)
-                            {
                                 if (val < 5) pcmInfos[rcsControlNoteNumber].freq = val;
-                            }
                             else
-                            {
                                 pcmInfos[rcsControlNoteNumber].freq = val;
-                            }
                             break;
                         case 1://パンポット変更
                             pcmInfos[rcsControlNoteNumber].pan = val;
                             break;
                         case 2://モードセレクト
-                            //無視
+                            rcsPolyphonicMode = val;
                             break;
                         case 3://該当ﾄﾗｯｸ変更要請
                             rcsTrackNumber = val - 1;
@@ -395,21 +413,24 @@ namespace MDPlayer
                 //if (trk.NoteGateTime[okey] <= trk.NextEventTick + trk.NowPart.StartTick)
                 if (trk.NoteGateTime[okey] <= trk.NextEventTick)
                 {
-                    Debug.WriteLine("KEY OFF:" + key + ":vel:" + 127);
+                    //Debug.WriteLine("KEY OFF:" + key + ":vel:" + 127);
                     flg = true;
                 }
 
                 // Key On
                 if (trk.NoteGateTime[okey] == int.MaxValue || flg)
                 {
-                    //Debug.WriteLine("KEY ON :" + key + ":vel:" + eve.MIDIMessage[2]);
-                    int ch=GetPCM8ch();
+                    //Debug.WriteLine("KEY ON :" + key + ":gt:" + eve.Gate+ ":vel:" + eve.MIDIMessage[2]);
+                    int ch = KeyOnPCM8(key, out bool keyoff);
+                    if (rcsPolyphonicMode == 1) ch = eve.Gate - 1;
                     int mode = 
-                        (((eve.MIDIMessage[2] + 1) / 8) << 16) |
+                        ((eve.MIDIMessage[2] / 8) << 16) |
                         (pcmInfos[key].freq << 8) |
                         (pcmInfos[key].pan);
-                    if (pcm8type == 0) opmPCM?.x68sound[0].X68Sound_Pcm8_Out(ch, null, (uint)pcmInfos[key].ptr, mode, pcmInfos[key].length);//指定チャンネル発音開始
-                    else pcm8pp?.KeyOn(ch, (uint)pcmInfos[key].ptr, mode, pcmInfos[key].length);//指定チャンネル発音開始
+                    int length = pcmInfos[key].length;
+                    if (rcsPolyphonicMode == 0) length = (int)(length * Math.Min(eve.Gate, 100) * 0.01);
+                    if (pcm8type == 0) opmPCM?.x68sound[0].X68Sound_Pcm8_Out(ch, null, (uint)pcmInfos[key].ptr, mode, length);//指定チャンネル発音開始
+                    else pcm8pp?.KeyOn(ch, (uint)pcmInfos[key].ptr, mode, length);//指定チャンネル発音開始
                     pcm8St[ch].tablePtr = (uint)pcmInfos[key].ptr;
                     pcm8St[ch].mode = (uint)mode;
                     pcm8St[ch].length = (uint)pcmInfos[key].length;
@@ -421,7 +442,7 @@ namespace MDPlayer
         }
 
         private List<int> freeCh = new List<int>();
-        private List<int> useCh = new List<int>();
+        private List<Tuple<int, int>> useCh = new List<Tuple<int, int>>();
         private int pcm8Chs = 16;
 
         private void initPCM8ch()
@@ -431,32 +452,44 @@ namespace MDPlayer
             useCh.Clear();
         }
 
-        private int GetPCM8ch()
+        /// <summary>
+        /// keyon
+        /// </summary>
+        /// <param name="key">キーナンバー</param>
+        /// <param name="keyoff">out:keyoff指示</param>
+        /// <returns>発音チャンネル(keyoff指示有りの場合はこのチャンネルをkeyoffしてから発音すること)</returns>
+        private int KeyOnPCM8(int key,out bool keyoff)
         {
+            keyoff = false;
+
             int ch;
             if (freeCh.Count > 0)
             {
+                //chが空いている場合
                 ch = freeCh[0];
                 freeCh.RemoveAt(0);
-                useCh.Add(ch);
+                useCh.Add(new Tuple<int, int>(ch, key));
                 return ch;
             }
 
-            ch = useCh[0];
+            //chが空いてない場合
+            //(T.B.D. 今のところ発音がもっとも過去の順に打ち消される)
+            keyoff = true;
+            ch = useCh[0].Item1;//item1 = ch
             useCh.RemoveAt(0);
-            useCh.Add(ch);
+            useCh.Add(new Tuple<int, int>(ch, key));
             return ch;
         }
 
-        private void SetPCM8ch(int ch)
+        private void KeyOffPCM8(int key)
         {
-            if (useCh.Contains(ch))
+            for (int i = 0; i < useCh.Count; i++)
             {
-                useCh.Remove(ch);
-                freeCh.Add(ch);
+                if (useCh[i].Item2 != key) continue;
+                freeCh.Add(useCh[i].Item1);
+                useCh.RemoveAt(i);
             }
         }
-
 
 
 
@@ -563,6 +596,10 @@ namespace MDPlayer
                         break;
                     }
                 }
+            }
+            if(SupportFileName != null)
+            {
+                if(File.Exists(SupportFileName)) rcpBuf=File.ReadAllBytes(SupportFileName);
             }
 
 
@@ -1543,10 +1580,17 @@ namespace MDPlayer
                         else if (key > 127) key = 127;
                         if (trk.OutChannel != null)
                         {
-                            msgBuf[0] = (byte)((int)MIDIEventType.NoteOff + trk.OutChannel);
-                            msgBuf[1] = (byte)key;
-                            msgBuf[2] = 127;
-                            PutMIDIMessage(trk.OutDeviceNumber, msgBuf, 3);
+                            if (rcsTrackNumber != trk.Number)
+                            {
+                                msgBuf[0] = (byte)((int)MIDIEventType.NoteOff + trk.OutChannel);
+                                msgBuf[1] = (byte)key;
+                                msgBuf[2] = 127;
+                                PutMIDIMessage(trk.OutDeviceNumber, msgBuf, 3);
+                            }
+                            else
+                            {
+                                KeyOffPCM8(key);
+                            }
                         }
                         trk.NoteGateTime[n] = int.MaxValue;
                         flg = true;

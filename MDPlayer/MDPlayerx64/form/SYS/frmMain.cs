@@ -8668,7 +8668,7 @@ namespace MDPlayer.form
                     {
                         srcBuf = null;
                     }
-                    extFile = getExtendFile(fn, srcBuf, format);
+                    extFile = getExtendFile(fn, spfn, srcBuf, format);
                 }
                 else
                 {
@@ -8686,7 +8686,7 @@ namespace MDPlayer.form
                         {
                             srcBuf = getBytesFromZipFile(entry, out arcFn);
                             if (arcFn != "") playingFileName = arcFn;
-                            extFile = getExtendFile(fn, srcBuf, format, archive);
+                            extFile = getExtendFile(fn, null, srcBuf, format, archive);
                         }
                     }
                     else
@@ -8697,7 +8697,7 @@ namespace MDPlayer.form
                             UnlhaWrap.UnlhaCmd cmd = new();
                             srcBuf = cmd.GetFileByte(zfn, fn);
                             playingFileName = fn;
-                            extFile = getExtendFile(fn, srcBuf, format,  new Tuple<string, string>(zfn, fn));
+                            extFile = getExtendFile(fn, null, srcBuf, format, new Tuple<string, string>(zfn, fn));
                         }
                     }
                 }
@@ -8782,7 +8782,7 @@ namespace MDPlayer.form
             return true;
         }
 
-        private List<Tuple<string, byte[]>> getExtendFile(string fn, byte[] srcBuf, EnmFileFormat format, object archive = null)
+        private List<Tuple<string, byte[]>> getExtendFile(string fn, string[] spfn, byte[] srcBuf, EnmFileFormat format, object archive = null)
         {
             List<Tuple<string, byte[]>> ret = new();
             byte[] buf;
@@ -8808,7 +8808,7 @@ namespace MDPlayer.form
                     }
                     break;
                 case EnmFileFormat.RCS:
-                    RCS.getControlFileName(fn, srcBuf, out sRCP, out CM6, out GSD, out GSD2);
+                    RCS.getControlFileName(fn, (spfn != null && spfn.Length > 0) ? spfn[0] : null, srcBuf, out sRCP, out CM6, out GSD, out GSD2);
                     if (!string.IsNullOrEmpty(sRCP))
                     {
                         buf = getExtendFileAllBytes(fn, sRCP, archive);
