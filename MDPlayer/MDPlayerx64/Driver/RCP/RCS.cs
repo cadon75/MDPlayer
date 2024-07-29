@@ -423,18 +423,21 @@ namespace MDPlayer
                     //Debug.WriteLine("KEY ON :" + key + ":gt:" + eve.Gate+ ":vel:" + eve.MIDIMessage[2]);
                     int ch = KeyOnPCM8(key, out bool keyoff);
                     if (rcsPolyphonicMode == 1) ch = eve.Gate - 1;
-                    int mode = 
-                        ((eve.MIDIMessage[2] / 8) << 16) |
-                        (pcmInfos[key].freq << 8) |
-                        (pcmInfos[key].pan);
-                    int length = pcmInfos[key].length;
-                    if (rcsPolyphonicMode == 0) length = (int)(length * Math.Min(eve.Gate, 100) * 0.01);
-                    if (pcm8type == 0) opmPCM?.x68sound[0].X68Sound_Pcm8_Out(ch, null, (uint)pcmInfos[key].ptr, mode, length);//指定チャンネル発音開始
-                    else pcm8pp?.KeyOn(ch, (uint)pcmInfos[key].ptr, mode, length);//指定チャンネル発音開始
-                    pcm8St[ch].tablePtr = (uint)pcmInfos[key].ptr;
-                    pcm8St[ch].mode = (uint)mode;
-                    pcm8St[ch].length = (uint)pcmInfos[key].length;
-                    pcm8St[ch].Keyon = true;
+                    if (ch >= 0 && ch < 16)
+                    {
+                        int mode =
+                            ((eve.MIDIMessage[2] / 8) << 16) |
+                            (pcmInfos[key].freq << 8) |
+                            (pcmInfos[key].pan);
+                        int length = pcmInfos[key].length;
+                        if (rcsPolyphonicMode == 0) length = (int)(length * Math.Min(eve.Gate, 100) * 0.01);
+                        if (pcm8type == 0) opmPCM?.x68sound[0].X68Sound_Pcm8_Out(ch, null, (uint)pcmInfos[key].ptr, mode, length);//指定チャンネル発音開始
+                        else pcm8pp?.KeyOn(ch, (uint)pcmInfos[key].ptr, mode, length);//指定チャンネル発音開始
+                        pcm8St[ch].tablePtr = (uint)pcmInfos[key].ptr;
+                        pcm8St[ch].mode = (uint)mode;
+                        pcm8St[ch].length = (uint)pcmInfos[key].length;
+                        pcm8St[ch].Keyon = true;
+                    }
                 }
             }
 

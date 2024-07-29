@@ -1,4 +1,7 @@
 更新履歴 
+STBL449 2024/07/29
+  RCSMP:PolyphonicMode1のときにNoteOnのGTが0又は17以上の場合は無視するようにチェック処理追加
+
 STBL448 2024/07/28 2nd
   RCSMP:PolyphonicMode0と1に対応
   RCSMP:RCS内に定義されているRCPファイルが無くてもサポートファイルとして登録すれば演奏できるようにした
