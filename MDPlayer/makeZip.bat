@@ -56,6 +56,9 @@ rem del /Q .\output\scci.ini
 del /Q .\output\scci.ini
 del /Q .\output\scci.dll
 del /Q .\output\scciconfig.exe
+del /Q .\output\lib\scci.ini
+del /Q .\output\lib\scci.dll
+del /Q .\output\lib\scciconfig.exe
 rem del /Q .\output\MGSDRV.COM
 copy /Y .\removeZoneIdent.bat   .\output
 copy /Y .\mdp.bat   .\output
