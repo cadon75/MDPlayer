@@ -1,4 +1,7 @@
 更新履歴 
+STBL450 2024/08/05
+  同梱していたSCCIを削除
+
 STBL449 2024/07/29
   RCSMP:PolyphonicMode1のときにNoteOnのGTが0又は17以上の場合は無視するようにチェック処理追加
 

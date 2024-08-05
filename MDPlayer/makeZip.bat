@@ -52,7 +52,10 @@ del /Q .\output\*.pdb
 rem del /Q .\output\*.config
 del /Q .\output\*.bat
 del /Q .\output\FileAssociationTool\*.pdb
+rem del /Q .\output\scci.ini
 del /Q .\output\scci.ini
+del /Q .\output\scci.dll
+del /Q .\output\scciconfig.exe
 rem del /Q .\output\MGSDRV.COM
 copy /Y .\removeZoneIdent.bat   .\output
 copy /Y .\mdp.bat   .\output
