@@ -6428,6 +6428,12 @@ namespace MDPlayer.form
                 return buf;
             }
 
+            if (ext == ".ay")
+            {
+                format = EnmFileFormat.AY;
+                return buf;
+            }
+
             if (ext == ".mid")
             {
                 format = EnmFileFormat.MID;
@@ -10349,6 +10355,10 @@ namespace MDPlayer.form
                         case EnmFileFormat.SID:
                             fn = "DriverBalance_SID.mbc";
                             defMbc = Resources.DefaultVolumeBalance_SID;
+                            break;
+                        case EnmFileFormat.AY:
+                            fn = "DriverBalance_AY.mbc";
+                            defMbc = Resources.DefaultVolumeBalance_AY;
                             break;
                         case EnmFileFormat.MUC:
                             fn = "DriverBalance_MUC.mbc";

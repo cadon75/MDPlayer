@@ -309,6 +309,9 @@ namespace MDPlayer
                 case EnmFileFormat.SID:
                     AddFileSID(mc, entry);
                     break;
+                case EnmFileFormat.AY:
+                    AddFileAY(mc, entry);
+                    break;
                 case EnmFileFormat.MDR:
                     AddFileMDR(mc, entry);
                     break;
@@ -1579,6 +1582,63 @@ namespace MDPlayer
                 dgvList.Rows.InsertRange(index, rows.ToArray());
                 LstMusic.InsertRange(index, musics);
                 index += rows.Count;
+            }
+            catch (Exception ex)
+            {
+                log.ForcedWrite(ex);
+            }
+        }
+
+        private void AddFileAY(Music mc, object entry = null)
+        {
+            try
+            {
+                byte[] buf = null;
+                if (entry == null)
+                {
+                    buf = File.ReadAllBytes(mc.fileName);
+                }
+                else
+                {
+                    if (entry is ZipArchiveEntry entry1)
+                    {
+
+                        using BinaryReader reader = new(entry1.Open());
+                        buf = reader.ReadBytes((int)entry1.Length);
+                    }
+                    else
+                    {
+                        UnlhaWrap.UnlhaCmd cmd = new();
+                        buf = cmd.GetFileByte(((Tuple<string, string>)entry).Item1, ((Tuple<string, string>)entry).Item2);
+                    }
+                }
+
+                List<PlayList.Music> musics;
+                if (entry == null) musics = Audio.GetMusic(mc.fileName, buf);
+                else musics = Audio.GetMusic(mc.fileName, buf, mc.arcFileName, entry);
+
+                if (mc.songNo != -1)
+                {
+                    PlayList.Music music = null;
+                    if (musics.Count > 0)
+                    {
+                        music = musics[0];
+                        music.songNo = mc.songNo;
+                        music.title = mc.title;
+                        music.titleJ = mc.titleJ;
+
+                        musics.Clear();
+                        musics.Add(music);
+                    }
+                    else
+                    {
+                        musics.Clear();
+                    }
+                }
+
+                List<DataGridViewRow> rows = MakeRow(musics);
+                foreach (DataGridViewRow row in rows) dgvList.Rows.Add(row);
+                foreach (PlayList.Music music in musics) LstMusic.Add(music);
             }
             catch (Exception ex)
             {

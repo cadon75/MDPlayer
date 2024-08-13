@@ -75,7 +75,6 @@ namespace MDPlayer
             {
                 nc86ctl = new Nc86ctl.Nc86ctl();
                 nc86ctl.initialize();
-                Thread.Sleep(100);
                 n = nc86ctl.getNumberOfChip();
 
                 if (n == 0)
