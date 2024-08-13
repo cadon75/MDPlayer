@@ -54,6 +54,12 @@ namespace MDPlayer.Driver.AY
 
     public class AY : baseDriver
     {
+        private byte[] buf;
+        public Information Information;
+        private Z80Processor z80;
+        public int song=0;
+
+
         public override bool init(byte[] vgmBuf, ChipRegister chipRegister, EnmModel model, EnmChip[] useChip, uint latency, uint waitTime)
         {
             this.chipRegister = chipRegister;
@@ -65,7 +71,7 @@ namespace MDPlayer.Driver.AY
             try
             {
                 Run(vgmBuf);
-                Setup(0);
+                Setup(song);
             }
             catch
             {
@@ -104,10 +110,6 @@ namespace MDPlayer.Driver.AY
 
 
 
-        private byte[] buf;
-        public Information Information;
-        private Z80Processor z80;
-        //public MDSound.MDSound mds;
 
         public void Run(byte[] buf)
         {
@@ -229,6 +231,7 @@ namespace MDPlayer.Driver.AY
             //e) if INIT equal to ZERO then place to first CALL instruction address of first AY file block instead of INIT(see next f) and g) steps)
             //f) if INTERRUPT equal to ZERO then place at ZERO address next player:
             //g) if INTERRUPT not equal to ZERO then place at ZERO address next player:
+            if (songNum >= Information.SongsStructure.Count) songNum = 0;
             int init = Information.SongsStructure[songNum].SongData.Points.Init;
             if (init == 0)
             {

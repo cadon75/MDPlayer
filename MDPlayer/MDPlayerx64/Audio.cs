@@ -776,7 +776,7 @@ namespace MDPlayer
                 Driver.AY.AY ay = new();
                 GD3 gd3 = ay.getGD3Info(buf, 0);
 
-                //for (int s = 0; s < ay.songs; s++)
+                for (int s = 0; s < ay.Information.NumOfSongs; s++)
                 {
                     music = new PlayList.Music
                     {
@@ -786,8 +786,8 @@ namespace MDPlayer
                         arcType = EnmArcType.unknown,
                         //title = string.Format("{0} - Trk {1}", gd3.TrackName, s + 1),
                         //titleJ = string.Format("{0} - Trk {1}", gd3.TrackName, s + 1),
-                        title = gd3.TrackName,
-                        titleJ = gd3.TrackNameJ,
+                        title = ay.Information.SongsStructure[s].PSongName,
+                        titleJ = ay.Information.SongsStructure[s].PSongName,
                         game = "",
                         gameJ = "",
                         composer = gd3.Composer,
@@ -795,7 +795,7 @@ namespace MDPlayer
                         vgmby = "",
                         converted = "",
                         notes = gd3.Notes,
-                        //songNo = s
+                        songNo = s
                     };
                     if (!string.IsNullOrEmpty(zipFile)) music.arcType = zipFile.ToLower().LastIndexOf(".zip") != -1 ? EnmArcType.ZIP : EnmArcType.LZH;
 
@@ -2689,11 +2689,13 @@ namespace MDPlayer
 
                 chipRegister.initChipRegister(lstChips.ToArray());
 
+                ((Driver.AY.AY)DriverVirtual).song = (byte)SongNo;
                 if (!DriverVirtual.init(vgmBuf, chipRegister, EnmModel.VirtualModel, new EnmChip[] { EnmChip.AY8910 }
                     , (uint)(setting.outputDevice.SampleRate * setting.LatencyEmulation / 1000)
                     , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
                 if (DriverReal != null)
                 {
+                    ((Driver.AY.AY)DriverReal).song = (byte)SongNo;
                     if (!DriverReal.init(vgmBuf, chipRegister, EnmModel.RealModel, new EnmChip[] { EnmChip.AY8910 }
                         , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
                         , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
