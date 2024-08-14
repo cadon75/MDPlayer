@@ -15,6 +15,10 @@ namespace MDPlayer.Driver.AY
         public EnmModel model;
         private byte AYReg = 0;
         private byte AYDat = 0;
+        private byte[] AYRegMap=new byte[255];
+
+        private int BN = 0;
+        private int BP = 0;
 
         public byte this[int address]
         {
@@ -53,11 +57,20 @@ namespace MDPlayer.Driver.AY
             {
                 AYDat = value;
                 chipRegister.setAY8910Register(0, AYReg, AYDat, model);
+                AYRegMap[AYReg] = AYDat;
                 //Debug.WriteLine("AY Reg:{0:x02} Dat:{1:x02}", AYReg, AYDat);
             }
             else if ((address & 0x0001) == 0)
             {
-                chipRegister.setZXBeep(0, model);
+                if ((value & 16) != 0)
+                    BN = 10;
+                else
+                    BN = 0;
+                if (BN != BP)
+                {
+                    chipRegister.setZXBeep(0, model);
+                    BP = BN;
+                }
             }
             else
             {
@@ -67,8 +80,15 @@ namespace MDPlayer.Driver.AY
 
         private byte InPort(int address)
         {
+            byte ret = 255;
+            address = registers.B * 0x100 | (byte)address;
+            if ((address & 0xc002) == (0xfffd&0xc002))
+            {
+                if (AYReg < 14) ret = AYRegMap[AYReg];
+            }
+
             //Console.WriteLine("In Port Adr:{0:x04}", address);
-            return 0;
+            return ret;
         }
 
     }
