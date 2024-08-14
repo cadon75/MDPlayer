@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static MDPlayer.m_hes;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace MDPlayer.Driver.AY
@@ -57,7 +58,11 @@ namespace MDPlayer.Driver.AY
         private byte[] buf;
         public Information Information;
         private Z80Processor z80;
-        public int song=0;
+        public int song = 0;
+        private const int ZXclock = 3_546_900;//3.54690MHz
+        private const double PAL = 50.0;
+        private double clkelp = 0.0;
+        private double palelp = 0.0;
 
 
         public override bool init(byte[] vgmBuf, ChipRegister chipRegister, EnmModel model, EnmChip[] useChip, uint latency, uint waitTime)
@@ -86,22 +91,35 @@ namespace MDPlayer.Driver.AY
             throw new NotImplementedException();
         }
 
-        double fff = 0;
         public override void oneFrameProc()
         {
-            double stp = 50.0 / setting.outputDevice.SampleRate;
-            fff += stp;
-            while (fff >= 1.0)
+            try
             {
-                oneFrame();
-                fff -= 1.0;
+                vgmSpeedCounter += (double)Common.VGMProcSampleRate / setting.outputDevice.SampleRate * vgmSpeed;
+                while (vgmSpeedCounter >= 1.0 && !Stopped)
+                {
+                    vgmSpeedCounter -= 1.0;
+                    if (vgmFrameCounter > -1)
+                    {
+                        oneFrame();
+                        Counter++;
+                    }
+                    else
+                    {
+                        vgmFrameCounter++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.ForcedWrite(ex);
             }
         }
 
         public override GD3 getGD3Info(byte[] buf, uint vgmGd3)
         {
             GetInformation(buf);
-            GD3 ret= new GD3();
+            GD3 ret = new GD3();
             ret.TrackName = Information.SongsStructure[0].PSongName;
             ret.TrackNameJ = Information.SongsStructure[0].PSongName;
             return ret;
@@ -308,23 +326,43 @@ namespace MDPlayer.Driver.AY
 
         public void oneFrame()
         {
-            while (!z80.IsHalted)
+            double old = z80.TStatesElapsedSinceReset;
+            bool brk = false;
+            bool ps = false;
+
+            while (!brk)
             {
                 z80.ExecuteNextInstruction();
-                decimal de=z80.TStatesElapsedSinceReset;
-                if (4_000_000 / 50 * 3 <= de) { 
-                    break; 
+                double step = z80.TStatesElapsedSinceReset - old;
+                old = z80.TStatesElapsedSinceReset;
+
+                clkelp += step;
+                if (ZXclock / setting.outputDevice.SampleRate <= clkelp)
+                {
+                    clkelp -= (ZXclock / setting.outputDevice.SampleRate);
+                    brk = true;
+                }
+                palelp += step;
+                if (ZXclock / PAL <= palelp)
+                {
+                    palelp -= (ZXclock / PAL);
+                    ps = true;
+                    brk = true;
                 }
             }
 
-            int pc = z80.Registers.PC;
-            int sp = z80.Registers.SP;
-            int af = z80.Registers.AF;
-            z80.Reset();
-            z80.Registers.PC = (ushort)pc;
-            z80.Registers.SP = (short)sp;
-            z80.Registers.AF = (short)af;
-            //Console.WriteLine("PC:{0:x04}", z80.Registers.PC);
+            if (ps && z80.IsHalted)
+            {
+                int pc = z80.Registers.PC;
+                int sp = z80.Registers.SP;
+                int af = z80.Registers.AF;
+                z80.Reset();
+                z80.Registers.PC = (ushort)pc;
+                z80.Registers.SP = (short)sp;
+                z80.Registers.AF = (short)af;
+                //Console.WriteLine("PC:{0:x04}", z80.Registers.PC);
+            }
+
         }
 
     }
