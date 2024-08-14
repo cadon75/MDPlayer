@@ -1733,6 +1733,12 @@ namespace MDPlayer
             }
         }
 
+        public void setZXBeep(int chipID, EnmModel model)
+        {
+            if (model == EnmModel.RealModel) return;
+            mds.WriteZXBeep((byte)chipID);
+        }
+
         public void setDMGRegister(int chipID, int dAddr, int dData, EnmModel model)
         {
             if (chipID == 0) chipLED.PriDMG = 2;

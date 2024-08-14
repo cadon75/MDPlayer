@@ -1,6 +1,7 @@
 ﻿using Konamiman.Z80dotNet;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,6 @@ namespace MDPlayer.Driver.AY
         private void OutPort(int address, byte value)
         {
             address = registers.B * 0x100 | (byte)address;
-            //Console.WriteLine("Out Port Adr:{0:x04} Dat:{1:x02}", address, value);
 
             if ((address & 0xc002) == 0xc000)
             {
@@ -53,9 +53,16 @@ namespace MDPlayer.Driver.AY
             {
                 AYDat = value;
                 chipRegister.setAY8910Register(0, AYReg, AYDat, model);
-                //Console.WriteLine("AY Reg:{0:x02} Dat:{1:x02}", AYReg, AYDat);
+                //Debug.WriteLine("AY Reg:{0:x02} Dat:{1:x02}", AYReg, AYDat);
             }
-
+            else if ((address & 0x0001) == 0)
+            {
+                chipRegister.setZXBeep(0, model);
+            }
+            else
+            {
+                Debug.WriteLine("Out Port Adr:{0:x04} Dat:{1:x02}", address, value);
+            }
         }
 
         private byte InPort(int address)

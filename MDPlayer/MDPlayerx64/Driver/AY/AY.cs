@@ -328,7 +328,6 @@ namespace MDPlayer.Driver.AY
         {
             double old = z80.TStatesElapsedSinceReset;
             bool brk = false;
-            bool ps = false;
 
             while (!brk)
             {
@@ -342,26 +341,40 @@ namespace MDPlayer.Driver.AY
                     clkelp -= (ZXclock / setting.outputDevice.SampleRate);
                     brk = true;
                 }
+
                 palelp += step;
                 if (ZXclock / PAL <= palelp)
                 {
                     palelp -= (ZXclock / PAL);
-                    ps = true;
-                    brk = true;
+
+                    if (z80.IsHalted)
+                    {
+                        int pc = z80.Registers.PC;
+                        int sp = z80.Registers.SP;
+                        int af = z80.Registers.AF;
+                        z80.Reset();
+                        z80.Registers.PC = (ushort)pc;
+                        z80.Registers.SP = (short)sp;
+                        z80.Registers.AF = (short)af;
+                        brk = true;//HALTの時のみループから抜ける。(Z80は次の処理のタイミングまで休む必要があるため)
+                    }
+
+                    //ここでbrk=trueしてもほとんど問題ないがフレーム落ちを再現できなくなる
+
                 }
             }
 
-            if (ps && z80.IsHalted)
-            {
-                int pc = z80.Registers.PC;
-                int sp = z80.Registers.SP;
-                int af = z80.Registers.AF;
-                z80.Reset();
-                z80.Registers.PC = (ushort)pc;
-                z80.Registers.SP = (short)sp;
-                z80.Registers.AF = (short)af;
-                //Console.WriteLine("PC:{0:x04}", z80.Registers.PC);
-            }
+            //if (ps && z80.IsHalted)
+            //{
+            //    int pc = z80.Registers.PC;
+            //    int sp = z80.Registers.SP;
+            //    int af = z80.Registers.AF;
+            //    z80.Reset();
+            //    z80.Registers.PC = (ushort)pc;
+            //    z80.Registers.SP = (short)sp;
+            //    z80.Registers.AF = (short)af;
+            //    //Console.WriteLine("PC:{0:x04}", z80.Registers.PC);
+            //}
 
         }
 
