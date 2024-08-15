@@ -3,7 +3,7 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   
 [概要]  
   このツールは、鍵盤表示を行いながらVGMファイルの再生を行います。  
-  (NRD,XGM,S98,MID,RCP,RCS,NSF,HES,SID,MGS,MDR,MDX,MND,ZMD,ZMS,MUC,MUB,M,M2,MZ,MPI,MVI,MZI,OPI,OVI,OZI,WAV,MP3,AIFFファイルにも対応。)  
+  (NRD,XGM,S98,MID,RCP,RCS,NSF,HES,SID,AY,MGS,MDR,MDX,MND,ZMD,ZMS,MUC,MUB,M,M2,MZ,MPI,MVI,MZI,OPI,OVI,OZI,WAV,MP3,AIFFファイルにも対応。)  
   
 [注意]  
   ・FileAssociationTool(ファイル関連付け設定ツール)についてはREADME_AST.md/README_AST_EN.mdを参照お願いします。  
@@ -32,6 +32,7 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   .NSF (NES Sound Format)  
   .HES (HESファイル)  
   .SID (コモドール向けファイル)  
+  .AY  (ZX Spectrum / Amstrad CPC向けファイル)  
   .MGS (MGSDRVファイル 演奏するにはMGSDRV.COMが必要です)  
   .BGM (MuSICAファイル 演奏するにはKINROU5.DRVが必要です)  
   .MDR (MoonDriver MSXで,MoonSound(OPL4)を鳴らすドライバの演奏ファイル)  
@@ -100,6 +101,8 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   
   ・sidplayfpのソースを参考、移植しています。  
   
+  ・YMEmuWithFiltersのソースを参考にしています。  
+
   ・NRTDRVのソースを参考、移植しています。  
   
   ・MoonDriverのソースを参考、移植しています。  
