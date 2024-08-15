@@ -60,9 +60,11 @@ namespace MDPlayer.Driver.AY
         private Z80Processor z80;
         public int song = 0;
         private const int ZXclock = 3_546_900;//3.54690MHz
+        private const int CPCclock = 4_000_000;//4.000000MHz
         private const double PAL = 50.0;
         private double clkelp = 0.0;
         private double palelp = 0.0;
+        private int clock = ZXclock;
 
 
         public override bool init(byte[] vgmBuf, ChipRegister chipRegister, EnmModel model, EnmChip[] useChip, uint latency, uint waitTime)
@@ -72,6 +74,7 @@ namespace MDPlayer.Driver.AY
             vgmCurLoop = 0;
             this.model = model;
             vgmFrameCounter = -latency - waitTime;
+            clock = ZXclock;
 
             try
             {
@@ -134,6 +137,16 @@ namespace MDPlayer.Driver.AY
             this.buf = buf;
             //this.mds = mds;
             GetInformation(buf);
+        }
+
+        public void SetCPCclock()
+        {
+            clock = CPCclock;
+        }
+
+        public void SetZXclock()
+        {
+            clock = ZXclock;
         }
 
         private void GetInformation(byte[] buf)
@@ -236,6 +249,7 @@ namespace MDPlayer.Driver.AY
             port.registers = z80.Registers;
             port.chipRegister = chipRegister;
             port.model = model;
+            port.CPU = this;
 
             //a) Fill #0000-#00FF range with #C9 value
             for (int i = 0x0000; i < 0x0100; i++) z80.Memory[i] = 0xc9;
@@ -336,16 +350,16 @@ namespace MDPlayer.Driver.AY
                 old = z80.TStatesElapsedSinceReset;
 
                 clkelp += step;
-                if (ZXclock / setting.outputDevice.SampleRate <= clkelp)
+                if (clock / setting.outputDevice.SampleRate <= clkelp)
                 {
-                    clkelp -= (ZXclock / setting.outputDevice.SampleRate);
+                    clkelp -= (clock / setting.outputDevice.SampleRate);
                     brk = true;
                 }
 
                 palelp += step;
-                if (ZXclock / PAL <= palelp)
+                if (clock / PAL <= palelp)
                 {
-                    palelp -= (ZXclock / PAL);
+                    palelp -= (clock / PAL);
 
                     if (z80.IsHalted)
                     {
