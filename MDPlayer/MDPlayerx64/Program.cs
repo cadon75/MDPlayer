@@ -41,8 +41,6 @@ namespace MDPlayerx64
                 "MDSound.dll"
                 , "NAudio.dll"
                 , "RealChipCtlWrap64.dll"
-                , "scci2.dll"
-                , "c86ctl.dll"
             };
             chkFn.AddRange(MDPlayer.vstMng.chkFn);
 
