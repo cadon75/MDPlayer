@@ -61,6 +61,7 @@ namespace MDPlayer.Driver.AY
 
             //ZX
 
+            CPU.SetZXclock();
             address = registers.B * 0x100 | (byte)address;
 
             if ((address & 0xc002) == 0xc000)
