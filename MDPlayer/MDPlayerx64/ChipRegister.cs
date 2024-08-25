@@ -3040,19 +3040,18 @@ namespace MDPlayer
 
                 if (ch != 3)
                 {
+                    dData = Math.Min(dData + nowYM2608FadeoutVol[chipID], 127);
                     if ((algM[al] & (1 << slot)) != 0)
                     {
-                        dData = Math.Min(dData + nowYM2608FadeoutVol[chipID], 127);
-                        dData = maskFMChYM2608[chipID][dPort * 3 + ch] ? 127 : dData;
-                    }
-
-                    if (ch == 2 && slot != 0)
-                    {
-                        if ((algM[al] & (1 << slot)) != 0)
+                        int c = dPort * 3 + ch;
+                        if (dPort == 0 && ch == 2)
                         {
-                            slot = slot == 1 ? 2 : (slot == 2 ? 1 : slot);
-                            dData = maskFMChYM2608[chipID][8 + slot] ? 127 : dData;
+                            //FM Ch3 の場合はスロット毎にマスクフラグチェック
+                            c = 2;
+                            if (slot != 0) c = 8 + opN[slot];
                         }
+                        //マスクフラグチェック(ONの場合はTLを127に変更)
+                        dData = maskFMChYM2608[chipID][c] ? 127 : dData;
                     }
                 }
             }
