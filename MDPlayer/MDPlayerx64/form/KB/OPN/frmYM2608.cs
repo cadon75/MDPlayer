@@ -479,6 +479,37 @@ namespace MDPlayer.form
                         c = ch;
                     }
 
+                    //FM Ch3専用マスク判定処理
+                    if (ch == 2 || ch == 9 || ch == 10 || ch == 11)
+                    {
+                        if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                        {
+                            //マスク
+                            if (newParam.channels[ch].mask == true)
+                                parent.ResetChannelMask(EnmChip.YM2608, chipID, ch);
+                            else
+                                parent.SetChannelMask(EnmChip.YM2608, chipID, ch);
+                            return;
+                        }
+
+                        //マスク
+                        if (newParam.channels[ch].mask == true)
+                        {
+                            parent.ResetChannelMask(EnmChip.YM2608, chipID, 2);
+                            parent.ResetChannelMask(EnmChip.YM2608, chipID, 9);
+                            parent.ResetChannelMask(EnmChip.YM2608, chipID, 10);
+                            parent.ResetChannelMask(EnmChip.YM2608, chipID, 11);
+                        }
+                        else
+                        {
+                            parent.SetChannelMask(EnmChip.YM2608, chipID, 2);
+                            parent.SetChannelMask(EnmChip.YM2608, chipID, 9);
+                            parent.SetChannelMask(EnmChip.YM2608, chipID, 10);
+                            parent.SetChannelMask(EnmChip.YM2608, chipID, 11);
+                        }
+                        return;
+                    }
+
                     //マスク
                     if (newParam.channels[ch].mask == true)
                         parent.ResetChannelMask(EnmChip.YM2608, chipID, ch);
