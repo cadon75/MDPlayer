@@ -9085,14 +9085,14 @@ namespace MDPlayer.form
                         Audio.SetYM2612Mask(chipID, ch);
                         newParam.ym2612[chipID].channels[ch].mask = true;
 
-                        //FM(2ch) FMex
-                        if ((ch == 2) || (ch >= 6 && ch < 9))
-                        {
-                            newParam.ym2612[chipID].channels[2].mask = true;
-                            newParam.ym2612[chipID].channels[6].mask = true;
-                            newParam.ym2612[chipID].channels[7].mask = true;
-                            newParam.ym2612[chipID].channels[8].mask = true;
-                        }
+                        ////FM(2ch) FMex
+                        //if ((ch == 2) || (ch >= 6 && ch < 9))
+                        //{
+                        //    newParam.ym2612[chipID].channels[2].mask = true;
+                        //    newParam.ym2612[chipID].channels[6].mask = true;
+                        //    newParam.ym2612[chipID].channels[7].mask = true;
+                        //    newParam.ym2612[chipID].channels[8].mask = true;
+                        //}
                     }
                     break;
                 case EnmChip.SN76489:
@@ -9505,14 +9505,14 @@ namespace MDPlayer.form
                         Audio.ResetYM2612Mask(chipID, ch);
                         newParam.ym2612[chipID].channels[ch].mask = false;
 
-                        //FM(2ch) FMex
-                        if ((ch == 2) || (ch >= 6 && ch < 9))
-                        {
-                            newParam.ym2612[chipID].channels[2].mask = false;
-                            newParam.ym2612[chipID].channels[6].mask = false;
-                            newParam.ym2612[chipID].channels[7].mask = false;
-                            newParam.ym2612[chipID].channels[8].mask = false;
-                        }
+                        ////FM(2ch) FMex
+                        //if ((ch == 2) || (ch >= 6 && ch < 9))
+                        //{
+                        //    newParam.ym2612[chipID].channels[2].mask = false;
+                        //    newParam.ym2612[chipID].channels[6].mask = false;
+                        //    newParam.ym2612[chipID].channels[7].mask = false;
+                        //    newParam.ym2612[chipID].channels[8].mask = false;
+                        //}
                     }
                     break;
                 case EnmChip.YM3526:
@@ -9813,18 +9813,18 @@ namespace MDPlayer.form
                         newParam.ym2608[chipID].channels[ch].mask = mask;
                         oldParam.ym2608[chipID].channels[ch].mask = !mask;
 
-                        //FM(2ch) FMex
-                        if ((ch == 2) || (ch >= 9 && ch < 12))
-                        {
-                            newParam.ym2608[chipID].channels[2].mask = mask;
-                            newParam.ym2608[chipID].channels[9].mask = mask;
-                            newParam.ym2608[chipID].channels[10].mask = mask;
-                            newParam.ym2608[chipID].channels[11].mask = mask;
-                            oldParam.ym2608[chipID].channels[2].mask = !mask;
-                            oldParam.ym2608[chipID].channels[9].mask = !mask;
-                            oldParam.ym2608[chipID].channels[10].mask = !mask;
-                            oldParam.ym2608[chipID].channels[11].mask = !mask;
-                        }
+                        ////FM(2ch) FMex
+                        //if ((ch == 2) || (ch >= 9 && ch < 12))
+                        //{
+                        //    newParam.ym2608[chipID].channels[2].mask = mask;
+                        //    newParam.ym2608[chipID].channels[9].mask = mask;
+                        //    newParam.ym2608[chipID].channels[10].mask = mask;
+                        //    newParam.ym2608[chipID].channels[11].mask = mask;
+                        //    oldParam.ym2608[chipID].channels[2].mask = !mask;
+                        //    oldParam.ym2608[chipID].channels[9].mask = !mask;
+                        //    oldParam.ym2608[chipID].channels[10].mask = !mask;
+                        //    oldParam.ym2608[chipID].channels[11].mask = !mask;
+                        //}
                     }
                     break;
                 case EnmChip.YM2610:
@@ -9867,17 +9867,17 @@ namespace MDPlayer.form
                         oldParam.ym2612[chipID].channels[ch].mask = null;
 
                         //FM(2ch) FMex
-                        if ((ch == 2) || (ch >= 6 && ch < 9))
-                        {
-                            newParam.ym2612[chipID].channels[2].mask = mask;
-                            newParam.ym2612[chipID].channels[6].mask = mask;
-                            newParam.ym2612[chipID].channels[7].mask = mask;
-                            newParam.ym2612[chipID].channels[8].mask = mask;
-                            oldParam.ym2612[chipID].channels[2].mask = null;
-                            oldParam.ym2612[chipID].channels[6].mask = null;
-                            oldParam.ym2612[chipID].channels[7].mask = null;
-                            oldParam.ym2612[chipID].channels[8].mask = null;
-                        }
+                        //if ((ch == 2) || (ch >= 6 && ch < 9))
+                        //{
+                        //    newParam.ym2612[chipID].channels[2].mask = mask;
+                        //    newParam.ym2612[chipID].channels[6].mask = mask;
+                        //    newParam.ym2612[chipID].channels[7].mask = mask;
+                        //    newParam.ym2612[chipID].channels[8].mask = mask;
+                        //    oldParam.ym2612[chipID].channels[2].mask = null;
+                        //    oldParam.ym2612[chipID].channels[6].mask = null;
+                        //    oldParam.ym2612[chipID].channels[7].mask = null;
+                        //    oldParam.ym2612[chipID].channels[8].mask = null;
+                        //}
                     }
                     break;
                 case EnmChip.YM3526:

@@ -137,7 +137,10 @@ namespace MDPlayer
         };
         public int[][] fmCh3SlotVolYM2612 = new int[][] { new int[4], new int[4] };
         private int[] nowYM2612FadeoutVol = new int[] { 0, 0 };
-        private bool[][] maskFMChYM2612 = new bool[][] { new bool[6] { false, false, false, false, false, false }, new bool[6] { false, false, false, false, false, false } };
+        private bool[][] maskFMChYM2612 = new bool[][] { 
+            new bool[9] { false, false, false, false, false, false, false, false, false }
+            , new bool[9] { false, false, false, false, false, false, false, false, false } 
+        };
 
         public int[][][] fmRegisterYM2608 = new int[][][] { new int[][] { null, null }, new int[][] { null, null } };
 
@@ -3040,9 +3043,9 @@ namespace MDPlayer
 
                 if (ch != 3)
                 {
-                    dData = Math.Min(dData + nowYM2608FadeoutVol[chipID], 127);
                     if ((algM[al] & (1 << slot)) != 0)
                     {
+                        dData = Math.Min(dData + nowYM2608FadeoutVol[chipID], 127);
                         int c = dPort * 3 + ch;
                         if (dPort == 0 && ch == 2)
                         {
@@ -4377,7 +4380,15 @@ namespace MDPlayer
                     if ((algM[al] & (1 << slot)) != 0)
                     {
                         dData = Math.Min(dData + nowYM2612FadeoutVol[chipID], 127);
-                        dData = maskFMChYM2612[chipID][dPort * 3 + ch] ? 127 : dData;
+                        int c = dPort * 3 + ch;
+                        if (dPort == 0 && ch == 2)
+                        {
+                            //FM Ch3 の場合はスロット毎にマスクフラグチェック
+                            c = 2;
+                            if (slot != 0) c = 5 + opN[slot];
+                        }
+                        //マスクフラグチェック(ONの場合はTLを127に変更)
+                        dData = maskFMChYM2612[chipID][c] ? 127 : dData;
                     }
                 }
             }
@@ -4875,8 +4886,8 @@ namespace MDPlayer
             setYM2612Register((byte)chipID, p, 0x48 + c, fmRegisterYM2612[chipID][p][0x48 + c], EnmModel.RealModel, -1);
             setYM2612Register((byte)chipID, p, 0x4c + c, fmRegisterYM2612[chipID][p][0x4c + c], EnmModel.RealModel, -1);
 
-            if (mask) mds.setYM2612Mask(chipID, ch);
-            else mds.resetYM2612Mask(chipID, ch);
+            //if (mask) mds.setYM2612Mask(chipID, ch);
+            //else mds.resetYM2612Mask(chipID, ch);
         }
 
         public void setMaskOKIM6258(int chipID, bool mask)
