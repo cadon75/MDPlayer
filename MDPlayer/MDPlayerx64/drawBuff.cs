@@ -253,7 +253,7 @@ namespace MDPlayer
         {
             for (int y = 0; y < 16; y++)
             {
-                drawFont8(screen, 142*4, y * 8 + 8, 1, "   ");
+                drawFont8(screen, 142 * 4, y * 8 + 8, 1, "   ");
                 for (int i = 0; i < 96; i++)
                 {
                     int kx = Tables.kbl[(i % 12) * 2] + i / 12 * 28;
@@ -264,9 +264,9 @@ namespace MDPlayer
                 drawPanP(screen, 32, y * 8 + 8, 3, 0);
 
                 int d = 99;
-                Volume(screen, 132*4 , 8 + y * 8, 1, ref d, 0, 0);
+                Volume(screen, 132 * 4, 8 + y * 8, 1, ref d, 0, 0);
                 d = 99;
-                Volume(screen, 132*4 , 8 + y * 8, 2, ref d, 0, 0);
+                Volume(screen, 132 * 4, 8 + y * 8, 2, ref d, 0, 0);
             }
         }
 
@@ -304,7 +304,7 @@ namespace MDPlayer
             for (int y = 0; y < 3 + 3 + 3; y++)
             {
 
-                drawFont8(screen, 296+32, y * 8 + 8, 1, "   ");
+                drawFont8(screen, 296 + 32, y * 8 + 8, 1, "   ");
                 for (int i = 0; i < 96; i++)
                 {
                     int kx = Tables.kbl[(i % 12) * 2] + i / 12 * 28;
@@ -447,7 +447,7 @@ namespace MDPlayer
                     }
                     else
                     {
-                        if (isXGM==0) drawKbn(screen, 33 + kx, y * 8 + 8, kt, tp6);
+                        if (isXGM == 0) drawKbn(screen, 33 + kx, y * 8 + 8, kt, tp6);
                     }
                 }
 
@@ -2934,8 +2934,8 @@ namespace MDPlayer
 
         public static void drawFaderCursor(FrameBuffer screen, int n, ref int od, int nd)
         {
-            int x = (n % 16)*20+5;
-            int y = (n / 16)*72+8;
+            int x = (n % 16) * 20 + 5;
+            int y = (n / 16) * 72 + 8;
             screen.drawBoxArray(x, y, 0xff, 1, 8, 56);
         }
 
@@ -4305,7 +4305,7 @@ namespace MDPlayer
             if (screen == null) return;
 
             screen.drawByteArray(x, y, rType[tp * 2 + (mask ? 1 : 0)], 128, 64, 0, 24, 8);
-            drawFont4Int2(screen, x + 24, y, mask ? 1 : 0,2, 1 + ch);
+            drawFont4Int2(screen, x + 24, y, mask ? 1 : 0, 2, 1 + ch);
         }
 
         private static void ChPPZ8_P(FrameBuffer screen, int x, int y, int ch, bool mask, int tp)
@@ -4620,13 +4620,27 @@ namespace MDPlayer
         private static void ChYM2608Rhythm_P(FrameBuffer screen, int x, int y, int ch, bool mask, int tp)
         {
             if (screen == null) return;
-
-            drawFont4(screen, x + 0 * 4, y, mask ? 1 : 0, "B");
-            drawFont4(screen, x + 15 * 4, y, mask ? 1 : 0, "S");
-            drawFont4(screen, x + 30 * 4, y, mask ? 1 : 0, "C");
-            drawFont4(screen, x + 45 * 4, y, mask ? 1 : 0, "H");
-            drawFont4(screen, x + 60 * 4, y, mask ? 1 : 0, "T");
-            drawFont4(screen, x + 75 * 4, y, mask ? 1 : 0, "R");
+            switch (ch)
+            {
+                case 0:
+                    drawFont4(screen, x + 0 * 4, y, mask ? 1 : 0, "B");
+                    break;
+                case 1:
+                    drawFont4(screen, x + 15 * 4, y, mask ? 1 : 0, "S");
+                    break;
+                case 2:
+                    drawFont4(screen, x + 30 * 4, y, mask ? 1 : 0, "C");
+                    break;
+                case 3:
+                    drawFont4(screen, x + 45 * 4, y, mask ? 1 : 0, "H");
+                    break;
+                case 4:
+                    drawFont4(screen, x + 60 * 4, y, mask ? 1 : 0, "T");
+                    break;
+                case 5:
+                    drawFont4(screen, x + 75 * 4, y, mask ? 1 : 0, "R");
+                    break;
+            }
         }
 
         public static void ChYM2610_P(FrameBuffer screen, int x, int y, int ch, bool mask, int tp)

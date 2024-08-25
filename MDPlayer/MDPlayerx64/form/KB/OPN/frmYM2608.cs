@@ -421,8 +421,8 @@ namespace MDPlayer.form
                 DrawBuff.VolumeYM2608Rhythm(frameBuffer, c, 2, ref oyc.volumeR, nyc.volumeR, tp);
                 DrawBuff.PanYM2608Rhythm(frameBuffer, c, ref oyc.pan, nyc.pan, ref oyc.pantp, tp);
                 DrawBuff.font4Int2(frameBuffer, c * 4 * 15 + 4, 28 * 4, 0, 0, ref oyc.volumeRL, nyc.volumeRL);
+                DrawBuff.ChYM2608Rhythm(frameBuffer, c, ref oldParam.channels[13 + c].mask, newParam.channels[13 + c].mask, tp);
             }
-            DrawBuff.ChYM2608Rhythm(frameBuffer, 0, ref oldParam.channels[13].mask, newParam.channels[13].mask, tp);
 
             DrawBuff.font4Hex12Bit(frameBuffer, 85 * 4, 30 * 4, 0, ref oldParam.timerA, newParam.timerA);
             DrawBuff.font4HexByte(frameBuffer, 85 * 4, 32 * 4, 0, ref oldParam.timerB, newParam.timerB);
@@ -451,9 +451,9 @@ namespace MDPlayer.form
                 //但しchをクリックした場合はマスク反転
                 if (px < 8)
                 {
-                    for (ch = 0; ch < 14; ch++)
+                    for (ch = 0; ch < 19; ch++)
                     {
-                        if (ch >= 9 && ch <= 11) continue;
+                        //if (ch >= 9 && ch <= 11) continue;
 
                         if (newParam.channels[ch].mask == true)
                             parent.ResetChannelMask(EnmChip.YM2608, chipID, ch);
@@ -472,6 +472,13 @@ namespace MDPlayer.form
             {
                 if (e.Button == MouseButtons.Left)
                 {
+                    int c = ch;
+                    if (ch == 13)
+                    {
+                        ch = 13 + (Math.Max(px, 0)) / 60;
+                        c = ch;
+                    }
+
                     //マスク
                     if (newParam.channels[ch].mask == true)
                         parent.ResetChannelMask(EnmChip.YM2608, chipID, ch);
@@ -480,7 +487,7 @@ namespace MDPlayer.form
                     return;
                 }
 
-                for (ch = 0; ch < 14; ch++) parent.ResetChannelMask(EnmChip.YM2608, chipID, ch);
+                for (ch = 0; ch < 19; ch++) parent.ResetChannelMask(EnmChip.YM2608, chipID, ch);
                 return;
             }
 

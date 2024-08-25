@@ -155,8 +155,18 @@ namespace MDPlayer
         public int[] fmVolYM2608AdpcmPan = new int[] { 0, 0 };
         private int[] nowYM2608FadeoutVol = new int[] { 0, 0 };
         private bool[][] maskFMChYM2608 = new bool[][] {
-            new bool[14] { false, false, false, false, false, false, false, false, false, false, false, false, false, false}
-            , new bool[14] { false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+            new bool[19] { 
+                false, false, false, false,
+                false, false, false, false,
+                false, false, false, false,
+                false, false, false, false,
+                false, false, false }
+            , new bool[19] { 
+                false, false, false, false,
+                false, false, false, false,
+                false, false, false, false,
+                false, false, false, false,
+                false, false, false }
         };
 
 
@@ -3035,6 +3045,15 @@ namespace MDPlayer
                         dData = Math.Min(dData + nowYM2608FadeoutVol[chipID], 127);
                         dData = maskFMChYM2608[chipID][dPort * 3 + ch] ? 127 : dData;
                     }
+
+                    if (ch == 2 && slot != 0)
+                    {
+                        if ((algM[al] & (1 << slot)) != 0)
+                        {
+                            slot = slot == 1 ? 2 : (slot == 2 ? 1 : slot);
+                            dData = maskFMChYM2608[chipID][8 + slot] ? 127 : dData;
+                        }
+                    }
                 }
             }
 
@@ -3106,9 +3125,12 @@ namespace MDPlayer
             //Ryhthm
             if (dPort == 0 && dAddr == 0x10)
             {
-                if (maskFMChYM2608[chipID][13])
+                for (int i = 0; i < 6; i++)
                 {
-                    dData = 0;
+                    if (maskFMChYM2608[chipID][13+i])
+                    {
+                        dData &= (~(0b0000_0001 << i) & 0xff);
+                    }
                 }
             }
 
@@ -4737,13 +4759,13 @@ namespace MDPlayer
         public void setMaskYM2608(int chipID, int ch, bool mask, bool noSend = false)
         {
             maskFMChYM2608[chipID][ch] = mask;
-            if (ch >= 9 && ch < 12)
-            {
-                maskFMChYM2608[chipID][2] = mask;
-                maskFMChYM2608[chipID][9] = mask;
-                maskFMChYM2608[chipID][10] = mask;
-                maskFMChYM2608[chipID][11] = mask;
-            }
+            //if (ch >= 9 && ch < 12)
+            //{
+            //    maskFMChYM2608[chipID][2] = mask;
+            //    maskFMChYM2608[chipID][9] = mask;
+            //    maskFMChYM2608[chipID][10] = mask;
+            //    maskFMChYM2608[chipID][11] = mask;
+            //}
 
             int c = (ch < 3) ? ch : (ch - 3);
             int p = (ch < 3) ? 0 : 1;
@@ -4752,6 +4774,7 @@ namespace MDPlayer
 
             if (ch < 6)
             {
+                //FM1-6
                 setYM2608Register((byte)chipID, p, 0x40 + c, fmRegisterYM2608[chipID][p][0x40 + c], EnmModel.VirtualModel);
                 setYM2608Register((byte)chipID, p, 0x44 + c, fmRegisterYM2608[chipID][p][0x44 + c], EnmModel.VirtualModel);
                 setYM2608Register((byte)chipID, p, 0x48 + c, fmRegisterYM2608[chipID][p][0x48 + c], EnmModel.VirtualModel);
@@ -4764,11 +4787,13 @@ namespace MDPlayer
             }
             else if (ch < 9)
             {
+                //SSG
                 setYM2608Register((byte)chipID, 0, 0x08 + ch - 6, fmRegisterYM2608[chipID][0][0x08 + ch - 6], EnmModel.VirtualModel);
                 setYM2608Register((byte)chipID, 0, 0x08 + ch - 6, fmRegisterYM2608[chipID][0][0x08 + ch - 6], EnmModel.RealModel);
             }
             else if (ch < 12)
             {
+                //FM3OP1-4
                 setYM2608Register((byte)chipID, 0, 0x40 + 2, fmRegisterYM2608[chipID][0][0x40 + 2], EnmModel.VirtualModel);
                 setYM2608Register((byte)chipID, 0, 0x44 + 2, fmRegisterYM2608[chipID][0][0x44 + 2], EnmModel.VirtualModel);
                 setYM2608Register((byte)chipID, 0, 0x48 + 2, fmRegisterYM2608[chipID][0][0x48 + 2], EnmModel.VirtualModel);
