@@ -453,7 +453,7 @@ namespace MDPlayer
 
                 if (isXGM == 1)
                 {
-                    Ch6YM2612XGM_P(screen, 1, 48, 0, false, tp6);
+                    Ch6YM2612XGM_P(screen, 1, 48, 0, false, false, false, false, false, tp6);
                 }
                 else if (isXGM == 2)
                 {
@@ -2349,19 +2349,33 @@ namespace MDPlayer
             otp = ntp;
         }
 
-        public static void Ch6YM2612XGM(FrameBuffer screen, int buff, ref int ot, int nt, ref bool? om, bool? nm, ref int otp, int ntp)
+        public static void Ch6YM2612XGM(FrameBuffer screen, int buff, ref int ot, int nt, ref bool? om, bool? nm,
+            ref bool? om1, bool? nm1,
+            ref bool? om2, bool? nm2,
+            ref bool? om3, bool? nm3,
+            ref bool? om4, bool? nm4, 
+            ref int otp, int ntp)
         {
             if (buff == 0)
             {
-                if (ot == nt && om == nm && otp == ntp)
+                if (ot == nt && om == nm && om1 == nm1 && om2 == nm2 && om3 == nm3 && om4 == nm4 && otp == ntp)
                 {
                     return;
                 }
             }
 
-            Ch6YM2612XGM_P(screen, 1, 48, nt, nm == null ? false : (bool)nm, ntp);
+            Ch6YM2612XGM_P(screen, 1, 48, nt, nm == null ? false : (bool)nm
+                , nm1 == null ? false : (bool)nm1
+                , nm2 == null ? false : (bool)nm2
+                , nm3 == null ? false : (bool)nm3
+                , nm4 == null ? false : (bool)nm4
+                , ntp);
             ot = nt;
             om = nm;
+            om1 = nm1;
+            om2 = nm2;
+            om3 = nm3;
+            om4 = nm4;
             otp = ntp;
         }
 
@@ -4739,7 +4753,7 @@ namespace MDPlayer
             }
         }
 
-        private static void Ch6YM2612XGM_P(FrameBuffer screen, int x, int y, int m, bool mask, int tp)
+        private static void Ch6YM2612XGM_P(FrameBuffer screen, int x, int y, int m, bool mask, bool mask1, bool mask2, bool mask3, bool mask4, int tp)
         {
             if (m == 0)
             {
@@ -4761,6 +4775,10 @@ namespace MDPlayer
                 screen.drawByteArray(x, y, rType[tp * 2 + (mask ? 1 : 0)], 128, 16, 0, 16, 8);
                 drawFont8(screen, x + 16, y, 0, " ");
                 drawFont4(screen, x + 32, y, 0, " 1C00             2C00             3C00             4C00                ");
+                drawFont4(screen, x + 36 + 17 * 4 * 0, y, mask1 ? 1 : 0, "1C");
+                drawFont4(screen, x + 36 + 17 * 4 * 1, y, mask2 ? 1 : 0, "2C");
+                drawFont4(screen, x + 36 + 17 * 4 * 2, y, mask3 ? 1 : 0, "3C");
+                drawFont4(screen, x + 36 + 17 * 4 * 3, y, mask4 ? 1 : 0, "4C");
             }
         }
 

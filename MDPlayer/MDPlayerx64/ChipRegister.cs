@@ -138,8 +138,18 @@ namespace MDPlayer
         public int[][] fmCh3SlotVolYM2612 = new int[][] { new int[4], new int[4] };
         private int[] nowYM2612FadeoutVol = new int[] { 0, 0 };
         private bool[][] maskFMChYM2612 = new bool[][] { 
-            new bool[9] { false, false, false, false, false, false, false, false, false }
-            , new bool[9] { false, false, false, false, false, false, false, false, false } 
+            new bool[13] { 
+                false, false, false,//FM1 - 3
+                false, false, false,//FM4 - 6
+                false, false, false,//FM3OP2 - OP4
+                false, false, false, false //XGMPCM1 - 4
+            }
+            , new bool[13] {
+                false, false, false,//FM1 - 3
+                false, false, false,//FM4 - 6
+                false, false, false,//FM3OP2 - OP4
+                false, false, false, false //XGMPCM1 - 4
+            }
         };
 
         public int[][][] fmRegisterYM2608 = new int[][][] { new int[][] { null, null }, new int[][] { null, null } };
@@ -4429,6 +4439,7 @@ namespace MDPlayer
             if (dAddr == 0x2a)
             {
                 //PCMデータをマスクする
+                //if (maskFMChYM2612[chipID][5] && Audio.PlayingFileFormat != EnmFileFormat.XGM) dData = 0x80;
                 if (maskFMChYM2612[chipID][5]) dData = 0x80;
                 //Console.WriteLine("{0:x02}",dData);
             }
@@ -4882,9 +4893,23 @@ namespace MDPlayer
         {
             maskFMChYM2612[chipID][ch] = mask;
 
+            if (ch > 8)
+            {
+                if(Audio.PlayingFileFormat== EnmFileFormat.XGM)
+                {
+                    if (Audio.DriverVirtual != null && Audio.DriverVirtual is xgm)
+                    {
+                        ((xgm)Audio.DriverVirtual).xgmpcm[0].mute = maskFMChYM2612[chipID][9];
+                        ((xgm)Audio.DriverVirtual).xgmpcm[1].mute = maskFMChYM2612[chipID][10];
+                        ((xgm)Audio.DriverVirtual).xgmpcm[2].mute = maskFMChYM2612[chipID][11];
+                        ((xgm)Audio.DriverVirtual).xgmpcm[3].mute = maskFMChYM2612[chipID][12];
+                    }
+                }
+                return;
+            }
             int c = (ch < 3) ? ch : (ch - 3);
             int p = (ch < 3) ? 0 : 1;
-            if (c > 5)
+            if (ch > 5 && ch < 9)
             {
                 c = 2;
                 p = 0;

@@ -5920,7 +5920,7 @@ namespace MDPlayer.form
                         else if (ch == 13) c = 12;
                         ForceChannelMask(EnmChip.YM2610, chipID, ch, newParam.ym2610[chipID].channels[c].mask);
                     }
-                    for (int ch = 0; ch < 6; ch++) ForceChannelMask(EnmChip.YM2612, chipID, ch, newParam.ym2612[chipID].channels[ch].mask);
+                    for (int ch = 0; ch < 13; ch++) ForceChannelMask(EnmChip.YM2612, chipID, ch, newParam.ym2612[chipID].channels[ch].mask);
                     for (int ch = 0; ch < 4; ch++) ForceChannelMask(EnmChip.SN76489, chipID, ch, newParam.sn76489[chipID].channels[ch].mask);
                     for (int ch = 0; ch < 8; ch++) ForceChannelMask(EnmChip.RF5C164, chipID, ch, newParam.rf5c164[chipID].channels[ch].mask);
                     for (int ch = 0; ch < 8; ch++) ForceChannelMask(EnmChip.RF5C68, chipID, ch, newParam.rf5c68[chipID].channels[ch].mask);
@@ -9080,7 +9080,7 @@ namespace MDPlayer.form
                     }
                     break;
                 case EnmChip.YM2612:
-                    if (ch >= 0 && ch < 9)
+                    if (ch >= 0 && ch < 13)
                     {
                         Audio.SetYM2612Mask(chipID, ch);
                         newParam.ym2612[chipID].channels[ch].mask = true;
@@ -9500,7 +9500,7 @@ namespace MDPlayer.form
                     }
                     break;
                 case EnmChip.YM2612:
-                    if (ch >= 0 && ch < 9)
+                    if (ch >= 0 && ch < 13)
                     {
                         Audio.ResetYM2612Mask(chipID, ch);
                         newParam.ym2612[chipID].channels[ch].mask = false;
@@ -9856,7 +9856,7 @@ namespace MDPlayer.form
                     }
                     break;
                 case EnmChip.YM2612:
-                    if (ch >= 0 && ch < 9)
+                    if (ch >= 0 && ch < 13)
                     {
                         if (mask == true)
                             Audio.SetYM2612Mask(chipID, ch);

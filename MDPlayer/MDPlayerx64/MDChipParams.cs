@@ -108,7 +108,7 @@
             public bool[] xpcmKeyOn = new bool[4] { false, false, false, false };
             public bool[] xpcmHiSpeed = new bool[4] { false, false, false, false };
 
-            public Channel[] channels = new Channel[9] { new Channel(), new Channel(), new Channel(), new Channel(), new Channel(), new Channel(), new Channel(), new Channel(), new Channel() };
+            public Channel[] channels = new Channel[13] { new Channel(), new Channel(), new Channel(), new Channel(), new Channel(), new Channel(), new Channel(), new Channel(), new Channel(), new Channel(), new Channel(), new Channel(), new Channel() };
 
         }
         public YM2612[] ym2612 = new YM2612[] { new YM2612(), new YM2612() };

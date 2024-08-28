@@ -355,6 +355,7 @@ namespace MDPlayer
             public uint inst = 0;
             public bool isPlaying = false;
             public byte data = 0;
+            public bool mute = false;
         }
 
         public XGMPCM[] xgmpcm = null;
@@ -401,6 +402,7 @@ namespace MDPlayer
             {
                 if (!xgmpcm[i].isPlaying) continue;
                 sbyte d = (sbyte)vgmBuf[xgmpcm[i].addr++];
+                if (!xgmpcm[i].mute)
                 o += (short)d;
                 xgmpcm[i].data = (byte)Math.Abs((int)d);
                 if (xgmpcm[i].addr >= xgmpcm[i].endAddr)
