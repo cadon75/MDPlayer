@@ -2289,7 +2289,15 @@ namespace MDPlayer
                     if ((algM[al] & (1 << slot)) != 0)
                     {
                         dData = Math.Min(dData + nowYM2203FadeoutVol[chipID], 127);
-                        dData = maskFMChYM2203[chipID][ch] ? 127 : dData;
+                        int c = ch;
+                        if (ch == 2)
+                        {
+                            //FM Ch3 の場合はスロット毎にマスクフラグチェック
+                            c = 2;
+                            if (slot != 0) c = 5 + opN[slot];
+                        }
+                        //マスクフラグチェック(ONの場合はTLを127に変更)
+                        dData = maskFMChYM2203[chipID][c] ? 127 : dData;
                     }
                 }
             }
@@ -4655,8 +4663,9 @@ namespace MDPlayer
             if (noSend) return;
 
             int c = ch;
-            if (ch < 3)
+            if (ch < 3 || ch > 5)
             {
+                if (ch > 5) c = 2;
                 setYM2203Register((byte)chipID, 0x40 + c, fmRegisterYM2203[chipID][0x40 + c], EnmModel.VirtualModel);
                 setYM2203Register((byte)chipID, 0x44 + c, fmRegisterYM2203[chipID][0x44 + c], EnmModel.VirtualModel);
                 setYM2203Register((byte)chipID, 0x48 + c, fmRegisterYM2203[chipID][0x48 + c], EnmModel.VirtualModel);
@@ -4875,6 +4884,11 @@ namespace MDPlayer
 
             int c = (ch < 3) ? ch : (ch - 3);
             int p = (ch < 3) ? 0 : 1;
+            if (c > 5)
+            {
+                c = 2;
+                p = 0;
+            }
 
             setYM2612Register((byte)chipID, p, 0x40 + c, fmRegisterYM2612[chipID][p][0x40 + c], EnmModel.VirtualModel, -1);
             setYM2612Register((byte)chipID, p, 0x44 + c, fmRegisterYM2612[chipID][p][0x44 + c], EnmModel.VirtualModel, -1);

@@ -8962,14 +8962,14 @@ namespace MDPlayer.form
                         Audio.SetYM2203Mask(chipID, ch);
                         newParam.ym2203[chipID].channels[ch].mask = true;
 
-                        //FM(2ch) FMex
-                        if ((ch == 2) || (ch >= 6 && ch < 9))
-                        {
-                            newParam.ym2203[chipID].channels[2].mask = true;
-                            newParam.ym2203[chipID].channels[6].mask = true;
-                            newParam.ym2203[chipID].channels[7].mask = true;
-                            newParam.ym2203[chipID].channels[8].mask = true;
-                        }
+                        ////FM(2ch) FMex
+                        //if ((ch == 2) || (ch >= 6 && ch < 9))
+                        //{
+                        //    newParam.ym2203[chipID].channels[2].mask = true;
+                        //    newParam.ym2203[chipID].channels[6].mask = true;
+                        //    newParam.ym2203[chipID].channels[7].mask = true;
+                        //    newParam.ym2203[chipID].channels[8].mask = true;
+                        //}
                     }
                     break;
                 case EnmChip.YM2413:
@@ -9440,14 +9440,14 @@ namespace MDPlayer.form
                         Audio.ResetYM2203Mask(chipID, ch);
                         newParam.ym2203[chipID].channels[ch].mask = false;
 
-                        //FM(2ch) FMex
-                        if ((ch == 2) || (ch >= 6 && ch < 9))
-                        {
-                            newParam.ym2203[chipID].channels[2].mask = false;
-                            newParam.ym2203[chipID].channels[6].mask = false;
-                            newParam.ym2203[chipID].channels[7].mask = false;
-                            newParam.ym2203[chipID].channels[8].mask = false;
-                        }
+                        ////FM(2ch) FMex
+                        //if ((ch == 2) || (ch >= 6 && ch < 9))
+                        //{
+                        //    newParam.ym2203[chipID].channels[2].mask = false;
+                        //    newParam.ym2203[chipID].channels[6].mask = false;
+                        //    newParam.ym2203[chipID].channels[7].mask = false;
+                        //    newParam.ym2203[chipID].channels[8].mask = false;
+                        //}
                     }
                     break;
                 case EnmChip.YM2413:
