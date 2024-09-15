@@ -3,7 +3,7 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   
 [概要]  
   このツールは、鍵盤表示を行いながらVGMファイルの再生を行います。  
-  (NRD,XGM,S98,MID,RCP,RCS,NSF,HES,SID,AY,MGS,MDR,MDX,MND,ZMD,ZMS,MUC,MUB,M,M2,MZ,MPI,MVI,MZI,OPI,OVI,OZI,WAV,MP3,AIFFファイルにも対応。)  
+  (NRD,XGM,S98,MID,RCP,RCS,NSF,GBS,HES,SID,AY,MGS,MDR,MDX,MND,ZMD,ZMS,MUC,MUB,M,M2,MZ,MPI,MVI,MZI,OPI,OVI,OZI,WAV,MP3,AIFFファイルにも対応。)  
   
 [注意]  
   ・FileAssociationTool(ファイル関連付け設定ツール)についてはREADME_AST.md/README_AST_EN.mdを参照お願いします。  
@@ -30,6 +30,7 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   .RCP (レコポンファイル CM6,GSDの送信可)  
   .RCS (上記RCPを演奏しながらPCM8も発音できるファイル)  
   .NSF (NES Sound Format)  
+  .GBS (Gameboy Sound Format)  
   .HES (HESファイル)  
   .SID (コモドール向けファイル)  
   .AY  (ZX Spectrum / Amstrad CPC向けファイル)  
@@ -561,7 +562,11 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
     ・MSX Resource Center  
     ・msxnet  
     ・Xyzさんのツイートのリンク先(https://twitter.com/XyzGonGivItToYa/status/1216942514902634496?s=20)  
-    ・がんず Work's Diary
+    ・がんず Work's Diary  
+    ・pastraider.com(https://www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html)  
+    ・Pan Docs(http://bgb.bircd.org/pandocs.htm#memorymap)  
+    ・プラスウイングTV(https://youtu.be/p13EdWrQFjY?si=2L93LDE6SyvINzXX)  
+
 
 [FAQ]  
   

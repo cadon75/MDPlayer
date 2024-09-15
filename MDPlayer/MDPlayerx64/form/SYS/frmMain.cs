@@ -4984,7 +4984,7 @@ namespace MDPlayer.form
 
                     if (filename.ToLower().LastIndexOf(".zip") == -1)
                     {
-                        loadAndPlay(0, 0, filename, null, null, null);
+                        loadAndPlay(0, 0, filename, null, null, null, null);
                         frmPlayList.setStart(-1);
                         oldParam = new MDChipParams();
 
@@ -5799,7 +5799,7 @@ namespace MDPlayer.form
             }
 
 
-            if (loadAndPlay(playFn.Item1, playFn.Item2, playFn.Item3, playFn.Item4,playFn.Item5,playFn.Item6))
+            if (loadAndPlay(playFn.Item1, playFn.Item2, playFn.Item3, playFn.Item4,playFn.Item5,playFn.Item6,null))
             {
                 frmPlayList.Play();
             }
@@ -5947,6 +5947,17 @@ namespace MDPlayer.form
 
                 Audio.GO();
 
+                if (playingGD3 != null && Audio.DriverVirtual != null && Audio.DriverVirtual.GD3 != null)
+                {
+                    if (!string.IsNullOrEmpty(playingGD3.TrackName))
+                    {
+                        Audio.DriverVirtual.GD3.TrackName = playingGD3.TrackName;
+                    }
+                    if (!string.IsNullOrEmpty(playingGD3.TrackNameJ))
+                    {
+                        Audio.DriverVirtual.GD3.TrackNameJ = playingGD3.TrackNameJ;
+                    }
+                }
                 frmInfo?.UpdateInfo();
 
                 if (setting.other.AutoOpen)
@@ -6413,6 +6424,12 @@ namespace MDPlayer.form
             if (ext == ".nsf")
             {
                 format = EnmFileFormat.NSF;
+                return buf;
+            }
+
+            if (ext == ".gbs")
+            {
+                format = EnmFileFormat.GBS;
                 return buf;
             }
 
@@ -8568,7 +8585,7 @@ namespace MDPlayer.form
                 //frmPlayList.AddList(sParam);
             }
 
-            if (!loadAndPlay(0, 0, fname,null,null,null))
+            if (!loadAndPlay(0, 0, fname,null,null,null, null))
             {
                 frmPlayList.Stop();
                 Request req = new(EnmRequest.Stop);
@@ -8645,7 +8662,7 @@ namespace MDPlayer.form
 
 
 
-        public bool loadAndPlay(int m, int songNo, string fn, string zfn, string[] spfn,string useCom)
+        public bool loadAndPlay(int m, int songNo, string fn, string zfn, string[] spfn,string useCom,GD3 gd3)
         {
             try
             {
@@ -8726,6 +8743,7 @@ namespace MDPlayer.form
 
                 if (srcBuf != null)
                 {
+                    playingGD3 = gd3;
                     this.Invoke((Action)Playdata);
                     if (Audio.ErrMsg != "") return false;
                 }
@@ -10332,6 +10350,10 @@ namespace MDPlayer.form
                             fn = "DriverBalance_NSF.mbc";
                             defMbc = Resources.DefaultVolumeBalance_NSF;
                             break;
+                        case EnmFileFormat.GBS:
+                            fn = "DriverBalance_GBS.mbc";
+                            defMbc = Resources.DefaultVolumeBalance_GBS;
+                            break;
                         case EnmFileFormat.NRT:
                             fn = "DriverBalance_NRT.mbc";
                             defMbc = Resources.DefaultVolumeBalance_NRT;
@@ -10745,7 +10767,7 @@ namespace MDPlayer.form
 
                 if (Common.CheckExt(fn[0]) != EnmFileFormat.M3U && Common.CheckExt(fn[0]) != EnmFileFormat.ZIP)
                 {
-                    if (!loadAndPlay(0, 0, fn[0], "",null,null)) return;
+                    if (!loadAndPlay(0, 0, fn[0], "",null,null, null)) return;
                     frmPlayList.setStart(-1);
                 }
                 oldParam = new MDChipParams();
@@ -11039,6 +11061,7 @@ namespace MDPlayer.form
             false
         };
         private Button[] lstOpeButtonControl;
+        private GD3 playingGD3;
 
         private void RelocateOpeButton(int zoom)
         {

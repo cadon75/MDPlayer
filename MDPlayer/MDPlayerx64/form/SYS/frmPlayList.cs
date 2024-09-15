@@ -34,7 +34,7 @@ namespace MDPlayer.form
         private Random rand = new System.Random();
         private bool IsInitialOpenFolder = true;
 
-        private string[] sext = ".vgm;.vgz;.zip;.lzh;.nrd;.xgm;.xgz;.zgm;.s98;.nsf;.hes;.sid;.ay;.mnd;.mgs;.bgm;.msd;.mdr;.mdx;.mub;.muc;.m;.m2;.mz;.mml;.mpi;.mvi;.mzi;.opi;.ovi;.ozi;.mid;.zms;.zmd;.rcp;.rcs;.wav;.mp3;.aiff;.m3u".Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+        private string[] sext = ".vgm;.vgz;.zip;.lzh;.nrd;.xgm;.xgz;.zgm;.s98;.nsf;.gbs;.hes;.sid;.ay;.mnd;.mgs;.bgm;.msd;.mdr;.mdx;.mub;.muc;.m;.m2;.mz;.mml;.mpi;.mvi;.mzi;.opi;.ovi;.ozi;.mid;.zms;.zmd;.rcp;.rcs;.wav;.mp3;.aiff;.m3u".Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
 
         public frmPlayList(frmMain frm)
         {
@@ -438,7 +438,8 @@ namespace MDPlayer.form
                 useCom = dgvList.Rows[pi].Cells["clmUseCompiler"].Value.ToString();
             }
 
-            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom);
+            GD3 gd3 = getGD3FromPl(pi);
+            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom,gd3);
             if (Audio.ErrMsg != "")
             {
                 playing = false;
@@ -530,8 +531,8 @@ namespace MDPlayer.form
             {
                 useCom = dgvList.Rows[pi].Cells["clmUseCompiler"].Value.ToString();
             }
-
-            if (!frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom))
+            GD3 gd3 = getGD3FromPl(pi);
+            if (!frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom,gd3))
             {
                 playing = false;
                 return;
@@ -621,8 +622,8 @@ namespace MDPlayer.form
             {
                 useCom = dgvList.Rows[pi].Cells["clmUseCompiler"].Value.ToString();
             }
-
-            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom);
+            GD3 gd3 = getGD3FromPl(pi);
+            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom,gd3);
             updatePlayingIndex(pi);
             playing = true;
         }
@@ -765,7 +766,8 @@ namespace MDPlayer.form
                     useCom = dgvList.Rows[e.RowIndex].Cells["clmUseCompiler"].Value.ToString();
                 }
 
-                if (!frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom)) return;
+                GD3 gd3= getGD3FromPl(e.RowIndex);
+                if (!frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom, gd3)) return;
                 updatePlayingIndex(e.RowIndex);
 
                 playing = true;
@@ -776,6 +778,32 @@ namespace MDPlayer.form
                 dgvList.Enabled = true;
                 dgvList.Rows[e.RowIndex].Selected = true;
             }
+        }
+
+        private GD3 getGD3FromPl(int row)
+        {
+            if (dgvList == null || dgvList.Rows.Count <= 0) return null;
+            if (dgvList.Rows.Count <= row) return null;
+
+            DataGridViewRow r= dgvList.Rows[row];
+            GD3 gd3 = new GD3();
+            gd3.Composer = r.Cells["clmComposer"].Value.ToString();
+            gd3.ComposerJ = r.Cells["clmComposerJ"].Value.ToString();
+            gd3.Converted = r.Cells["clmConverted"].Value.ToString();
+            gd3.GameName = r.Cells["clmGame"].Value.ToString();
+            gd3.GameNameJ = r.Cells["clmGameJ"].Value.ToString();
+            gd3.Lyrics = null;
+            gd3.Notes = r.Cells["clmNotes"].Value.ToString(); 
+            gd3.pic = null;
+            gd3.SystemName = r.Cells["clmTitle"].Value.ToString(); 
+            gd3.SystemNameJ = r.Cells["clmTitleJ"].Value.ToString(); 
+            gd3.TrackName = r.Cells["clmTitle"].Value.ToString(); 
+            gd3.TrackNameJ = r.Cells["clmTitleJ"].Value.ToString(); 
+            gd3.UsedChips = "";
+            gd3.Version = "";
+            gd3.VGMBy = "";
+
+            return gd3;
         }
 
         private void dgvPlayList_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -870,8 +898,8 @@ namespace MDPlayer.form
             {
                 useCom = dgvList.Rows[0].Cells["clmUseCompiler"].Value.ToString();
             }
-
-            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom);
+            GD3 gd3 = getGD3FromPl(0);
+            frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom, gd3);
             updatePlayingIndex(dgvList.SelectedRows[0].Index);
 
             playing = true;
@@ -1215,8 +1243,8 @@ namespace MDPlayer.form
                     {
                         useCom = dgvList.Rows[0].Cells["clmUseCompiler"].Value.ToString();
                     }
-
-                    frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom);
+                    GD3 gd3 = getGD3FromPl(0);
+                    frmMain.loadAndPlay(m, songNo, fn, zfn, spFn, useCom, gd3);
                     updatePlayingIndex(index);
 
                     playing = true;
@@ -1315,7 +1343,7 @@ namespace MDPlayer.form
                     //&& fn.ToLower().LastIndexOf(".sid") == -1
                     )
                 {
-                    frmMain.loadAndPlay(0, 0, fn, null, null, null);
+                    frmMain.loadAndPlay(0, 0, fn, null, null, null,null);
                     setStart(i);// -1);
                     frmMain.oldParam = new MDChipParams();
                     Play();
