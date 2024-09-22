@@ -87,6 +87,8 @@ del /Q .\output\scciconfig.exe
 del /Q .\output\lib\scci.ini
 del /Q .\output\lib\scci.dll
 del /Q .\output\lib\scciconfig.exe
+del /Q .\output\scci2.ini
+del /Q .\output\lib\scci2.ini
 
 echo ----------------------------------------
 echo     
