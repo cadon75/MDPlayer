@@ -6,6 +6,8 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   (NRD,XGM,S98,MID,RCP,RCS,NSF,GBS,HES,SID,AY,MGS,MDR,MDX,MND,ZMD,ZMS,MUC,MUB,M,M2,MZ,MPI,MVI,MZI,OPI,OVI,OZI,WAV,MP3,AIFFファイルにも対応。)  
   
 [注意]  
+  ・作者様よりSCCI2の同梱の許可をいただきました。但しForkなどしてバイナリを配布する際にSCCI2を同梱したい場合は別途、許可を頂くようお願いします。  
+  
   ・FileAssociationTool(ファイル関連付け設定ツール)についてはREADME_AST.md/README_AST_EN.mdを参照お願いします。  
   
   ・再生時の音量に注意してください。バグによる雑音が大音量で再生される場合もあります。  
@@ -133,7 +135,7 @@ VGMファイルなどのPlayer(メガドライブ音源チップなどのエミ�
   
   ・SCCI2を利用して本物のYM2612(YM3438),SN76489,YM2608,YM2151,YMF262から再生が可能です。  
   またSPPCMにも対応しています。  
-  SCCI2は別途ダウンロードしMDPlayerと同じ場所に置き、scci2config.exeで設定を行っておくことが必須です。  
+  SCCI2はscci2config.exeで設定を行っておくことが必須です。  
   
   ・GIMIC(C86ctl)を利用して本物のYM2608,YM2151,YMF262から再生が可能です。  
   

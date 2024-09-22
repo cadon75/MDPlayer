@@ -141,9 +141,14 @@ namespace MDPlayer
             }
         }
 
-        internal static object GetSIDRegister(int chipID)
+        public static object GetSIDRegister(int chipID)
         {
             return chipRegister.getSIDRegister(chipID);
+        }
+
+        public static object GetPokeyRegister(int chipID)
+        {
+            return chipRegister.getPokeyRegister(chipID);
         }
 
         internal static sid GetCurrentSIDContext()

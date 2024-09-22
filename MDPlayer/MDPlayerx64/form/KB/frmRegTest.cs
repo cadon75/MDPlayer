@@ -1,5 +1,6 @@
 ﻿using Driver.libsidplayfp.sidplayfp;
 using MDPlayer.Driver.SID;
+using MDSound;
 
 namespace MDPlayer.form
 {
@@ -123,6 +124,11 @@ namespace MDPlayer.form
                 { // 20, 21, 22
                     return Audio.GetSIDRegister(Select);
                 });
+
+                AddChip("POKEY", 1, 0x100, (Select) =>
+                { // 23
+                    return Audio.GetPokeyRegister(Select);
+                });
             }
 
             private void AddChip(string ChipName, int Max, int regSize, ChipData.GetRegisterDelegate p)
@@ -229,6 +235,7 @@ namespace MDPlayer.form
             { EnmChip.YM3812, 18 },
             { EnmChip.NES, 19 },
             { EnmChip.SID, 20 },
+            { EnmChip.POKEY, 23 },
         };
 
         public frmRegTest(frmMain frm, int chipID, EnmChip enmPage, int zoom)
@@ -478,6 +485,25 @@ namespace MDPlayer.form
 
                 y += 32;
                 //return;
+            }
+            else if (Name == "POKEY       ")
+            {
+                pokey.pokey_state pState = (pokey.pokey_state)RegMan.GetData();
+                if (pState == null) return;
+
+                //DrawBuff.drawFont8(frameBuffer, 2 + 0, 1 + 16, 0, $"AUDF   {pState.AUDF[0]:X02} {pState.AUDF[1]:X02} {pState.AUDF[2]:X02} {pState.AUDF[3]:X02}");
+                //DrawBuff.drawFont8(frameBuffer, 2 + 0, 1 + 24, 0, $"AUDC   {pState.AUDC[0]:X02} {pState.AUDC[1]:X02} {pState.AUDC[2]:X02} {pState.AUDC[3]:X02}");
+                //DrawBuff.drawFont8(frameBuffer, 2 + 0, 1 + 32, 0, $"AUDCTL {pState.AUDCTL:X02}");
+
+                for (int i = 0; i < 4; i++)
+                {
+                    DrawBuff.drawFont8(frameBuffer, 2 + 0, 1 + 24 + i * 16, 0, $"AUDF{i + 1}  ${pState.AUDF[i]:X02}({pState.AUDF[i]:D03})");
+                    DrawBuff.drawFont8(frameBuffer, 2 + 0, 1 + 32 + i * 16, 0, $"AUDC{i + 1}  ${pState.AUDC[i]:X02}(N:{((pState.AUDC[i] & 0xe0) >> 5):D01} FV:{((pState.AUDC[i] & 0x10) >> 4):D01} V:{((pState.AUDC[i] & 0x0f) >> 0):D02})");
+                }
+
+                DrawBuff.drawFont8(frameBuffer, 2 + 0, 1 + 96, 0, $"AUDCTL ${pState.AUDCTL:X02}({pState.AUDCTL:B08}B)");
+
+                return;
             }
 
 

@@ -10929,6 +10929,7 @@ namespace MDPlayer.form
             else if (sender == c352ToolStripMenuItem) OpenFormRegTest(0, EnmChip.C352);
             else if (sender == yM3812ToolStripMenuItem) OpenFormRegTest(0, EnmChip.YM3812);
             else if (sender == sIDToolStripMenuItem) OpenFormRegTest(0, EnmChip.SID);
+            else if (sender == pOKEYToolStripMenuItem) OpenFormRegTest(0, EnmChip.POKEY);
             else OpenFormRegTest(0);
         }
 

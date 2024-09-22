@@ -52,13 +52,21 @@ del /Q .\output\*.pdb
 rem del /Q .\output\*.config
 del /Q .\output\*.bat
 del /Q .\output\FileAssociationTool\*.pdb
-rem del /Q .\output\scci.ini
+
 del /Q .\output\scci.ini
 del /Q .\output\scci.dll
 del /Q .\output\scciconfig.exe
 del /Q .\output\lib\scci.ini
 del /Q .\output\lib\scci.dll
 del /Q .\output\lib\scciconfig.exe
+
+rem del /Q .\output\scci2.ini
+rem del /Q .\output\scci2.dll
+rem del /Q .\output\scci2config.exe
+rem del /Q .\output\lib\scci2.ini
+rem del /Q .\output\lib\scci2.dll
+rem del /Q .\output\lib\scci2config.exe
+
 rem del /Q .\output\MGSDRV.COM
 copy /Y .\removeZoneIdent.bat   .\output
 copy /Y .\mdp.bat   .\output
@@ -72,6 +80,13 @@ copy /Y ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayerBackUp\VST\*.*               .
 copy /Y ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayerBackUp\App.config            ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayer
 copy /Y ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayerBackUp\MDPlayer.csproj       ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayer
 copy /Y ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayerBackUp\MDPlayer.csproj.user  ..\..\MDPlayerWithoutVST\MDPlayer\MDPlayer
+
+del /Q .\output\scci.ini
+del /Q .\output\scci.dll
+del /Q .\output\scciconfig.exe
+del /Q .\output\lib\scci.ini
+del /Q .\output\lib\scci.dll
+del /Q .\output\lib\scciconfig.exe
 
 echo ----------------------------------------
 echo     

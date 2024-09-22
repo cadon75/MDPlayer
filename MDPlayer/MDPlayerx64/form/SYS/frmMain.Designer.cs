@@ -304,6 +304,7 @@ namespace MDPlayer.form
             opeButtonOpen = new Button();
             opeButtonMode = new Button();
             keyboardHook1 = new HongliangSoft.Utilities.Gui.KeyboardHook();
+            pOKEYToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pbScreen).BeginInit();
             cmsOpenOtherPanel.SuspendLayout();
             cmsMenu.SuspendLayout();
@@ -1689,7 +1690,7 @@ namespace MDPlayer.form
             // 
             // レジスタダンプ表示ToolStripMenuItem
             // 
-            レジスタダンプ表示ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { yM2612ToolStripMenuItem, ym2151ToolStripMenuItem, ym2203ToolStripMenuItem, ym2413ToolStripMenuItem, ym2608ToolStripMenuItem, yM2610ToolStripMenuItem, yM3812ToolStripMenuItem, yMF262ToolStripMenuItem, yMF278BToolStripMenuItem, yMZ280BToolStripMenuItem, c140ToolStripMenuItem, c352ToolStripMenuItem, qSoundToolStripMenuItem, segaPCMToolStripMenuItem, sN76489ToolStripMenuItem, aY8910ToolStripMenuItem, sIDToolStripMenuItem });
+            レジスタダンプ表示ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { yM2612ToolStripMenuItem, ym2151ToolStripMenuItem, ym2203ToolStripMenuItem, ym2413ToolStripMenuItem, ym2608ToolStripMenuItem, yM2610ToolStripMenuItem, yM3812ToolStripMenuItem, yMF262ToolStripMenuItem, yMF278BToolStripMenuItem, yMZ280BToolStripMenuItem, c140ToolStripMenuItem, c352ToolStripMenuItem, qSoundToolStripMenuItem, segaPCMToolStripMenuItem, sN76489ToolStripMenuItem, aY8910ToolStripMenuItem, sIDToolStripMenuItem, pOKEYToolStripMenuItem });
             レジスタダンプ表示ToolStripMenuItem.Name = "レジスタダンプ表示ToolStripMenuItem";
             resources.ApplyResources(レジスタダンプ表示ToolStripMenuItem, "レジスタダンプ表示ToolStripMenuItem");
             // 
@@ -2172,6 +2173,12 @@ namespace MDPlayer.form
             // 
             keyboardHook1.KeyboardHooked += keyboardHook1_KeyboardHooked;
             // 
+            // pOKEYToolStripMenuItem
+            // 
+            pOKEYToolStripMenuItem.Name = "pOKEYToolStripMenuItem";
+            resources.ApplyResources(pOKEYToolStripMenuItem, "pOKEYToolStripMenuItem");
+            pOKEYToolStripMenuItem.Click += RegisterDumpMenuItem_Click;
+            // 
             // frmMain
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -2482,6 +2489,7 @@ namespace MDPlayer.form
         private ToolStripMenuItem tsmiSMPCMX68k;
         private ToolStripMenuItem mPCMX68kToolStripMenuItem;
         private ToolStripMenuItem mPCMX68kToolStripMenuItem1;
+        private ToolStripMenuItem pOKEYToolStripMenuItem;
     }
 }
 

@@ -162,15 +162,6 @@
     <None Update="lib\RealChipCtlWrap64.pdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="lib\scci.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="lib\scci.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="lib\scciconfig.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="lib\Z80dotNet.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -75,6 +75,11 @@ namespace MDPlayer
             return SID.GetRegisterFromSid()[chipID];
         }
 
+        public pokey.pokey_state getPokeyRegister(int chipID)
+        {
+            return mds.ReadPOKEY((byte)chipID);
+        }
+
         private int[] noteTbl = new int[] { 2, 4, 5, -1, 6, 8, 9, -1, 10, 12, 13, -1, 14, 0, 1, -1 };
         private int[] noteTbl2 = new int[] { 13, 14, 0, -1, 1, 2, 4, -1, 5, 6, 8, -1, 9, 10, 12, -1 };
 
