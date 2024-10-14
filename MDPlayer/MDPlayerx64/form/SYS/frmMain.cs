@@ -16,6 +16,7 @@ using System;
 using MDPlayerx64.Driver;
 using Driver.libsidplayfp.sidtune;
 using System.Runtime.CompilerServices;
+using MDPlayerx64.MDServer;
 
 namespace MDPlayer.form
 {
@@ -131,6 +132,7 @@ namespace MDPlayer.form
         private object remoteLockObj = new();
         private bool remoteBusy = false;
         private List<string[]> remoteReq = new();
+        private MDServer mdsrv = null;
 
         private double speedRatio = 1.0;
 
@@ -145,6 +147,12 @@ namespace MDPlayer.form
         {
             log.debug = this.setting.debug.logDebug;
             log.logLevel = this.setting.debug.logLevel;
+
+            if (this.setting.network.useMDServer)
+            {
+                mdsrv = new MDServer(this.setting.network.port,Remote);
+                mdsrv.init();
+            }
 
             frmConsole = new frmConsole(setting);
             if (setting.debug.ShowConsole) frmConsole.Show();
@@ -582,6 +590,11 @@ namespace MDPlayer.form
                         TsmiPause_Click(null, null);
                         break;
                     case "CLOSE":
+                        if (this.InvokeRequired)
+                        {
+                            this.Invoke(Close);
+                            break;
+                        }
                         Close();
                         break;
                     case "LOOP":
@@ -1177,6 +1190,11 @@ namespace MDPlayer.form
 
             log.ForcedWrite("終了処理開始");
             log.ForcedWrite("frmMain_FormClosing:STEP 00");
+
+            if (mdsrv != null)
+            {
+                mdsrv.disConnect();
+            }
 
             frmPlayList.Stop();
             frmPlayList.Save();

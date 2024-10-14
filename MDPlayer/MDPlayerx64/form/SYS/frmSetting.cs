@@ -976,6 +976,9 @@ namespace MDPlayer.form
 
             rbRcsPCM8.Checked = setting.rcs.pcm8type == 0;
             rbRcsPCM8PP.Checked = setting.rcs.pcm8type == 1;
+
+            cbUseMDServer.Checked = setting.network.useMDServer;
+            tbPort.Text = setting.network.port.ToString();
         }
 
         private void SetRealCombo(EnmRealChipType realType, ComboBox cmbP, RadioButton rbP, ComboBox cmbS, RadioButton rbS)
@@ -2014,6 +2017,10 @@ namespace MDPlayer.form
             setting.keyBoardHook.Sr.Win = false;
             setting.keyBoardHook.Sr.Alt = false;
             setting.keyBoardHook.Sr.Key = string.IsNullOrEmpty(lblSrKey.Text) ? "(None)" : lblSrKey.Text;
+
+            setting.network.useMDServer=cbUseMDServer.Checked;
+            if (!int.TryParse(tbPort.Text, out nn)) nn = 11000;
+            setting.network.port = Math.Min(Math.Max(nn, 0), 65535);
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -3236,6 +3243,10 @@ namespace MDPlayer.form
 
         }
 
+        private void cbUseMDServer_CheckedChanged(object sender, EventArgs e)
+        {
+            gbMDServer.Enabled = cbUseMDServer.Checked;
+        }
     }
 
 

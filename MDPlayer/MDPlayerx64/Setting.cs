@@ -1,8 +1,10 @@
 ﻿using System.Text;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 #if X64
 using MDPlayerx64.Properties;
 using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.Devices;
 #else
 using MDPlayer.Properties;
 #endif
@@ -624,6 +626,20 @@ namespace MDPlayer
             set
             {
                 _playMode = value;
+            }
+        }
+
+        private Network _network = new();
+        public Network network
+        {
+            get
+            {
+                return _network;
+            }
+
+            set
+            {
+                _network = value;
             }
         }
 
@@ -1433,6 +1449,24 @@ namespace MDPlayer
         //        return ct;
         //    }
         //}
+
+        [Serializable]
+        public class Network
+        {
+            public bool useMDServer { get; set; }=false;
+            public int port { get; set; } = 11000;
+
+            public Network Copy()
+            {
+                Network network = new()
+                {
+                    useMDServer = this.useMDServer,
+                    port = this.port,
+                };
+
+                return network;
+            }
+        }
 
         [Serializable]
         public class Other
@@ -6092,6 +6126,7 @@ namespace MDPlayer
             setting.FileSearchPathList = this.FileSearchPathList;
 
             setting.other = this.other.Copy();
+            setting.network = this.network.Copy();
             setting.debug = this.debug.Copy();
             setting.balance = this.balance.Copy();
             setting.LatencyEmulation = this.LatencyEmulation;
