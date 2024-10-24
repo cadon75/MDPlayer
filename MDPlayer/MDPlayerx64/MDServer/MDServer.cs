@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Net.Security;
+using MDPlayer;
 
 namespace MDPlayerx64.MDServer
 {
@@ -107,8 +108,23 @@ namespace MDPlayerx64.MDServer
                 byte[] bb = new byte[ReadSize];
                 Array.Copy(state.buffer, bb, ReadSize);
                 string msg = Encoding.UTF8.GetString(bb);
-                remoteCallback(msg);
+                switch (msg)
+                {
+                    case "CC":
+                        msg = Audio.GetCounter().ToString();
+                        break;
+                    case "TC":
+                        msg = Audio.GetTotalCounter().ToString();
+                        break;
+                    case "LC":
+                        msg = Audio.GetLoopCounter().ToString();
+                        break;
+                    default:
+                        remoteCallback(msg);
+                        break;
+                }
                 Debug.WriteLine(msg);
+                bb = Encoding.UTF8.GetBytes(msg);
                 handler.BeginSend(bb, 0, bb.Length, 0, new AsyncCallback(WriteCallback), state);
             }
             catch (Exception)
