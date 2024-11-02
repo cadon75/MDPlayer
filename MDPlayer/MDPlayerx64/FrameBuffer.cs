@@ -313,6 +313,108 @@ namespace MDPlayer
             }
         }
 
+        public void drawFillBox(int x, int y, int width, int height, byte b, byte g, byte r)
+        {
+            if (bmpPlane == null) return;
+
+            try
+            {
+                int adr1;
+                int wid = bmpPlaneW * 4;
+                adr1 = wid * y + x * 4;
+                for (int i = 0; i < height; i++)
+                {
+                    if (y + i < 0) continue;
+                    if (y + i >= bmpPlaneH) continue;
+
+                    if (adr1 < 0)
+                    {
+                        adr1 += wid;
+                        continue;
+                    }
+
+                    if (baPlaneBuffer != null)
+                    {
+                        for (int j = 0; j < width * 4; j += 4)
+                        {
+                            if (x + j / 4 < 0) continue;
+                            if (x + j / 4 >= bmpPlaneW) continue;
+
+                            if (adr1 + j >= baPlaneBuffer.Length) continue;
+
+                            baPlaneBuffer[adr1 + j + 0] = b;
+                            baPlaneBuffer[adr1 + j + 1] = g;
+                            baPlaneBuffer[adr1 + j + 2] = r;
+                            baPlaneBuffer[adr1 + j + 3] = 0xff;
+                        }
+                    }
+
+                    adr1 += wid;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                log.ForcedWrite(ex);
+            }
+        }
+
+        public void drawFillBox(int x, int y, int width, int height, byte b1, byte g1, byte r1, byte b2, byte g2, byte r2)
+        {
+            if (bmpPlane == null) return;
+
+            try
+            {
+                int adr1;
+                int wid = bmpPlaneW * 4;
+                adr1 = wid * y + x * 4;
+                byte r, g, b;
+
+                for (int i = 0; i < height; i++)
+                {
+                    if (y + i < 0) continue;
+                    if (y + i >= bmpPlaneH) continue;
+
+                    if (adr1 < 0)
+                    {
+                        adr1 += wid;
+                        continue;
+                    }
+
+                    if (baPlaneBuffer != null)
+                    {
+                        for (int j = 0; j < width * 4; j += 4)
+                        {
+                            if (x + j / 4 < 0) continue;
+                            if (x + j / 4 >= bmpPlaneW) continue;
+
+                            if (adr1 + j >= baPlaneBuffer.Length) continue;
+
+                            b = b1;
+                            g = g1;
+                            r = r1;
+                            if (j == 0 || j == width * 4 - 4 || i == 0 || i == height - 1)
+                            {
+                                b = b2;
+                                g = g2;
+                                r = r2;
+                            }
+                            baPlaneBuffer[adr1 + j + 0] = b;
+                            baPlaneBuffer[adr1 + j + 1] = g;
+                            baPlaneBuffer[adr1 + j + 2] = r;
+                            baPlaneBuffer[adr1 + j + 3] = 0xff;
+                        }
+                    }
+
+                    adr1 += wid;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                log.ForcedWrite(ex);
+            }
+        }
     }
 
 }

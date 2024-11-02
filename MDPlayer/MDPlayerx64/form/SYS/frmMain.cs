@@ -60,26 +60,27 @@ namespace MDPlayer.form
         private frmMpcmX68k[] frmMPCMX68k = new frmMpcmX68k[2] { null, null };
         private frmSN76489[] frmSN76489 = new frmSN76489[2] { null, null };
         private frmSegaPCM[] frmSegaPCM = new frmSegaPCM[2] { null, null };
-        private frmAY8910[] frmAY8910 = new frmAY8910[2] { null, null };
-        private frmHuC6280[] frmHuC6280 = new frmHuC6280[2] { null, null };
-        private frmK051649[] frmK051649 = new frmK051649[2] { null, null };
-        private frmK053260[] frmK053260 = new frmK053260[2] { null, null };
-        private frmYM2413[] frmYM2413 = new frmYM2413[2] { null, null };
-        private frmYMF262[] frmYMF262 = new frmYMF262[2] { null, null };
-        private frmYMF271[] frmYMF271 = new frmYMF271[2] { null, null };
+        private frmAY8910[] frmAY8910 = [null, null];
+        private frmHuC6280[] frmHuC6280 = [null, null];
+        private frmK051649[] frmK051649 = [null, null];
+        private frmK053260[] frmK053260 = [null, null];
+        private frmYM2413[] frmYM2413 = [null, null];
+        private frmYMF262[] frmYMF262 = [null, null];
+        private frmYMF271[] frmYMF271 = [null, null];
         private frmYMF278B[] frmYMF278B = new frmYMF278B[2] { null, null };
         private frmMIDI[] frmMIDI = new frmMIDI[4] { null, null, null, null };
         private frmYM2612MIDI frmYM2612MIDI = null;
         private frmMixer2 frmMixer2 = null;
-        private frmNESDMC[] frmNESDMC = new frmNESDMC[2] { null, null };
-        private frmFDS[] frmFDS = new frmFDS[2] { null, null };
-        private frmMMC5[] frmMMC5 = new frmMMC5[2] { null, null };
-        private frmVRC6[] frmVRC6 = new frmVRC6[2] { null, null };
-        private frmVRC7[] frmVRC7 = new frmVRC7[2] { null, null };
-        private frmN106[] frmN106 = new frmN106[2] { null, null };
+        private frmNESDMC[] frmNESDMC = [null, null];
+        private frmFDS[] frmFDS = [null, null];
+        private frmMMC5[] frmMMC5 = [null, null];
+        private frmVRC6[] frmVRC6 = [null, null];
+        private frmVRC7[] frmVRC7 = [null, null];
+        private frmN106[] frmN106 = [null, null];
         private frmRegTest frmRegTest;
         private frmVisWave frmVisWave;
         private frmConsole frmConsole;
+        private frmPianoRoll frmPianoRoll;
 
         private List<Form[]> lstForm = new();
 
@@ -138,10 +139,10 @@ namespace MDPlayer.form
 
         private bool faderMasterHover = false;
         private bool faderMasterDrag = false;
-        private int  faderMasterVal = 0;
+        private int faderMasterVal = 0;
         private bool faderTimeLineHover = false;
         private bool faderTimeLineDrag = false;
-        private int  faderTimeLineVal = 0;
+        private int faderTimeLineVal = 0;
 
         public frmMain()
         {
@@ -150,7 +151,7 @@ namespace MDPlayer.form
 
             if (this.setting.network.useMDServer)
             {
-                mdsrv = new MDServer(this.setting.network.port,Remote);
+                mdsrv = new MDServer(this.setting.network.port, Remote);
                 mdsrv.init();
             }
 
@@ -331,6 +332,7 @@ namespace MDPlayer.form
             if (setting.location.OMixer) openMixer();
             if (setting.location.OpenYm2612MIDI) openMIDIKeyboard();
             if (setting.location.OpenVisWave) OpenFormVisWave();
+            if (setting.location.OpenPianoRoll) OpenFormPianoRoll();
 
             for (int chipID = 0; chipID < 2; chipID++)
             {
@@ -1241,6 +1243,8 @@ namespace MDPlayer.form
             setting.location.OMixer = false;
             setting.location.OpenYm2612MIDI = false;
             setting.location.OpenVisWave = false;
+            setting.location.OpenPianoRoll = false;
+
             for (int chipID = 0; chipID < 2; chipID++)
             {
                 setting.location.OpenAY8910[chipID] = false;
@@ -1329,6 +1333,11 @@ namespace MDPlayer.form
             {
                 frmVSTeffectList.Close();
                 setting.location.OpenVSTeffectList = true;
+            }
+            if (frmPianoRoll != null && !frmPianoRoll.isClosed)
+            {
+                frmPianoRoll.Close();
+                setting.location.OpenPianoRoll = true;
             }
 
             for (int chipID = 0; chipID < 2; chipID++)
@@ -4228,7 +4237,7 @@ namespace MDPlayer.form
 
             frmMIDI[chipID].Show();
             frmMIDI[chipID].update();
-            frmMIDI[chipID].Text = string.Format("MIDI ({0})", chipID == 0 ? "Primary" : (chipID==1?"Secondary" : (chipID == 2 ? "3rd":"4th")));
+            frmMIDI[chipID].Text = string.Format("MIDI ({0})", chipID == 0 ? "Primary" : (chipID == 1 ? "Secondary" : (chipID == 2 ? "3rd" : "4th")));
             oldParam.midi[chipID] = new MIDIParam();
 
             CheckAndSetForm(frmMIDI[chipID]);
@@ -4595,6 +4604,32 @@ namespace MDPlayer.form
             frmVisWave.Show();
 
             CheckAndSetForm(frmVisWave);
+        }
+
+        private void OpenFormPianoRoll()
+        {
+            if (frmPianoRoll != null && !frmPianoRoll.isClosed)
+            {
+                frmPianoRoll.Focus();
+                return;
+            }
+
+            frmPianoRoll = new frmPianoRoll(this);
+
+            if (setting.location.PosPianoRoll == System.Drawing.Point.Empty)
+            {
+                frmPianoRoll.x = this.Location.X;
+                frmPianoRoll.y = this.Location.Y + 264;
+            }
+            else
+            {
+                frmPianoRoll.x = setting.location.PosPianoRoll.X;
+                frmPianoRoll.y = setting.location.PosPianoRoll.Y;
+            }
+
+            frmPianoRoll.Show();
+
+            CheckAndSetForm(frmPianoRoll);
         }
 
         private void OpenFormN106(int chipID, bool force = false)
@@ -5429,6 +5464,8 @@ namespace MDPlayer.form
 
             if (frmRegTest != null && !frmRegTest.isClosed) frmRegTest.screenChangeParams();
             else frmRegTest = null;
+            if (frmPianoRoll != null && !frmPianoRoll.isClosed) frmPianoRoll.screenChangeParams();
+            else frmPianoRoll = null;
 
         }
 
@@ -5502,7 +5539,7 @@ namespace MDPlayer.form
             }
 
             DrawBuff.drawFaderH(screen.mainScreen, 23 * 8, 14
-                ,newParam.MasterDrag, newParam.MasterHover, newParam.Master, newParam.MasterVis
+                , newParam.MasterDrag, newParam.MasterHover, newParam.Master, newParam.MasterVis
                 , ref oldParam.MasterDrag, ref oldParam.MasterHover, ref oldParam.Master, ref oldParam.MasterVis);
             DrawBuff.drawFaderH(screen.mainScreen, 23 * 8, 30
                 , newParam.TimeLineDrag, newParam.TimeLineHover, newParam.TimeLine, newParam.TimeLineVis
@@ -5518,7 +5555,7 @@ namespace MDPlayer.form
             {
                 string title = Common.EscSeqFilter(gd3.TrackName);
                 string usedChips = Common.EscSeqFilter(gd3.UsedChips);
-                if(!setting.other.TappyMode)  newInfo = string.Format("MDPlayer - [{0}] {1}", usedChips, title);
+                if (!setting.other.TappyMode) newInfo = string.Format("MDPlayer - [{0}] {1}", usedChips, title);
                 else newInfo = string.Format("MDPlayer - [{0}] {1} (play speed {2:f3}x)", usedChips, title, speedRatio);
             }
             else
@@ -5651,7 +5688,7 @@ namespace MDPlayer.form
                 if (frmMIDI[chipID] != null && !frmMIDI[chipID].isClosed) { frmMIDI[chipID].screenDrawParams(); frmMIDI[chipID].update(); }
                 else frmMIDI[chipID] = null;
 
-                if (frmMIDI[chipID+2] != null && !frmMIDI[chipID + 2].isClosed) { frmMIDI[chipID + 2].screenDrawParams(); frmMIDI[chipID + 2].update(); }
+                if (frmMIDI[chipID + 2] != null && !frmMIDI[chipID + 2].isClosed) { frmMIDI[chipID + 2].screenDrawParams(); frmMIDI[chipID + 2].update(); }
                 else frmMIDI[chipID + 2] = null;
 
                 if (frmNESDMC[chipID] != null && !frmNESDMC[chipID].isClosed) { frmNESDMC[chipID].screenDrawParams(); frmNESDMC[chipID].update(); }
@@ -5679,6 +5716,7 @@ namespace MDPlayer.form
             else frmMixer2 = null;
 
             if (frmRegTest != null && !frmRegTest.isClosed) { frmRegTest.screenDrawParams(); frmRegTest.update(); } else frmRegTest = null;
+            if (frmPianoRoll != null && !frmPianoRoll.isClosed) { frmPianoRoll.screenDrawParams(); frmPianoRoll.update(); } else frmPianoRoll = null;
 
         }
 
@@ -5817,7 +5855,7 @@ namespace MDPlayer.form
             }
 
 
-            if (loadAndPlay(playFn.Item1, playFn.Item2, playFn.Item3, playFn.Item4,playFn.Item5,playFn.Item6,null))
+            if (loadAndPlay(playFn.Item1, playFn.Item2, playFn.Item3, playFn.Item4, playFn.Item5, playFn.Item6, null))
             {
                 frmPlayList.Play();
             }
@@ -6205,7 +6243,7 @@ namespace MDPlayer.form
 
             Audio.Slow();
         }
-        
+
         public void Speed()
         {
 
@@ -8603,7 +8641,7 @@ namespace MDPlayer.form
                 //frmPlayList.AddList(sParam);
             }
 
-            if (!loadAndPlay(0, 0, fname,null,null,null, null))
+            if (!loadAndPlay(0, 0, fname, null, null, null, null))
             {
                 frmPlayList.Stop();
                 Request req = new(EnmRequest.Stop);
@@ -8680,7 +8718,7 @@ namespace MDPlayer.form
 
 
 
-        public bool loadAndPlay(int m, int songNo, string fn, string zfn, string[] spfn,string useCom,GD3 gd3)
+        public bool loadAndPlay(int m, int songNo, string fn, string zfn, string[] spfn, string useCom, GD3 gd3)
         {
             try
             {
@@ -10785,7 +10823,7 @@ namespace MDPlayer.form
 
                 if (Common.CheckExt(fn[0]) != EnmFileFormat.M3U && Common.CheckExt(fn[0]) != EnmFileFormat.ZIP)
                 {
-                    if (!loadAndPlay(0, 0, fn[0], "",null,null, null)) return;
+                    if (!loadAndPlay(0, 0, fn[0], "", null, null, null)) return;
                     frmPlayList.setStart(-1);
                 }
                 oldParam = new MDChipParams();
@@ -11288,7 +11326,7 @@ namespace MDPlayer.form
         {
             if (pic == null)
             {
-                if(frmPic!= null  && !frmPic.isClosed)
+                if (frmPic != null && !frmPic.isClosed)
                 {
                     frmPic.Close();
                 }
@@ -11309,6 +11347,11 @@ namespace MDPlayer.form
             frmPic.Show();
             frmPic.TopMost = true;
             frmPic.TopMost = false;
+        }
+
+        private void tsmiPianoRoll_Click(object sender, EventArgs e)
+        {
+            OpenFormPianoRoll();
         }
     }
 }

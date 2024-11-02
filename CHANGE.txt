@@ -1,4 +1,7 @@
 更新履歴 
+STBL471 2024/11/02
+  PianoRoll実装。vgm+OPN2のみ。
+
 STBL470 2024/10/24
   mucomDotNET更新
 

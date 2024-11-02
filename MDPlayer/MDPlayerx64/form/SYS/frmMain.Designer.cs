@@ -282,6 +282,7 @@ namespace MDPlayer.form
             sN76489ToolStripMenuItem = new ToolStripMenuItem();
             aY8910ToolStripMenuItem = new ToolStripMenuItem();
             sIDToolStripMenuItem = new ToolStripMenuItem();
+            pOKEYToolStripMenuItem = new ToolStripMenuItem();
             tsmiVisualizer = new ToolStripMenuItem();
             tsmiOutputwavFile = new ToolStripMenuItem();
             opeButtonSetting = new Button();
@@ -304,7 +305,7 @@ namespace MDPlayer.form
             opeButtonOpen = new Button();
             opeButtonMode = new Button();
             keyboardHook1 = new HongliangSoft.Utilities.Gui.KeyboardHook();
-            pOKEYToolStripMenuItem = new ToolStripMenuItem();
+            tsmiPianoRoll = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pbScreen).BeginInit();
             cmsOpenOtherPanel.SuspendLayout();
             cmsMenu.SuspendLayout();
@@ -934,7 +935,7 @@ namespace MDPlayer.form
             // cmsMenu
             // 
             cmsMenu.ImageScalingSize = new Size(20, 20);
-            cmsMenu.Items.AddRange(new ToolStripItem[] { ファイルToolStripMenuItem, 操作ToolStripMenuItem, tsmiOption, tsmiPlayList, tsmiOpenInfo, tsmiOpenMixer, その他ウィンドウ表示ToolStripMenuItem, tsmiChangeZoom, レジスタダンプ表示ToolStripMenuItem, tsmiVisualizer, tsmiOutputwavFile });
+            cmsMenu.Items.AddRange(new ToolStripItem[] { ファイルToolStripMenuItem, 操作ToolStripMenuItem, tsmiOption, tsmiPlayList, tsmiOpenInfo, tsmiOpenMixer, その他ウィンドウ表示ToolStripMenuItem, tsmiChangeZoom, レジスタダンプ表示ToolStripMenuItem, tsmiVisualizer, tsmiOutputwavFile, tsmiPianoRoll });
             cmsMenu.Name = "contextMenuStrip1";
             resources.ApplyResources(cmsMenu, "cmsMenu");
             // 
@@ -1796,6 +1797,12 @@ namespace MDPlayer.form
             resources.ApplyResources(sIDToolStripMenuItem, "sIDToolStripMenuItem");
             sIDToolStripMenuItem.Click += RegisterDumpMenuItem_Click;
             // 
+            // pOKEYToolStripMenuItem
+            // 
+            pOKEYToolStripMenuItem.Name = "pOKEYToolStripMenuItem";
+            resources.ApplyResources(pOKEYToolStripMenuItem, "pOKEYToolStripMenuItem");
+            pOKEYToolStripMenuItem.Click += RegisterDumpMenuItem_Click;
+            // 
             // tsmiVisualizer
             // 
             tsmiVisualizer.Name = "tsmiVisualizer";
@@ -2173,11 +2180,11 @@ namespace MDPlayer.form
             // 
             keyboardHook1.KeyboardHooked += keyboardHook1_KeyboardHooked;
             // 
-            // pOKEYToolStripMenuItem
+            // tsmiPianoRoll
             // 
-            pOKEYToolStripMenuItem.Name = "pOKEYToolStripMenuItem";
-            resources.ApplyResources(pOKEYToolStripMenuItem, "pOKEYToolStripMenuItem");
-            pOKEYToolStripMenuItem.Click += RegisterDumpMenuItem_Click;
+            tsmiPianoRoll.Name = "tsmiPianoRoll";
+            resources.ApplyResources(tsmiPianoRoll, "tsmiPianoRoll");
+            tsmiPianoRoll.Click += tsmiPianoRoll_Click;
             // 
             // frmMain
             // 
@@ -2490,6 +2497,7 @@ namespace MDPlayer.form
         private ToolStripMenuItem mPCMX68kToolStripMenuItem;
         private ToolStripMenuItem mPCMX68kToolStripMenuItem1;
         private ToolStripMenuItem pOKEYToolStripMenuItem;
+        private ToolStripMenuItem tsmiPianoRoll;
     }
 }
 

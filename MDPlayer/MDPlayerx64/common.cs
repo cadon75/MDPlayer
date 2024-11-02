@@ -892,6 +892,7 @@ namespace MDPlayer
     {
         VirtualModel
         , RealModel
+        , PianoRollModel
     }
 
     public enum EnmChip : int

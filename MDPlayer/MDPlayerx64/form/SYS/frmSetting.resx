@@ -332,7 +332,7 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="btnASIOControlPanel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+    <value>Top, Right</value>
   </data>
   <data name="btnASIOControlPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>456, 10</value>

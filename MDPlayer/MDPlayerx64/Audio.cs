@@ -101,6 +101,7 @@ namespace MDPlayer
         private static RealChip realChip;
         private static ChipRegister chipRegister = null;
         public static HashSet<EnmChip> UseChip { get; set; } = new();
+        public static PianoRollMng pianoRollMng = new();
 
 
         private static Thread trdMain = null;
@@ -178,6 +179,8 @@ namespace MDPlayer
 
         public static baseDriver DriverVirtual { get; set; } = null;
         public static baseDriver DriverReal { get; set; } = null;
+        public static baseDriver DriverPianoRoll { get; set; } = null;
+
 
         private static bool oneTimeReset = false;
         private static int hiyorimiEven = 0;
@@ -1760,6 +1763,7 @@ namespace MDPlayer
 
             chipRegister = new ChipRegister(
                 setting
+                , pianoRollMng
                 , mds
                 , realChip
                 , VstMng
@@ -2576,6 +2580,19 @@ namespace MDPlayer
                     ((Vgm)DriverReal).dacControl.chipRegister = chipRegister;
                     ((Vgm)DriverReal).dacControl.model = EnmModel.RealModel;
                 }
+
+                DriverPianoRoll = null;
+                if(setting.pianoRoll.usePianoRoll)
+                {
+                    pianoRollMng.Clear();
+                    DriverPianoRoll = new Vgm(setting)
+                    {
+                        setting = setting
+                    };
+                    ((Vgm)DriverPianoRoll).dacControl.chipRegister = chipRegister;
+                    ((Vgm)DriverPianoRoll).dacControl.model = EnmModel.PianoRollModel;
+                }
+
                 return VgmPlay(setting);
             }
 
@@ -7047,6 +7064,14 @@ namespace MDPlayer
                     , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000)))
                     return false;
 
+                if (DriverPianoRoll != null && !DriverPianoRoll.init(vgmBuf
+                    , chipRegister
+                    , EnmModel.PianoRollModel
+                    , new EnmChip[] { EnmChip.YM2203 }// usechip.ToArray()
+                    , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
+                    , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000)))
+                    return false;
+
                 hiyorimiNecessary = setting.HiyorimiMode;
                 int hiyorimiDeviceFlag = 0;
 
@@ -8635,7 +8660,20 @@ namespace MDPlayer
 
         public static void GO()
         {
+            if (DriverPianoRoll != null)
+            {
+                SkipPlay(44100 * 5, DriverPianoRoll);
+            }
+
             Stopped = false;
+        }
+        
+        private static void SkipPlay(long skipTick, baseDriver driver)
+        {
+            for (long i = 0; i < skipTick; i++)
+            {
+                driver.oneFrameProc();
+            }
         }
 
         private static void ClearFadeoutVolume()
@@ -9591,7 +9629,7 @@ namespace MDPlayer
 
                     DriverVirtual.vstDelta = 0;
                     stwh.Reset(); stwh.Start();
-                    cnt = mds.Update(buffer, offset, sampleCount, DriverVirtual.oneFrameProc);
+                    cnt = mds.Update(buffer, offset, sampleCount, oneFrameProc);
                     ProcTimePer1Frame = (int)((double)stwh.ElapsedMilliseconds / (sampleCount + 1) * 1000000.0);
                 }
 
@@ -9669,6 +9707,12 @@ namespace MDPlayer
             }
 
             return -1;
+        }
+
+        private static void oneFrameProc()
+        {
+            DriverVirtual.oneFrameProc();
+            if (DriverPianoRoll != null) DriverPianoRoll.oneFrameProc();
         }
 
         private static string naudioFileName = null;

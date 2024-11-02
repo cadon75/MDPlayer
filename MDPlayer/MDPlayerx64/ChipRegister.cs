@@ -45,29 +45,30 @@ namespace MDPlayer
         private Setting.ChipType2[] ctES5503 = new Setting.ChipType2[2] { null, null };
 
         private RealChip realChip = null;
-        private RSoundChip[] scSN76489 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYM2612 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYM2608 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYM2151 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYM2151_4M = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYM2203 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scAY8910 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scK051649 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYM2413 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYM2610 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYM2610EA = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYM2610EB = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYM3526 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYM3812 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYMF262 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYMF271 = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYMF278B = new RSoundChip[2] { null, null };
-        private RSoundChip[] scYMZ280B = new RSoundChip[2] { null, null };
-        private RSoundChip[] scSEGAPCM = new RSoundChip[2] { null, null };
-        private RSoundChip[] scC140 = new RSoundChip[2] { null, null };
+        private RSoundChip[] scSN76489 = [null, null];
+        private RSoundChip[] scYM2612 = [null, null];
+        private RSoundChip[] scYM2608 = [null, null];
+        private RSoundChip[] scYM2151 = [null, null];
+        private RSoundChip[] scYM2151_4M = [null, null];
+        private RSoundChip[] scYM2203 = [null, null];
+        private RSoundChip[] scAY8910 = [null, null];
+        private RSoundChip[] scK051649 = [null, null];
+        private RSoundChip[] scYM2413 = [null, null];
+        private RSoundChip[] scYM2610 = [null, null];
+        private RSoundChip[] scYM2610EA = [null, null];
+        private RSoundChip[] scYM2610EB = [null, null];
+        private RSoundChip[] scYM3526 = [null, null];
+        private RSoundChip[] scYM3812 = [null, null];
+        private RSoundChip[] scYMF262 = [null, null];
+        private RSoundChip[] scYMF271 = [null, null];
+        private RSoundChip[] scYMF278B = [null, null];
+        private RSoundChip[] scYMZ280B = [null, null];
+        private RSoundChip[] scSEGAPCM = [null, null];
+        private RSoundChip[] scC140 = [null, null];
 
         private byte[] algM = new byte[] { 0x08, 0x08, 0x08, 0x08, 0x0c, 0x0e, 0x0e, 0x0f };
         private int[] opN = new int[] { 0, 2, 1, 3 };
+        private PianoRollMng pianoRollMng = null;
 
         public uint[] getSIDRegister(int chipID)
         {
@@ -543,6 +544,7 @@ namespace MDPlayer
 
 
         public ChipRegister(Setting setting
+            , PianoRollMng pianoRollMng
             , MDSound.MDSound mds
             , RealChip nScci
             , vstMng vstMng
@@ -566,6 +568,7 @@ namespace MDPlayer
             )
         {
             this.setting = setting;
+            this.pianoRollMng = pianoRollMng;
             this.mds = mds;
             this.vstMng = vstMng;
             this.vstMng.midiParams = midiParams;
@@ -4517,7 +4520,7 @@ namespace MDPlayer
                     if (ctYM2612[chipID].UseEmu[2]) mds.WriteYM2612mame((byte)chipID, (byte)dPort, (byte)dAddr, (byte)dData);
                 }
             }
-            else
+            else if(model== EnmModel.RealModel)
             {
 
                 //実音源(Scci)
@@ -4546,8 +4549,13 @@ namespace MDPlayer
                     scYM2612[chipID].SetRegister(dPort * 0x100 + dAddr, dData);
                 }
             }
+            else
+            {
+                pianoRollMng.SetRegister(EnmChip.YM2612, chipID, dPort * 0x100 + dAddr, dData, vgmFrameCounter);
+            }
 
         }
+
 
         public void PPSDRVLoad(int ChipID, byte[] addtionalData, EnmModel model)
         {
@@ -5377,7 +5385,7 @@ namespace MDPlayer
                     scSN76489[chipID].SetRegister(1, dData);
                 }
             }
-            else
+            else if(model == EnmModel.VirtualModel)
             {
                 if (!ctSN76489[chipID].UseReal[0])
                 {
@@ -5386,6 +5394,10 @@ namespace MDPlayer
                     else if (ctSN76489[chipID].UseEmu[1])
                         mds.WriteSN76496GGPanning((byte)chipID, (byte)dData);
                 }
+            }
+            else
+            {
+                ;
             }
         }
 
@@ -5432,7 +5444,7 @@ namespace MDPlayer
                     scSN76489[chipID].SetRegister(0, dData);
                 }
             }
-            else
+            else if (model == EnmModel.VirtualModel)
             {
                 if (!ctSN76489[chipID].UseReal[0])
                 {
@@ -5441,6 +5453,10 @@ namespace MDPlayer
                     else if (ctSN76489[chipID].UseEmu[1])
                         mds.WriteSN76496((byte)chipID, (byte)dData);
                 }
+            }
+            else
+            {
+                ;
             }
         }
 

@@ -892,6 +892,10 @@ namespace MDPlayer
 
         private KeyBoardHook _keyBoardHook = new();
 
+        private PianoRoll _pianoRoll= new();
+        public PianoRoll pianoRoll
+        { get => _pianoRoll; set => _pianoRoll = value; }
+
         [Serializable]
         public class OutputDevice
         {
@@ -4150,6 +4154,34 @@ namespace MDPlayer
                 }
             }
 
+            private Point _PosPianoRoll = Point.Empty;
+            public Point PosPianoRoll
+            {
+                get
+                {
+                    return _PosPianoRoll;
+                }
+
+                set
+                {
+                    _PosPianoRoll = value;
+                }
+            }
+
+            private bool _OpenPianoRoll = false;
+            public bool OpenPianoRoll
+            {
+                get
+                {
+                    return _OpenPianoRoll;
+                }
+
+                set
+                {
+                    _OpenPianoRoll = value;
+                }
+            }
+
             private Point[] _PosNESDMC = new Point[2] { Point.Empty, Point.Empty };
             public Point[] PosNESDMC
             {
@@ -4465,6 +4497,8 @@ namespace MDPlayer
                     OpenYm2612MIDI = this.OpenYm2612MIDI,
                     PosVSTeffectList = this.PosVSTeffectList,
                     OpenVSTeffectList = this.OpenVSTeffectList,
+                    PosPianoRoll=this.PosPianoRoll,
+                    OpenPianoRoll=this.OpenPianoRoll,
                     PosVrc7 = this.PosVrc7,
                     OpenVrc7 = this.OpenVrc7,
                     PosMIDI = this.PosMIDI,
@@ -6008,7 +6042,19 @@ namespace MDPlayer
             }
         }
 
-
+        [Serializable]
+        public class PianoRoll
+        {
+            public bool usePianoRoll = true;
+            public PianoRoll Copy()
+            {
+                PianoRoll p = new()
+                {
+                    usePianoRoll = this.usePianoRoll
+                };
+                return p;
+            }
+        }
 
         public Setting Copy()
         {
@@ -6151,6 +6197,7 @@ namespace MDPlayer
             setting.playList = this.playList.Copy();
 
             setting.keyBoardHook = this.keyBoardHook.Copy();
+            setting.pianoRoll=this.pianoRoll.Copy();
 
             return setting;
         }
