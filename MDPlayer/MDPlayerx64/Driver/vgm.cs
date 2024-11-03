@@ -576,13 +576,13 @@
 
         private void VcGGPSGPort06()
         {
-            chipRegister.setSN76489RegisterGGpanning(vgmBuf[vgmAdr] == 0x4f ? 0 : 1, vgmBuf[vgmAdr + 1], model);
+            chipRegister.setSN76489RegisterGGpanning(vgmBuf[vgmAdr] == 0x4f ? 0 : 1, vgmBuf[vgmAdr + 1], model, vgmFrameCounter);
             vgmAdr += 2;
         }
 
         private void VcPSG()
         {
-            chipRegister.setSN76489Register(vgmBuf[vgmAdr] == 0x50 ? 0 : 1, vgmBuf[vgmAdr + 1], model);
+            chipRegister.setSN76489Register(vgmBuf[vgmAdr] == 0x50 ? 0 : 1, vgmBuf[vgmAdr + 1], model, vgmFrameCounter);
             vgmAdr += 2;
         }
 

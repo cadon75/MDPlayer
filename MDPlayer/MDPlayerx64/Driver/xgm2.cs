@@ -846,7 +846,7 @@ namespace MDPlayerx64.Driver
 
         private void WritePSG(byte val)
         {
-            chipRegister.setSN76489Register(0, val, model);
+            chipRegister.setSN76489Register(0, val, model, vgmFrameCounter);
         }
 
         private void WriteYM2612(bool isP0, byte adr, byte val)

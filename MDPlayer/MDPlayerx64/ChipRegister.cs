@@ -6,6 +6,7 @@ using MDSound.np.memory;
 using System.Diagnostics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Net;
+using NAudio.Gui;
 
 namespace MDPlayer
 {
@@ -1037,9 +1038,9 @@ namespace MDPlayer
 
                 for (int c = 0; c < 4; c++)
                 {
-                    setSN76489Register(chipID, 0x90 + (c << 5) + 0xf, EnmModel.RealModel);
-                    setSN76489Register(chipID, 0x80 + (c << 5) + 0x0, EnmModel.RealModel);
-                    setSN76489Register(chipID, 0x00 , EnmModel.RealModel);
+                    setSN76489Register(chipID, 0x90 + (c << 5) + 0xf, EnmModel.RealModel, 0);
+                    setSN76489Register(chipID, 0x80 + (c << 5) + 0x0, EnmModel.RealModel, 0);
+                    setSN76489Register(chipID, 0x00 , EnmModel.RealModel, 0);
                 }
 
                 for (int p = 0; p < 2; p++)
@@ -5369,7 +5370,7 @@ namespace MDPlayer
         }
 
 
-        public void setSN76489RegisterGGpanning(int chipID, int dData, EnmModel model)
+        public void setSN76489RegisterGGpanning(int chipID, int dData, EnmModel model, long vgmFrameCounter)
         {
             if (ctSN76489 == null) return;
 
@@ -5397,11 +5398,11 @@ namespace MDPlayer
             }
             else
             {
-                ;
+                pianoRollMng.SetRegister(EnmChip.SN76489, chipID, 1, dData, vgmFrameCounter);
             }
         }
 
-        public void setSN76489Register(int chipID, int dData, EnmModel model)
+        public void setSN76489Register(int chipID, int dData, EnmModel model, long vgmFrameCounter)
         {
             if (ctSN76489 == null) return;
 
@@ -5456,7 +5457,7 @@ namespace MDPlayer
             }
             else
             {
-                ;
+                pianoRollMng.SetRegister(EnmChip.SN76489, chipID, 0, dData, vgmFrameCounter);
             }
         }
 
@@ -5474,7 +5475,7 @@ namespace MDPlayer
             for (int c = 0; c < 4; c++)
             {
 
-                setSN76489Register(chipID, 0x90 + (c << 5) + sn76489Register[chipID][1 + (c << 1)], EnmModel.RealModel);
+                setSN76489Register(chipID, 0x90 + (c << 5) + sn76489Register[chipID][1 + (c << 1)], EnmModel.RealModel, 0);
             }
         }
 
@@ -5517,21 +5518,21 @@ namespace MDPlayer
         public void softResetSN76489(int chipID, EnmModel model)
         {
             // volume 0
-            setSN76489Register(chipID, 0b1_001_1111, model);// latch : reg 1(Ch1vol) : val $f
-            setSN76489Register(chipID, 0b1_011_1111, model);// latch : reg 3(Ch2vol) : val $f
-            setSN76489Register(chipID, 0b1_101_1111, model);// latch : reg 5(Ch3vol) : val $f
-            setSN76489Register(chipID, 0b1_111_1111, model);// latch : reg 7(Ch3vol) : val $f
+            setSN76489Register(chipID, 0b1_001_1111, model, 0);// latch : reg 1(Ch1vol) : val $f
+            setSN76489Register(chipID, 0b1_011_1111, model, 0);// latch : reg 3(Ch2vol) : val $f
+            setSN76489Register(chipID, 0b1_101_1111, model, 0);// latch : reg 5(Ch3vol) : val $f
+            setSN76489Register(chipID, 0b1_111_1111, model, 0);// latch : reg 7(Ch3vol) : val $f
             // freq 0
-            setSN76489Register(chipID, 0b1_000_0000, model);// latch : reg 0(Ch1freq(low)) : val 0
-            setSN76489Register(chipID, 0b00_00_0000, model);//       : reg 0(Ch1freq(hi )) : val 0
-            setSN76489Register(chipID, 0b1_010_0000, model);// latch : reg 2(Ch2freq(low)) : val 0
-            setSN76489Register(chipID, 0b00_00_0000, model);//       : reg 2(Ch2freq(hi )) : val 0
-            setSN76489Register(chipID, 0b1_100_0000, model);// latch : reg 4(Ch3freq(low)) : val 0
-            setSN76489Register(chipID, 0b00_00_0000, model);//       : reg 4(Ch3freq(hi )) : val 0
-            setSN76489Register(chipID, 0b1_110_0000, model);// latch : reg 6(Ch4noise    ) : val 0
-            setSN76489Register(chipID, 0b00_00_0000, model);//       : reg 6(Ch4noise    ) : val 0
+            setSN76489Register(chipID, 0b1_000_0000, model, 0);// latch : reg 0(Ch1freq(low)) : val 0
+            setSN76489Register(chipID, 0b00_00_0000, model, 0);//       : reg 0(Ch1freq(hi )) : val 0
+            setSN76489Register(chipID, 0b1_010_0000, model, 0);// latch : reg 2(Ch2freq(low)) : val 0
+            setSN76489Register(chipID, 0b00_00_0000, model, 0);//       : reg 2(Ch2freq(hi )) : val 0
+            setSN76489Register(chipID, 0b1_100_0000, model, 0);// latch : reg 4(Ch3freq(low)) : val 0
+            setSN76489Register(chipID, 0b00_00_0000, model, 0);//       : reg 4(Ch3freq(hi )) : val 0
+            setSN76489Register(chipID, 0b1_110_0000, model, 0);// latch : reg 6(Ch4noise    ) : val 0
+            setSN76489Register(chipID, 0b00_00_0000, model, 0);//       : reg 6(Ch4noise    ) : val 0
             //panning
-            setSN76489RegisterGGpanning(chipID, 0xff, model);
+            setSN76489RegisterGGpanning(chipID, 0xff, model, 0);
         }
 
 

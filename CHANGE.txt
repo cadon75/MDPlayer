@@ -1,4 +1,7 @@
 更新履歴 
+STBL473 2024/11/03 2nd
+  PianoRoll:DCSG:vgm/xgm/xgm2対応。他バグ取り。
+
 STBL472 2024/11/03
   PianoRoll:OPN2:xgm/xgm2対応。Ch3Ex対応。他バグ取り。
 

@@ -8586,10 +8586,10 @@ namespace MDPlayer
                 }
                 if (SN76489NGPFlag)
                 {
-                    chipRegister.setSN76489Register(0, 0xe5, EnmModel.RealModel);//white noise mode 
-                    chipRegister.setSN76489Register(1, 0xe5, EnmModel.RealModel);//white noise mode 
-                    chipRegister.setSN76489Register(0, 0xe5, EnmModel.VirtualModel);//white noise mode 
-                    chipRegister.setSN76489Register(1, 0xe5, EnmModel.VirtualModel);//white noise mode 
+                    chipRegister.setSN76489Register(0, 0xe5, EnmModel.RealModel, 0);//white noise mode 
+                    chipRegister.setSN76489Register(1, 0xe5, EnmModel.RealModel, 0);//white noise mode 
+                    chipRegister.setSN76489Register(0, 0xe5, EnmModel.VirtualModel, 0);//white noise mode 
+                    chipRegister.setSN76489Register(1, 0xe5, EnmModel.VirtualModel, 0);//white noise mode 
                 }
                 if (UseChip.Contains(EnmChip.YM2610))
                 {
@@ -11218,7 +11218,7 @@ namespace MDPlayer
                 , (byte)(0x90
                     | ((ch & 3) << 5)
                     | (15 - (Math.Max(chipRegister.sn76489Vol[chipID][ch][0], chipRegister.sn76489Vol[chipID][ch][1]) & 0xf)))
-                , ct.UseEmu[0] ? EnmModel.VirtualModel : EnmModel.RealModel);
+                , ct.UseEmu[0] ? EnmModel.VirtualModel : EnmModel.RealModel, 0);
         }
 
         public static void SetYM2151Mask(int chipID, int ch)

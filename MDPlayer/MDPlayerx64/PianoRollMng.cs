@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MDPlayer
 {
@@ -12,19 +13,6 @@ namespace MDPlayer
     {
         public List<PrNote> lstPrNote = new List<PrNote>();
 
-        private byte[][] YM2612reg;
-        private int[][] YM2612KeyOn;
-        private int[] YM2612KeyOnCh3;
-        private int[][] YM2612KeyOnOld;
-        private int[] YM2612KeyOnCh3Old;
-        private int[][] YM2612Fnum;
-        private int[][] YM2612FnumOld;
-        private int[][] YM2612FnumCh3;
-        private int[][] YM2612FnumCh3Old;
-        private bool[] YM2612Ch3ExFlg;
-        private bool[] YM2612Ch3ExFlgOld;
-        private PrNote[][] YM2612Note;
-        private PrNote[][] YM2612NoteCh3;
 
         public void Clear()
         {
@@ -43,17 +31,43 @@ namespace MDPlayer
             YM2612NoteCh3 = [new PrNote[4], new PrNote[4]];
             YM2612Ch3ExFlg = [false, false];
             YM2612Ch3ExFlgOld = [false, false];
+
+            SN76489Register[0] = new int[8] { 0, 15, 0, 15, 0, 15, 0, 15 };
+            SN76489Register[1] = new int[8] { 0, 15, 0, 15, 0, 15, 0, 15 };
+            SN76489LatchedRegister = new int[] { 0, 0 };
+            SN76489NoiseFreq = new int[] { 0, 0 };
+            SN76489Note = [new PrNote[4], new PrNote[4]];
         }
 
-    public void SetRegister(EnmChip chip, int chipID, int dAdr, int dData, long vgmFrameCounter)
+        public void SetRegister(EnmChip chip, int chipID, int dAdr, int dData, long vgmFrameCounter)
         {
             switch (chip)
             {
                 case EnmChip.YM2612:
                     YM2612(chipID, dAdr, dData, vgmFrameCounter);
                     break;
+                case EnmChip.SN76489:
+                    SN76489(chipID, dData, vgmFrameCounter);
+                    break;
             }
         }
+
+
+
+
+        private byte[][] YM2612reg;
+        private int[][] YM2612KeyOn;
+        private int[] YM2612KeyOnCh3;
+        private int[][] YM2612KeyOnOld;
+        private int[] YM2612KeyOnCh3Old;
+        private int[][] YM2612Fnum;
+        private int[][] YM2612FnumOld;
+        private int[][] YM2612FnumCh3;
+        private int[][] YM2612FnumCh3Old;
+        private bool[] YM2612Ch3ExFlg;
+        private bool[] YM2612Ch3ExFlgOld;
+        private PrNote[][] YM2612Note;
+        private PrNote[][] YM2612NoteCh3;
 
         private void YM2612(int chipID, int dAdr, int dData, long vgmFrameCounter)
         {
@@ -89,7 +103,7 @@ namespace MDPlayer
             }
 
             //fnumチェック
-            if ((dAdr >= 0xa0 && dAdr <= 0xa6)||(dAdr >= 0x1a0 && dAdr <= 0x1a6))
+            if ((dAdr >= 0xa0 && dAdr <= 0xa6) || (dAdr >= 0x1a0 && dAdr <= 0x1a6))
             {
                 for (int i = 0; i < 6; i++)
                 {
@@ -207,7 +221,7 @@ namespace MDPlayer
             }
         }
 
-        private PrNote YM2612MakeNote(int ch,long startTick,float ff,int freq)
+        private PrNote YM2612MakeNote(int ch, long startTick, float ff, int freq)
         {
             PrNote ret = new PrNote
             {
@@ -232,6 +246,154 @@ namespace MDPlayer
 
             return ret;
         }
+
+
+
+        private int[] SN76489LatchedRegister = new int[] { 0, 0 };
+        private int[][] SN76489Register = new int[][] { null, null };
+        private int[] SN76489NoiseFreq = new int[] { 0, 0 };
+        private int[][] SN76489Vol = [[0, 0, 0, 0], [0, 0, 0, 0]];
+        private PrNote[][] SN76489Note;
+
+        private void SN76489(int chipID, int dData, long vgmFrameCounter)
+        {
+            if ((dData & 0x80) != 0)
+            {
+                /* Latch/data byte  %1 cc t dddd */
+                SN76489LatchedRegister[chipID] = (dData >> 4) & 0x07;
+                SN76489Register[chipID][SN76489LatchedRegister[chipID]] =
+                    (SN76489Register[chipID][SN76489LatchedRegister[chipID]] & 0x3f0) /* zero low 4 bits */
+                    | (dData & 0xf);                            /* and replace with data */
+            }
+            else
+            {
+                /* Data byte        %0 - dddddd */
+                if ((SN76489LatchedRegister[chipID] % 2) == 0 && (SN76489LatchedRegister[chipID] < 5))
+                    /* Tone register */
+                    SN76489Register[chipID][SN76489LatchedRegister[chipID]] =
+                        (SN76489Register[chipID][SN76489LatchedRegister[chipID]] & 0x00f) /* zero high 6 bits */
+                        | ((dData & 0x3f) << 4);                 /* and replace with data */
+                else
+                    /* Other register */
+                    SN76489Register[chipID][SN76489LatchedRegister[chipID]] = dData & 0x0f; /* Replace with data */
+            }
+            switch (SN76489LatchedRegister[chipID])
+            {
+                case 0:
+                case 2:
+                case 4: /* Tone channels */
+                    //if (sn76489Register[chipID][LatchedRegister[chipID]] == 0)
+                    //sn76489Register[chipID][LatchedRegister[chipID]] = 1; /* Zero frequency changed to 1 to avoid div/0 */
+                    break;
+                case 6: /* Noise */
+                    SN76489NoiseFreq[chipID] = 0x10 << (SN76489Register[chipID][6] & 0x3); /* set noise signal generator frequency */
+                    break;
+            }
+            if ((dData & 0x10) != 0)
+            {
+                if (SN76489LatchedRegister[chipID] != 0 && SN76489LatchedRegister[chipID] != 2 && SN76489LatchedRegister[chipID] != 4 && SN76489LatchedRegister[chipID] != 6)
+                {
+                    SN76489Vol[chipID][(dData & 0x60) >> 5] = (15 - (dData & 0xf));
+                }
+            }
+
+            //Tone Ch
+            for (int ch = 0; ch < 3; ch++)
+            {
+                int freq = SN76489Register[chipID][ch * 2];
+                int note;
+                if (SN76489Register[chipID][ch * 2 + 1] != 15 && freq != 0)
+                {
+                    float ftone = Audio.ClockSN76489 / (2.0f * SN76489Register[chipID][ch * 2] * 16.0f);
+                    note = SearchSSGNote(ftone);// searchPSGNote(psgRegister[ch * 2]);
+                }
+                else
+                {
+                    note = -1;
+                }
+
+                if (note != -1)
+                {
+                    if (SN76489Note[chipID][ch] == null)
+                    {
+                        //keyONした！
+                        SN76489Note[chipID][ch] = SN76489MakeNote(ch, vgmFrameCounter, note, freq);
+                        lstPrNote.Add(SN76489Note[chipID][ch]);
+                    }
+                    else
+                    {
+                        //keyON中!
+                        if (SN76489Note[chipID][ch].key != note)
+                        {
+                            //音程が異なる場合は新たなノートとする
+                            SN76489Note[chipID][ch].endTick = vgmFrameCounter;
+                            SN76489Note[chipID][ch] = SN76489MakeNote(ch, vgmFrameCounter, note, freq);
+                            lstPrNote.Add(SN76489Note[chipID][ch]);
+                        }
+                    }
+                }
+                else
+                {
+                    //keyOFF
+                    if (SN76489Note[chipID][ch] != null)
+                    {
+                        //keyOFFした！
+                        SN76489Note[chipID][ch].endTick = vgmFrameCounter;
+                        SN76489Note[chipID][ch] = null;
+                    }
+                    else 
+                    {
+                        //keyOFF中
+                    }
+
+                }
+            }
+
+        }
+        private int SearchSSGNote(float freq)
+        {
+            float m = float.MaxValue;
+            int n = 0;
+            for (int i = 0; i < 12 * 8; i++)
+            {
+                float a = Math.Abs(freq - Tables.freqTbl[i]);
+                if (m > a)
+                {
+                    m = a;
+                    n = i;
+                }
+            }
+            return (95-n);
+        }
+
+        private PrNote SN76489MakeNote(int ch, long startTick, int note, int freq)
+        {
+            PrNote ret = new PrNote
+            {
+                ch = ch,
+                startTick = startTick,
+                endTick = -1,//長さ未確定
+                key = note,
+                freq = freq
+            };
+
+            ret.noteColor1[0] = 0x00;
+            ret.noteColor1[1] = 0x50;
+            ret.noteColor1[2] = 0x08;
+            ret.noteColor1[3] = 0x00;
+            ret.noteColor1[4] = 0x70;
+            ret.noteColor1[5] = 0x08;
+
+            ret.noteColor2[0] = 0x00;
+            ret.noteColor2[1] = 0x80;
+            ret.noteColor2[2] = 0x30;
+            ret.noteColor2[3] = 0x00;
+            ret.noteColor2[4] = 0xa0;
+            ret.noteColor2[5] = 0x50;
+
+            return ret;
+        }
+
 
     }
 
