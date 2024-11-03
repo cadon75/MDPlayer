@@ -33,11 +33,7 @@ namespace MDPlayer.form
         private int noteThin = 3;
         private int playLine = (int)FREQ;//1秒(44100Hz)
         private double mul = 1 / FREQ * 200.0;
-        private byte[][] colSet =
-        [
-            [0xd0, 0x00, 0x50 ,0xf0, 0x00, 0x70],
-            [0x90, 0x00, 0x90 ,0xd0, 0x00, 0xb0]
-        ];
+        private int[] kn = new int[] { 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1 };
 
         public frmPianoRoll(frmMain frm)
         {
@@ -80,14 +76,24 @@ namespace MDPlayer.form
 
         public void screenChangeParams()
         {
-            tick = Audio.GetDriverCounter();
         }
 
         public void screenDrawParams()
         {
             int x;
             int len;
-            frameBuffer.clearScreen();
+
+            tick = Audio.GetDriverCounter();
+            for (int i = 0; i < 8 * 12; i++)
+            {
+                int k = kn[i % kn.Length];
+                frameBuffer.drawFillBox(
+                    0,
+                    i * noteHeight,
+                    pbScreen.Width,
+                    noteHeight,
+                    (byte)(0x08 * k), (byte)(0x08 * k), (byte)(0x08 * k));
+            }
 
             for (int i = 0; i < pianoRollMng.lstPrNote.Count; i++)
             {
@@ -95,7 +101,7 @@ namespace MDPlayer.form
                 x = (int)((n.startTick - tick + playLine) * mul);
                 len = (int)(n.endTick == -1 ? pbScreen.Width : ((n.endTick - tick + playLine) * mul) - x);
 
-                if (x + len < 0)
+                if (tick>=0 &&( x + len < 0 || len == 0))
                 {
                     pianoRollMng.lstPrNote.RemoveAt(i);
                     i--;
@@ -111,14 +117,14 @@ namespace MDPlayer.form
                 {
                     for (int j = 0; j < 6; j++)
                     {
-                        n.color[j] = colSet[1][j];
-                        n.trgColor[j] = colSet[1][j];
+                        n.color[j] = n.noteColor2[j];
+                        n.trgColor[j] = n.noteColor2[j];
                     }
                 }
                 else
                 {
                     for (int j = 0; j < 6; j++)
-                        n.trgColor[j] = colSet[0][j];
+                        n.trgColor[j] = n.noteColor1[j];
                 }
 
                 frameBuffer.drawFillBox(
@@ -129,7 +135,6 @@ namespace MDPlayer.form
                     n.color[0], n.color[1], n.color[2],
                     n.color[3], n.color[4], n.color[5]);
             }
-
             x = (int)(playLine * mul);
             frameBuffer.drawFillBox(
                 x,

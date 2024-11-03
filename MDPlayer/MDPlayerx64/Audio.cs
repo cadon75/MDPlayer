@@ -2369,6 +2369,14 @@ namespace MDPlayer
                         setting = setting
                     };
                 }
+                DriverPianoRoll = null;
+                if (setting.pianoRoll.usePianoRoll)
+                {
+                    DriverPianoRoll = new xgm(setting)
+                    {
+                        setting = setting
+                    };
+                }
 
                 return XgmPlay(setting);
             }
@@ -2383,6 +2391,14 @@ namespace MDPlayer
                 if (setting.outputDevice.DeviceType != Common.DEV_Null)
                 {
                     DriverReal = new xgm2(setting)
+                    {
+                        setting = setting
+                    };
+                }
+                DriverPianoRoll = null;
+                if (setting.pianoRoll.usePianoRoll)
+                {
+                    DriverPianoRoll = new xgm2(setting)
                     {
                         setting = setting
                     };
@@ -2584,7 +2600,6 @@ namespace MDPlayer
                 DriverPianoRoll = null;
                 if(setting.pianoRoll.usePianoRoll)
                 {
-                    pianoRollMng.Clear();
                     DriverPianoRoll = new Vgm(setting)
                     {
                         setting = setting
@@ -5273,6 +5288,12 @@ namespace MDPlayer
                 if (DriverReal != null)
                 {
                     if (!DriverReal.init(vgmBuf, chipRegister, EnmModel.RealModel, new EnmChip[] { EnmChip.YM2612, EnmChip.SN76489 }
+                        , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
+                        , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
+                }
+                if (DriverPianoRoll != null)
+                {
+                    if (!DriverPianoRoll.init(vgmBuf, chipRegister, EnmModel.PianoRollModel, new EnmChip[] { EnmChip.YM2612, EnmChip.SN76489 }
                         , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
                         , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
                 }
@@ -8662,6 +8683,7 @@ namespace MDPlayer
         {
             if (DriverPianoRoll != null)
             {
+                pianoRollMng.Clear();
                 SkipPlay(44100 * 5, DriverPianoRoll);
             }
 
@@ -9077,10 +9099,12 @@ namespace MDPlayer
                 ushort nRTC = nrtR.work.TOTALCOUNT;
                 return nVTC > nRTC ? nVTC : nRTC;
             }
-            else if (DriverVirtual is Vgm vgmV && DriverReal is Vgm vgmR)
+            else// if (DriverVirtual is Vgm vgmV && DriverReal is Vgm vgmR)
             {
-                long vVFC = vgmV.vgmFrameCounter;
-                long vRFC = vgmR.vgmFrameCounter;
+                //long vVFC = vgmV.vgmFrameCounter;
+                //long vRFC = vgmR.vgmFrameCounter;
+                long vVFC = DriverVirtual.vgmFrameCounter;
+                long vRFC = DriverReal.vgmFrameCounter;
                 return vVFC > vRFC ? vVFC : vRFC;
             }
 

@@ -46,13 +46,13 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(1024, 365);
+            ClientSize = new Size(1024, 385);
             Controls.Add(pbScreen);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            MaximumSize = new Size(1040, 404);
+            MaximumSize = new Size(1040, 424);
             MinimizeBox = false;
-            MinimumSize = new Size(1040, 404);
+            MinimumSize = new Size(1040, 424);
             Name = "frmPianoRoll";
             Text = "Piano Roll";
             FormClosed += frmPianoRoll_FormClosed;
