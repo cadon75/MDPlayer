@@ -223,7 +223,7 @@ namespace MDPlayer.Driver.FMP
         {
             byte cn = (byte)(dat.port >> 8);
             byte port = (byte)((byte)dat.port == 0x8a ? 0 : 1);
-            chipRegister?.setYM2608Register(0, port, (byte)dat.address, (byte)dat.data, model);
+            chipRegister?.setYM2608Register(0, port, (byte)dat.address, (byte)dat.data, model, vgmFrameCounter);
 
             if (port == 1 && (byte)dat.address == 0x8 && model == EnmModel.RealModel)
             {

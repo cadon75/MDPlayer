@@ -1,4 +1,7 @@
 更新履歴 
+STBL474 2024/11/03 3rd
+  vgm:OPN2,DCSG以外すべてのチップ:PianoRoll向けのデータをチップに送信してしまうバグを修正
+
 STBL473 2024/11/03 2nd
   PianoRoll:DCSG:vgm/xgm/xgm2対応。他バグ取り。
 

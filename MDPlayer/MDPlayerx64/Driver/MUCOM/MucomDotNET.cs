@@ -571,7 +571,7 @@ namespace MDPlayer.Driver
             if (cd.data == -1) return;
             if (cd.port == -1) return;
 
-            chipRegister.setYM2608Register(0, cd.port, cd.address, cd.data, model);
+            chipRegister.setYM2608Register(0, cd.port, cd.address, cd.data, model,vgmFrameCounter);
         }
         private void OPNA2Write(ChipDatum cd)
         {
@@ -580,7 +580,7 @@ namespace MDPlayer.Driver
             if (cd.data == -1) return;
             if (cd.port == -1) return;
 
-            chipRegister.setYM2608Register(1, cd.port, cd.address, cd.data, model);
+            chipRegister.setYM2608Register(1, cd.port, cd.address, cd.data, model, vgmFrameCounter);
 
         }
 
@@ -591,7 +591,7 @@ namespace MDPlayer.Driver
             if (cd.data == -1) return;
             if (cd.port == -1) return;
 
-            chipRegister.setYM2610Register(0, cd.port, cd.address, cd.data, model);
+            chipRegister.setYM2610Register(0, cd.port, cd.address, cd.data, model, vgmFrameCounter);
         }
         private void OPNB2Write(ChipDatum cd)
         {
@@ -600,7 +600,7 @@ namespace MDPlayer.Driver
             if (cd.data == -1) return;
             if (cd.port == -1) return;
 
-            chipRegister.setYM2610Register(1, cd.port, cd.address, cd.data, model);
+            chipRegister.setYM2610Register(1, cd.port, cd.address, cd.data, model, vgmFrameCounter);
         }
         private void OPM1Write(ChipDatum cd)
         {
@@ -608,7 +608,7 @@ namespace MDPlayer.Driver
             if (cd.address == -1) return;
             if (cd.data == -1) return;
 
-            chipRegister.setYM2151Register(0, cd.port, cd.address, cd.data, model, 0, 0);
+            chipRegister.setYM2151Register(0, cd.port, cd.address, cd.data, model, 0, vgmFrameCounter);
         }
 
         private void WriteOPNB1PCMData(byte[] dat, int v, int v2)

@@ -569,17 +569,17 @@ namespace MDPlayer
 
         private void WriteYM2612(int chipID, byte port, byte adr, byte data)
         {
-            chipRegister.setYM2612Register(chipID, port, adr, data, model, 0);
+            chipRegister.setYM2612Register(chipID, port, adr, data, model, vgmFrameCounter);
         }
 
         private void WriteYM2608(int chipID, byte port, byte adr, byte data)
         {
-            chipRegister.setYM2608Register(chipID, port, adr, data, model);
+            chipRegister.setYM2608Register(chipID, port, adr, data, model, vgmFrameCounter);
         }
 
         private void WriteYM2151(int chipID, byte port, byte adr, byte data)
         {
-            chipRegister.setYM2151Register(chipID, port, adr, data, model, YM2151Hosei[chipID], 0);
+            chipRegister.setYM2151Register(chipID, port, adr, data, model, YM2151Hosei[chipID], vgmFrameCounter);
         }
 
         private void WriteYM2413(int chipID, byte adr, byte data)

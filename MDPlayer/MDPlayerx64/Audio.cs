@@ -3356,20 +3356,20 @@ namespace MDPlayer
                 SetYM2608RhythmVolume(true, setting.balance.YM2608RhythmVolume);
                 SetYM2608AdpcmVolume(true, setting.balance.YM2608AdpcmVolume);
 
-                chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.VirtualModel);
-                chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.RealModel);
-                chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.VirtualModel);
-                chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.RealModel);
-                chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.VirtualModel);
-                chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.RealModel);
-                chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.VirtualModel); //PSG TONE でリセット
-                chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.RealModel);
-                chipRegister.setYM2608Register(0, 0, 0x08, 0x00, EnmModel.VirtualModel);
-                chipRegister.setYM2608Register(0, 0, 0x08, 0x00, EnmModel.RealModel);
-                chipRegister.setYM2608Register(0, 0, 0x09, 0x00, EnmModel.VirtualModel);
-                chipRegister.setYM2608Register(0, 0, 0x09, 0x00, EnmModel.RealModel);
-                chipRegister.setYM2608Register(0, 0, 0x0a, 0x00, EnmModel.VirtualModel);
-                chipRegister.setYM2608Register(0, 0, 0x0a, 0x00, EnmModel.RealModel);
+                chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.VirtualModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.RealModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.VirtualModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.RealModel, 0);
+                chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.VirtualModel, 0);
+                chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.RealModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.VirtualModel, 0); //PSG TONE でリセット
+                chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.RealModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x08, 0x00, EnmModel.VirtualModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x08, 0x00, EnmModel.RealModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x09, 0x00, EnmModel.VirtualModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x09, 0x00, EnmModel.RealModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x0a, 0x00, EnmModel.VirtualModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x0a, 0x00, EnmModel.RealModel, 0);
 
                 chipRegister.writeYM2608Clock(0, Driver.MucomDotNET.OPNAbaseclock, EnmModel.RealModel);
                 chipRegister.writeYM2608Clock(1, Driver.MucomDotNET.OPNAbaseclock, EnmModel.RealModel);
@@ -3547,14 +3547,14 @@ namespace MDPlayer
                 SetYM2608RhythmVolume(true, setting.balance.YM2608RhythmVolume);
                 SetYM2608AdpcmVolume(true, setting.balance.YM2608AdpcmVolume);
 
-                chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.VirtualModel);
-                chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.RealModel);
-                chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.VirtualModel);
-                chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.RealModel);
-                chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.VirtualModel);
-                chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.RealModel);
-                chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.VirtualModel); //PSG TONE でリセット
-                chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.RealModel);
+                chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.VirtualModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.RealModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.VirtualModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.RealModel, 0);
+                chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.VirtualModel, 0);
+                chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.RealModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.VirtualModel, 0); //PSG TONE でリセット
+                chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.RealModel, 0);
 
                 chipRegister.writeYM2608Clock(0, Driver.PMDDotNET.baseclock, EnmModel.RealModel);
                 chipRegister.writeYM2608Clock(1, Driver.PMDDotNET.baseclock, EnmModel.RealModel);
@@ -3680,14 +3680,14 @@ namespace MDPlayer
                 SetYM2608RhythmVolume(true, setting.balance.YM2608RhythmVolume);
                 SetYM2608AdpcmVolume(true, setting.balance.YM2608AdpcmVolume);
 
-                chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.VirtualModel);
-                chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.RealModel);
-                chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.VirtualModel);
-                chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.RealModel);
-                chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.VirtualModel);
-                chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.RealModel);
-                chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.VirtualModel); //PSG TONE でリセット
-                chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.RealModel);
+                chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.VirtualModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.RealModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.VirtualModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.RealModel, 0);
+                chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.VirtualModel, 0);
+                chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.RealModel, 0);
+                chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.VirtualModel, 0); //PSG TONE でリセット
+                chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.RealModel, 0);
 
                 chipRegister.writeYM2608Clock(0, Driver.PMDDotNET.baseclock, EnmModel.RealModel);
                 chipRegister.writeYM2608Clock(1, Driver.PMDDotNET.baseclock, EnmModel.RealModel);
@@ -5032,24 +5032,24 @@ namespace MDPlayer
 
                 if (UseChip.Contains(EnmChip.YM2608))
                 {
-                    chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.VirtualModel);
-                    chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.RealModel);
-                    chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.VirtualModel);
-                    chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.RealModel);
-                    chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.VirtualModel); //PSG TONE でリセット
-                    chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.RealModel);
+                    chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.VirtualModel, 0);
+                    chipRegister.setYM2608Register(0, 0, 0x2d, 0x00, EnmModel.RealModel, 0);
+                    chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.VirtualModel, 0);
+                    chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.RealModel, 0);
+                    chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.VirtualModel, 0); //PSG TONE でリセット
+                    chipRegister.setYM2608Register(0, 0, 0x07, 0x38, EnmModel.RealModel, 0);
                     chipRegister.writeYM2608Clock(0, 8000000, EnmModel.RealModel);
                     chipRegister.setYM2608SSGVolume(0, setting.balance.GimicOPNAVolume, EnmModel.RealModel);
                 }
 
                 if (UseChip.Contains(EnmChip.S_YM2608))
                 {
-                    chipRegister.setYM2608Register(1, 0, 0x2d, 0x00, EnmModel.VirtualModel);
-                    chipRegister.setYM2608Register(1, 0, 0x2d, 0x00, EnmModel.RealModel);
-                    chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.VirtualModel);
-                    chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.RealModel);
-                    chipRegister.setYM2608Register(1, 0, 0x07, 0x38, EnmModel.VirtualModel); //PSG TONE でリセット
-                    chipRegister.setYM2608Register(1, 0, 0x07, 0x38, EnmModel.RealModel);
+                    chipRegister.setYM2608Register(1, 0, 0x2d, 0x00, EnmModel.VirtualModel, 0);
+                    chipRegister.setYM2608Register(1, 0, 0x2d, 0x00, EnmModel.RealModel, 0);
+                    chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.VirtualModel, 0);
+                    chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.RealModel, 0);
+                    chipRegister.setYM2608Register(1, 0, 0x07, 0x38, EnmModel.VirtualModel, 0); //PSG TONE でリセット
+                    chipRegister.setYM2608Register(1, 0, 0x07, 0x38, EnmModel.RealModel, 0);
                     chipRegister.writeYM2608Clock(1, 8000000, EnmModel.RealModel);
                     chipRegister.setYM2608SSGVolume(1, setting.balance.GimicOPNAVolume, EnmModel.RealModel);
                 }
@@ -6100,13 +6100,13 @@ namespace MDPlayer
 
                 if (UseChip.Contains(EnmChip.YM2608))
                 {
-                    chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.VirtualModel);
-                    chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.RealModel);
+                    chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.VirtualModel, 0);
+                    chipRegister.setYM2608Register(0, 0, 0x29, 0x82, EnmModel.RealModel, 0);
                 }
                 if (UseChip.Contains(EnmChip.S_YM2608))
                 {
-                    chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.VirtualModel);
-                    chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.RealModel);
+                    chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.VirtualModel, 0);
+                    chipRegister.setYM2608Register(1, 0, 0x29, 0x82, EnmModel.RealModel, 0);
                 }
                 if (UseChip.Contains(EnmChip.YM2151) || UseChip.Contains(EnmChip.S_YM2151))
                     SetYM2151Volume(true, setting.balance.YM2151Volume);
@@ -8594,14 +8594,14 @@ namespace MDPlayer
                 if (UseChip.Contains(EnmChip.YM2610))
                 {
                     //control2 レジスタのパンをセンターに予め設定
-                    chipRegister.setYM2610Register(0, 0, 0x11, 0xc0, EnmModel.RealModel);
-                    chipRegister.setYM2610Register(0, 0, 0x11, 0xc0, EnmModel.VirtualModel);
+                    chipRegister.setYM2610Register(0, 0, 0x11, 0xc0, EnmModel.RealModel, 0);
+                    chipRegister.setYM2610Register(0, 0, 0x11, 0xc0, EnmModel.VirtualModel, 0);
                 }
                 if (UseChip.Contains(EnmChip.S_YM2610))
                 {
                     //control2 レジスタのパンをセンターに予め設定
-                    chipRegister.setYM2610Register(1, 0, 0x11, 0xc0, EnmModel.RealModel);
-                    chipRegister.setYM2610Register(1, 0, 0x11, 0xc0, EnmModel.VirtualModel);
+                    chipRegister.setYM2610Register(1, 0, 0x11, 0xc0, EnmModel.RealModel, 0);
+                    chipRegister.setYM2610Register(1, 0, 0x11, 0xc0, EnmModel.VirtualModel, 0);
                 }
                 if (UseChip.Contains(EnmChip.C140))
                     chipRegister.writeC140Type(0, ((Vgm)DriverVirtual).C140Type, EnmModel.RealModel);
