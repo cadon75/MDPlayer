@@ -2616,6 +2616,8 @@ namespace MDPlayer
                     {
                         setting = setting
                     };
+                    ((Vgm)DriverPianoRoll).dacControl.chipRegister = chipRegister;
+                    ((Vgm)DriverPianoRoll).dacControl.model = EnmModel.RealModel;
                 }
 
                 return VgmPlay(setting);
