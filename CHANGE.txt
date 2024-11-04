@@ -1,4 +1,7 @@
 更新履歴 
+STBL477 2024/11/04 3rd
+  PianoRoll:OPM追加
+
 STBL476 2024/11/04 2nd
   PianoRoll:vgm:ソフトDACの設定を抜いた為、それを使うデータで不具合がでていたのを修正
 

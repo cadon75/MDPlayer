@@ -1248,7 +1248,11 @@ namespace MDPlayer
 
         public void setYM2151Register(int chipID, int dPort, int dAddr, int dData, EnmModel model, int hosei, long vgmFrameCounter)
         {
-            if (model == EnmModel.PianoRollModel) return;
+            if (model == EnmModel.PianoRollModel)
+            {
+                pianoRollMng.SetRegister(EnmChip.YM2151, chipID, dPort * 0x100 + dAddr, dData, vgmFrameCounter);
+                return;
+            }
 
             if (setting.debug.debugOPZ)
             {
