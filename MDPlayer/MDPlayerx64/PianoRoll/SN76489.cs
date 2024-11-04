@@ -16,6 +16,7 @@ namespace MDPlayerx64.PianoRoll
             SN76489LatchedRegister = [];
             SN76489NoiseFreq = [];
             SN76489Note = [];
+            SN76489Vol = [];
 
             for (int i = 0; i < MAXChip; i++)
             {
@@ -23,6 +24,7 @@ namespace MDPlayerx64.PianoRoll
                 SN76489LatchedRegister.Add(0);
                 SN76489NoiseFreq.Add(0);
                 SN76489Note.Add(new PrNote[4]);
+                SN76489Vol.Add([0, 0, 0, 0]);
             }
         }
 
