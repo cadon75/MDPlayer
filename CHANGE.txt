@@ -1,4 +1,8 @@
 更新履歴 
+STBL475 2024/11/04
+  PianoRoll:mucomDotNET追加
+  PianoRoll:OPNA,OPNB追加(FM,SSGのみ)
+
 STBL474 2024/11/03 3rd
   vgm:OPN2,DCSG以外すべてのチップ:PianoRoll向けのデータをチップに送信してしまうバグを修正
 

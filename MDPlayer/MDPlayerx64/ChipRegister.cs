@@ -3034,6 +3034,7 @@ namespace MDPlayer
 
             if(model== EnmModel.PianoRollModel)
             {
+                pianoRollMng.SetRegister(EnmChip.YM2608, chipID, dPort * 0x100 + dAddr, dData, vgmFrameCounter);
                 return;
             }
 
@@ -3744,7 +3745,11 @@ namespace MDPlayer
 
         public void setYM2610Register(int chipID, int dPort, int dAddr, int dData, EnmModel model,long vgmFrameCounter)
         {
-            if (model == EnmModel.PianoRollModel) return;
+            if (model == EnmModel.PianoRollModel)
+            {
+                pianoRollMng.SetRegister(EnmChip.YM2610, chipID, dPort * 0x100 + dAddr, dData, vgmFrameCounter);
+                return;
+            }
 
             if (ctYM2610 == null) return;
             if (dAddr < 0 || dData < 0) return;

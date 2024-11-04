@@ -2060,6 +2060,8 @@ namespace MDPlayer
             MDSound.MDSound.np_nes_vrc7_volume = 0;
 
 
+            pianoRollMng.Clear();
+
             if (PlayingFileFormat == EnmFileFormat.MGS)
             {
                 DriverVirtual = new Driver.MGSDRV.MGSDRV
@@ -2164,6 +2166,16 @@ namespace MDPlayer
                     };
                     ((Driver.MucomDotNET)DriverReal).PlayingFileName = PlayingFileName;
                 }
+                DriverPianoRoll = null;
+                if (setting.pianoRoll.usePianoRoll)
+                {
+                    DriverPianoRoll = new Driver.MucomDotNET(MucomDotNETim)
+                    {
+                        setting = setting
+                    };
+                    ((Driver.MucomDotNET)DriverPianoRoll).PlayingFileName = PlayingFileName;
+                }
+
 
                 return MucPlay_mucomDotNET(setting, Driver.MucomDotNET.enmMUCOMFileType.MUC);
             }
@@ -2604,8 +2616,6 @@ namespace MDPlayer
                     {
                         setting = setting
                     };
-                    ((Vgm)DriverPianoRoll).dacControl.chipRegister = chipRegister;
-                    ((Vgm)DriverPianoRoll).dacControl.model = EnmModel.PianoRollModel;
                 }
 
                 return VgmPlay(setting);
@@ -3383,6 +3393,12 @@ namespace MDPlayer
                 if (DriverReal != null)
                 {
                     if (!DriverReal.init(vgmBuf, chipRegister, EnmModel.RealModel, new EnmChip[] { EnmChip.YM2608 }
+                        , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
+                        , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
+                }
+                if (DriverPianoRoll != null)
+                {
+                    if (!DriverPianoRoll.init(vgmBuf, chipRegister, EnmModel.PianoRollModel, new EnmChip[] { EnmChip.YM2608 }
                         , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
                         , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
                 }
@@ -8683,7 +8699,6 @@ namespace MDPlayer
         {
             if (DriverPianoRoll != null)
             {
-                pianoRollMng.Clear();
                 SkipPlay(44100 * 5, DriverPianoRoll);
             }
 
@@ -9080,18 +9095,26 @@ namespace MDPlayer
         {
             if (DriverVirtual == null && DriverReal == null) return -1;
 
+            //if (DriverVirtual == null)
+            //    return DriverReal is NRTDRV nrtdrv
+            //        ? nrtdrv.work.TOTALCOUNT
+            //        : DriverReal is Vgm vgm
+            //        ? vgm.vgmFrameCounter
+            //        : 0;
             if (DriverVirtual == null)
                 return DriverReal is NRTDRV nrtdrv
                     ? nrtdrv.work.TOTALCOUNT
-                    : DriverReal is Vgm vgm
-                    ? vgm.vgmFrameCounter
-                    : 0;
+                    : DriverReal.vgmFrameCounter;
+            //if (DriverReal == null)
+            //return DriverVirtual is NRTDRV nrtdrv
+            //    ? nrtdrv.work.TOTALCOUNT
+            //    : DriverVirtual is Vgm vgm
+            //    ? vgm.vgmFrameCounter
+            //    : 0;
             if (DriverReal == null)
-                return DriverVirtual is NRTDRV nrtdrv
+                    return DriverVirtual is NRTDRV nrtdrv
                     ? nrtdrv.work.TOTALCOUNT
-                    : DriverVirtual is Vgm vgm
-                    ? vgm.vgmFrameCounter
-                    : 0;
+                    : DriverVirtual.vgmFrameCounter;
 
             if (DriverVirtual is NRTDRV nrtV && DriverReal is NRTDRV nrtR)
             {
