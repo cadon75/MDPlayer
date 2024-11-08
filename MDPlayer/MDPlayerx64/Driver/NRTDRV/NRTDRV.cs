@@ -926,7 +926,7 @@
             {
                 //Out(0x1c00, d);//PSG register
                 //Out(0x1b00, a);//PSG data
-                chipRegister.setAY8910Register(0, d, a, EnmModel.VirtualModel);
+                chipRegister.setAY8910Register(0, d, a, EnmModel.VirtualModel, vgmFrameCounter);
             }
             //else
             //{

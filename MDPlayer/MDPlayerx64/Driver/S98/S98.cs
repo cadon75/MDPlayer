@@ -599,7 +599,7 @@ namespace MDPlayer
 
         private void WriteAY8910(int chipID, byte adr, byte data)
         {
-            chipRegister.setAY8910Register(chipID, adr, data, model);
+            chipRegister.setAY8910Register(chipID, adr, data, model, vgmFrameCounter);
         }
 
         private void WriteSN76489(int chipID, byte data)

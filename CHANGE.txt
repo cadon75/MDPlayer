@@ -1,4 +1,8 @@
 XV—š—ğ 
+STBL478 2024/11/08
+  PianoRoll:Driver:MGSDRV,MuSICA’Ç‰Á
+  PianoRoll:Chip:AY8910’Ç‰Á
+
 STBL477 2024/11/04 3rd
   PianoRoll:OPM’Ç‰Á
 

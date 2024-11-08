@@ -1739,9 +1739,13 @@ namespace MDPlayer
 
 
 
-        public void setAY8910Register(int chipID, int dAddr, int dData, EnmModel model)
+        public void setAY8910Register(int chipID, int dAddr, int dData, EnmModel model,long vgmFrameCounter)
         {
-            if (model == EnmModel.PianoRollModel) return;
+            if (model == EnmModel.PianoRollModel)
+            {
+                pianoRollMng.SetRegister(EnmChip.AY8910, chipID, dAddr, dData, vgmFrameCounter);
+                return;
+            }
 
             if (ctAY8910 == null) return;
 
@@ -2510,20 +2514,20 @@ namespace MDPlayer
             if (model == EnmModel.PianoRollModel) return;
 
             // 全チャネルキーオフ
-            setAY8910Register(chipID, 0x07, 0x00, model);
+            setAY8910Register(chipID, 0x07, 0x00, model,0);
 
             // ボリュームオフ
             for (int ch = 0; ch < 3; ch++)
             {
-                setAY8910Register(chipID, 0x8 + ch, 0x00, model);
+                setAY8910Register(chipID, 0x8 + ch, 0x00, model, 0);
             }
 
             //ノイズ初期化
-            setAY8910Register(chipID, 0x06, 0x00, model);
+            setAY8910Register(chipID, 0x06, 0x00, model, 0);
             //エンベロープ初期化
-            setAY8910Register(chipID, 0x0b, 0x00, model);
-            setAY8910Register(chipID, 0x0c, 0x00, model);
-            setAY8910Register(chipID, 0x0d, 0x00, model);
+            setAY8910Register(chipID, 0x0b, 0x00, model, 0);
+            setAY8910Register(chipID, 0x0c, 0x00, model, 0);
+            setAY8910Register(chipID, 0x0d, 0x00, model, 0);
         }
 
         public void softResetYM2413(int chipID, EnmModel model)
@@ -4742,8 +4746,8 @@ namespace MDPlayer
         {
             maskPSGChAY8910[chipID][ch] = mask;
 
-            setAY8910Register(chipID, (byte)(0x8 + ch), (byte)psgRegisterAY8910[chipID][8 + ch], EnmModel.VirtualModel);
-            setAY8910Register(chipID, (byte)(0x8 + ch), (byte)psgRegisterAY8910[chipID][8 + ch], EnmModel.RealModel);
+            setAY8910Register(chipID, (byte)(0x8 + ch), (byte)psgRegisterAY8910[chipID][8 + ch], EnmModel.VirtualModel,0);
+            setAY8910Register(chipID, (byte)(0x8 + ch), (byte)psgRegisterAY8910[chipID][8 + ch], EnmModel.RealModel, 0);
         }
 
         public void setMaskRF5C164(int chipID, int ch, bool mask)
@@ -5273,7 +5277,7 @@ namespace MDPlayer
             nowAY8910FadeoutVol[chipID] = v;
             for (int c = 0; c < 3; c++)
             {
-                setAY8910Register(chipID, 0x8 + c, psgRegisterAY8910[chipID][0x8 + c], EnmModel.RealModel);
+                setAY8910Register(chipID, 0x8 + c, psgRegisterAY8910[chipID][0x8 + c], EnmModel.RealModel, 0);
             }
         }
 

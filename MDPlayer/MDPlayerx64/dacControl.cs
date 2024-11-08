@@ -517,7 +517,7 @@
                     chipRegister.writePWM(ChipID, Port, (uint)((Offset << 8) | (Data << 0)), model);
                     break;
                 case 0x12:  // AY8910+
-                    chipRegister.setAY8910Register(ChipID, Offset, Data, model);
+                    chipRegister.setAY8910Register(ChipID, Offset, Data, model, 0);
                     break;
                 case 0x13:  // DMG+
                     chipRegister.setDMGRegister(ChipID, Offset, Data, model);
