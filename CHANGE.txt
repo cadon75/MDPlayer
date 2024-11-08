@@ -1,4 +1,8 @@
 更新履歴 
+STBL480 2024/11/08 3rd
+  Driver:AY:フレームカウンターのカウントアップができていなかった
+  PianoRoll:Driver:AY追加
+
 STBL479 2024/11/08 2nd
   PianoRoll:Driver:ZMUSIC追加
 

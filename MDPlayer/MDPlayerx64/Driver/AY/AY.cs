@@ -107,10 +107,7 @@ namespace MDPlayer.Driver.AY
                         oneFrame();
                         Counter++;
                     }
-                    else
-                    {
-                        vgmFrameCounter++;
-                    }
+                    vgmFrameCounter++;
                 }
             }
             catch (Exception ex)
