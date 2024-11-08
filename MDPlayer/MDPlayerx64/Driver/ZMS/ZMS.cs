@@ -753,7 +753,7 @@ namespace MDPlayer.Driver.ZMS
 
         private int OPMCallBack(int adr, int dat)
         {
-            chipRegister.setYM2151Register(0, 0, adr, dat, model, YM2151Hosei[0], 0);
+            chipRegister.setYM2151Register(0, 0, adr, dat, model, YM2151Hosei[0], vgmFrameCounter);
             timerOPM?.WriteReg((byte)adr, (byte)dat);
             return 0;
         }

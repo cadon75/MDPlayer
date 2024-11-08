@@ -2283,6 +2283,15 @@ namespace MDPlayer
                     ((Driver.ZMS.ZMS)DriverReal).PlayingFileName = PlayingFileName;
                     //((Driver.ZMS.ZMS)DriverReal).SupportFileName = SupportFile;
                 }
+                DriverPianoRoll = null;
+                if (setting.pianoRoll.usePianoRoll)
+                {
+                    DriverPianoRoll = new Driver.ZMS.ZMS(PlayingFileFormat)
+                    {
+                        setting = setting
+                    };
+                    ((Driver.ZMS.ZMS)DriverPianoRoll).PlayingFileName = PlayingFileName;
+                }
                 return ZmdPlay(setting, PlayingFileFormat);
             }
 
@@ -4143,6 +4152,12 @@ namespace MDPlayer
                 if (DriverReal != null)
                 {
                     if (!DriverReal.init(vgmBuf, chipRegister, EnmModel.RealModel, new EnmChip[] { EnmChip.YM2151, EnmChip.OKIM6258 }
+                        , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
+                        , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
+                }
+                if (DriverPianoRoll != null)
+                {
+                    if (!DriverPianoRoll.init(vgmBuf, chipRegister, EnmModel.PianoRollModel, new EnmChip[] { EnmChip.YM2151, EnmChip.OKIM6258 }
                         , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
                         , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
                 }

@@ -1,4 +1,7 @@
 XV—š—ğ 
+STBL479 2024/11/08 2nd
+  PianoRoll:Driver:ZMUSIC’Ç‰Á
+
 STBL478 2024/11/08
   PianoRoll:Driver:MGSDRV,MuSICA’Ç‰Á
   PianoRoll:Chip:AY8910’Ç‰Á
