@@ -2235,9 +2235,13 @@ namespace MDPlayer
             fmRegisterYMF278BFM[chipID] = 0;
         }
 
-        public void setHuC6280Register(int chipID, int dAddr, int dData, EnmModel model)
+        public void setHuC6280Register(int chipID, int dAddr, int dData, EnmModel model,long vgmFrameCounter)
         {
-            if (model == EnmModel.PianoRollModel) return;
+            if (model == EnmModel.PianoRollModel)
+            {
+                pianoRollMng.SetRegister(EnmChip.HuC6280,chipID,dAddr,dData,vgmFrameCounter);
+                return;
+            }
 
             if (ctHuC6280 == null) return;
 
@@ -5018,7 +5022,7 @@ namespace MDPlayer
 
             if (ch > 8)
             {
-                if(Audio.PlayingFileFormat== EnmFileFormat.XGM)
+                if (Audio.PlayingFileFormat == EnmFileFormat.XGM && chipID == 0)
                 {
                     if (Audio.DriverVirtual != null && Audio.DriverVirtual is xgm)
                     {

@@ -651,7 +651,7 @@
 
         private void VcHuC6280()
         {
-            chipRegister.setHuC6280Register((vgmBuf[vgmAdr + 1] & 0x80) == 0 ? 0 : 1, vgmBuf[vgmAdr + 1] & 0x7f, vgmBuf[vgmAdr + 2], model);
+            chipRegister.setHuC6280Register((vgmBuf[vgmAdr + 1] & 0x80) == 0 ? 0 : 1, vgmBuf[vgmAdr + 1] & 0x7f, vgmBuf[vgmAdr + 2], model, vgmFrameCounter);
             vgmAdr += 3;
         }
 

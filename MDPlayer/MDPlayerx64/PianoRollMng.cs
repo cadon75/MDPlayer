@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MDPlayer.MDChipParams;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MDPlayer
@@ -17,12 +18,13 @@ namespace MDPlayer
 
         public PianoRollMng()
         {
-            chipList.Add(EnmChip.AY8910, new AY8910(lstPrNote));
-            chipList.Add(EnmChip.YM2151, new YM2151(lstPrNote));
-            chipList.Add(EnmChip.YM2608, new YM2608(lstPrNote));
-            chipList.Add(EnmChip.YM2610, new YM2610(lstPrNote));
-            chipList.Add(EnmChip.YM2612, new YM2612(lstPrNote));
-            chipList.Add(EnmChip.SN76489, new SN76489(lstPrNote));
+            chipList.Add(EnmChip.AY8910, new MDPlayerx64.PianoRoll.AY8910(lstPrNote));
+            chipList.Add(EnmChip.HuC6280, new MDPlayerx64.PianoRoll.HuC6280(lstPrNote));
+            chipList.Add(EnmChip.YM2151, new MDPlayerx64.PianoRoll.YM2151(lstPrNote));
+            chipList.Add(EnmChip.YM2608, new MDPlayerx64.PianoRoll.YM2608(lstPrNote));
+            chipList.Add(EnmChip.YM2610, new MDPlayerx64.PianoRoll.YM2610(lstPrNote));
+            chipList.Add(EnmChip.YM2612, new MDPlayerx64.PianoRoll.YM2612(lstPrNote));
+            chipList.Add(EnmChip.SN76489, new MDPlayerx64.PianoRoll.SN76489(lstPrNote));
         }
 
         public void Clear()

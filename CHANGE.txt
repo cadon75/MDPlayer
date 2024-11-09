@@ -1,4 +1,9 @@
 更新履歴 
+STBL482 2024/11/10
+  PianoRoll:Driver:HES追加
+  PianoRoll:Chip:HuC6280追加
+  YM2612(XGM):演奏開始時に直前のPCMのミュート状態が反映されないバグを修正
+
 STBL481 2024/11/09
   PianoRoll:Driver:NRTDRV,MXDRV,MNDRV,FMP,PMD,S98追加
   PianoRoll:長く発生し続ける音があった時ノートが消えるバグを修正

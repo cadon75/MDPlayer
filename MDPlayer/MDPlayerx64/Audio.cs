@@ -2642,6 +2642,14 @@ namespace MDPlayer
                 //    driverReal = new hes();
                 //    driverReal.setting = setting;
                 //}
+                DriverPianoRoll = null;
+                if (setting.pianoRoll.usePianoRoll)
+                {
+                    DriverPianoRoll = new hes()
+                    {
+                        setting = setting
+                    };
+                }
                 return HesPlay(setting);
             }
 
@@ -7138,6 +7146,13 @@ namespace MDPlayer
                 {
                     ((hes)DriverReal).song = (byte)SongNo;
                     if (!DriverReal.init(vgmBuf, chipRegister, EnmModel.RealModel, new EnmChip[] { EnmChip.Unuse }
+                        , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
+                        , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
+                }
+                if (DriverPianoRoll != null)
+                {
+                    ((hes)DriverPianoRoll).song = (byte)SongNo;
+                    if (!DriverPianoRoll.init(vgmBuf, chipRegister, EnmModel.PianoRollModel, new EnmChip[] { EnmChip.Unuse }
                         , (uint)(setting.outputDevice.SampleRate * setting.LatencySCCI / 1000)
                         , (uint)(setting.outputDevice.SampleRate * setting.outputDevice.WaitTime / 1000))) return false;
                 }
