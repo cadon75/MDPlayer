@@ -129,7 +129,11 @@ namespace MDPlayer.Driver.FMP
                         Counter++;
 
                         nise98.Runtimer();
-                        if (!nise98.IntTimer()) continue;
+                        if (!nise98.IntTimer())
+                        {
+                            vgmFrameCounter++;
+                            continue;
+                        }
                         regs.SS = unchecked((short)0xE000);
                         regs.SP = 0x0000;
                         nise98.CallRunfunctionCall(0x14);

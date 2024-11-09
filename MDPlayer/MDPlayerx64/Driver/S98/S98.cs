@@ -604,7 +604,7 @@ namespace MDPlayer
 
         private void WriteSN76489(int chipID, byte data)
         {
-            chipRegister.setSN76489Register(chipID, data, model, 0);
+            chipRegister.setSN76489Register(chipID, data, model, vgmFrameCounter);
         }
 
         private void WriteYMF262(int chipID, byte port, byte adr, byte data)

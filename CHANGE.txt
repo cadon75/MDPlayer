@@ -1,4 +1,8 @@
 更新履歴 
+STBL481 2024/11/09
+  PianoRoll:Driver:NRTDRV,MXDRV,MNDRV,FMP,PMD,S98追加
+  PianoRoll:長く発生し続ける音があった時ノートが消えるバグを修正
+
 STBL480 2024/11/08 3rd
   Driver:AY:フレームカウンターのカウントアップができていなかった
   PianoRoll:Driver:AY追加

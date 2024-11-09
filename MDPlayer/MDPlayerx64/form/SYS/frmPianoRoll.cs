@@ -87,7 +87,7 @@ namespace MDPlayer.form
             int x;
             int len;
 
-            tick = Audio.GetDriverCounter();
+            tick = Audio.GetVgmFrameCounter();
             for (int i = 0; i < 8 * 12; i++)
             {
                 int k = kn[i % kn.Length];
@@ -114,7 +114,7 @@ namespace MDPlayer.form
                 x = (int)((n.startTick - tick + playLine) * mul);
                 len = (int)(n.endTick == -1 ? pbScreen.Width : ((n.endTick - tick + playLine) * mul) - x);
 
-                if (tick>=0 &&( x + len < 0 || len == 0))
+                if (tick >= 0 && (x + len < 0 || len == 0) && n.endTick != -1)
                 {
                     pianoRollMng.lstPrNote.RemoveAt(i);
                     i--;
@@ -175,7 +175,7 @@ namespace MDPlayer.form
             int y;
             int len;
 
-            tick = Audio.GetDriverCounter();
+            tick = Audio.GetVgmFrameCounter();
             for (int i = 0; i < 8 * 12; i++)
             {
                 int k = kn[kn.Length-1-(i % kn.Length)];

@@ -2973,7 +2973,7 @@ namespace MDPlayer.Driver.MNDRV
             //while ((sbyte)mm.ReadByte(reg.a0) < 0) ; //wait?
             //mm.Write(reg.a0, (byte)reg.D0_B);
             //log.Write(string.Format("adr:{0:x} dat:{1:x}", reg.a0, reg.D0_B));
-            chipRegister.setYM2151Register(0, 0, (int)reg.D1_B, (int)reg.D0_B, model, YM2151Hosei[0], 0);
+            chipRegister.setYM2151Register(0, 0, (int)reg.D1_B, (int)reg.D0_B, model, YM2151Hosei[0], vgmFrameCounter);
             timerOPM.WriteReg((byte)reg.D1_B, (byte)reg.D0_B);
         }
 
