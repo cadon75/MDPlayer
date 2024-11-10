@@ -2059,9 +2059,13 @@ namespace MDPlayer
             }
         }
 
-        public void setYM2413Register(int chipID, int dAddr, int dData, EnmModel model)
+        public void setYM2413Register(int chipID, int dAddr, int dData, EnmModel model,long vgmFrameCounter)
         {
-            if (model == EnmModel.PianoRollModel) return;
+            if (model == EnmModel.PianoRollModel)
+            {
+                pianoRollMng.SetRegister(EnmChip.YM2413, chipID, dAddr, dData, vgmFrameCounter);
+                return;
+            }
 
             if (ctYM2413 == null) return;
 
@@ -2541,18 +2545,18 @@ namespace MDPlayer
             // FM全チャネルキーオフ
             for (int ch = 0; ch < 9; ch++)
             {
-                setYM2413Register(chipID, 0x20 + ch, 0x00, model);
+                setYM2413Register(chipID, 0x20 + ch, 0x00, model, 0);
             }
-            setYM2413Register(chipID, 0x0e, 0x00, model);
+            setYM2413Register(chipID, 0x0e, 0x00, model, 0);
 
             // FM TL=15
             for (int ch = 0; ch < 9; ch++)
             {
-                setYM2413Register(chipID, 0x30 + ch, 0x0f, model);
+                setYM2413Register(chipID, 0x30 + ch, 0x0f, model, 0);
             }
-            setYM2413Register(chipID, 0x36, 0x0f, model);
-            setYM2413Register(chipID, 0x37, 0xff, model);
-            setYM2413Register(chipID, 0x38, 0xff, model);
+            setYM2413Register(chipID, 0x36, 0x0f, model, 0);
+            setYM2413Register(chipID, 0x37, 0xff, model, 0);
+            setYM2413Register(chipID, 0x38, 0xff, model, 0);
 
         }
 
@@ -4827,13 +4831,13 @@ namespace MDPlayer
 
             if (ch < 9)
             {
-                setYM2413Register((byte)chipID, 0x20 + ch, fmRegisterYM2413[chipID][0x20 + ch], EnmModel.VirtualModel);
-                setYM2413Register((byte)chipID, 0x20 + ch, fmRegisterYM2413[chipID][0x20 + ch], EnmModel.RealModel);
+                setYM2413Register((byte)chipID, 0x20 + ch, fmRegisterYM2413[chipID][0x20 + ch], EnmModel.VirtualModel, 0);
+                setYM2413Register((byte)chipID, 0x20 + ch, fmRegisterYM2413[chipID][0x20 + ch], EnmModel.RealModel, 0);
             }
             else if (ch < 14)
             {
-                setYM2413Register((byte)chipID, 0x0e, fmRegisterYM2413[chipID][0x0e], EnmModel.VirtualModel);
-                setYM2413Register((byte)chipID, 0x0e, fmRegisterYM2413[chipID][0x0e], EnmModel.RealModel);
+                setYM2413Register((byte)chipID, 0x0e, fmRegisterYM2413[chipID][0x0e], EnmModel.VirtualModel, 0);
+                setYM2413Register((byte)chipID, 0x0e, fmRegisterYM2413[chipID][0x0e], EnmModel.RealModel, 0);
             }
         }
 
@@ -5290,7 +5294,7 @@ namespace MDPlayer
             nowYM2413FadeoutVol[chipID] = v / (128 / 16);
             for (int c = 0; c < 9; c++)
             {
-                setYM2413Register(chipID, 0x30 + c, fmRegisterYM2413[chipID][0x30 + c], EnmModel.RealModel);
+                setYM2413Register(chipID, 0x30 + c, fmRegisterYM2413[chipID][0x30 + c], EnmModel.RealModel, 0);
             }
         }
 

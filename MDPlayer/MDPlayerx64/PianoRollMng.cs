@@ -21,6 +21,7 @@ namespace MDPlayer
             chipList.Add(EnmChip.AY8910, new MDPlayerx64.PianoRoll.AY8910(lstPrNote));
             chipList.Add(EnmChip.HuC6280, new MDPlayerx64.PianoRoll.HuC6280(lstPrNote));
             chipList.Add(EnmChip.YM2151, new MDPlayerx64.PianoRoll.YM2151(lstPrNote));
+            chipList.Add(EnmChip.YM2413, new MDPlayerx64.PianoRoll.YM2413(lstPrNote));
             chipList.Add(EnmChip.YM2608, new MDPlayerx64.PianoRoll.YM2608(lstPrNote));
             chipList.Add(EnmChip.YM2610, new MDPlayerx64.PianoRoll.YM2610(lstPrNote));
             chipList.Add(EnmChip.YM2612, new MDPlayerx64.PianoRoll.YM2612(lstPrNote));

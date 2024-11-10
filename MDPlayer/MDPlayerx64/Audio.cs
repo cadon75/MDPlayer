@@ -3123,7 +3123,7 @@ namespace MDPlayer
 
                 if (useOPLL)
                 {
-                    chipRegister.setYM2413Register(0, 14, 32, EnmModel.VirtualModel);
+                    chipRegister.setYM2413Register(0, 14, 32, EnmModel.VirtualModel,0);
                     //chipRegister.setYM2610Register(0, 0, 0x11, 0xc0, EnmModel.VirtualModel);
                 }
 
@@ -3296,7 +3296,7 @@ namespace MDPlayer
 
                 if (useOPLL)
                 {
-                    chipRegister.setYM2413Register(0, 14, 32, EnmModel.VirtualModel);
+                    chipRegister.setYM2413Register(0, 14, 32, EnmModel.VirtualModel, 0);
                 }
 
                 if (!DriverVirtual.init(vgmBuf, chipRegister, EnmModel.VirtualModel, new EnmChip[] { EnmChip.AY8910, EnmChip.YM2413, EnmChip.K051649 }

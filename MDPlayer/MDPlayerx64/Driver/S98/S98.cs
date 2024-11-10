@@ -584,7 +584,7 @@ namespace MDPlayer
 
         private void WriteYM2413(int chipID, byte adr, byte data)
         {
-            chipRegister.setYM2413Register(chipID, adr, data, model);
+            chipRegister.setYM2413Register(chipID, adr, data, model,vgmFrameCounter);
         }
 
         private void WriteYM3526(int chipID, byte adr, byte data)

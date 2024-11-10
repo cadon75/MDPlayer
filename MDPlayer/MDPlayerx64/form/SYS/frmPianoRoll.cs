@@ -120,6 +120,10 @@ namespace MDPlayer.form
                     i--;
                     continue;
                 }
+                if (n.endTick == -1 && x < 0)
+                {
+                    x = 0;
+                }
 
                 for (int j = 0; j < 6; j++)
                 {

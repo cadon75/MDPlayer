@@ -1,4 +1,9 @@
 更新履歴 
+STBL483 2024/11/10 2nd
+  PianoRoll:発声が続いているにもかかわらず、表示が途中で途切れることがあるのを修正
+  PianoRoll:Chip:YM2413追加
+  XGM2:再生できなくなっていたバグをとりあえず修正
+
 STBL482 2024/11/10
   PianoRoll:Driver:HES追加
   PianoRoll:Chip:HuC6280追加

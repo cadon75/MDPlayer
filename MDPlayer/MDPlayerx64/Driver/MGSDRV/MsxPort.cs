@@ -70,7 +70,7 @@ namespace MDPlayer.Driver.MGSDRV
                     opllAdr = value;
                     break;
                 case 0x7d:
-                    chipRegister?.setYM2413Register(0, opllAdr, value, model);
+                    chipRegister?.setYM2413Register(0, opllAdr, value, model, driver.vgmFrameCounter);
                     //log.Write("OPLL Port Adr:{0:x04} Dat:{1:x02}", address, value);
                     break;
                 case 0xa8:

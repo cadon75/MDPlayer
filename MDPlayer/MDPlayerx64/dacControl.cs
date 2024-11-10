@@ -472,7 +472,7 @@
                     chipRegister.setSN76489Register(ChipID, Data, model, 0);
                     break;
                 case 0x01:  // YM2413+
-                    chipRegister.setYM2413Register(ChipID, Offset, Data, model);
+                    chipRegister.setYM2413Register(ChipID, Offset, Data, model, 0);
                     break;
                 case 0x02:  // YM2612
                     chipRegister.setYM2612Register(ChipID, Port, Offset, Data, model, -1);

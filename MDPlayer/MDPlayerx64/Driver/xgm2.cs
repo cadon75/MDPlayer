@@ -393,7 +393,7 @@ namespace MDPlayerx64.Driver
         private void oneFrameFM()
         {
             if (fmWaitCnt-- > 0) return;
-
+            if (vgmBuf == null) return;
             while (true)
             {
                 if (fmmusicPtr >= vgmBuf.Length) { endFm = true; return; }
@@ -688,6 +688,7 @@ namespace MDPlayerx64.Driver
         private void oneFramePsg()
         {
             if (psgWaitCnt-- > 0) return;
+            if (vgmBuf == null) return;
             while (true)
             {
                 if (psgmusicPtr >= vgmBuf.Length) { endPsg = true; return; }
@@ -867,7 +868,7 @@ namespace MDPlayerx64.Driver
             if (adr == 0x2b) DACEnable = (byte)(val & 0x80);
             else if (adr == 0x27) ch3spEnable = ((val & 0x40) != 0);
 
-            chipRegister.setYM2612Register(0, 0, adr, val, model, vgmFrameCounter);
+            chipRegister?.setYM2612Register(0, 0, adr, val, model, vgmFrameCounter);
         }
 
         private void WriteYM2612P1(byte adr, byte val)
