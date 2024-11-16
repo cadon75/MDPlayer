@@ -332,7 +332,7 @@ namespace MDPlayer.form
             if (setting.location.OMixer) openMixer();
             if (setting.location.OpenYm2612MIDI) openMIDIKeyboard();
             if (setting.location.OpenVisWave) OpenFormVisWave();
-            if (setting.location.OpenPianoRoll) OpenFormPianoRoll();
+            if (setting.location.OpenPianoRoll) openPianoRoll();
 
             for (int chipID = 0; chipID < 2; chipID++)
             {
@@ -1127,6 +1127,12 @@ namespace MDPlayer.form
             {
                 openMixer();
                 openMixer();
+            }
+
+            if (frmPianoRoll != null && !frmPianoRoll.isClosed)
+            {
+                openPianoRoll();
+                openPianoRoll();
             }
 
         }
@@ -4614,7 +4620,7 @@ namespace MDPlayer.form
                 return;
             }
 
-            frmPianoRoll = new frmPianoRoll(this);
+            frmPianoRoll = new frmPianoRoll(this, setting.other.Zoom);
 
             if (setting.location.PosPianoRoll == System.Drawing.Point.Empty)
             {
@@ -5007,6 +5013,69 @@ namespace MDPlayer.form
             frmMixer2.update();
             //screen.screenInitMixer();
             oldParam.mixer = new MDChipParams.Mixer();
+        }
+
+        private void openPianoRoll()
+        {
+            if (frmPianoRoll != null && !frmPianoRoll.isClosed)
+            {
+                try
+                {
+                    frmPianoRoll.Close();
+                    frmPianoRoll.Dispose();
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    frmPianoRoll = null;
+                }
+                return;
+            }
+
+            if (frmPianoRoll != null)
+            {
+                try
+                {
+                    frmPianoRoll.Close();
+                    frmPianoRoll.Dispose();
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    frmPianoRoll = null;
+                }
+            }
+
+            frmPianoRoll = new frmPianoRoll(this, setting.other.Zoom);
+            if (setting.location.PosPianoRoll == System.Drawing.Point.Empty)
+            {
+                frmPianoRoll.x = this.Location.X + 328;
+                frmPianoRoll.y = this.Location.Y;
+            }
+            else
+            {
+                frmPianoRoll.x = setting.location.PosPianoRoll.X;
+                frmPianoRoll.y = setting.location.PosPianoRoll.Y;
+            }
+
+            Screen s = Screen.FromControl(frmPianoRoll);
+            Rectangle rc = new(frmPianoRoll.Location, frmPianoRoll.Size);
+            if (s.WorkingArea.Contains(rc))
+            {
+                frmPianoRoll.Location = rc.Location;
+                frmPianoRoll.Size = rc.Size;
+            }
+            else
+            {
+                frmPianoRoll.Location = new System.Drawing.Point(100, 100);
+            }
+
+            frmPianoRoll.Show();
+            frmPianoRoll.update();
         }
 
 

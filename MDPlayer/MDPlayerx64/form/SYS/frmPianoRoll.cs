@@ -20,6 +20,10 @@ namespace MDPlayer.form
         public bool isClosed = false;
         public int x = -1;
         public int y = -1;
+        private int frameSizeW = 0;
+        private int frameSizeH = 0;
+        private const int WIDTH = 1024;
+        private const int HEIGHT = 384;
 
         private FrameBuffer frameBuffer = new FrameBuffer();
         private int zoom = 1;
@@ -35,14 +39,18 @@ namespace MDPlayer.form
         private int playLine = (int)FREQ;//1秒(44100Hz)
         private double mul = 1 / FREQ * 200.0;
         private int[] kn = new int[] { 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1 };
+        private int[] line = new int[8 * 12 + 1];
+        private bool[] lineK = new bool[8 * 12 + 1];
 
-        public frmPianoRoll(frmMain frm)
+        public frmPianoRoll(frmMain frm, int zoom)
         {
             parent = frm;
             pianoRollMng = Audio.pianoRollMng;
+            this.zoom = zoom;
 
             InitializeComponent();
             frameBuffer.Add(pbScreen, img, null, zoom);
+            update();
         }
 
         private void frmPianoRoll_Shown(object sender, EventArgs e)
@@ -73,6 +81,23 @@ namespace MDPlayer.form
         private void frmPianoRoll_Load(object sender, EventArgs e)
         {
             this.Location = new Point(x, y);
+            frameSizeW = this.Width - this.ClientSize.Width;
+            frameSizeH = this.Height - this.ClientSize.Height;
+
+            changeZoom();
+        }
+
+        public void changeZoom()
+        {
+            this.MaximumSize = new Size(frameSizeW + WIDTH * zoom, frameSizeH + HEIGHT * zoom);
+            this.MinimumSize = new Size(frameSizeW + WIDTH * zoom, frameSizeH + HEIGHT * zoom);
+            this.Size = new Size(frameSizeW + WIDTH * zoom, frameSizeH + HEIGHT * zoom);
+            frmPianoRoll_Resize(null, null);
+        }
+
+        private void frmPianoRoll_Resize(object sender, EventArgs e)
+        {
+
         }
 
         public void screenChangeParams()
@@ -145,6 +170,7 @@ namespace MDPlayer.form
                         n.color[j] = n.noteColor2[j];
                         n.trgColor[j] = n.noteColor2[j];
                     }
+                    if (n.key >= 0 && n.key < lineK.Length) lineK[n.key] = true;
                 }
                 else
                 {
@@ -168,6 +194,49 @@ namespace MDPlayer.form
                 1,
                 img.Height,
                 0xd0, 0xd0, 0xd0);
+
+
+
+            for (int j = 0; j < 8 * 12; j++)
+            {
+                if (!lineK[j]) continue;
+                DrawBuff.drawFont4(frameBuffer, x - ((j & 1) != 0 ? (4 * 4 * 2-4) : (4 * 4 * 1)), j * noteHeight - 2, 1, Tables.kbn[(95 - j) % 12] + Tables.kbo[(95 - j) / 12]);
+                lineK[j] = false;
+
+            }
+
+
+            //// ポイントしたところにノート表示
+            int maxl = 0x03;
+            for (int j = 0; j < 8 * 12; j++)
+            {
+                for (int i = 0; i < line[j]; i++)
+                {
+                    byte c = (byte)(Math.Max((line[j] == maxl ? 0xff : 0xff) - i * 2, 0));
+                    frameBuffer.drawFillBox(
+                        x + i+1,
+                        j * noteHeight,
+                        1,
+                        noteHeight,
+                        0, (byte)(c*0.9), c);
+                }
+                line[j] -= line[j] > 0 ? 1 : 0;
+            }
+
+            Point sp = Cursor.Position;
+            Point cp = PointToClient(sp);
+            int mx = cp.X/zoom;
+            int my = cp.Y/zoom/noteHeight*noteHeight;
+
+            if (my >= 0 && my < 8*12*noteHeight)
+            {
+                line[my / noteHeight] = maxl;
+                    int n = 95 - my / noteHeight;
+                    if (n >= 0) DrawBuff.drawFont8(frameBuffer, x - 8 * 4, my-2, 0, Tables.kbn[n % 12] + Tables.kbo[n / 12]);
+            }
+            ////
+            
+
         }
 
 

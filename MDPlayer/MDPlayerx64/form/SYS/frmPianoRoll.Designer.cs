@@ -58,6 +58,7 @@
             FormClosed += frmPianoRoll_FormClosed;
             Load += frmPianoRoll_Load;
             Shown += frmPianoRoll_Shown;
+            Resize += frmPianoRoll_Resize;
             ((System.ComponentModel.ISupportInitialize)pbScreen).EndInit();
             ResumeLayout(false);
         }
