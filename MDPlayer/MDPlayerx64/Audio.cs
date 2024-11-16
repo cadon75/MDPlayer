@@ -2983,25 +2983,6 @@ namespace MDPlayer
 
                 if (useAY)
                 {
-                    //ay8910 ay8910 = null;
-                    //chip = new MDSound.MDSound.Chip();
-                    //ay8910 = new ay8910();
-                    //chip.ID = 0;
-                    //chipLED.PriAY10 = 1;
-                    //chip.type = MDSound.MDSound.enmInstrumentType.AY8910;
-                    //chip.Instrument = ay8910;
-                    //chip.Update = ay8910.Update;
-                    //chip.Start = ay8910.Start;
-                    //chip.Stop = ay8910.Stop;
-                    //chip.Reset = ay8910.Reset;
-                    //chip.SamplingRate = (UInt32)setting.outputDevice.SampleRate;
-                    //chip.Volume = setting.balance.AY8910Volume;
-                    //chip.Clock = Driver.MGSDRV.MGSDRV.baseclockAY8910 / 2;
-                    //chip.Option = null;
-                    //lstChips.Add(chip);
-                    //useChip.Add(EnmChip.AY8910);
-                    //clockAY8910 = (int)Driver.MGSDRV.MGSDRV.baseclockAY8910;
-
                     ay8910 ay8910 = null;
                     ay8910_mame ay8910mame = null;
                     chip = new MDSound.MDSound.Chip

@@ -127,7 +127,7 @@ namespace MDPlayer.Driver.MuSICA
             {
                 ClockSynchronizer = null,
                 AutoStopOnRetWithStackEmpty = true,
-                Memory = new MsxMemory(chipRegister, model)
+                Memory = new MsxMemory(chipRegister, model, this)
             };
             z80.PortsSpace = new MsxPort(((MsxMemory)z80.Memory).slot, chipRegister, null, model, this);
             z80.BeforeInstructionFetch += Z80OnBeforeInstructionFetch;

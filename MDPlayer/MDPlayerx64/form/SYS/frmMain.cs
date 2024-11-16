@@ -5791,6 +5791,7 @@ namespace MDPlayer.form
             if (Audio.TrdStopped && Audio.Stopped)
             {
                 Audio.ResetTimeCounter();
+                frmPianoRoll?.Clear();
             }
 
             frmPlayList.Stop();

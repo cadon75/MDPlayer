@@ -255,5 +255,10 @@ namespace MDPlayer.form
             frameBuffer.Refresh(null);
         }
 
+        public void Clear()
+        {
+            pianoRollMng.lstPrNote.Clear();
+
+        }
     }
 }

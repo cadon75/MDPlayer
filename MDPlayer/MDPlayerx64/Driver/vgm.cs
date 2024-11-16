@@ -1509,8 +1509,8 @@
             byte rDat = vgmBuf[vgmAdr + 3];
             byte scc1_chipid = (byte)((vgmBuf[vgmAdr + 1] & 0x80) != 0 ? 1 : 0);
             vgmAdr += 4;
-            chipRegister.writeK051649(scc1_chipid, (uint)((scc1_port << 1) | 0x00), scc1_offset, model);
-            chipRegister.writeK051649(scc1_chipid, (uint)((scc1_port << 1) | 0x01), rDat, model);
+            chipRegister.writeK051649(scc1_chipid, (uint)((scc1_port << 1) | 0x00), scc1_offset, model, vgmFrameCounter);
+            chipRegister.writeK051649(scc1_chipid, (uint)((scc1_port << 1) | 0x01), rDat, model, vgmFrameCounter);
 
         }
 

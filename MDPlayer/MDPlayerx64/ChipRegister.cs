@@ -5183,16 +5183,15 @@ namespace MDPlayer
         public void setK051649Mask(int chipID, int ch)
         {
             maskChK051649[chipID][ch] = true;
-            writeK051649((byte)chipID, 0, (byte)ch, EnmModel.VirtualModel);
-            writeK051649((byte)chipID, (2 << 1) | 1, K051649_vol[chipID][ch], EnmModel.VirtualModel);
+            writeK051649((byte)chipID, 0, (byte)ch, EnmModel.VirtualModel, 0);
+            writeK051649((byte)chipID, (2 << 1) | 1, K051649_vol[chipID][ch], EnmModel.VirtualModel, 0);
         }
 
         public void resetK051649Mask(int chipID, int ch)
         {
             maskChK051649[chipID][ch] = false;
-            writeK051649((byte)chipID, 0, (byte)ch, EnmModel.VirtualModel);
-            writeK051649((byte)chipID, (2 << 1) | 1, K051649_vol[chipID][ch], EnmModel.VirtualModel);
-            //writeK051649((byte)chipID, (3 << 1) | 1, K051649tKeyOnOff[chipID], EnmModel.VirtualModel);
+            writeK051649((byte)chipID, 0, (byte)ch, EnmModel.VirtualModel, 0);
+            writeK051649((byte)chipID, (2 << 1) | 1, K051649_vol[chipID][ch], EnmModel.VirtualModel, 0);
         }
 
         public void setK053260Mask(int chipID, int ch, bool mask)
@@ -5744,9 +5743,13 @@ namespace MDPlayer
                 mds.WritePWM(chipid, adr, data);
         }
 
-        public void writeK051649(byte chipid, uint adr, byte data, EnmModel model)
+        public void writeK051649(byte chipid, uint adr, byte data, EnmModel model,long vgmFrameCounter)
         {
-            if (model == EnmModel.PianoRollModel) return;
+            if (model == EnmModel.PianoRollModel)
+            {
+                pianoRollMng.SetRegister(EnmChip.K051649, chipid, (int)adr, data, vgmFrameCounter);
+                return;
+            }
             if (chipid == 0) chipLED.PriK051649 = 2;
             else chipLED.SecK051649 = 2;
 
@@ -5834,10 +5837,10 @@ namespace MDPlayer
             // 全チャネルボリュームzero
             for (i = 0; i < 5; i++)
             {
-                writeK051649((byte)chipID, (uint)((0x00 << 1) + 0), (byte)i, model);
-                writeK051649((byte)chipID, (uint)((0x02 << 1) + 1), 0x00, model);
-                writeK051649((byte)chipID, (uint)((0x00 << 1) + 0), (byte)i, model);
-                writeK051649((byte)chipID, (uint)((0x03 << 1) + 1), 0x00, model);
+                writeK051649((byte)chipID, (uint)((0x00 << 1) + 0), (byte)i, model,0);
+                writeK051649((byte)chipID, (uint)((0x02 << 1) + 1), 0x00, model, 0);
+                writeK051649((byte)chipID, (uint)((0x00 << 1) + 0), (byte)i, model, 0);
+                writeK051649((byte)chipID, (uint)((0x03 << 1) + 1), 0x00, model, 0);
             }
 
         }
