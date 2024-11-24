@@ -10214,12 +10214,6 @@ namespace MDPlayer.form
 
         private void StartMIDIInMonitoring()
         {
-            if (setting.midiKbd.MidiInDeviceName == "")
-            {
-                log.ForcedWrite("MIDI IN デバイス未設定の為調査完了");
-                return;
-            }
-
             if (midiin != null)
             {
                 log.ForcedWrite("使用中のMIDI IN デバイスを解放");
@@ -10237,9 +10231,15 @@ namespace MDPlayer.form
                 }
             }
 
-            if (setting.midiKbd.UseMIDIKeyboard)
+            if (!setting.midiKbd.UseMIDIKeyboard)
             {
                 log.ForcedWrite("MIDI Keyboardを使用しない設定の為、MIDI IN デバイスを設定せず完了");
+                return;
+            }
+
+            if (setting.midiKbd.MidiInDeviceName == "")
+            {
+                log.ForcedWrite("MIDI IN デバイス未設定の為調査完了");
                 return;
             }
 
