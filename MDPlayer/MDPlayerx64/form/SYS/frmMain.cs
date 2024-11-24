@@ -263,6 +263,7 @@ namespace MDPlayer.form
 
             log.ForcedWrite("起動時のAudio初期化処理完了");
 
+            log.ForcedWrite("MIDI IN の調査開始");
             StartMIDIInMonitoring();
 
             log.ForcedWrite("frmMain(コンストラクタ):STEP 04");
@@ -1310,10 +1311,10 @@ namespace MDPlayer.form
             }
             setting.location.Main.State = WindowState;
 
-            if (frmPlayList != null && !frmPlayList.isClosed)
+            if (frmPlayList != null)
             {
-                frmPlayList.Close();
-                setting.location.OPlayList = true;
+                if(frmPlayList.Visible) setting.location.OPlayList = true;
+                if (!frmPlayList.isClosed) frmPlayList.Close();
             }
             if (frmInfo != null && !frmInfo.isClosed)
             {
@@ -10213,14 +10214,15 @@ namespace MDPlayer.form
 
         private void StartMIDIInMonitoring()
         {
-
             if (setting.midiKbd.MidiInDeviceName == "")
             {
+                log.ForcedWrite("MIDI IN デバイス未設定の為調査完了");
                 return;
             }
 
             if (midiin != null)
             {
+                log.ForcedWrite("使用中のMIDI IN デバイスを解放");
                 try
                 {
                     midiin.Stop();
@@ -10235,6 +10237,12 @@ namespace MDPlayer.form
                 }
             }
 
+            if (setting.midiKbd.UseMIDIKeyboard)
+            {
+                log.ForcedWrite("MIDI Keyboardを使用しない設定の為、MIDI IN デバイスを設定せず完了");
+                return;
+            }
+
             if (midiin == null)
             {
                 for (int i = 0; i < MidiIn.NumberOfDevices; i++)
@@ -10247,6 +10255,7 @@ namespace MDPlayer.form
                             midiin.MessageReceived += MidiIn_MessageReceived;
                             midiin.ErrorReceived += midiIn_ErrorReceived;
                             midiin.Start();
+                            log.ForcedWrite("MIDI IN 「{0}」を使用開始", setting.midiKbd.MidiInDeviceName);
                         }
                         catch
                         {
@@ -10256,6 +10265,7 @@ namespace MDPlayer.form
                 }
             }
 
+            log.ForcedWrite("MIDI IN デバイス調査完了");
         }
 
         void midiIn_ErrorReceived(object sender, MidiInMessageEventArgs e)
