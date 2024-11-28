@@ -2174,6 +2174,15 @@ namespace MDPlayer
                     };
                     ((Driver.MucomDotNET)DriverReal).PlayingFileName = PlayingFileName;
                 }
+                DriverPianoRoll = null;
+                if (setting.pianoRoll.usePianoRoll)
+                {
+                    DriverPianoRoll = new Driver.MucomDotNET(MucomDotNETim)
+                    {
+                        setting = setting
+                    };
+                    ((Driver.MucomDotNET)DriverPianoRoll).PlayingFileName = PlayingFileName;
+                }
                 return MucPlay_mucomDotNET(setting, Driver.MucomDotNET.enmMUCOMFileType.MUB);
             }
 
